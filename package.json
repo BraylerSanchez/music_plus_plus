@@ -10,7 +10,9 @@
     "develop": "tsc && concurrently \"tsc -w\" \"webpack --watch\"  ",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
-    "typings": "typings"
+    "typings": "typings",
+    "postinstall": "typings install",
+    "preinstall": "npm i typings -g"
   },
   "repository": {
     "type": "git",
