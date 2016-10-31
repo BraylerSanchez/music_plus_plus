@@ -11,7 +11,8 @@ import { Component } from '@angular/core';
               <h3 class="masthead-brand">Music</h3>
               <nav>
                 <ul class="nav masthead-nav">
-                  <li class="active"><a href="#">Home</a></li>
+                  <li [routerLinkActive]="['active']><a [routerLink]="/home" >Home</a></li>
+                  <li [routerLinkActive]="['active']><a [routerLink]="/search/ " >Search</a></li>
                 </ul>
               </nav>
             </div>
