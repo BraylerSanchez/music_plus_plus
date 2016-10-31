@@ -23,6 +23,8 @@ var AppComponent = (function () {
         this.apiKey = 'AIzaSyDsnjiL2Wexp-DgCKMMQF7VyL2xzZLMFaY';
         this.apiPart = 'snippet';
         this.videos = [];
+        window.AudioContext = window.AudioContext || window.webkitAudioContext;
+        this.audioContext = new AudioContext();
     }
     AppComponent.prototype.seach = function () {
         var _this = this;
@@ -33,19 +35,30 @@ var AppComponent = (function () {
             _this.videos = res.items;
         });
     };
+    AppComponent.prototype.process = function (Data) {
+        var _this = this;
+        var source = this.audioContext.createBufferSource(); // Create Sound Source
+        this.audioContext.decodeAudioData(Data, function (buffer) {
+            source.buffer = buffer;
+            source.connect(_this.audioContext.destination);
+            source.start(_this.audioContext.currentTime);
+        });
+    };
     AppComponent.prototype.play = function (video) {
         var _this = this;
-        this.http.get('/api/stream/play/' + video.id.videoId, headers)
-            .map(function (res) { return res.json(); })
-            .subscribe(function (res) {
-            console.log(res.items);
-            _this.videos = res.items;
-        });
+        var request = new XMLHttpRequest();
+        request.open("GET", "/api/stream/play/" + video.id.videoId, true);
+        request.responseType = "arraybuffer";
+        request.onload = function () {
+            var Data = request.response;
+            _this.process(Data);
+        };
+        request.send();
     };
     AppComponent = __decorate([
         core_1.Component({
             selector: 'app',
-            template: "<h1>Stream app</h1>\n        <input type=\"search\"  />\n        <a (click)=\"seach()\" >\n            buscar\n        </a>\n        <div>\n            <ul>\n                <li *ngFor=\"let video of videos\">\n                    <img src=\"{{video.snippet.thumbnails.medium.url}}\"/>{{video.snippet.title}}\n                    <a (click)=\"play()\">play</a>\n                </li>\n            </ul>\n        </div>\n    "
+            template: "<h1>Stream app</h1>\n        <input type=\"search\"  />\n        <a (click)=\"seach()\" >\n            buscar\n        </a>\n        <div>\n            <ul>\n                <li *ngFor=\"let video of videos\">\n                    <img src=\"{{video.snippet.thumbnails.medium.url}}\"/>{{video.snippet.title}}\n                    <a (click)=\"play(video)\">play</a>\n                </li>\n            </ul>\n        </div>\n    "
         }), 
         __metadata('design:paramtypes', [http_1.Http, core_1.ElementRef])
     ], AppComponent);
