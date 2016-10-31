@@ -9,31 +9,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var home_routes_1 = require('./home.routes');
+var home_component_1 = require('./home.component');
 var common_1 = require('@angular/common');
+var forms_1 = require('@angular/forms');
+var http_1 = require('@angular/http');
 var platform_browser_1 = require('@angular/platform-browser');
-var template_component_1 = require('./templates/template.component');
-var app_routes_1 = require('./app.routes');
-var home_module_1 = require('./modules/home/home.module');
-var AppModule = (function () {
-    function AppModule() {
+var HomeModule = (function () {
+    function HomeModule() {
     }
-    AppModule = __decorate([
+    HomeModule = __decorate([
         core_1.NgModule({
             imports: [
-                app_routes_1.routing,
+                http_1.HttpModule,
                 platform_browser_1.BrowserModule,
-                home_module_1.HomeModule
-            ],
-            declarations: [template_component_1.TemplateComponent],
-            bootstrap: [template_component_1.TemplateComponent],
-            providers: [
-                { provide: common_1.LocationStrategy,
-                    useClass: common_1.HashLocationStrategy
-                }]
+                forms_1.FormsModule,
+                common_1.CommonModule,
+                home_routes_1.routing],
+            declarations: [home_component_1.HomeComponent],
+            bootstrap: [home_component_1.HomeComponent]
         }), 
         __metadata('design:paramtypes', [])
-    ], AppModule);
-    return AppModule;
+    ], HomeModule);
+    return HomeModule;
 }());
-exports.AppModule = AppModule;
-//# sourceMappingURL=app.module.js.map
+exports.HomeModule = HomeModule;
+//# sourceMappingURL=home.module.js.map

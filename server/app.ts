@@ -19,14 +19,14 @@ class AppServer{
         this.app.use(json());
         this.app.use(json({ type: 'application/vnd.api+json' }))
         this.app.use( express.static( join( __dirname, '../public' ) ) )
-        this.app.use( express.static( join( __dirname, '../files' ) ) )
+        this.app.use( express.static( join( __dirname, '../node_modules' ) ) )
     }
     
     services(){
         this.app.get('/api/stream/play/:videoId', (req, res) =>{
             res.set({'Content-Type': 'audio/mpeg'});
             var stream = ytdl(`http://www.youtube.com/watch?v=${req.params['videoId']}`,{
-                quality 'lowest',
+                quality: 'lowest',
                 filter: function(format) { 
                     return format.container === 'mp4';
                 }

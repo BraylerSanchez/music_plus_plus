@@ -44,7 +44,7 @@ module.exports = [ {
             minChunks: Infinity
         })
     ]
-},
+}/*,
 
 module.exports = {
     entry: "./server/app.js",
@@ -72,4 +72,4 @@ module.exports = {
         net: 'empty',
         tls: 'empty'
     }
-}];
+}*/];
