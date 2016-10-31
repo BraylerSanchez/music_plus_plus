@@ -11,11 +11,21 @@ const headers = new ResponseOptions({
 
 
 @Component({
+    styles: [`
+      .home .search-text{
+        background-color: #333333 !important;
+        color: white !important;
+      }
+    `]
     template: `
       <div class="inner cover">
-        <form>
-          <input type="search" class="form-control" (keyup)="handleKeyup($event)" placeholder="Search music on youtube" name="queryString" [(ngModel)]="queryString" /> <br/>
-          <button type="button" (click)="search()" class="btn btn-lg btn-primary">Buscar</button>
+        <form class="home">
+          <div class="input-group input-group-lg">
+            <input class="form-control" (keyup)="handleKeyup($event)" placeholder="Search music on youtube" name="queryString" [(ngModel)]="queryString" aria-describedby="sizing-addon1"> 
+            <span class="input-group-btn">
+              <button class="btn btn-default search-button" type="button" (click)="search()">Go!</button>
+            </span>
+          </div>
         </form>
         <div class="list-group">
           <a *ngFor="let video of videos" class="list-group-item" >{{video.snippet.title}}

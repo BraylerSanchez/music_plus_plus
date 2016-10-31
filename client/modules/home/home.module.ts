@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
-import { routing } from './home.routes';
-import { HomeComponent } from './home.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
+
+import { routing } from './home.routes';
+
+import { HomeComponent } from './home.component';
+import { SearchComponent } from './search.component'
 
 @NgModule({
     imports: [
@@ -13,7 +16,7 @@ import { BrowserModule } from '@angular/platform-browser';
         FormsModule,
         CommonModule, 
         routing],
-    declarations: [HomeComponent],
+    declarations: [HomeComponent, SearchComponent],
     bootstrap: [HomeComponent]
 })
 

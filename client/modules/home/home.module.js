@@ -9,12 +9,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var home_routes_1 = require('./home.routes');
-var home_component_1 = require('./home.component');
 var common_1 = require('@angular/common');
 var forms_1 = require('@angular/forms');
 var http_1 = require('@angular/http');
 var platform_browser_1 = require('@angular/platform-browser');
+var home_routes_1 = require('./home.routes');
+var home_component_1 = require('./home.component');
+var search_component_1 = require('./search.component');
 var HomeModule = (function () {
     function HomeModule() {
     }
@@ -26,7 +27,7 @@ var HomeModule = (function () {
                 forms_1.FormsModule,
                 common_1.CommonModule,
                 home_routes_1.routing],
-            declarations: [home_component_1.HomeComponent],
+            declarations: [home_component_1.HomeComponent, search_component_1.SearchComponent],
             bootstrap: [home_component_1.HomeComponent]
         }), 
         __metadata('design:paramtypes', [])

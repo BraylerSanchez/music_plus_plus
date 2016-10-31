@@ -12,7 +12,7 @@ import { Component } from '@angular/core';
               <nav>
                 <ul class="nav masthead-nav">
                   <li [routerLinkActive]="['active']" ><a [routerLink]="['/home']" > Home</a> </li>
-                  <li [routerLinkActive]="['active']" ><a [routerLink]="['/search']" > Search</a> </li>
+                  <li [routerLinkActive]="['active']" ><a [routerLink]="['/search/0']" > Search</a> </li>
                 </ul>
               </nav>
             </div>
