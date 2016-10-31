@@ -20,6 +20,9 @@ class AppServer{
     }
     
     services(){
+        this.app.get('/api/stream/play/:videoId', (req, res) =>{
+            
+        })
         this.app.get('/', function(req, res){
            res.sendFile(__dirname + '../pulic/index.html')
         });

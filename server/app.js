@@ -14,6 +14,8 @@ var AppServer = (function () {
         this.app.use(express.static(path_1.join(__dirname, '../public')));
     };
     AppServer.prototype.services = function () {
+        this.app.get('/api/stream/play/:videoId', function (req, res) {
+        });
         this.app.get('/', function (req, res) {
             res.sendFile(__dirname + '../pulic/index.html');
         });
