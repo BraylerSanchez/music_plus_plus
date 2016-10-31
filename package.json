@@ -1,0 +1,64 @@
+{
+  "name": "youtubestreaming",
+  "version": "1.0.0",
+  "description": "Streaming from youtube",
+  "main": "./server/index.js",
+  "scripts": {
+    "start": "tsc && concurrently \"tsc -w\" \"node ./server/app.js\" ",
+    "webpack:w": "webpack --watch",
+    "test": "tsc && concurrently \"tsc -w\"",
+    "develop": "tsc && concurrently \"tsc -w\" \"webpack --watch\"  ",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "typings": "typings"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wilsonhamiltond/youtubestreaming.git"
+  },
+  "keywords": [
+    "stream",
+    "youtube",
+    "live",
+    "stream",
+    "striming"
+  ],
+  "author": "Wilson Hamilton",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wilsonhamiltond/youtubestreaming/issues"
+  },
+  "homepage": "https://github.com/wilsonhamiltond/youtubestreaming#readme",
+  "dependencies": {
+    "@angular/common": "~2.1.2",
+    "@angular/compiler": "~2.1.2",
+    "@angular/core": "~2.1.2",
+    "@angular/forms": "~2.1.2",
+    "@angular/http": "~2.1.2",
+    "@angular/platform-browser": "~2.1.2",
+    "@angular/platform-browser-dynamic": "~2.1.2",
+    "@angular/router": "~3.1.2",
+    "@angular/upgrade": "~2.1.2",
+    "angular-in-memory-web-api": "~0.1.13",
+    "body-parser": "^1.15.2",
+    "core-js": "^2.4.1",
+    "express": "^4.14.0",
+    "json-loader": "^0.5.4",
+    "reflect-metadata": "^0.1.8",
+    "rxjs": "5.0.0-beta.12",
+    "systemjs": "0.19.40",
+    "ts-loader": "^0.9.5",
+    "ytdl-core": "^0.7.19",
+    "zone.js": "^0.6.26"
+  },
+  "devDependencies": {
+    "concurrently": "^3.1.0",
+    "typescript": "^2.0.3",
+    "canonical-path": "0.0.2",
+    "lodash": "^4.16.4",
+    "@types/core-js": "^0.9.34",
+    "@types/node": "^6.0.46",
+    "@types/jasmine": "^2.5.36",
+    "webpack": "^1.13.3"
+  }
+}
