@@ -5,6 +5,7 @@ import { TemplateComponent }   from './templates/template.component';
 import { routing } from './app.routes';
 
 import { HomeModule } from './modules/home/home.module';
+import { PlaylistModule } from './modules/playlist/playlist.module';
 
 import { PlayerComponent } from './modules/player/player.component';
 
@@ -12,7 +13,8 @@ import { PlayerComponent } from './modules/player/player.component';
     imports:      [
         routing,
         BrowserModule,
-        HomeModule
+        HomeModule,
+        PlaylistModule
     ],
     declarations: [ TemplateComponent, PlayerComponent ],
     bootstrap:    [ TemplateComponent ],

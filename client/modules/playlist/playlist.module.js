@@ -10,33 +10,33 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var common_1 = require('@angular/common');
+var forms_1 = require('@angular/forms');
+var http_1 = require('@angular/http');
 var platform_browser_1 = require('@angular/platform-browser');
-var template_component_1 = require('./templates/template.component');
-var app_routes_1 = require('./app.routes');
-var home_module_1 = require('./modules/home/home.module');
-var playlist_module_1 = require('./modules/playlist/playlist.module');
-var player_component_1 = require('./modules/player/player.component');
-var AppModule = (function () {
-    function AppModule() {
+var playlist_routes_1 = require('./playlist.routes');
+var list_component_1 = require('./list.component');
+var PlaylistModule = (function () {
+    function PlaylistModule() {
     }
-    AppModule = __decorate([
+    PlaylistModule = __decorate([
         core_1.NgModule({
             imports: [
-                app_routes_1.routing,
+                http_1.HttpModule,
                 platform_browser_1.BrowserModule,
-                home_module_1.HomeModule,
-                playlist_module_1.PlaylistModule
+                forms_1.FormsModule,
+                common_1.CommonModule,
+                playlist_routes_1.routing
             ],
-            declarations: [template_component_1.TemplateComponent, player_component_1.PlayerComponent],
-            bootstrap: [template_component_1.TemplateComponent],
-            providers: [
-                { provide: common_1.LocationStrategy,
-                    useClass: common_1.HashLocationStrategy
-                }]
+            declarations: [
+                list_component_1.PlayListComponent
+            ],
+            bootstrap: [
+                list_component_1.PlayListComponent
+            ]
         }), 
         __metadata('design:paramtypes', [])
-    ], AppModule);
-    return AppModule;
+    ], PlaylistModule);
+    return PlaylistModule;
 }());
-exports.AppModule = AppModule;
-//# sourceMappingURL=app.module.js.map
+exports.PlaylistModule = PlaylistModule;
+//# sourceMappingURL=playlist.module.js.map

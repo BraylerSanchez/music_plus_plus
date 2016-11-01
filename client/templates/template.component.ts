@@ -13,6 +13,7 @@ import { PlayerComponent } from '../modules/player/player.component';
               <nav>
                 <ul class="nav masthead-nav">
                   <li [routerLinkActive]="['active']" ><a [routerLink]="['/home']" > Home</a> </li>
+                  <li [routerLinkActive]="['active']" ><a [routerLink]="['/playlist/list']" > Play List</a> </li>
                 </ul>
               </nav>
             </div>

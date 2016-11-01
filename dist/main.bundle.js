@@ -38,6 +38,7 @@ webpackJsonp([0],{
 	var template_component_1 = __webpack_require__(25);
 	var app_routes_1 = __webpack_require__(31);
 	var home_module_1 = __webpack_require__(63);
+	var playlist_module_1 = __webpack_require__(69);
 	var player_component_1 = __webpack_require__(26);
 	var AppModule = (function () {
 	    function AppModule() {
@@ -47,7 +48,8 @@ webpackJsonp([0],{
 	            imports: [
 	                app_routes_1.routing,
 	                platform_browser_1.BrowserModule,
-	                home_module_1.HomeModule
+	                home_module_1.HomeModule,
+	                playlist_module_1.PlaylistModule
 	            ],
 	            declarations: [template_component_1.TemplateComponent, player_component_1.PlayerComponent],
 	            bootstrap: [template_component_1.TemplateComponent],
@@ -90,7 +92,7 @@ webpackJsonp([0],{
 	    TemplateComponent = __decorate([
 	        core_1.Component({
 	            selector: 'app',
-	            template: "\n    <div class=\"site-wrapper\">\n      <div class=\"site-wrapper-inner\">\n        <div class=\"cover-container\">\n          <div class=\"masthead clearfix\">\n            <div class=\"inner\">\n              <h3 class=\"masthead-brand\">Music</h3>\n              <nav>\n                <ul class=\"nav masthead-nav\">\n                  <li [routerLinkActive]=\"['active']\" ><a [routerLink]=\"['/home']\" > Home</a> </li>\n                </ul>\n              </nav>\n            </div>\n          </div>\n          <div class=\"inner cover\">\n            <router-outlet></router-outlet>\n          </div>\n          <div class=\"mastfoot\">\n            <div class=\"inner\">\n              <p>by @los tigueres.</p>\n            </div>\n          </div>\n          <player></player>\n        </div>\n      </div>\n    </div>"
+	            template: "\n    <div class=\"site-wrapper\">\n      <div class=\"site-wrapper-inner\">\n        <div class=\"cover-container\">\n          <div class=\"masthead clearfix\">\n            <div class=\"inner\">\n              <h3 class=\"masthead-brand\">Music</h3>\n              <nav>\n                <ul class=\"nav masthead-nav\">\n                  <li [routerLinkActive]=\"['active']\" ><a [routerLink]=\"['/home']\" > Home</a> </li>\n                  <li [routerLinkActive]=\"['active']\" ><a [routerLink]=\"['/playlist/list']\" > Play List</a> </li>\n                </ul>\n              </nav>\n            </div>\n          </div>\n          <div class=\"inner cover\">\n            <router-outlet></router-outlet>\n          </div>\n          <div class=\"mastfoot\">\n            <div class=\"inner\">\n              <p>by @los tigueres.</p>\n            </div>\n          </div>\n          <player></player>\n        </div>\n      </div>\n    </div>"
 	        }), 
 	        __metadata('design:paramtypes', [])
 	    ], TemplateComponent);
@@ -4843,6 +4845,103 @@ webpackJsonp([0],{
 	    return SearchComponent;
 	}());
 	exports.SearchComponent = SearchComponent;
+
+
+/***/ },
+
+/***/ 69:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(4);
+	var common_1 = __webpack_require__(23);
+	var forms_1 = __webpack_require__(64);
+	var http_1 = __webpack_require__(28);
+	var platform_browser_1 = __webpack_require__(22);
+	var playlist_routes_1 = __webpack_require__(70);
+	var list_component_1 = __webpack_require__(71);
+	var PlaylistModule = (function () {
+	    function PlaylistModule() {
+	    }
+	    PlaylistModule = __decorate([
+	        core_1.NgModule({
+	            imports: [
+	                http_1.HttpModule,
+	                platform_browser_1.BrowserModule,
+	                forms_1.FormsModule,
+	                common_1.CommonModule,
+	                playlist_routes_1.routing
+	            ],
+	            declarations: [
+	                list_component_1.PlayListComponent
+	            ],
+	            bootstrap: [
+	                list_component_1.PlayListComponent
+	            ]
+	        }), 
+	        __metadata('design:paramtypes', [])
+	    ], PlaylistModule);
+	    return PlaylistModule;
+	}());
+	exports.PlaylistModule = PlaylistModule;
+
+
+/***/ },
+
+/***/ 70:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var router_1 = __webpack_require__(32);
+	var list_component_1 = __webpack_require__(71);
+	exports.routes = [
+	    {
+	        path: 'playlist/list',
+	        component: list_component_1.PlayListComponent
+	    }
+	];
+	exports.routing = router_1.RouterModule.forChild(exports.routes);
+
+
+/***/ },
+
+/***/ 71:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(4);
+	var PlayListComponent = (function () {
+	    function PlayListComponent() {
+	    }
+	    PlayListComponent = __decorate([
+	        core_1.Component({
+	            selector: 'playList',
+	            styles: ["\n    "],
+	            template: "\n        <h1>List</h1>\n    "
+	        }), 
+	        __metadata('design:paramtypes', [])
+	    ], PlayListComponent);
+	    return PlayListComponent;
+	}());
+	exports.PlayListComponent = PlayListComponent;
 
 
 /***/ }
