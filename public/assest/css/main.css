@@ -138,10 +138,6 @@ body {
     position: fixed;
     top: 0;
   }
-  .mastfoot {
-    position: fixed;
-    bottom: 0;
-  }
   /* Start the vertical centering */
   .site-wrapper-inner {
     vertical-align: middle;
@@ -158,6 +154,29 @@ body {
   .masthead,
   .mastfoot,
   .cover-container {
-    width: 700px;
+    width: 900px;
   }
+}
+
+div.loading{
+  left: 50%;
+  top: 50%;
+  height: 200px;
+  width: 200px;
+  margin-left: -100px;
+  margin-top: -100px;
+  position: absolute;
+}
+div.masthead{
+  background-color: #333333 !important;
+  z-index: 1000 !important;
+}
+
+div.cover{
+  margin-top: 100px !important;
+}
+
+.no-padding-l-r{
+  padding-left: 0px !important;
+  padding-right: 0px !important;
 }

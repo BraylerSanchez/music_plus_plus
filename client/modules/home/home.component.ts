@@ -1,15 +1,5 @@
-import { Component} from '@angular/core';
-import {Http, Headers, Response, ResponseOptions} from '@angular/http'
-import 'rxjs/add/operator/map';
-import { PlayerService } from '../../services/player/player.service';
-
-declare var window: any;
-const headers = new ResponseOptions({
-    headers: new Headers({
-        'Content-Type': 'application/json'
-    })
-})
-
+import { Component, ChangeDetectorRef} from '@angular/core';
+import { Router } from '@angular/router'
 
 @Component({
     styles: [`
@@ -29,34 +19,20 @@ const headers = new ResponseOptions({
           </div>
         </form>
         <div class="list-group">
-          <a class="list-group-item" >Video Id: {{currentSound.id}}</a>
           <a *ngFor="let video of videos" class="list-group-item" >{{video.title}}
             <i *ngIf="currentSound.id != video.id" (click)="play(video)" class="glyphicon glyphicon-play pull-right"></i>
             <i *ngIf="currentSound.id == video.id" (click)="stop(video)" class="glyphicon glyphicon-pause pull-right"></i>
           </a>
         </div>
-      </div>`,
-      providers: [PlayerService]
+      </div>`
 })
 export class HomeComponent{
-    private apiKey: string = 'AIzaSyDsnjiL2Wexp-DgCKMMQF7VyL2xzZLMFaY';
-    private apiPart: string = 'snippet';
-    private audioContext:any;
     private queryString:string;
-    private videos: Array<any>;
-    private currentSound: any = {
-      id: ''
-    };
-    private maxResults = 20;
+    
     constructor(
-        private http: Http,
-        private playerService: PlayerService 
+      private router: Router
     ){
       this.queryString = '';
-      this.videos = [];
-      window.AudioContext = window.AudioContext || window.webkitAudioContext;
-      this.audioContext = new AudioContext();
-
     }
     handleKeyup(e){
       if( e.keyCode == 13){
@@ -69,23 +45,6 @@ export class HomeComponent{
         alert('Insert text to search.');
         return;
       }
-      this.playerService.search(this.queryString)
-      .subscribe( (videos) =>{
-        this.videos = videos;
-      })
-    }
-    
-    play(video){
-      this.playerService.onPlayMusic(video)
-        .subscribe( (sound) =>{
-            this.currentSound = sound;
-        })
-    }
-    
-    stop(){
-      this.playerService.onStopMusic()
-        .subscribe( () =>{
-          
-        })
+      this.router.navigate(['/search', this.queryString])
     }
  }
