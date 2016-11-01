@@ -4869,6 +4869,7 @@ webpackJsonp([0],{
 	var platform_browser_1 = __webpack_require__(22);
 	var playlist_routes_1 = __webpack_require__(70);
 	var list_component_1 = __webpack_require__(71);
+	var create_component_1 = __webpack_require__(72);
 	var PlaylistModule = (function () {
 	    function PlaylistModule() {
 	    }
@@ -4879,10 +4880,12 @@ webpackJsonp([0],{
 	                platform_browser_1.BrowserModule,
 	                forms_1.FormsModule,
 	                common_1.CommonModule,
+	                forms_1.ReactiveFormsModule,
 	                playlist_routes_1.routing
 	            ],
 	            declarations: [
-	                list_component_1.PlayListComponent
+	                list_component_1.PlayListComponent,
+	                create_component_1.CreateListComponent
 	            ],
 	            bootstrap: [
 	                list_component_1.PlayListComponent
@@ -4903,10 +4906,15 @@ webpackJsonp([0],{
 	"use strict";
 	var router_1 = __webpack_require__(32);
 	var list_component_1 = __webpack_require__(71);
+	var create_component_1 = __webpack_require__(72);
 	exports.routes = [
 	    {
 	        path: 'playlist/list',
 	        component: list_component_1.PlayListComponent
+	    },
+	    {
+	        path: 'playlist/create',
+	        component: create_component_1.CreateListComponent
 	    }
 	];
 	exports.routing = router_1.RouterModule.forChild(exports.routes);
@@ -4928,20 +4936,68 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
+	var router_1 = __webpack_require__(32);
 	var PlayListComponent = (function () {
-	    function PlayListComponent() {
+	    function PlayListComponent(router) {
+	        this.router = router;
+	        this.queryString = "";
 	    }
+	    PlayListComponent.prototype.toCreate = function () {
+	        this.router.navigate(['/playlist/create']);
+	    };
 	    PlayListComponent = __decorate([
 	        core_1.Component({
 	            selector: 'playList',
 	            styles: ["\n    "],
-	            template: "\n        <h1>List</h1>\n    "
+	            template: "\n        <h1>List</h1>\n            <i class=\"glyphicon glyphicon-plus-sign btn-lg\" (click)=\"toCreate()\"></i>\n        <div>\n            <h2>Lists added</h2>\n        </div>\n    "
 	        }), 
-	        __metadata('design:paramtypes', [])
+	        __metadata('design:paramtypes', [router_1.Router])
 	    ], PlayListComponent);
 	    return PlayListComponent;
 	}());
 	exports.PlayListComponent = PlayListComponent;
+
+
+/***/ },
+
+/***/ 72:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(4);
+	var forms_1 = __webpack_require__(64);
+	var CreateListComponent = (function () {
+	    function CreateListComponent(fb) {
+	        this.createListForm = fb.group({
+	            'name': ["Please enter a name", forms_1.Validators.required],
+	            'description': ["Please enter a description", forms_1.Validators.required]
+	        });
+	    }
+	    CreateListComponent.prototype.doCreateList = function () {
+	        console.log(this.createListForm.value);
+	        event.preventDefault();
+	    };
+	    CreateListComponent = __decorate([
+	        core_1.Component({
+	            selector: 'playlistcreate',
+	            styles: ["\n        .label {\n            text-align: left;\n        }\n    \n    "
+	            ],
+	            template: " \n        <h1>Create list</h1>\n        <div class=\"col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2\">\n          <form class=\"form-horizontal\" [formGroup]=\"createListForm\" (submit)=\"doCreateList($event)\">\n            <div class=\"form-group\">\n              <label class=\"control-label col-sm-1\" for=\"name\">Name:</label>\n              <input ngControl=\"name\" type=\"text\" placeholder=\"Enter name\" id=\"name\" class=\"form-control col-sm-6\" />\n            </div>\n            <div class=\"form-group\">\n              <label class=\"control-label col-sm-1\" for=\"description\">Description:</label>\n              <input ngControl=\"description\" type=\"text\" placeholder=\"Enter description\" id=\"description\" class=\"form-control col-sm-6\"/>\n            </div>\n            <div class=\"form-group\">\n                <button class=\"btn btn-success\" type=\"submit\">Create</button>\n                <button class=\"btn btn-default\" type=\"button\">Cancel</button>\n            </div>\n          </form>\n        </div>\n    "
+	        }), 
+	        __metadata('design:paramtypes', [forms_1.FormBuilder])
+	    ], CreateListComponent);
+	    return CreateListComponent;
+	}());
+	exports.CreateListComponent = CreateListComponent;
 
 
 /***/ }

@@ -9,16 +9,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var router_1 = require('@angular/router');
 var PlayListComponent = (function () {
-    function PlayListComponent() {
+    function PlayListComponent(router) {
+        this.router = router;
+        this.queryString = "";
     }
+    PlayListComponent.prototype.toCreate = function () {
+        this.router.navigate(['/playlist/create']);
+    };
     PlayListComponent = __decorate([
         core_1.Component({
             selector: 'playList',
             styles: ["\n    "],
-            template: "\n        <h1>List</h1>\n    "
+            template: "\n        <h1>List</h1>\n            <i class=\"glyphicon glyphicon-plus-sign btn-lg\" (click)=\"toCreate()\"></i>\n        <div>\n            <h2>Lists added</h2>\n        </div>\n    "
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [router_1.Router])
     ], PlayListComponent);
     return PlayListComponent;
 }());
