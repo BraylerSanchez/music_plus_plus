@@ -15,6 +15,7 @@ const headers = new ResponseOptions({
 @Injectable()
 export class PlayerService{
     public currentSound: any;
+    public currentVideo: Sound;
     public isPlaying: boolean;
     private apiPart: string;
     private maxResults = 20;
@@ -25,7 +26,6 @@ export class PlayerService{
     
     private stopSound: Observable<Sound>;
     private stopSoundObserbable: any;
-    
     
     private audioContext:any;
     
@@ -68,29 +68,34 @@ export class PlayerService{
         this.currentSound.stop();
         
         window.setTimeout( () =>{
-            this.stopSoundObserbable.next();
+            this.stopSoundObserbable.next(this.currentVideo);
         }, 0);
         
-        return this.stopSoundObserbable;
+        return this.stopSound;
     }
     
     onPlayMusic(video?: Sound):Observable<Sound>{
         if( video != undefined){
-            var request = new XMLHttpRequest();
-            request.open("GET", `/api/stream/play/${video.id}`, true); 
-            request.responseType = "arraybuffer"; 
-            
-            request.onload = () => {
-                this.currentSound = this.audioContext.createBufferSource(); // Create Sound Source
-                this.audioContext.decodeAudioData(request.response, (buffer) => {
-                    this.currentSound.buffer = buffer;
-                    this.currentSound.connect(this.audioContext.destination); 
-                    this.currentSound.start(this.audioContext.currentTime);
-                    this.playSoundObserbable.next( video )
-                })
-            };
-            
-            request.send();
+            if( this.currentSound != undefined && video.id == this.currentVideo.id){
+                this.currentSound.start();
+            }else{
+                var request = new XMLHttpRequest();
+                request.open("GET", `/api/stream/play/${video.id}`, true); 
+                request.responseType = "arraybuffer"; 
+                
+                request.onload = () => {
+                    this.currentSound = this.audioContext.createBufferSource(); // Create Sound Source
+                    this.audioContext.decodeAudioData(request.response, (buffer) => {
+                        this.currentSound.buffer = buffer;
+                        this.currentSound.connect(this.audioContext.destination); 
+                        this.currentSound.start(this.audioContext.currentTime);
+                        this.currentVideo = video;
+                        this.playSoundObserbable.next( video )
+                    })
+                };
+                
+                request.send();
+            }
         }
         return this.playSound;
     }
