@@ -12,6 +12,7 @@ var core_1 = require('@angular/core');
 var common_1 = require('@angular/common');
 var platform_browser_1 = require('@angular/platform-browser');
 var player_component_1 = require('./player.component');
+var player_service_1 = require('../../services/player/player.service');
 var PlayerModule = (function () {
     function PlayerModule() {
     }
@@ -21,6 +22,7 @@ var PlayerModule = (function () {
                 platform_browser_1.BrowserModule,
                 common_1.CommonModule
             ],
+            providers: [player_service_1.PlayerService],
             declarations: [player_component_1.PlayerComponent],
             bootstrap: [player_component_1.PlayerComponent]
         }), 

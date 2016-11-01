@@ -9,15 +9,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var player_service_1 = require('../../services/player/player.service');
 var PlayerComponent = (function () {
-    function PlayerComponent() {
+    function PlayerComponent(playerService) {
+        var _this = this;
+        this.playerService = playerService;
+        this.playerService.onPlayMusic()
+            .subscribe(function (sound) {
+            _this.currentSound = sound;
+        });
     }
     PlayerComponent = __decorate([
         core_1.Component({
             selector: 'player',
-            template: ""
+            template: "",
+            providers: [player_service_1.PlayerService]
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [player_service_1.PlayerService])
     ], PlayerComponent);
     return PlayerComponent;
 }());

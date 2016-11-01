@@ -22,6 +22,11 @@ export class PlayerService{
     
     private playSound: Observable<Sound>;
     private playSoundObserbable: any;
+    
+    private stopSound: Observable<Sound>;
+    private stopSoundObserbable: any;
+    
+    
     private audioContext:any;
     
     constructor(
@@ -35,33 +40,58 @@ export class PlayerService{
             this.playSoundObserbable = observable;
         })
         
-      window.AudioContext = window.AudioContext || window.webkitAudioContext;
-      this.audioContext = new AudioContext();
+        this.stopSound = new Observable( (obs) =>{
+            this.stopSoundObserbable = obs; 
+        })
+        
+        window.AudioContext = window.AudioContext || window.webkitAudioContext;
+        this.audioContext = new AudioContext();
     }
     
     search(query:string){
-        return this.http.get(`https://www.googleapis.com/youtube/v3/search?part=
-        ${this.apiPart}
-        &maxResults=${this.maxResults}
-        &q=${query}&key=${this.apiKey}`, headers )
-            .map( (res) => res.json() )
+        return this.http.get(`https://www.googleapis.com/youtube/v3/search?part=${this.apiPart}&maxResults=${this.maxResults}&q=${query}&key=${this.apiKey}`, headers )
+            .map( res =>
+                res.json().items.map( (video) => {
+                    return {
+                        title: video.snippet.title,
+                        description:video.snippet.description,
+                        channel: video.snippet.channelTitle,
+                        thumbnail: video.snippet.thumbnails.default.url,
+                        dateAt: video.snippet.publishedAt,
+                        id: video.id.videoId
+                    }
+                })
+            )
     }
     
-    play(video: Sound){
-        var request = new XMLHttpRequest();
-        request.open("GET", `/api/stream/play/${video.id}`, true); 
-        request.responseType = "arraybuffer"; 
+    onStopMusic():Observable<any>{
+        this.currentSound.stop();
         
-        request.onload = () => {
-            this.currentSound = this.audioContext.createBufferSource(); // Create Sound Source
-            this.audioContext.decodeAudioData(request.response, (buffer) => {
-                this.currentSound.buffer = buffer;
-                this.currentSound.connect(this.audioContext.destination); 
-                this.currentSound.start(this.audioContext.currentTime);
-                this.playSoundObserbable.next( video )
-            })
-        };
+        window.setTimeout( () =>{
+            this.stopSoundObserbable.next();
+        }, 0);
         
-        request.send();
+        return this.stopSoundObserbable;
+    }
+    
+    onPlayMusic(video?: Sound):Observable<Sound>{
+        if( video != undefined){
+            var request = new XMLHttpRequest();
+            request.open("GET", `/api/stream/play/${video.id}`, true); 
+            request.responseType = "arraybuffer"; 
+            
+            request.onload = () => {
+                this.currentSound = this.audioContext.createBufferSource(); // Create Sound Source
+                this.audioContext.decodeAudioData(request.response, (buffer) => {
+                    this.currentSound.buffer = buffer;
+                    this.currentSound.connect(this.audioContext.destination); 
+                    this.currentSound.start(this.audioContext.currentTime);
+                    this.playSoundObserbable.next( video )
+                })
+            };
+            
+            request.send();
+        }
+        return this.playSound;
     }
 }

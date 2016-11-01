@@ -11,16 +11,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/map');
+var player_service_1 = require('../../services/player/player.service');
 var headers = new http_1.ResponseOptions({
     headers: new http_1.Headers({
         'Content-Type': 'application/json'
     })
 });
 var HomeComponent = (function () {
-    function HomeComponent(http) {
+    function HomeComponent(http, playerService) {
         this.http = http;
+        this.playerService = playerService;
         this.apiKey = 'AIzaSyDsnjiL2Wexp-DgCKMMQF7VyL2xzZLMFaY';
         this.apiPart = 'snippet';
+        this.currentSound = {
+            id: ''
+        };
         this.maxResults = 20;
         this.queryString = '';
         this.videos = [];
@@ -38,39 +43,30 @@ var HomeComponent = (function () {
             alert('Insert text to search.');
             return;
         }
-        this.http.get("https://www.googleapis.com/youtube/v3/search?part=\n        " + this.apiPart + "\n        &maxResults=" + this.maxResults + "&q=" + this.queryString + "&key=" + this.apiKey, headers)
-            .map(function (res) { return res.json(); })
-            .subscribe(function (res) {
-            console.log(res.items);
-            _this.videos = res.items;
-        });
-    };
-    HomeComponent.prototype.process = function (Data) {
-        var _this = this;
-        var source = this.audioContext.createBufferSource(); // Create Sound Source
-        this.audioContext.decodeAudioData(Data, function (buffer) {
-            source.buffer = buffer;
-            source.connect(_this.audioContext.destination);
-            source.start(_this.audioContext.currentTime);
+        this.playerService.search(this.queryString)
+            .subscribe(function (videos) {
+            _this.videos = videos;
         });
     };
     HomeComponent.prototype.play = function (video) {
         var _this = this;
-        var request = new XMLHttpRequest();
-        request.open("GET", "/api/stream/play/" + video.id.videoId, true);
-        request.responseType = "arraybuffer";
-        request.onload = function () {
-            var Data = request.response;
-            _this.process(Data);
-        };
-        request.send();
+        this.playerService.onPlayMusic(video)
+            .subscribe(function (sound) {
+            _this.currentSound = sound;
+        });
+    };
+    HomeComponent.prototype.stop = function () {
+        this.playerService.onStopMusic()
+            .subscribe(function () {
+        });
     };
     HomeComponent = __decorate([
         core_1.Component({
-            styles: ["\n      .home .search-text{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n    "],
-            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <button class=\"btn btn-default search-button\" type=\"button\" (click)=\"search()\">Go!</button>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <a *ngFor=\"let video of videos\" class=\"list-group-item\" >{{video.snippet.title}}\n            <i (click)=\"play(video)\" class=\"glyphicon glyphicon-play pull-right\"></i>\n          </a>\n        </div>\n      </div>"
+            styles: ["\n      .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n    "],
+            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <button class=\"btn btn-default search-button\" type=\"button\" (click)=\"search()\">Go!</button>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <a class=\"list-group-item\" >Video Id: {{currentSound.id}}</a>\n          <a *ngFor=\"let video of videos\" class=\"list-group-item\" >{{video.title}}\n            <i *ngIf=\"currentSound.id != video.id\" (click)=\"play(video)\" class=\"glyphicon glyphicon-play pull-right\"></i>\n            <i *ngIf=\"currentSound.id == video.id\" (click)=\"stop(video)\" class=\"glyphicon glyphicon-pause pull-right\"></i>\n          </a>\n        </div>\n      </div>",
+            providers: [player_service_1.PlayerService]
         }), 
-        __metadata('design:paramtypes', [http_1.Http])
+        __metadata('design:paramtypes', [http_1.Http, player_service_1.PlayerService])
     ], HomeComponent);
     return HomeComponent;
 }());

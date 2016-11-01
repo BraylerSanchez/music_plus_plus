@@ -4,4 +4,5 @@ export interface Sound{
     description: string;
     thumbnail: string;
     dateAt: Date;
+    channel: string;
 }

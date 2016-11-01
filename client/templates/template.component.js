@@ -9,13 +9,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var player_component_1 = require('../modules/player/player.component');
 var TemplateComponent = (function () {
     function TemplateComponent() {
     }
+    __decorate([
+        core_1.ViewChild(player_component_1.PlayerComponent), 
+        __metadata('design:type', player_component_1.PlayerComponent)
+    ], TemplateComponent.prototype, "playerComponent", void 0);
     TemplateComponent = __decorate([
         core_1.Component({
             selector: 'app',
-            template: "\n    <div class=\"site-wrapper\">\n      <div class=\"site-wrapper-inner\">\n        <div class=\"cover-container\">\n          <div class=\"masthead clearfix\">\n            <div class=\"inner\">\n              <h3 class=\"masthead-brand\">Music</h3>\n              <nav>\n                <ul class=\"nav masthead-nav\">\n                  <li [routerLinkActive]=\"['active']\" ><a [routerLink]=\"['/home']\" > Home</a> </li>\n                  <li [routerLinkActive]=\"['active']\" ><a [routerLink]=\"['/search/0']\" > Search</a> </li>\n                </ul>\n              </nav>\n            </div>\n          </div>\n          <div class=\"inner cover\">\n            <router-outlet></router-outlet>\n          </div>\n          <div class=\"mastfoot\">\n            <div class=\"inner\">\n              <p>by @los tigueres.</p>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>"
+            template: "\n    <div class=\"site-wrapper\">\n      <div class=\"site-wrapper-inner\">\n        <div class=\"cover-container\">\n          <div class=\"masthead clearfix\">\n            <div class=\"inner\">\n              <h3 class=\"masthead-brand\">Music</h3>\n              <nav>\n                <ul class=\"nav masthead-nav\">\n                  <li [routerLinkActive]=\"['active']\" ><a [routerLink]=\"['/home']\" > Home</a> </li>\n                  <li [routerLinkActive]=\"['active']\" ><a [routerLink]=\"['/search/0']\" > Search</a> </li>\n                </ul>\n              </nav>\n            </div>\n          </div>\n          <div class=\"inner cover\">\n            <router-outlet></router-outlet>\n          </div>\n          <div class=\"mastfoot\">\n            <div class=\"inner\">\n              <p>by @los tigueres.</p>\n            </div>\n          </div>\n          <player></player>\n        </div>\n      </div>\n    </div>",
+            providers: [player_component_1.PlayerComponent]
         }), 
         __metadata('design:paramtypes', [])
     ], TemplateComponent);

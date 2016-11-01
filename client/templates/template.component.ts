@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { PlayerComponent } from '../modules/player/player.component';
 
 @Component({
   selector: 'app',
@@ -25,11 +26,14 @@ import { Component } from '@angular/core';
               <p>by @los tigueres.</p>
             </div>
           </div>
+          <player></player>
         </div>
       </div>
-    </div>`
+    </div>`,
+    providers: [PlayerComponent]
 })
 export class TemplateComponent{
+    @ViewChild(PlayerComponent) playerComponent: PlayerComponent;
     constructor(){
         
     }

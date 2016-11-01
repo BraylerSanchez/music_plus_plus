@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
         background-color: #333333 !important;
         color: white !important;
       }
-    `]
+    `],
     template: `
       <div class="inner cover">
         <form class="home">
@@ -26,7 +26,8 @@ import { Component } from '@angular/core';
 })
 export class SearchComponent{
     private maxResults = 20;
-    private queryString:string '';
+    private queryString:string = '';
+    private videos: Array<any>;
     constructor(){
       this.queryString = '';
       this.videos = [];

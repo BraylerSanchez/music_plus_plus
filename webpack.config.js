@@ -22,7 +22,10 @@ module.exports = [ {
     },
     output: {
         path: __dirname,
-        filename: "./public/dist/[name].bundle.js"
+        filename: "./dist/[name].bundle.js"
+    },
+    resolve: {
+        extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js']
     },
     module: {
         loaders: [
@@ -40,8 +43,7 @@ module.exports = [ {
     },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor',
-            minChunks: Infinity
+            name: ['main', 'vendor']
         })
     ]
 }/*,
@@ -50,7 +52,7 @@ module.exports = {
     entry: "./server/app.js",
     output: {
         path: __dirname,
-        filename: "./public/dist/server.js"
+        filename: "./dist/server.js"
     },
     target: "node",
     module: {

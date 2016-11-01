@@ -13,6 +13,7 @@ var AppServer = (function () {
         this.app.use(body_parser_1.json());
         this.app.use(body_parser_1.json({ type: 'application/vnd.api+json' }));
         this.app.use(express.static(path_1.join(__dirname, '../public')));
+        this.app.use(express.static(path_1.join(__dirname, '../dist')));
         this.app.use(express.static(path_1.join(__dirname, '../node_modules')));
     };
     AppServer.prototype.services = function () {
