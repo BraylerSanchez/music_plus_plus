@@ -166,3 +166,8 @@ div.masthead{
 div.cover{
   margin-top: 100px !important;
 }
+
+.no-padding-l-r{
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
