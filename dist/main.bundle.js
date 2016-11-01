@@ -90,7 +90,7 @@ webpackJsonp([0],{
 	    TemplateComponent = __decorate([
 	        core_1.Component({
 	            selector: 'app',
-	            template: "\n    <div class=\"site-wrapper\">\n      <div class=\"site-wrapper-inner\">\n        <div class=\"cover-container\">\n          <div class=\"masthead clearfix\">\n            <div class=\"inner\">\n              <h3 class=\"masthead-brand\">Music</h3>\n              <nav>\n                <ul class=\"nav masthead-nav\">\n                  <li [routerLinkActive]=\"['active']\" ><a [routerLink]=\"['/home']\" > Home</a> </li>\n                  <li [routerLinkActive]=\"['active']\" ><a [routerLink]=\"['/search/0']\" > Search</a> </li>\n                </ul>\n              </nav>\n            </div>\n          </div>\n          <div class=\"inner cover\">\n            <router-outlet></router-outlet>\n          </div>\n          <div class=\"mastfoot\">\n            <div class=\"inner\">\n              <p>by @los tigueres.</p>\n            </div>\n          </div>\n          <player></player>\n        </div>\n      </div>\n    </div>",
+	            template: "\n    <div class=\"site-wrapper\">\n      <div class=\"site-wrapper-inner\">\n        <div class=\"cover-container\">\n          <div class=\"masthead clearfix\">\n            <div class=\"inner\">\n              <h3 class=\"masthead-brand\">Music</h3>\n              <nav>\n                <ul class=\"nav masthead-nav\">\n                  <li [routerLinkActive]=\"['active']\" ><a [routerLink]=\"['/home']\" > Home</a> </li>\n                </ul>\n              </nav>\n            </div>\n          </div>\n          <div class=\"inner cover\">\n            <router-outlet></router-outlet>\n          </div>\n          <div class=\"mastfoot\">\n            <div class=\"inner\">\n              <p>by @los tigueres.</p>\n            </div>\n          </div>\n          <player></player>\n        </div>\n      </div>\n    </div>",
 	            providers: [player_component_1.PlayerComponent]
 	        }), 
 	        __metadata('design:paramtypes', [])
@@ -210,11 +210,12 @@ webpackJsonp([0],{
 	                this.currentSound.start();
 	            }
 	            else {
+	                this.currentSound.stop();
 	                var request = new XMLHttpRequest();
 	                request.open("GET", "/api/stream/play/" + video.id, true);
 	                request.responseType = "arraybuffer";
 	                request.onload = function () {
-	                    _this.currentSound = _this.audioContext.createBufferSource(); // Create Sound Source
+	                    _this.currentSound = _this.audioContext.createBufferSource();
 	                    _this.audioContext.decodeAudioData(request.response, function (buffer) {
 	                        _this.currentSound.buffer = buffer;
 	                        _this.currentSound.connect(_this.audioContext.destination);

@@ -79,12 +79,14 @@ export class PlayerService{
             if( this.currentSound != undefined && video.id == this.currentVideo.id){
                 this.currentSound.start();
             }else{
+                
+                this.currentSound.stop();
                 var request = new XMLHttpRequest();
                 request.open("GET", `/api/stream/play/${video.id}`, true); 
                 request.responseType = "arraybuffer"; 
                 
                 request.onload = () => {
-                    this.currentSound = this.audioContext.createBufferSource(); // Create Sound Source
+                    this.currentSound = this.audioContext.createBufferSource();
                     this.audioContext.decodeAudioData(request.response, (buffer) => {
                         this.currentSound.buffer = buffer;
                         this.currentSound.connect(this.audioContext.destination); 

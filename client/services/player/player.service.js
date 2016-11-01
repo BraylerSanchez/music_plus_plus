@@ -64,11 +64,12 @@ var PlayerService = (function () {
                 this.currentSound.start();
             }
             else {
+                this.currentSound.stop();
                 var request = new XMLHttpRequest();
                 request.open("GET", "/api/stream/play/" + video.id, true);
                 request.responseType = "arraybuffer";
                 request.onload = function () {
-                    _this.currentSound = _this.audioContext.createBufferSource(); // Create Sound Source
+                    _this.currentSound = _this.audioContext.createBufferSource();
                     _this.audioContext.decodeAudioData(request.response, function (buffer) {
                         _this.currentSound.buffer = buffer;
                         _this.currentSound.connect(_this.audioContext.destination);
