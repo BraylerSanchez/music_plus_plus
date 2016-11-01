@@ -13,7 +13,6 @@ import { PlayerComponent } from '../modules/player/player.component';
               <nav>
                 <ul class="nav masthead-nav">
                   <li [routerLinkActive]="['active']" ><a [routerLink]="['/home']" > Home</a> </li>
-                  <li [routerLinkActive]="['active']" ><a [routerLink]="['/search/0']" > Search</a> </li>
                 </ul>
               </nav>
             </div>
@@ -29,8 +28,7 @@ import { PlayerComponent } from '../modules/player/player.component';
           <player></player>
         </div>
       </div>
-    </div>`,
-    providers: [PlayerComponent]
+    </div>`
 })
 export class TemplateComponent{
     @ViewChild(PlayerComponent) playerComponent: PlayerComponent;
