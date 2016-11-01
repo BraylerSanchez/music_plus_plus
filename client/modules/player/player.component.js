@@ -22,7 +22,8 @@ var PlayerComponent = (function () {
     PlayerComponent = __decorate([
         core_1.Component({
             selector: 'player',
-            template: "",
+            styles: ["\n        .player{\n            position:absolute;\n            z-index: 1000;\n            bottom: 0;\n            left: 0;\n            width: 100%;\n        }\n    "],
+            template: "\n    <div class=\"col-lg-12 no-padding-l-r player\">\n        <h1>Hola mundo</h1>\n    </div>",
             providers: [player_service_1.PlayerService]
         }), 
         __metadata('design:paramtypes', [player_service_1.PlayerService])

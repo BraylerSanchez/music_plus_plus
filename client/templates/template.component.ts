@@ -28,8 +28,7 @@ import { PlayerComponent } from '../modules/player/player.component';
           <player></player>
         </div>
       </div>
-    </div>`,
-    providers: [PlayerComponent]
+    </div>`
 })
 export class TemplateComponent{
     @ViewChild(PlayerComponent) playerComponent: PlayerComponent;
