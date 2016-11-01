@@ -56,18 +56,18 @@
 24 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/webpack/package.json
 25 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/ytdl-core/package.json
 26 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/zone.js/package.json
-27 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/common/package.json
-28 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/compiler/package.json
-29 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/core/package.json
-30 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/forms/package.json
-31 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/http/package.json
-32 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/platform-browser/package.json
-33 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/platform-browser-dynamic/package.json
-34 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/router/package.json
-35 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/upgrade/package.json
-36 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@types/core-js/package.json
-37 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@types/jasmine/package.json
-38 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@types/node/package.json
+27 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@types/core-js/package.json
+28 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@types/jasmine/package.json
+29 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@types/node/package.json
+30 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/common/package.json
+31 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/compiler/package.json
+32 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/core/package.json
+33 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/forms/package.json
+34 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/http/package.json
+35 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/platform-browser/package.json
+36 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/platform-browser-dynamic/package.json
+37 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/router/package.json
+38 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/upgrade/package.json
 39 info package.json angular-in-memory-web-api@0.1.14 No license field.
 40 info package.json ytdl-core@0.7.19 No license field.
 41 verbose readDependencies loading dependencies from /home/ubuntu/workspace/youtubestreaming/package.json
@@ -88,52 +88,52 @@
 56 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/webpack/package.json
 57 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/ytdl-core/package.json
 58 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/zone.js/package.json
-59 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/common/package.json
-60 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/compiler/package.json
-61 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/core/package.json
-62 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/forms/package.json
-63 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/http/package.json
-64 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/platform-browser/package.json
-65 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/platform-browser-dynamic/package.json
-66 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/router/package.json
-67 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/upgrade/package.json
-68 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@types/core-js/package.json
-69 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@types/jasmine/package.json
-70 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@types/node/package.json
-71 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/.bin/concurrent/package.json
-72 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/.bin/concurrently/package.json
-73 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/.bin/tsc/package.json
-74 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/.bin/tsserver/package.json
-75 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/.bin/webpack/package.json
-76 verbose already installed skipping json-loader@^0.5.4 /home/ubuntu/workspace/youtubestreaming
-77 verbose already installed skipping reflect-metadata@^0.1.8 /home/ubuntu/workspace/youtubestreaming
-78 verbose already installed skipping rxjs@5.0.0-beta.12 /home/ubuntu/workspace/youtubestreaming
-79 verbose already installed skipping systemjs@0.19.40 /home/ubuntu/workspace/youtubestreaming
-80 verbose already installed skipping ts-loader@^0.9.5 /home/ubuntu/workspace/youtubestreaming
-81 verbose already installed skipping ytdl-core@^0.7.19 /home/ubuntu/workspace/youtubestreaming
-82 verbose already installed skipping zone.js@^0.6.26 /home/ubuntu/workspace/youtubestreaming
-83 verbose already installed skipping concurrently@^3.1.0 /home/ubuntu/workspace/youtubestreaming
-84 verbose already installed skipping typescript@^2.0.3 /home/ubuntu/workspace/youtubestreaming
-85 verbose already installed skipping canonical-path@0.0.2 /home/ubuntu/workspace/youtubestreaming
-86 verbose already installed skipping lodash@^4.16.4 /home/ubuntu/workspace/youtubestreaming
-87 verbose already installed skipping @types/core-js@^0.9.34 /home/ubuntu/workspace/youtubestreaming
-88 verbose already installed skipping @types/node@^6.0.46 /home/ubuntu/workspace/youtubestreaming
-89 verbose already installed skipping @types/jasmine@^2.5.36 /home/ubuntu/workspace/youtubestreaming
-90 verbose already installed skipping webpack@^1.13.3 /home/ubuntu/workspace/youtubestreaming
-91 verbose already installed skipping @angular/common@~2.1.2 /home/ubuntu/workspace/youtubestreaming
-92 verbose already installed skipping @angular/compiler@~2.1.2 /home/ubuntu/workspace/youtubestreaming
-93 verbose already installed skipping @angular/core@~2.1.2 /home/ubuntu/workspace/youtubestreaming
-94 verbose already installed skipping @angular/forms@~2.1.2 /home/ubuntu/workspace/youtubestreaming
-95 verbose already installed skipping @angular/http@~2.1.2 /home/ubuntu/workspace/youtubestreaming
-96 verbose already installed skipping @angular/platform-browser@~2.1.2 /home/ubuntu/workspace/youtubestreaming
-97 verbose already installed skipping @angular/platform-browser-dynamic@~2.1.2 /home/ubuntu/workspace/youtubestreaming
-98 verbose already installed skipping @angular/router@~3.1.2 /home/ubuntu/workspace/youtubestreaming
-99 verbose already installed skipping @angular/upgrade@~2.1.2 /home/ubuntu/workspace/youtubestreaming
-100 verbose already installed skipping angular-in-memory-web-api@~0.1.13 /home/ubuntu/workspace/youtubestreaming
-101 verbose already installed skipping body-parser@^1.15.2 /home/ubuntu/workspace/youtubestreaming
-102 verbose already installed skipping bootstrap@^3.3.7 /home/ubuntu/workspace/youtubestreaming
-103 verbose already installed skipping core-js@^2.4.1 /home/ubuntu/workspace/youtubestreaming
-104 verbose already installed skipping express@^4.14.0 /home/ubuntu/workspace/youtubestreaming
+59 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/.bin/concurrent/package.json
+60 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/.bin/concurrently/package.json
+61 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/.bin/tsc/package.json
+62 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/.bin/tsserver/package.json
+63 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/.bin/webpack/package.json
+64 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/common/package.json
+65 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/compiler/package.json
+66 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/core/package.json
+67 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/forms/package.json
+68 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/http/package.json
+69 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/platform-browser/package.json
+70 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/platform-browser-dynamic/package.json
+71 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/router/package.json
+72 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@angular/upgrade/package.json
+73 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@types/core-js/package.json
+74 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@types/jasmine/package.json
+75 verbose targetResolver reading package data from /home/ubuntu/workspace/youtubestreaming/node_modules/@types/node/package.json
+76 verbose already installed skipping concurrently@^3.1.0 /home/ubuntu/workspace/youtubestreaming
+77 verbose already installed skipping typescript@^2.0.3 /home/ubuntu/workspace/youtubestreaming
+78 verbose already installed skipping canonical-path@0.0.2 /home/ubuntu/workspace/youtubestreaming
+79 verbose already installed skipping lodash@^4.16.4 /home/ubuntu/workspace/youtubestreaming
+80 verbose already installed skipping @types/core-js@^0.9.34 /home/ubuntu/workspace/youtubestreaming
+81 verbose already installed skipping @types/node@^6.0.46 /home/ubuntu/workspace/youtubestreaming
+82 verbose already installed skipping @types/jasmine@^2.5.36 /home/ubuntu/workspace/youtubestreaming
+83 verbose already installed skipping webpack@^1.13.3 /home/ubuntu/workspace/youtubestreaming
+84 verbose already installed skipping @angular/common@~2.1.2 /home/ubuntu/workspace/youtubestreaming
+85 verbose already installed skipping @angular/compiler@~2.1.2 /home/ubuntu/workspace/youtubestreaming
+86 verbose already installed skipping @angular/core@~2.1.2 /home/ubuntu/workspace/youtubestreaming
+87 verbose already installed skipping @angular/forms@~2.1.2 /home/ubuntu/workspace/youtubestreaming
+88 verbose already installed skipping @angular/http@~2.1.2 /home/ubuntu/workspace/youtubestreaming
+89 verbose already installed skipping @angular/platform-browser@~2.1.2 /home/ubuntu/workspace/youtubestreaming
+90 verbose already installed skipping @angular/platform-browser-dynamic@~2.1.2 /home/ubuntu/workspace/youtubestreaming
+91 verbose already installed skipping @angular/router@~3.1.2 /home/ubuntu/workspace/youtubestreaming
+92 verbose already installed skipping @angular/upgrade@~2.1.2 /home/ubuntu/workspace/youtubestreaming
+93 verbose already installed skipping angular-in-memory-web-api@~0.1.13 /home/ubuntu/workspace/youtubestreaming
+94 verbose already installed skipping body-parser@^1.15.2 /home/ubuntu/workspace/youtubestreaming
+95 verbose already installed skipping bootstrap@^3.3.7 /home/ubuntu/workspace/youtubestreaming
+96 verbose already installed skipping core-js@^2.4.1 /home/ubuntu/workspace/youtubestreaming
+97 verbose already installed skipping express@^4.14.0 /home/ubuntu/workspace/youtubestreaming
+98 verbose already installed skipping json-loader@^0.5.4 /home/ubuntu/workspace/youtubestreaming
+99 verbose already installed skipping reflect-metadata@^0.1.8 /home/ubuntu/workspace/youtubestreaming
+100 verbose already installed skipping rxjs@5.0.0-beta.12 /home/ubuntu/workspace/youtubestreaming
+101 verbose already installed skipping systemjs@0.19.40 /home/ubuntu/workspace/youtubestreaming
+102 verbose already installed skipping ts-loader@^0.9.5 /home/ubuntu/workspace/youtubestreaming
+103 verbose already installed skipping ytdl-core@^0.7.19 /home/ubuntu/workspace/youtubestreaming
+104 verbose already installed skipping zone.js@^0.6.26 /home/ubuntu/workspace/youtubestreaming
 105 silly install resolved []
 106 info build /home/ubuntu/workspace/youtubestreaming
 107 info linkStuff youtubestreaming@1.0.0

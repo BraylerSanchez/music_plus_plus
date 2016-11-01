@@ -4853,22 +4853,53 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
+	var http_1 = __webpack_require__(28);
+	__webpack_require__(29);
 	var player_service_1 = __webpack_require__(27);
+	var headers = new http_1.ResponseOptions({
+	    headers: new http_1.Headers({
+	        'Content-Type': 'application/json'
+	    })
+	});
 	var SearchComponent = (function () {
 	    function SearchComponent(playerService) {
-	        var _this = this;
+	        this.playerService = playerService;
 	        this.maxResults = 20;
+	        this.currentSound = {
+	            id: ''
+	        };
 	        this.queryString = '';
-	        //this.queryString = '';
-	        playerService.search(this.queryString)
+	        this.videos = [];
+	        window.AudioContext = window.AudioContext || window.webkitAudioContext;
+	        this.audioContext = new AudioContext();
+	    }
+	    SearchComponent.prototype.search = function () {
+	        var _this = this;
+	        if (this.queryString.length <= 0) {
+	            alert('Insert text to search.');
+	            return;
+	        }
+	        this.playerService.search(this.queryString)
 	            .subscribe(function (videos) {
 	            _this.videos = videos;
 	        });
-	    }
+	    };
+	    SearchComponent.prototype.play = function (video) {
+	        var _this = this;
+	        this.playerService.onPlayMusic(video)
+	            .subscribe(function (sound) {
+	            _this.currentSound = sound;
+	        });
+	    };
+	    SearchComponent.prototype.stop = function () {
+	        this.playerService.onStopMusic()
+	            .subscribe(function () {
+	        });
+	    };
 	    SearchComponent = __decorate([
 	        core_1.Component({
-	            styles: ["\n    .home .search-text{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n    #channel{\n            color: #ccc;\n        }\n    #thumbnail{\n            border-radius: 5px;\n        }\n    "],
-	            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <button class=\"btn btn-default search-button\" type=\"button\" (click)=\"search()\">Go!</button>\n            </span>\n          </div>\n        </form>\n        \n  <div *ngFor=\"let video of videos\">\n    <div class=\"media-left\">\n      <a href=\"#\">\n        <img id=\"thumbnail\" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n      </a>\n    </div>\n    <div class=\"media-body\">\n      <h4 class=\"media-heading\">{{ video.title }}</h4>\n      <span id=\"channel\">{{ video.channel }}</span>\n      <i (click)=\"onPlayMusic(video)\" class=\"glyphicon glyphicon-play pull-right\"></i>\n    </div>\n  </div>\n        \n      </div>",
+	            styles: ["\n    .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n      #title{\n        color: #333333;\n      }\n      }\n    #channel{\n            color: #ccc !important;\n        }\n    #thumbnail{\n            border-radius: 5px;\n        }\n    "],
+	            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <button class=\"btn btn-default search-button\" type=\"button\" (click)=\"search()\">Go!</button>\n            </span>\n          </div>\n        </form>\n        \n  <div class=\"list-group\">\n    <div class=\"list-group-item\" *ngFor=\"let video of videos\">\n      <div class=\"media-left\">\n        <span>\n          <img id=\"thumbnail\" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n        </span>\n      </div>\n      <div class=\"media-body\">\n        <h4 id=\"title\" class=\"media-heading\">{{ video.title }}</h4>\n        <span id=\"channel\">{{ video.channel }}</span>\n        <i (click)=\"play(video)\" class=\"glyphicon glyphicon-play pull-right\"></i>\n      </div>\n    </div>\n  </div>\n        \n      </div>",
 	            providers: [player_service_1.PlayerService]
 	        }), 
 	        __metadata('design:paramtypes', [player_service_1.PlayerService])
