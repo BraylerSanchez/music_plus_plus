@@ -52,6 +52,7 @@ var PlayerService = (function () {
     PlayerService.prototype.onStopMusic = function () {
         var _this = this;
         this.currentSound.stop();
+        this.isPlaying = false;
         window.setTimeout(function () {
             _this.stopSoundObserbable.next(_this.currentVideo);
         }, 0);
@@ -64,7 +65,9 @@ var PlayerService = (function () {
                 this.currentSound.start();
             }
             else {
-                this.currentSound.stop();
+                if (this.currentSound) {
+                    this.currentSound.stop();
+                }
                 var request = new XMLHttpRequest();
                 request.open("GET", "/api/stream/play/" + video.id, true);
                 request.responseType = "arraybuffer";
@@ -75,6 +78,7 @@ var PlayerService = (function () {
                         _this.currentSound.connect(_this.audioContext.destination);
                         _this.currentSound.start(_this.audioContext.currentTime);
                         _this.currentVideo = video;
+                        _this.isPlaying = true;
                         _this.playSoundObserbable.next(video);
                     });
                 };

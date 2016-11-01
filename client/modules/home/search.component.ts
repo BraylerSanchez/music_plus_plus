@@ -1,15 +1,6 @@
 import { Component } from '@angular/core';
-import {Http, Headers, Response, ResponseOptions} from '@angular/http'
-import 'rxjs/add/operator/map';
+import { ActivatedRoute } from '@angular/router'
 import { PlayerService } from '../../services/player/player.service';
-
-declare var window: any;
-const headers = new ResponseOptions({
-    headers: new Headers({
-        'Content-Type': 'application/json'
-    })
-})
-
 
 @Component({
     styles: 
@@ -18,13 +9,17 @@ const headers = new ResponseOptions({
         background-color: #333333 !important;
         color: white !important;
       }
-      #title{
+      
+      .playing{
+        content:url("http://rs339.pbsrc.com/albums/n442/mcrmy_derick/equalizer.gif~c200");
+        height: 10%;
+        width: 10%;
+      }
+      
+      .video{
         color: #333333;
       }
-      }
-    #channel{
-            color: #ccc !important;
-        }
+
     #thumbnail{
             border-radius: 5px;
         }
@@ -41,16 +36,19 @@ const headers = new ResponseOptions({
         </form>
         
   <div class="list-group">
-    <div class="list-group-item" *ngFor="let video of videos">
+    <div class="video list-group-item" *ngFor="let video of videos" (click)="play(video)">
       <div class="media-left">
         <span>
           <img id="thumbnail" class="media-object" src="{{ video.thumbnail }}" alt="...">
         </span>
       </div>
-      <div class="media-body">
-        <h4 id="title" class="media-heading">{{ video.title }}</h4>
+      <div class="media-body text-left">
+        <h4 id="title" class="media-heading">{{ video.title }}
+        <img class="glyphicon pull-right" *ngIf="video.id == currentSound.id" [ngClass]="{ 'playing': video.id == currentSound.id }">
+        </h4>
         <span id="channel">{{ video.channel }}</span>
-        <i (click)="play(video)" class="glyphicon glyphicon-play pull-right"></i>
+        
+        <span class="pull-right">{{ video.dateAt | date }}</span>
       </div>
     </div>
   </div>
@@ -59,19 +57,22 @@ const headers = new ResponseOptions({
       providers: [PlayerService]
 })
 export class SearchComponent{
-    private maxResults = 20;
-    private audioContext:any;
     private queryString:string;
     private videos: Array<any>;
     private currentSound: any = {
       id: ''
     };
     
-    constructor(private playerService: PlayerService){
+    constructor(
+      private playerService: PlayerService,
+      private router: ActivatedRoute
+      ){
       this.queryString = '';
       this.videos = [];
-      window.AudioContext = window.AudioContext || window.webkitAudioContext;
-      this.audioContext = new AudioContext();
+      this.router.params.subscribe( (params) =>{
+        this.queryString = params['query'];
+        this.search();
+      }) 
     }
     
    search(): void{
@@ -91,12 +92,4 @@ export class SearchComponent{
             this.currentSound = sound;
         })
     }
-    stop(){
-      this.playerService.onStopMusic()
-        .subscribe( () =>{
-          
-        })
-    }
 }
-///
-

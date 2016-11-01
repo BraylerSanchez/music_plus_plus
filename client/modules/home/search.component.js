@@ -9,25 +9,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var http_1 = require('@angular/http');
-require('rxjs/add/operator/map');
+var router_1 = require('@angular/router');
 var player_service_1 = require('../../services/player/player.service');
-var headers = new http_1.ResponseOptions({
-    headers: new http_1.Headers({
-        'Content-Type': 'application/json'
-    })
-});
 var SearchComponent = (function () {
-    function SearchComponent(playerService) {
+    function SearchComponent(playerService, router) {
+        var _this = this;
         this.playerService = playerService;
-        this.maxResults = 20;
+        this.router = router;
         this.currentSound = {
             id: ''
         };
         this.queryString = '';
         this.videos = [];
-        window.AudioContext = window.AudioContext || window.webkitAudioContext;
-        this.audioContext = new AudioContext();
+        this.router.params.subscribe(function (params) {
+            _this.queryString = params['query'];
+            _this.search();
+        });
     }
     SearchComponent.prototype.search = function () {
         var _this = this;
@@ -47,21 +44,15 @@ var SearchComponent = (function () {
             _this.currentSound = sound;
         });
     };
-    SearchComponent.prototype.stop = function () {
-        this.playerService.onStopMusic()
-            .subscribe(function () {
-        });
-    };
     SearchComponent = __decorate([
         core_1.Component({
-            styles: ["\n    .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n      #title{\n        color: #333333;\n      }\n      }\n    #channel{\n            color: #ccc !important;\n        }\n    #thumbnail{\n            border-radius: 5px;\n        }\n    "],
-            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <button class=\"btn btn-default search-button\" type=\"button\" (click)=\"search()\">Go!</button>\n            </span>\n          </div>\n        </form>\n        \n  <div class=\"list-group\">\n    <div class=\"list-group-item\" *ngFor=\"let video of videos\">\n      <div class=\"media-left\">\n        <span>\n          <img id=\"thumbnail\" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n        </span>\n      </div>\n      <div class=\"media-body\">\n        <h4 id=\"title\" class=\"media-heading\">{{ video.title }}</h4>\n        <span id=\"channel\">{{ video.channel }}</span>\n        <i (click)=\"play(video)\" class=\"glyphicon glyphicon-play pull-right\"></i>\n      </div>\n    </div>\n  </div>\n        \n      </div>",
+            styles: ["\n    .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n      \n      .playing{\n        content:url(\"http://rs339.pbsrc.com/albums/n442/mcrmy_derick/equalizer.gif~c200\");\n        height: 10%;\n        width: 10%;\n      }\n      \n      .video{\n        color: #333333;\n      }\n\n    #thumbnail{\n            border-radius: 5px;\n        }\n    "],
+            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <button class=\"btn btn-default search-button\" type=\"button\" (click)=\"search()\">Go!</button>\n            </span>\n          </div>\n        </form>\n        \n  <div class=\"list-group\">\n    <div class=\"video list-group-item\" *ngFor=\"let video of videos\" (click)=\"play(video)\">\n      <div class=\"media-left\">\n        <span>\n          <img id=\"thumbnail\" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n        </span>\n      </div>\n      <div class=\"media-body text-left\">\n        <h4 id=\"title\" class=\"media-heading\">{{ video.title }}\n        <img class=\"glyphicon pull-right\" *ngIf=\"video.id == currentSound.id\" [ngClass]=\"{ 'playing': video.id == currentSound.id }\">\n        </h4>\n        <span id=\"channel\">{{ video.channel }}</span>\n        \n        <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n      </div>\n    </div>\n  </div>\n        \n      </div>",
             providers: [player_service_1.PlayerService]
         }), 
-        __metadata('design:paramtypes', [player_service_1.PlayerService])
+        __metadata('design:paramtypes', [player_service_1.PlayerService, router_1.ActivatedRoute])
     ], SearchComponent);
     return SearchComponent;
 }());
 exports.SearchComponent = SearchComponent;
-///
 //# sourceMappingURL=search.component.js.map
