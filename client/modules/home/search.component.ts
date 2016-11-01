@@ -1,11 +1,19 @@
 import { Component } from '@angular/core';
+import { PlayerService } from '../../services/player/player.service';
 
 @Component({
-    styles: [`
-      .home .search-text{
+    styles: 
+    [`
+    .home .search-text{
         background-color: #333333 !important;
         color: white !important;
       }
+    #channel{
+            color: #ccc;
+        }
+    #thumbnail{
+            border-radius: 5px;
+        }
     `],
     template: `
       <div class="inner cover">
@@ -17,19 +25,34 @@ import { Component } from '@angular/core';
             </span>
           </div>
         </form>
-        <div class="list-group">
-          <a *ngFor="let video of videos" class="list-group-item" >{{video.snippet.title}}
-            <i (click)="play(video)" class="glyphicon glyphicon-play pull-right"></i>
-          </a>
-        </div>
-      </div>`
+        
+  <div *ngFor="let video of videos">
+    <div class="media-left">
+      <a href="#">
+        <img id="thumbnail" class="media-object" src="{{ video.thumbnail }}" alt="...">
+      </a>
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading">{{ video.title }}</h4>
+      <span id="channel">{{ video.channel }}</span>
+      <i (click)="onPlayMusic(video)" class="glyphicon glyphicon-play pull-right"></i>
+    </div>
+  </div>
+        
+      </div>`,
+      providers: [PlayerService]
 })
 export class SearchComponent{
     private maxResults = 20;
     private queryString:string = '';
     private videos: Array<any>;
-    constructor(){
-      this.queryString = '';
-      this.videos = [];
+    constructor(playerService: PlayerService){
+      //this.queryString = '';
+      playerService.search(this.queryString)
+      .subscribe( (videos) =>{        
+        this.videos = videos;      
+      });
     }
 }
+///
+
