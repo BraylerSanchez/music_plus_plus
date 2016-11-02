@@ -26,7 +26,7 @@ var CreateListComponent = (function () {
             selector: 'playlistcreate',
             styles: ["\n        .label {\n            text-align: left;\n        }\n    \n    "
             ],
-            template: " \n        <h1>Create list</h1>\n        <div class=\"col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2\">\n          <form class=\"form-horizontal\" [formGroup]=\"createListForm\" (submit)=\"doCreateList($event)\">\n            <div class=\"form-group\">\n              <label class=\"control-label col-sm-1\" for=\"name\">Name:</label>\n              <input ngControl=\"name\" type=\"text\" placeholder=\"Enter name\" id=\"name\" class=\"form-control col-sm-6\" />\n            </div>\n            <div class=\"form-group\">\n              <label class=\"control-label col-sm-1\" for=\"description\">Description:</label>\n              <input ngControl=\"description\" type=\"text\" placeholder=\"Enter description\" id=\"description\" class=\"form-control col-sm-6\"/>\n            </div>\n            <div class=\"form-group\">\n                <button class=\"btn btn-success\" type=\"submit\">Create</button>\n                <button class=\"btn btn-default\" type=\"button\">Cancel</button>\n            </div>\n          </form>\n        </div>\n    "
+            template: " \n        <h1>Create list</h1>\n        <div class=\"col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2\">\n          \n        </div>\n    "
         }), 
         __metadata('design:paramtypes', [forms_1.FormBuilder])
     ], CreateListComponent);
