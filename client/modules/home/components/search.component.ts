@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
-import { PlayerService } from '../../../services/player/player.service';
+import { PlayerService, onPlayMusic, onStopMusic } from '../../../services/player/player.service';
 
 @Component({
     styles: 
@@ -61,10 +61,12 @@ export class SearchComponent{
     private currentSound: any = {
       id: ''
     };
+    private audioContext:any;
     
     constructor(
       private playerService: PlayerService,
-      private router: ActivatedRoute
+      private router: ActivatedRoute,
+      private ngZone: NgZone
     ){
       this.queryString = '';
       this.videos = [];
@@ -73,7 +75,17 @@ export class SearchComponent{
           this.queryString = params['query'];
           this.search();
         }
-      }) 
+      })
+      
+      onPlayMusic
+         .subscribe( (response) => {
+            this.currentSound = response['details'];
+      });
+      onStopMusic
+       .subscribe( (sound) => {
+            this.currentSound = sound;
+            this.ngZone.run(()=>{});
+      });
     }
     
    search(): void{
@@ -88,9 +100,6 @@ export class SearchComponent{
     }
     
     play(video){
-      this.playerService.onPlayMusic(video)
-        .subscribe( (sound) =>{
-            this.currentSound = sound;
-        })
+      this.playerService.getMusic(video);
     }
 }
