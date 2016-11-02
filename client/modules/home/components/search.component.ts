@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
-import { PlayerService } from '../../services/player/player.service';
+import { PlayerService } from '../../../services/player/player.service';
 
 @Component({
     styles: 
@@ -20,8 +20,8 @@ import { PlayerService } from '../../services/player/player.service';
         color: #333333;
       }
 
-    #thumbnail{
-            border-radius: 5px;
+    .media-object{
+            border-radius: 5px !important;
         }
     `],
     template: `
@@ -34,25 +34,24 @@ import { PlayerService } from '../../services/player/player.service';
             </span>
           </div>
         </form>
-        
-  <div class="list-group">
-    <div class="video list-group-item" *ngFor="let video of videos" (click)="play(video)">
-      <div class="media-left">
-        <span>
-          <img id="thumbnail" class="media-object" src="{{ video.thumbnail }}" alt="...">
-        </span>
-      </div>
-      <div class="media-body text-left">
-        <h4 id="title" class="media-heading">{{ video.title }}
-        <img class="glyphicon pull-right" *ngIf="video.id == currentSound.id" [ngClass]="{ 'playing': video.id == currentSound.id }">
-        </h4>
-        <span id="channel">{{ video.channel }}</span>
-        
-        <span class="pull-right">{{ video.dateAt | date }}</span>
-      </div>
-    </div>
-  </div>
-        
+        <div class="list-group">
+          <div class="video list-group-item" *ngFor="let video of videos" (click)="play(video)">
+            <div class="media-left">
+              <span>
+                <img id="
+                " class="media-object" src="{{ video.thumbnail }}" alt="...">
+              </span>
+            </div>
+            <div class="media-body text-left">
+              <h4 id="title" class="media-heading">{{ video.title }}
+              <img class="glyphicon pull-right" *ngIf="video.id == currentSound.id" [ngClass]="{ 'playing': video.id == currentSound.id }">
+              </h4>
+              <span id="channel">{{ video.channel }}</span>
+              
+              <span class="pull-right">{{ video.dateAt | date }}</span>
+            </div>
+          </div>
+        </div>
       </div>`,
       providers: [PlayerService]
 })
@@ -66,12 +65,14 @@ export class SearchComponent{
     constructor(
       private playerService: PlayerService,
       private router: ActivatedRoute
-      ){
+    ){
       this.queryString = '';
       this.videos = [];
       this.router.params.subscribe( (params) =>{
-        this.queryString = params['query'];
-        this.search();
+        if( params['query'] != '0'){
+          this.queryString = params['query'];
+          this.search();
+        }
       }) 
     }
     

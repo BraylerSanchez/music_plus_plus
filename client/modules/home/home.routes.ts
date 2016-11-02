@@ -1,6 +1,6 @@
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './home.component';
-import { SearchComponent } from './search.component';
+import { HomeComponent } from './components/home.component';
+import { SearchComponent } from './components/search.component';
 
 export const routes: Routes = [
     {
