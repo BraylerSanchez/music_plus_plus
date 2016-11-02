@@ -11,7 +11,7 @@ import { PlayerService } from '../../services/player/player.service';
       }
       
       .playing{
-        content:url("http://rs339.pbsrc.com/albums/n442/mcrmy_derick/equalizer.gif~c200");
+        content:url("assest/images/equalizer.gif");
         height: 10%;
         width: 10%;
       }
