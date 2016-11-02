@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router'
 import { PlayerService } from '../../../services/player/player.service';
 
 @Component({
+    selector: 'search',
     styles: 
     [`
     .home .search-button{
@@ -28,14 +29,14 @@ import { PlayerService } from '../../../services/player/player.service';
       <div class="inner cover">
         <form class="home">
           <div class="input-group input-group-lg">
-            <input class="form-control" placeholder="Search music on youtube" name="queryString" [(ngModel)]="queryString" aria-describedby="sizing-addon1"> 
+            <input class="form-control" (keyup)="handleKeyup($event)" placeholder="Search music on youtube" name="queryString" [(ngModel)]="queryString" aria-describedby="sizing-addon1"> 
             <span class="input-group-btn">
-              <button class="btn btn-default search-button" type="button" (click)="search()">Go!</button>
+              <i class="fa fa-search btn btn-default search-button" type="button" (click)="search()"></i>
             </span>
           </div>
         </form>
         <div class="list-group">
-          <div class="video list-group-item" *ngFor="let video of videos" (click)="play(video)">
+          <div class="video list-group-item" *ngFor="let video of videos">
             <div class="media-left">
               <span>
                 <img id="
@@ -43,14 +44,22 @@ import { PlayerService } from '../../../services/player/player.service';
               </span>
             </div>
             <div class="media-body text-left">
-              <h4 id="title" class="media-heading">{{ video.title }}
-              <img class="glyphicon pull-right" *ngIf="video.id == currentSound.id" [ngClass]="{ 'playing': video.id == currentSound.id }">
-              </h4>
-              <span id="channel">{{ video.channel }}</span>
-              
+              <div class="media-heading">
+                <h4 id="title" >{{ video.title }}<i class="fa fa-plus pull-right"
+                [ngClass]="{ 'fa-minus': video.isOnList, 'fa-plus': !video.isOnList }" (click)="addToList(video)"></i>
+                <img class="glyphicon pull-right" *ngIf="video.id == currentSound.id" [ngClass]="{ 'playing': video.id == currentSound.id }">
+                </h4>
+              </div>
+              <span (click)="play(video)" id="channel">{{ video.channel }}</span>
               <span class="pull-right">{{ video.dateAt | date }}</span>
+              
             </div>
           </div>
+        </div>
+        <div *ngFor="let cancion of canciones; let i = index">
+        <ul>
+          <li>{{ i }} - {{ cancion.isOnList }} - {{cancion.title}}</li>
+        </ul>
         </div>
       </div>`,
       providers: [PlayerService]
@@ -58,6 +67,8 @@ import { PlayerService } from '../../../services/player/player.service';
 export class SearchComponent{
     private queryString:string;
     private videos: Array<any>;
+    private canciones = [];
+    private isOnList = false;
     private currentSound: any = {
       id: ''
     };
@@ -73,7 +84,31 @@ export class SearchComponent{
           this.queryString = params['query'];
           this.search();
         }
-      }) 
+      })
+      
+    }
+    
+addToList(cancion: any){
+    if(!cancion.isOnList){
+
+      cancion.isOnList = !this.isOnList;
+      this.canciones.push(cancion);
+
+    }else{
+      
+      for( var i=this.canciones.length-1; i>=0; i--) {
+        if( this.canciones[i].id == cancion.id){
+          cancion.isOnList = this.isOnList;
+          this.canciones.splice(i,1);
+        }
+      }
+    }
+  }
+    
+    handleKeyup(e){
+      if( e.keyCode == 13){
+        this.search();
+      }  
     }
     
    search(): void{

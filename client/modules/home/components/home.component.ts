@@ -14,7 +14,7 @@ import { Router } from '@angular/router'
           <div class="input-group input-group-lg">
             <input class="form-control" (keyup)="handleKeyup($event)" placeholder="Search music on youtube" name="queryString" [(ngModel)]="queryString" aria-describedby="sizing-addon1"> 
             <span class="input-group-btn">
-              <button class="btn btn-default search-button" type="button" (click)="search()">Go!</button>
+              <i class="btn btn-default fa fa-search search-button" type="button" (click)="search()"></i>
             </span>
           </div>
         </form>

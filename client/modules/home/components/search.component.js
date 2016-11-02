@@ -16,6 +16,8 @@ var SearchComponent = (function () {
         var _this = this;
         this.playerService = playerService;
         this.router = router;
+        this.canciones = [];
+        this.isOnList = false;
         this.currentSound = {
             id: ''
         };
@@ -28,6 +30,25 @@ var SearchComponent = (function () {
             }
         });
     }
+    SearchComponent.prototype.addToList = function (cancion) {
+        if (!cancion.isOnList) {
+            cancion.isOnList = !this.isOnList;
+            this.canciones.push(cancion);
+        }
+        else {
+            for (var i = this.canciones.length - 1; i >= 0; i--) {
+                if (this.canciones[i].id == cancion.id) {
+                    cancion.isOnList = this.isOnList;
+                    this.canciones.splice(i, 1);
+                }
+            }
+        }
+    };
+    SearchComponent.prototype.handleKeyup = function (e) {
+        if (e.keyCode == 13) {
+            this.search();
+        }
+    };
     SearchComponent.prototype.search = function () {
         var _this = this;
         if (this.queryString.length <= 0) {
@@ -48,13 +69,9 @@ var SearchComponent = (function () {
     };
     SearchComponent = __decorate([
         core_1.Component({
-<<<<<<< HEAD:client/modules/home/search.component.js
-            styles: ["\n    .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n      \n      .playing{\n        content:url(\"assest/images/equalizer.gif\");\n        height: 10%;\n        width: 10%;\n      }\n      \n      .video{\n        color: #333333;\n      }\n\n    #thumbnail{\n            border-radius: 5px;\n        }\n    "],
-            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <button class=\"btn btn-default search-button\" type=\"button\" (click)=\"search()\">Go!</button>\n            </span>\n          </div>\n        </form>\n        \n  <div class=\"list-group\">\n    <div class=\"video list-group-item\" *ngFor=\"let video of videos\" (click)=\"play(video)\">\n      <div class=\"media-left\">\n        <span>\n          <img id=\"thumbnail\" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n        </span>\n      </div>\n      <div class=\"media-body text-left\">\n        <h4 id=\"title\" class=\"media-heading\">{{ video.title }}\n        <img class=\"glyphicon pull-right\" *ngIf=\"video.id == currentSound.id\" [ngClass]=\"{ 'playing': video.id == currentSound.id }\">\n        </h4>\n        <span id=\"channel\">{{ video.channel }}</span>\n        \n        <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n      </div>\n    </div>\n  </div>\n        \n      </div>",
-=======
-            styles: ["\n    .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n      \n      .playing{\n        content:url(\"http://rs339.pbsrc.com/albums/n442/mcrmy_derick/equalizer.gif~c200\");\n        height: 10%;\n        width: 10%;\n      }\n      \n      .video{\n        color: #333333;\n      }\n\n    .media-object{\n            border-radius: 5px !important;\n        }\n    "],
-            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <button class=\"btn btn-default search-button\" type=\"button\" (click)=\"search()\">Go!</button>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <div class=\"video list-group-item\" *ngFor=\"let video of videos\" (click)=\"play(video)\">\n            <div class=\"media-left\">\n              <span>\n                <img id=\"\n                \" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n              </span>\n            </div>\n            <div class=\"media-body text-left\">\n              <h4 id=\"title\" class=\"media-heading\">{{ video.title }}\n              <img class=\"glyphicon pull-right\" *ngIf=\"video.id == currentSound.id\" [ngClass]=\"{ 'playing': video.id == currentSound.id }\">\n              </h4>\n              <span id=\"channel\">{{ video.channel }}</span>\n              \n              <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n            </div>\n          </div>\n        </div>\n      </div>",
->>>>>>> origin:client/modules/home/components/search.component.js
+            selector: 'search',
+            styles: ["\n    .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n      \n      .playing{\n        content:url(\"assest/images/equalizer.gif\");\n        height: 10%;\n        width: 10%;\n      }\n      \n      .video{\n        color: #333333;\n      }\n\n    .media-object{\n            border-radius: 5px !important;\n        }\n    "],
+            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <i class=\"fa fa-search btn btn-default search-button\" type=\"button\" (click)=\"search()\"></i>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <div class=\"video list-group-item\" *ngFor=\"let video of videos\">\n            <div class=\"media-left\">\n              <span>\n                <img id=\"\n                \" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n              </span>\n            </div>\n            <div class=\"media-body text-left\">\n              <div class=\"media-heading\">\n                <h4 id=\"title\" >{{ video.title }}<i class=\"fa fa-plus pull-right\"\n                [ngClass]=\"{ 'fa-minus': video.isOnList, 'fa-plus': !video.isOnList }\" (click)=\"addToList(video)\"></i>\n                <img class=\"glyphicon pull-right\" *ngIf=\"video.id == currentSound.id\" [ngClass]=\"{ 'playing': video.id == currentSound.id }\">\n                </h4>\n              </div>\n              <span (click)=\"play(video)\" id=\"channel\">{{ video.channel }}</span>\n              <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n              \n            </div>\n          </div>\n        </div>\n        <div *ngFor=\"let cancion of canciones; let i = index\">\n        <ul>\n          <li>{{ i }} - {{ cancion.isOnList }} - {{cancion.title}}</li>\n        </ul>\n        </div>\n      </div>",
             providers: [player_service_1.PlayerService]
         }), 
         __metadata('design:paramtypes', [player_service_1.PlayerService, router_1.ActivatedRoute])

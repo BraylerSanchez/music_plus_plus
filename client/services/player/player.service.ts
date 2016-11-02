@@ -17,6 +17,7 @@ export class PlayerService{
     public currentSound: any;
     public currentVideo: Sound;
     public isPlaying: boolean;
+    public isOnList: boolean;
     private apiPart: string;
     private maxResults = 20;
     private apiKey: string;
@@ -33,6 +34,7 @@ export class PlayerService{
         private http: Http
     ){
         this.isPlaying = false;
+        this.isOnList =false;
         this.apiPart = 'snippet';
         this.apiKey = 'AIzaSyDsnjiL2Wexp-DgCKMMQF7VyL2xzZLMFaY';
         

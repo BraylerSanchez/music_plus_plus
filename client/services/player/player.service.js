@@ -23,6 +23,7 @@ var PlayerService = (function () {
         this.http = http;
         this.maxResults = 20;
         this.isPlaying = false;
+        this.isOnList = false;
         this.apiPart = 'snippet';
         this.apiKey = 'AIzaSyDsnjiL2Wexp-DgCKMMQF7VyL2xzZLMFaY';
         this.playSound = new Observable_1.Observable(function (observable) {
