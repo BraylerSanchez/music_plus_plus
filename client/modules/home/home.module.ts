@@ -7,14 +7,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { routing } from './home.routes';
 
 import { HomeComponent } from './components/home.component';
-import { SearchComponent } from './components/search.component'
+import { SearchComponent } from './components/search.component';
 
 @NgModule({
     imports: [
         HttpModule,
         BrowserModule,
         FormsModule,
-        CommonModule, 
+        CommonModule,
         routing],
     declarations: [HomeComponent, SearchComponent],
     bootstrap: [HomeComponent]

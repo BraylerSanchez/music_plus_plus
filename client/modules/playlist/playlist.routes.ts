@@ -1,6 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
-import { PlayListComponent } from './list.component';
-import { CreateListComponent } from './create.component';
+import { PlayListComponent } from './components/list.component';
+import { CreateListComponent } from './components/create.component';
+
 
 export const routes: Routes = [
     {

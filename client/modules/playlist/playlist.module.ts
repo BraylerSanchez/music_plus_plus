@@ -5,8 +5,9 @@ import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { routing } from './playlist.routes';
-import { PlayListComponent } from './list.component';
-import { CreateListComponent } from './create.component';
+import { PlayListComponent } from './components/list.component';
+import { CreateListComponent } from './components/create.component';
+import { PlayListDetailComponent } from './components/playlistdetail.component';
 
 @NgModule({
     imports: [
@@ -19,7 +20,9 @@ import { CreateListComponent } from './create.component';
     ],
     declarations: [
         PlayListComponent,
-        CreateListComponent
+        CreateListComponent,
+        PlayListDetailComponent,
+        
     ],
     bootstrap: [
         PlayListComponent

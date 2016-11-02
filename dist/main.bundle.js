@@ -4871,6 +4871,7 @@ webpackJsonp([0],{
 	    };
 	    SearchComponent = __decorate([
 	        core_1.Component({
+	            selector: 'search',
 	            styles: ["\n    .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n      \n      .playing{\n        content:url(\"http://rs339.pbsrc.com/albums/n442/mcrmy_derick/equalizer.gif~c200\");\n        height: 10%;\n        width: 10%;\n      }\n      \n      .video{\n        color: #333333;\n      }\n\n    .media-object{\n            border-radius: 5px !important;\n        }\n    "],
 	            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <button class=\"btn btn-default search-button\" type=\"button\" (click)=\"search()\">Go!</button>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <div class=\"video list-group-item\" *ngFor=\"let video of videos\" (click)=\"play(video)\">\n            <div class=\"media-left\">\n              <span>\n                <img id=\"\n                \" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n              </span>\n            </div>\n            <div class=\"media-body text-left\">\n              <h4 id=\"title\" class=\"media-heading\">{{ video.title }}\n              <img class=\"glyphicon pull-right\" *ngIf=\"video.id == currentSound.id\" [ngClass]=\"{ 'playing': video.id == currentSound.id }\">\n              </h4>\n              <span id=\"channel\">{{ video.channel }}</span>\n              \n              <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n            </div>\n          </div>\n        </div>\n      </div>",
 	            providers: [player_service_1.PlayerService]
@@ -4905,6 +4906,7 @@ webpackJsonp([0],{
 	var playlist_routes_1 = __webpack_require__(70);
 	var list_component_1 = __webpack_require__(71);
 	var create_component_1 = __webpack_require__(72);
+	var playlistdetail_component_1 = __webpack_require__(73);
 	var PlaylistModule = (function () {
 	    function PlaylistModule() {
 	    }
@@ -4920,7 +4922,8 @@ webpackJsonp([0],{
 	            ],
 	            declarations: [
 	                list_component_1.PlayListComponent,
-	                create_component_1.CreateListComponent
+	                create_component_1.CreateListComponent,
+	                playlistdetail_component_1.PlayListDetailComponent,
 	            ],
 	            bootstrap: [
 	                list_component_1.PlayListComponent
@@ -5009,30 +5012,82 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
-	var forms_1 = __webpack_require__(64);
+	var router_1 = __webpack_require__(32);
+	var search_component_1 = __webpack_require__(68);
+	var playlistdetail_component_1 = __webpack_require__(73);
 	var CreateListComponent = (function () {
-	    function CreateListComponent(fb) {
-	        this.createListForm = fb.group({
-	            'name': ["Please enter a name", forms_1.Validators.required],
-	            'description': ["Please enter a description", forms_1.Validators.required]
-	        });
+	    function CreateListComponent(router) {
+	        this.router = router;
+	        this.step = "step1";
 	    }
-	    CreateListComponent.prototype.doCreateList = function () {
-	        console.log(this.createListForm.value);
-	        event.preventDefault();
+	    CreateListComponent.prototype.toSelectSong = function () {
+	        this.router.navigate(['/search']);
 	    };
+	    __decorate([
+	        core_1.ViewChild(search_component_1.SearchComponent), 
+	        __metadata('design:type', search_component_1.SearchComponent)
+	    ], CreateListComponent.prototype, "searchComponent", void 0);
+	    __decorate([
+	        core_1.ViewChild(playlistdetail_component_1.PlayListDetailComponent), 
+	        __metadata('design:type', playlistdetail_component_1.PlayListDetailComponent)
+	    ], CreateListComponent.prototype, "playlistdetailComponent", void 0);
 	    CreateListComponent = __decorate([
 	        core_1.Component({
 	            selector: 'playlistcreate',
-	            styles: ["\n        .label {\n            text-align: left;\n        }\n    \n    "
+	            styles: ["\n    \n    "
 	            ],
-	            template: " \n        <h1>Create list</h1>\n        <div class=\"col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2\">\n          \n        </div>\n    "
+	            styleUrls: ['modules/playlist/components/wizardtemplate.css'],
+	            template: " \n        <h3>Playlist create wizard</h3>\n        <div class=\"container col-sm-12\">\n        \t<div class=\"row\">\n        \t\t<section>\n                <div class=\"wizard\">\n                    <div class=\"wizard-inner\">\n                        <div class=\"connecting-line\"></div>\n                        <ul class=\"nav nav-tabs\" role=\"tablist\">\n                            <li role=\"presentation\" [ngClass]=\"{'active': step=='step1'}\">\n                                <a (click)=\"step='step1'\" role=\"tab\" title=\"Creat list detail\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-pencil\"></i>    \n                                    </span>\n                                </a>\n                            </li>\n        \n                            <li role=\"presentation\" class=\"disabled\">\n                                <a data-toogle=\"tab\" aria-controls=\"step2\" title=\"Select songs\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-folder-open\"></i>\n                                    </span>\n                                </a>\n                            </li>\n                            \n                            <li role=\"presentation\" class=\"disabled\">\n                                <a href=\"#complete\" data-toggle=\"tab\" aria-controls=\"complete\" role=\"tab\" title=\"Complete\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-ok\"></i>\n                                    </span>\n                                </a>\n                            </li>\n                            \n                        </ul>\n                    </div>\n                    \n                    <form role=\"form\">\n                        <div class=\"tab-content\">\n                            <div class=\"tab-pane active\" role=\"tabpanel\" id=\"step1\">\n                                <playlistdetail></playlistdetail>\n                            </div>\n                            <div class=\"tab-pane\" role=\"tabpanel\" id=\"step2\">\n                                \n                            </div>\n                            \n                            <div class=\"tab-pane\" role=\"tabpanel\" id=\"complete\">\n                                <h3>Complete</h3>\n                                <p>You have successfully completed all steps.</p>\n                            </div>\n                            <div class=\"clearfix\"></div>\n                        </div>\n                    </form>\n                </div>  \n                </section>    \n            </div>        \n        </div>\n    \n    \n    "
 	        }), 
-	        __metadata('design:paramtypes', [forms_1.FormBuilder])
+	        __metadata('design:paramtypes', [router_1.Router])
 	    ], CreateListComponent);
 	    return CreateListComponent;
 	}());
 	exports.CreateListComponent = CreateListComponent;
+
+
+/***/ },
+
+/***/ 73:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(4);
+	var forms_1 = __webpack_require__(64);
+	var router_1 = __webpack_require__(32);
+	var PlayListDetailComponent = (function () {
+	    function PlayListDetailComponent(fb, router) {
+	        this.router = router;
+	        this.createListForm = fb.group({
+	            'name': ["Please enter a name", forms_1.Validators.required],
+	            'description': ["Please enter a description", forms_1.Validators.required]
+	        });
+	        this.queryString = "";
+	    }
+	    PlayListDetailComponent.prototype.toSelectSong = function () {
+	        this.router.navigate(['/search']);
+	    };
+	    PlayListDetailComponent = __decorate([
+	        core_1.Component({
+	            selector: 'playlistdetail',
+	            styles: ["\n        .label {\n            text-align: left;\n        }\n    \n    "
+	            ],
+	            template: " \n        <div class=\"container\">\n          <form class=\"form-horizontal\" [formGroup]=\"createListForm\" (click)=\"toSelectSong()\">\n            <div class=\"form-group\">\n                <div class=\"col-sm-5 col-sm-offset-2\">\n                    <label class=\"control-label col-sm-1\">Name:</label>\n                    <input class=\"form-control\" ngControl=\"name\" id=\"name\" type=\"text\" placeholder=\"Enter name\" required/>\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <div class=\"col-sm-5 col-sm-offset-2\">\n                    <label class=\"control-label col-sm-1\">Description:</label>\n                    <input class=\"form-control\" ngControl=\"description\" id=\"description\" type=\"text\" placeholder=\"Enter description\" required/>\n                </div>\n            </div>\n            <div class=\"form-group col-sm-9\">\n                <button class=\"btn btn-success\" type=\"button\">Create</button>\n                <button class=\"btn btn-default\" type=\"button\">Cancel</button>\n            </div>\n          </form>\n        </div>\n    "
+	        }), 
+	        __metadata('design:paramtypes', [forms_1.FormBuilder, router_1.Router])
+	    ], PlayListDetailComponent);
+	    return PlayListDetailComponent;
+	}());
+	exports.PlayListDetailComponent = PlayListDetailComponent;
 
 
 /***/ }

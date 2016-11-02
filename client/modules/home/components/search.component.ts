@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router'
 import { PlayerService } from '../../../services/player/player.service';
 
 @Component({
+    selector: 'search',
     styles: 
     [`
     .home .search-button{

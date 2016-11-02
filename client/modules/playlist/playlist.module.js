@@ -14,8 +14,9 @@ var forms_1 = require('@angular/forms');
 var http_1 = require('@angular/http');
 var platform_browser_1 = require('@angular/platform-browser');
 var playlist_routes_1 = require('./playlist.routes');
-var list_component_1 = require('./list.component');
-var create_component_1 = require('./create.component');
+var list_component_1 = require('./components/list.component');
+var create_component_1 = require('./components/create.component');
+var playlistdetail_component_1 = require('./components/playlistdetail.component');
 var PlaylistModule = (function () {
     function PlaylistModule() {
     }
@@ -31,7 +32,8 @@ var PlaylistModule = (function () {
             ],
             declarations: [
                 list_component_1.PlayListComponent,
-                create_component_1.CreateListComponent
+                create_component_1.CreateListComponent,
+                playlistdetail_component_1.PlayListDetailComponent,
             ],
             bootstrap: [
                 list_component_1.PlayListComponent
