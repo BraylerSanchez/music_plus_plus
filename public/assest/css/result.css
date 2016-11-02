@@ -1,0 +1,8 @@
+.videoItem{
+    span{
+            color: #ccc;
+        }
+    img{
+            border-radius: 5px;
+        }
+}

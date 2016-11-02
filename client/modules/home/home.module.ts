@@ -6,8 +6,8 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { routing } from './home.routes';
 
-import { HomeComponent } from './home.component';
-import { SearchComponent } from './search.component'
+import { HomeComponent } from './components/home.component';
+import { SearchComponent } from './components/search.component'
 
 @NgModule({
     imports: [
