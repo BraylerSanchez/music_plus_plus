@@ -66,7 +66,7 @@ export class PlayerService{
     
     onStopMusic():Observable<any>{
         this.currentSound.stop();
-        
+        this.isPlaying = false;
         window.setTimeout( () =>{
             this.stopSoundObserbable.next(this.currentVideo);
         }, 0);
@@ -79,8 +79,9 @@ export class PlayerService{
             if( this.currentSound != undefined && video.id == this.currentVideo.id){
                 this.currentSound.start();
             }else{
-                
+                if(this.currentSound ){
                 this.currentSound.stop();
+                }
                 var request = new XMLHttpRequest();
                 request.open("GET", `/api/stream/play/${video.id}`, true); 
                 request.responseType = "arraybuffer"; 
@@ -92,6 +93,7 @@ export class PlayerService{
                         this.currentSound.connect(this.audioContext.destination); 
                         this.currentSound.start(this.audioContext.currentTime);
                         this.currentVideo = video;
+                        this.isPlaying = true;
                         this.playSoundObserbable.next( video )
                     })
                 };

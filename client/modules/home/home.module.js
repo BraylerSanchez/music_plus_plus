@@ -14,8 +14,8 @@ var forms_1 = require('@angular/forms');
 var http_1 = require('@angular/http');
 var platform_browser_1 = require('@angular/platform-browser');
 var home_routes_1 = require('./home.routes');
-var home_component_1 = require('./home.component');
-var search_component_1 = require('./search.component');
+var home_component_1 = require('./components/home.component');
+var search_component_1 = require('./components/search.component');
 var HomeModule = (function () {
     function HomeModule() {
     }

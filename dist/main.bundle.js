@@ -200,6 +200,7 @@ webpackJsonp([0],{
 	    PlayerService.prototype.onStopMusic = function () {
 	        var _this = this;
 	        this.currentSound.stop();
+	        this.isPlaying = false;
 	        window.setTimeout(function () {
 	            _this.stopSoundObserbable.next(_this.currentVideo);
 	        }, 0);
@@ -212,7 +213,9 @@ webpackJsonp([0],{
 	                this.currentSound.start();
 	            }
 	            else {
-	                this.currentSound.stop();
+	                if (this.currentSound) {
+	                    this.currentSound.stop();
+	                }
 	                var request = new XMLHttpRequest();
 	                request.open("GET", "/api/stream/play/" + video.id, true);
 	                request.responseType = "arraybuffer";
@@ -223,6 +226,7 @@ webpackJsonp([0],{
 	                        _this.currentSound.connect(_this.audioContext.destination);
 	                        _this.currentSound.start(_this.audioContext.currentTime);
 	                        _this.currentVideo = video;
+	                        _this.isPlaying = true;
 	                        _this.playSoundObserbable.next(video);
 	                    });
 	                };
@@ -4828,19 +4832,50 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
+	var router_1 = __webpack_require__(32);
+	var player_service_1 = __webpack_require__(27);
 	var SearchComponent = (function () {
-	    function SearchComponent() {
-	        this.maxResults = 20;
-	        this.queryString = '';
+	    function SearchComponent(playerService, router) {
+	        var _this = this;
+	        this.playerService = playerService;
+	        this.router = router;
+	        this.currentSound = {
+	            id: ''
+	        };
 	        this.queryString = '';
 	        this.videos = [];
+	        this.router.params.subscribe(function (params) {
+	            if (params['query'] != '0') {
+	                _this.queryString = params['query'];
+	                _this.search();
+	            }
+	        });
 	    }
+	    SearchComponent.prototype.search = function () {
+	        var _this = this;
+	        if (this.queryString.length <= 0) {
+	            alert('Insert text to search.');
+	            return;
+	        }
+	        this.playerService.search(this.queryString)
+	            .subscribe(function (videos) {
+	            _this.videos = videos;
+	        });
+	    };
+	    SearchComponent.prototype.play = function (video) {
+	        var _this = this;
+	        this.playerService.onPlayMusic(video)
+	            .subscribe(function (sound) {
+	            _this.currentSound = sound;
+	        });
+	    };
 	    SearchComponent = __decorate([
 	        core_1.Component({
-	            styles: ["\n      .home .search-text{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n    "],
-	            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <button class=\"btn btn-default search-button\" type=\"button\" (click)=\"search()\">Go!</button>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <a *ngFor=\"let video of videos\" class=\"list-group-item\" >{{video.snippet.title}}\n            <i (click)=\"play(video)\" class=\"glyphicon glyphicon-play pull-right\"></i>\n          </a>\n        </div>\n      </div>"
+	            styles: ["\n    .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n      \n      .playing{\n        content:url(\"http://rs339.pbsrc.com/albums/n442/mcrmy_derick/equalizer.gif~c200\");\n        height: 10%;\n        width: 10%;\n      }\n      \n      .video{\n        color: #333333;\n      }\n\n    .media-object{\n            border-radius: 5px !important;\n        }\n    "],
+	            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <button class=\"btn btn-default search-button\" type=\"button\" (click)=\"search()\">Go!</button>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <div class=\"video list-group-item\" *ngFor=\"let video of videos\" (click)=\"play(video)\">\n            <div class=\"media-left\">\n              <span>\n                <img id=\"\n                \" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n              </span>\n            </div>\n            <div class=\"media-body text-left\">\n              <h4 id=\"title\" class=\"media-heading\">{{ video.title }}\n              <img class=\"glyphicon pull-right\" *ngIf=\"video.id == currentSound.id\" [ngClass]=\"{ 'playing': video.id == currentSound.id }\">\n              </h4>\n              <span id=\"channel\">{{ video.channel }}</span>\n              \n              <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n            </div>\n          </div>\n        </div>\n      </div>",
+	            providers: [player_service_1.PlayerService]
 	        }), 
-	        __metadata('design:paramtypes', [])
+	        __metadata('design:paramtypes', [player_service_1.PlayerService, router_1.ActivatedRoute])
 	    ], SearchComponent);
 	    return SearchComponent;
 	}());
