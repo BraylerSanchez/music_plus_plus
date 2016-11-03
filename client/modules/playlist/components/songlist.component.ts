@@ -8,8 +8,8 @@ import { onAddSoundToPlaylist, onRemoveSoundToPlaylist } from '../../home/compon
 @Component({
     selector: 'songlist',
     styles: [`
-        div.cover {
-            margin-top: 0;
+        .video{
+            color: #333333;
         }
     `],
     template: `
@@ -28,14 +28,10 @@ import { onAddSoundToPlaylist, onRemoveSoundToPlaylist } from '../../home/compon
                 </div>
                 <div class="media-body text-left">
                     <div class="media-heading">
-                        <h4 class="title" (click)="play(video)" >
+                        <h4 class="title">
                             {{ video.title }} 
-                            <small>
-                                click to play <i class="fa fa-play"></i>
-                            </small>
                             <i *ngIf="!isAdded(video)" class="fa fa-plus pull-right" (click)="addFromPlaylist($event, video)"></i>
                             <i *ngIf="isAdded(video)" class="fa fa-minus pull-right" (click)="removeFromPlaylist($event, video)"></i>
-                            <img class="glyphicon pull-right" *ngIf="video.id == currentSound.id" [ngClass]="{ 'playing': video.id == currentSound.id }">
                         </h4>
                     </div>
                     <span  id="channel">{{ video.channel }}</span>
@@ -48,11 +44,11 @@ import { onAddSoundToPlaylist, onRemoveSoundToPlaylist } from '../../home/compon
 
 export class SongListComponent{
     @Input()
-    private playlist: IPlayList;
+    playlist: IPlayList;
     
     constructor(){
         onAddSoundToPlaylist.subscribe((result) => {
-            this.playlist.sounds.push(result.sound)
+            //this.playlist.sounds.push(result.sound)
         })
         
         onRemoveSoundToPlaylist.subscribe((result) => {
@@ -62,5 +58,22 @@ export class SongListComponent{
             }
           }
         })
+    }
+    
+    addFromPlaylist(e, sound: Sound){
+      this.playlist.sounds.push(sound);
+    }
+    
+    removeFromPlaylist(e,  sound: Sound){
+      for( var i = this.playlist.sounds.length-1; i>=0; i--) {
+        if( this.playlist.sounds[i].id == sound.id){
+          this.playlist.sounds.splice(i,1);
+        }
+      }
+    }
+    isAdded(video){
+      return this.playlist.sounds.some( (sound)=>{
+        return sound.id == video.id
+      })
     }
 }

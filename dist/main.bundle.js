@@ -4865,7 +4865,6 @@ webpackJsonp([0],{
 	var core_1 = __webpack_require__(4);
 	var router_1 = __webpack_require__(37);
 	var player_service_1 = __webpack_require__(27);
-	var playlist_interface_1 = __webpack_require__(679);
 	var Observable_1 = __webpack_require__(6);
 	__webpack_require__(29);
 	__webpack_require__(31);
@@ -4883,10 +4882,10 @@ webpackJsonp([0],{
 	        this.playerService = playerService;
 	        this.router = router;
 	        this.ngZone = ngZone;
-	        this.onAddSound = new EventEmitter();
 	        this.currentSound = {
 	            id: ''
 	        };
+	        this.playlist = this.playlist || { name: '', description: '', sounds: [], createAt: new Date(), userAt: '', updateAt: new Date() };
 	        this.queryString = '';
 	        this.videos = [];
 	        this.router.params.subscribe(function (params) {
@@ -4953,27 +4952,18 @@ webpackJsonp([0],{
 	    };
 	    __decorate([
 	        core_1.Input(), 
-	        __metadata('design:type', (typeof (_a = typeof playlist_interface_1.IPlaylist !== 'undefined' && playlist_interface_1.IPlaylist) === 'function' && _a) || Object)
-	    ], SearchComponent.prototype, "playlist", void 0);
-	    __decorate([
-	        Output(), 
 	        __metadata('design:type', Object)
-	    ], SearchComponent.prototype, "onAddSound", void 0);
+	    ], SearchComponent.prototype, "playlist", void 0);
 	    SearchComponent = __decorate([
 	        core_1.Component({
 	            selector: 'search',
 	            styles: ["\n      .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n      \n      .playing{\n        content:url(\"assest/images/equalizer.gif\");\n        height: 10%;\n        width: 10%;\n      }\n      \n      .video{\n        color: #333333;\n      }\n\n      .media-object{\n          border-radius: 5px !important;\n      }\n      .media-heading .title{\n        cursor: pointer;\n      }\n      .media-heading .title small{\n        display: none;\n      }\n      .media-heading:hover .title small{\n        display: inline-block;\n      }\n    "],
-<<<<<<< HEAD
-	            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <i class=\"fa fa-search btn btn-default search-button\" type=\"button\" (click)=\"search()\"></i>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <div class=\"video list-group-item\" *ngFor=\"let video of videos\">\n            <div class=\"media-left\">\n              <span>\n                <img id=\"\n                \" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n              </span>\n            </div>\n            <div class=\"media-body text-left\">\n              <div class=\"media-heading\">\n                <h4 class=\"title\" (click)=\"play(video)\" >\n                {{ video.title }} \n                <small >\n                  click to play <i class=\"fa fa-play\"></i>\n                </small>\n                <i *ngIf=\"!isAdded(video)\" class=\"fa fa-plus pull-right\" (click)=\"addFromPlaylist($event, video)\"></i>\n                <i *ngIf=\"isAdded(video)\" class=\"fa fa-minus pull-right\" (click)=\"removeFromPlaylist($event, video)\"></i>\n                <img class=\"glyphicon pull-right\" *ngIf=\"video.id == currentSound.id\" [ngClass]=\"{ 'playing': video.id == currentSound.id }\">\n                </h4>\n              </div>\n              <span  id=\"channel\">{{ video.channel }}</span>\n              <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n              \n            </div>\n          </div>\n        </div>\n        <div *ngFor=\"let cancion of canciones; let i = index\">\n        <ul>\n          <li>{{ i }} - {{ cancion.isOnList }} - {{cancion.title}}</li>\n        </ul>\n        </div>\n      </div>",
-=======
 	            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <i class=\"fa fa-search btn btn-default search-button\" type=\"button\" (click)=\"search()\"></i>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <div class=\"video list-group-item\" *ngFor=\"let video of videos\">\n            <div class=\"media-left\">\n              <span>\n                <img id=\"\n                \" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n              </span>\n            </div>\n            <div class=\"media-body text-left\">\n              <div class=\"media-heading\">\n                <h4 class=\"title\" (click)=\"play(video)\" >\n                {{ video.title }} \n                <small >\n                  click to play <i class=\"fa fa-play\"></i>\n                </small>\n                <i *ngIf=\"!isAdded(video)\" class=\"fa fa-plus pull-right\" (click)=\"addFromPlaylist($event, video)\"></i>\n                <i *ngIf=\"isAdded(video)\" class=\"fa fa-minus pull-right\" (click)=\"removeFromPlaylist($event, video)\"></i>\n                <img class=\"glyphicon pull-right\" *ngIf=\"video.id == currentSound.id\" [ngClass]=\"{ 'playing': video.id == currentSound.id }\">\n                </h4>\n              </div>\n              <span  id=\"channel\">{{ video.channel }}</span>\n              <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n              \n            </div>\n          </div>\n        </div>\n      </div>",
->>>>>>> e1be92407307a003a1213884e35c76b17dbe006f
 	            providers: [player_service_1.PlayerService]
 	        }), 
 	        __metadata('design:paramtypes', [player_service_1.PlayerService, router_1.ActivatedRoute, core_1.NgZone])
 	    ], SearchComponent);
 	    return SearchComponent;
-	    var _a;
 	}());
 	exports.SearchComponent = SearchComponent;
 
@@ -5002,10 +4992,7 @@ webpackJsonp([0],{
 	var list_component_1 = __webpack_require__(76);
 	var create_component_1 = __webpack_require__(77);
 	var playlistdetail_component_1 = __webpack_require__(78);
-<<<<<<< HEAD
-	var songlist_component_1 = __webpack_require__(679);
-=======
->>>>>>> e1be92407307a003a1213884e35c76b17dbe006f
+	var songlist_component_1 = __webpack_require__(79);
 	var home_module_1 = __webpack_require__(68);
 	var PlaylistModule = (function () {
 	    function PlaylistModule() {
@@ -5117,11 +5104,8 @@ webpackJsonp([0],{
 	var router_1 = __webpack_require__(37);
 	var search_component_1 = __webpack_require__(73);
 	var playlistdetail_component_1 = __webpack_require__(78);
-<<<<<<< HEAD
-	var songlist_component_1 = __webpack_require__(679);
-=======
->>>>>>> e1be92407307a003a1213884e35c76b17dbe006f
-	var playlist_service_1 = __webpack_require__(79);
+	var songlist_component_1 = __webpack_require__(79);
+	var playlist_service_1 = __webpack_require__(80);
 	var CreateListComponent = (function () {
 	    function CreateListComponent(router, routerParams, playlistService) {
 	        var _this = this;
@@ -5129,6 +5113,7 @@ webpackJsonp([0],{
 	        this.routerParams = routerParams;
 	        this.playlistService = playlistService;
 	        this.step = 1;
+	        this.playlist = { name: '', description: '', sounds: [] };
 	        this.routerParams.params.subscribe(function (params) {
 	            var id = params['_id'];
 	            _this.playlistService.get(id).subscribe(function (result) {
@@ -5162,7 +5147,7 @@ webpackJsonp([0],{
 	            styles: ["\n        search div.cover {\n            margin-top: 0px !important;\n        }\n    "
 	            ],
 	            styleUrls: ['modules/playlist/components/wizardtemplate.css'],
-	            template: " \n        <h3>Playlist create wizard</h3>\n        <div class=\"container col-sm-12\">\n        \t<div class=\"row\">\n        \t\t<section>\n                <div class=\"wizard\">\n                    <div class=\"wizard-inner\">\n                        <div class=\"connecting-line\"></div>\n                        <ul class=\"nav nav-tabs\" role=\"tablist\">\n                            <li role=\"presentation\" [ngClass]=\"{'active': step == 1, 'disabled': step > 1}\">\n                                <a role=\"tab\" title=\"Creat list detail\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-pencil\"></i>    \n                                    </span>\n                                </a>\n                            </li>\n        \n                            <li role=\"presentation\" class=\"\" [ngClass]=\"{'active': step == 2, 'disabled': step < 2}\">\n                                <a data-toogle=\"tab\" title=\"Select songs\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-folder-open\"></i>\n                                    </span>\n                                </a>\n                            </li>\n                            \n                            <li role=\"presentation\" [ngClass]=\"{'active': step=='3', 'disabled': step < 3}\">\n                                <a  title=\"Complete\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-ok\"></i>\n                                    </span>\n                                </a>\n                            </li>\n                            \n                        </ul>\n                    </div>\n                    \n                    <form role=\"form\">\n                        <div class=\"tab-content\">\n                            <div class=\"tab-pane active\" role=\"tabpanel\" [ngClass]=\"{'active': step==1}\">\n                                <playlistdetail \n                                (onSave)=\"step1Save($event)\"\n                                [playlist]=\"playlist\"\n                                ></playlistdetail>\n                            </div>\n                            <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step==2}\">\n                                <div class=\"col-sm-6\">\n                                    <h3>Play list:</h3>\n                                    <songlist></songlist>\n                                </div>\n                                <div class=\"col-sm-6\">\n                                    <h3>Search songs:</h3>\n                                    <search></search>\n                                </div>\n                                \n                            </div>\n                            \n                            <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step==3}\">\n                                <h3>Complete</h3>\n                                <p>You have successfully completed all steps.</p>\n                            </div>\n                            <div class=\"clearfix\"></div>\n                        </div>\n                    </form>\n                </div>  \n                </section>    \n            </div>        \n        </div>\n    \n    \n    ",
+	            template: " \n        <h3>Playlist create wizard</h3>\n        <div class=\"container col-sm-12\">\n        \t<div class=\"row\">\n        \t\t<section>\n                <div class=\"wizard\">\n                    <div class=\"wizard-inner\">\n                        <div class=\"connecting-line\"></div>\n                        <ul class=\"nav nav-tabs\" role=\"tablist\">\n                            <li role=\"presentation\" [ngClass]=\"{'active': step == 1, 'disabled': step > 1}\">\n                                <a role=\"tab\" title=\"Creat list detail\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-pencil\"></i>    \n                                    </span>\n                                </a>\n                            </li>\n        \n                            <li role=\"presentation\" class=\"\" [ngClass]=\"{'active': step == 2, 'disabled': step < 2}\">\n                                <a data-toogle=\"tab\" title=\"Select songs\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-folder-open\"></i>\n                                    </span>\n                                </a>\n                            </li>\n                            \n                            <li role=\"presentation\" [ngClass]=\"{'active': step=='3', 'disabled': step < 3}\">\n                                <a  title=\"Complete\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-ok\"></i>\n                                    </span>\n                                </a>\n                            </li>\n                            \n                        </ul>\n                    </div>\n                    \n                    <form role=\"form\">\n                        <div class=\"tab-content\">\n                            <div class=\"tab-pane active\" role=\"tabpanel\" [ngClass]=\"{'active': step==1}\">\n                                <playlistdetail \n                                (onSave)=\"step1Save($event)\"\n                                [playlist]=\"playlist\"\n                                ></playlistdetail>\n                            </div>\n                            <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step==2}\">\n                                <div class=\"col-sm-6\">\n                                    <h3>Play list:</h3>\n                                    <songlist\n                                        [playlist]=\"playlist\"\n                                    ></songlist>\n                                </div>\n                                <div class=\"col-sm-6\">\n                                    <h3>Search songs:</h3>\n                                    <search\n                                        [playlist]=\"playlist\"\n                                    ></search>\n                                </div>\n                                \n                            </div>\n                            \n                            <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step==3}\">\n                                <h3>Complete</h3>\n                                <p>You have successfully completed all steps.</p>\n                            </div>\n                            <div class=\"clearfix\"></div>\n                        </div>\n                    </form>\n                </div>  \n                </section>    \n            </div>        \n        </div>\n    \n    \n    ",
 	            providers: [playlist_service_1.PlaylistService]
 	        }), 
 	        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, playlist_service_1.PlaylistService])
@@ -5250,6 +5235,70 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
+	var search_component_1 = __webpack_require__(73);
+	var SongListComponent = (function () {
+	    function SongListComponent() {
+	        var _this = this;
+	        search_component_1.onAddSoundToPlaylist.subscribe(function (result) {
+	            //this.playlist.sounds.push(result.sound)
+	        });
+	        search_component_1.onRemoveSoundToPlaylist.subscribe(function (result) {
+	            for (var i = _this.playlist.sounds.length - 1; i >= 0; i--) {
+	                if (_this.playlist.sounds[i].id == result.sound.id) {
+	                    _this.playlist.sounds.splice(i, 1);
+	                }
+	            }
+	        });
+	    }
+	    SongListComponent.prototype.addFromPlaylist = function (e, sound) {
+	        this.playlist.sounds.push(sound);
+	    };
+	    SongListComponent.prototype.removeFromPlaylist = function (e, sound) {
+	        for (var i = this.playlist.sounds.length - 1; i >= 0; i--) {
+	            if (this.playlist.sounds[i].id == sound.id) {
+	                this.playlist.sounds.splice(i, 1);
+	            }
+	        }
+	    };
+	    SongListComponent.prototype.isAdded = function (video) {
+	        return this.playlist.sounds.some(function (sound) {
+	            return sound.id == video.id;
+	        });
+	    };
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', Object)
+	    ], SongListComponent.prototype, "playlist", void 0);
+	    SongListComponent = __decorate([
+	        core_1.Component({
+	            selector: 'songlist',
+	            styles: ["\n        .video{\n            color: #333333;\n        }\n    "],
+	            template: "\n    \n        <div class=\"list-group\">\n            <div *ngIf=\"playlist.sounds.length == 0\">\n                <div class=\"alert alert-info\">\n                    <h4>Not songs added</h4>\n                </div>\n            </div>\n            <div class=\"video list-group-item\" *ngFor=\"let video of playlist.sounds\">\n                <div class=\"media-left\">\n                    <span>\n                        <img id=\"\" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n                    </span>\n                </div>\n                <div class=\"media-body text-left\">\n                    <div class=\"media-heading\">\n                        <h4 class=\"title\">\n                            {{ video.title }} \n                            <i *ngIf=\"!isAdded(video)\" class=\"fa fa-plus pull-right\" (click)=\"addFromPlaylist($event, video)\"></i>\n                            <i *ngIf=\"isAdded(video)\" class=\"fa fa-minus pull-right\" (click)=\"removeFromPlaylist($event, video)\"></i>\n                        </h4>\n                    </div>\n                    <span  id=\"channel\">{{ video.channel }}</span>\n                    <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n                </div>\n            </div>\n        </div>",
+	            providers: []
+	        }), 
+	        __metadata('design:paramtypes', [])
+	    ], SongListComponent);
+	    return SongListComponent;
+	}());
+	exports.SongListComponent = SongListComponent;
+
+
+/***/ },
+
+/***/ 80:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(4);
 	var http_1 = __webpack_require__(28);
 	__webpack_require__(29);
 	var headers = new http_1.ResponseOptions({
@@ -5284,50 +5333,6 @@ webpackJsonp([0],{
 	    return PlaylistService;
 	}());
 	exports.PlaylistService = PlaylistService;
-
-
-/***/ },
-
-/***/ 679:
-<<<<<<< HEAD
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-	    return c > 3 && r && Object.defineProperty(target, key, r), r;
-	};
-	var __metadata = (this && this.__metadata) || function (k, v) {
-	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-	};
-	var core_1 = __webpack_require__(4);
-	var SongListComponent = (function () {
-	    function SongListComponent() {
-	        this.videos = [];
-	    }
-	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', Array)
-	    ], SongListComponent.prototype, "videos", void 0);
-	    SongListComponent = __decorate([
-	        core_1.Component({
-	            selector: 'songlist',
-	            styles: ["\n        div.cover {\n            margin-top: 0;\n        }\n    "],
-	            template: "\n    \n        <div class=\"list-group\">\n            <div *ngIf=\"videos.length == 0\">\n                <div class=\"alert alert-info\">\n                    <h4>Not songs added</h4>\n                </div>\n            </div>\n            <div class=\"video list-group-item\" *ngFor=\"let video of videos\">\n                <div class=\"media-left\">\n                    <span>\n                        <img id=\"\" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n                    </span>\n                </div>\n                <div class=\"media-body text-left\">\n                    <div class=\"media-heading\">\n                        <h4 class=\"title\" (click)=\"play(video)\" >\n                            {{ video.title }} \n                            <small>\n                                click to play <i class=\"fa fa-play\"></i>\n                            </small>\n                            <i *ngIf=\"!isAdded(video)\" class=\"fa fa-plus pull-right\" (click)=\"addFromPlaylist($event, video)\"></i>\n                            <i *ngIf=\"isAdded(video)\" class=\"fa fa-minus pull-right\" (click)=\"removeFromPlaylist($event, video)\"></i>\n                            <img class=\"glyphicon pull-right\" *ngIf=\"video.id == currentSound.id\" [ngClass]=\"{ 'playing': video.id == currentSound.id }\">\n                        </h4>\n                    </div>\n                    <span  id=\"channel\">{{ video.channel }}</span>\n                    <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n                </div>\n            </div>\n        </div>",
-	            providers: []
-	        }), 
-	        __metadata('design:paramtypes', [])
-	    ], SongListComponent);
-	    return SongListComponent;
-	}());
-	exports.SongListComponent = SongListComponent;
-=======
-/***/ function(module, exports) {
-
-	"use strict";
->>>>>>> e1be92407307a003a1213884e35c76b17dbe006f
 
 
 /***/ }

@@ -63,13 +63,14 @@ import { PlaylistService } from '../../../services/playlist/playlist.service';
                                 <div class="col-sm-6">
                                     <h3>Play list:</h3>
                                     <songlist
-                                    
-                                    [playlist]="playlist"
+                                        [playlist]="playlist"
                                     ></songlist>
                                 </div>
                                 <div class="col-sm-6">
                                     <h3>Search songs:</h3>
-                                    <search></search>
+                                    <search
+                                        [playlist]="playlist"
+                                    ></search>
                                 </div>
                                 
                             </div>
@@ -96,7 +97,7 @@ export class CreateListComponent{
     @ViewChild(SearchComponent) searchComponent: SearchComponent;
     @ViewChild(PlayListDetailComponent) playlistdetailComponent: PlayListDetailComponent;
     @ViewChild(SongListComponent) songlistComponent : SongListComponent;
-    private playlist: IPlayList;
+    private playlist = { name: '', description: '', sounds: [] };
     
     constructor(
         private router:Router, 

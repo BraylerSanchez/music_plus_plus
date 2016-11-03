@@ -2,19 +2,19 @@ import { Component, NgZone, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
 import { PlayerService, onPlayMusic, onStopMusic } from '../../../services/player/player.service';
 import { Sound } from '../../../interfaces/player/sound.interface';
-import { IPlaylist } from '../../../interfaces/playlist/playlist.interface';
+import { IPlayList } from '../../../interfaces/playlist/playlist.interface';
 
 import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/share';
 
 var addSoundToPlaylistTrigger: any;
-export const onAddSoundToPlaylist: Observable<Sound> = new Observable( (observable) =>{
+export const onAddSoundToPlaylist: Observable<any> = new Observable( (observable) =>{
   addSoundToPlaylistTrigger = observable;
 }).share();
 
 var removeSoundToPlaylistTrigger: any;
-export const onRemoveSoundToPlaylist: Observable<Sound> = new Observable( (observable) =>{
+export const onRemoveSoundToPlaylist: Observable<any> = new Observable( (observable) =>{
   removeSoundToPlaylistTrigger = observable;
 }).share();
 
@@ -91,7 +91,7 @@ export const onRemoveSoundToPlaylist: Observable<Sound> = new Observable( (obser
 })
 export class SearchComponent{
     @Input()
-    playlist: IPlaylist;
+    playlist: IPlayList;
     
     private queryString:string;
     private videos: Array<Sound>;
@@ -104,6 +104,7 @@ export class SearchComponent{
       private router: ActivatedRoute,
       private ngZone: NgZone
     ){
+      this.playlist = this.playlist || { name:'', description:'', sounds: [], createAt: new Date(), userAt: '', updateAt: new Date()}
       this.queryString = '';
       this.videos = [];
       this.router.params.subscribe( (params) =>{
