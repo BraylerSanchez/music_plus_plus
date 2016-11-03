@@ -14,29 +14,30 @@ declare var window: any;
             left: 0;
             width: 100%;
             background-color: #fff;
-            border-top: solid 1px #f3f3f3;
+            border-top: solid 1px #c7c7c7;
             box-shadow: 0px 0px 4px 1px;
             height: 48px;
             padding-top: 10px;
         }
         .player .progress{
             margin-top: 5px;
+            position: relative;
         }
         .player .progress .progress-bar{
             background-color: #333;
         }
-        .player .progress .sr-only{
-            color: white;
-            z-index: 1000;
-            position: relative;
-            text-shadow: 0px 0px 3px black;
-        }
-        
         .player .controls a{
             font-size: 20pt;
             color: #333;
         }
-        
+        .player .progress .progress-counter{
+            color: black;
+            z-index: 1108;
+            position: absolute;
+            left: 45%;
+            text-shadow: 0px 0px 2px white;
+            bottom: 0;
+        }
     `],
     template: `
     <div class="col-lg-12 no-padding-l-r player">
@@ -51,7 +52,7 @@ declare var window: any;
                 <div class="progress text-center">
                   <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width': (currentTime / duration * 100) + '%'}">
                   </div>
-                  <span class="sr-only">{{toMinute(currentTime)}}:{{toSecound(currentTime)}} of {{toMinute(duration)}}:{{toSecound(duration)}}</span>
+                  <span class="progress-counter">{{toMinute(currentTime)}}:{{toSecound(currentTime)}} of {{toMinute(duration)}}:{{toSecound(duration)}}</span>
                 </div>
             </div>
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-padding-l-r controls">
@@ -111,6 +112,10 @@ export class PlayerComponent{
             
             this.playingEvent = window.setInterval(() =>{
                 this.currentTime += 1;
+                if( this.currentTime > this.duration){
+                    this.currentTime = 0;
+                    this.stop();
+                }
                 this.ngZone.run(()=>{});
             }, 1000)
         })
@@ -119,16 +124,15 @@ export class PlayerComponent{
     
     stop(){
         window.clearInterval(this.playingEvent);
-        
-        this.currentTime = this.audioContext.currentTime;
-        this.currentSound.stop(this.audioContext.currentTime);
-        this.isPlaying = false;
+        this.currentSound.stop(this.currentTime);
         this.playerService.stopMusic(this.currentSound);
     }
     toMinute(value){
-        return Math.round((value / 60) % 60);
+        let minute = Math.round((value / 60) % 60);
+        return minute < 10? '0' + minute: minute;
     }
     toSecound(value){
-        return Math.round(value % 60);
+        let secound = Math.round(value % 60);
+        return secound < 10? '0' + secound : secound;
     }
 }
