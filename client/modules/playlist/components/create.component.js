@@ -12,13 +12,28 @@ var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var search_component_1 = require('../../home/components/search.component');
 var playlistdetail_component_1 = require('./playlistdetail.component');
+var playlist_service_1 = require('../../../services/playlist/playlist.service');
 var CreateListComponent = (function () {
-    function CreateListComponent(router) {
+    function CreateListComponent(router, routerParams, playlistService) {
+        var _this = this;
         this.router = router;
-        this.step = "step1";
+        this.routerParams = routerParams;
+        this.playlistService = playlistService;
+        this.step = 1;
+        this.routerParams.params.subscribe(function (params) {
+            var id = params['_id'];
+            _this.playlistService.get(id).subscribe(function (result) {
+                _this.playlist = result.playlist;
+            });
+        });
     }
-    CreateListComponent.prototype.toSelectSong = function () {
+    CreateListComponent.prototype.toStepTwo = function () {
         this.router.navigate(['/search']);
+    };
+    CreateListComponent.prototype.step1Save = function (playlist) {
+        this.step = 2;
+        this.playlist.name = playlist;
+        this.playlist.description = playlist;
     };
     __decorate([
         core_1.ViewChild(search_component_1.SearchComponent), 
@@ -34,9 +49,10 @@ var CreateListComponent = (function () {
             styles: ["\n    \n    "
             ],
             styleUrls: ['modules/playlist/components/wizardtemplate.css'],
-            template: " \n        <h3>Playlist create wizard</h3>\n        <div class=\"container col-sm-12\">\n        \t<div class=\"row\">\n        \t\t<section>\n                <div class=\"wizard\">\n                    <div class=\"wizard-inner\">\n                        <div class=\"connecting-line\"></div>\n                        <ul class=\"nav nav-tabs\" role=\"tablist\">\n                            <li role=\"presentation\" [ngClass]=\"{'active': step=='step1'}\">\n                                <a (click)=\"step='step1'\" role=\"tab\" title=\"Creat list detail\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-pencil\"></i>    \n                                    </span>\n                                </a>\n                            </li>\n        \n                            <li role=\"presentation\" class=\"disabled\">\n                                <a data-toogle=\"tab\" aria-controls=\"step2\" title=\"Select songs\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-folder-open\"></i>\n                                    </span>\n                                </a>\n                            </li>\n                            \n                            <li role=\"presentation\" class=\"disabled\">\n                                <a href=\"#complete\" data-toggle=\"tab\" aria-controls=\"complete\" role=\"tab\" title=\"Complete\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-ok\"></i>\n                                    </span>\n                                </a>\n                            </li>\n                            \n                        </ul>\n                    </div>\n                    \n                    <form role=\"form\">\n                        <div class=\"tab-content\">\n                            <div class=\"tab-pane active\" role=\"tabpanel\" id=\"step1\">\n                                <playlistdetail></playlistdetail>\n                            </div>\n                            <div class=\"tab-pane\" role=\"tabpanel\" id=\"step2\">\n                                \n                            </div>\n                            \n                            <div class=\"tab-pane\" role=\"tabpanel\" id=\"complete\">\n                                <h3>Complete</h3>\n                                <p>You have successfully completed all steps.</p>\n                            </div>\n                            <div class=\"clearfix\"></div>\n                        </div>\n                    </form>\n                </div>  \n                </section>    \n            </div>        \n        </div>\n    \n    \n    "
+            template: " \n        <h3>Playlist create wizard</h3>\n        <div class=\"container col-sm-12\">\n        \t<div class=\"row\">\n        \t\t<section>\n                <div class=\"wizard\">\n                    <div class=\"wizard-inner\">\n                        <div class=\"connecting-line\"></div>\n                        <ul class=\"nav nav-tabs\" role=\"tablist\">\n                            <li role=\"presentation\" [ngClass]=\"{'active': step == 1, 'disabled': step > 1}\">\n                                <a (click)=\"step='step1'\" role=\"tab\" title=\"Creat list detail\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-pencil\"></i>    \n                                    </span>\n                                </a>\n                            </li>\n        \n                            <li role=\"presentation\" class=\"\" [ngClass]=\"{'active': step == 2, 'disabled': step < 2}\">\n                                <a (click)=\"step='step2'\" data-toogle=\"tab\" aria-controls=\"step2\" title=\"Select songs\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-folder-open\"></i>\n                                    </span>\n                                </a>\n                            </li>\n                            \n                            <li role=\"presentation\" [ngClass]=\"{'active': step=='3', 'disabled': step < 3}\">\n                                <a href=\"#complete\" data-toggle=\"tab\" aria-controls=\"complete\" role=\"tab\" title=\"Complete\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-ok\"></i>\n                                    </span>\n                                </a>\n                            </li>\n                            \n                        </ul>\n                    </div>\n                    \n                    <form role=\"form\">\n                        <div class=\"tab-content\">\n                            <div class=\"tab-pane active\" role=\"tabpanel\" [ngClass]=\"{'active': step=='1'}\">\n                                <playlistdetail \n                                (onSave)=\"step1Save($event)\"\n                                [playlist]=\"playlist\"\n                                ></playlistdetail>\n                            </div>\n                            <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step=='2'}\">\n                                <search></search>\n                            </div>\n                            \n                            <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step=='3'}\">\n                                <h3>Complete</h3>\n                                <p>You have successfully completed all steps.</p>\n                            </div>\n                            <div class=\"clearfix\"></div>\n                        </div>\n                    </form>\n                </div>  \n                </section>    \n            </div>        \n        </div>\n    \n    \n    ",
+            providers: [playlist_service_1.PlaylistService]
         }), 
-        __metadata('design:paramtypes', [router_1.Router])
+        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, playlist_service_1.PlaylistService])
     ], CreateListComponent);
     return CreateListComponent;
 }());

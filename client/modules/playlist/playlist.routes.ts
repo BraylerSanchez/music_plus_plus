@@ -9,7 +9,7 @@ export const routes: Routes = [
         component: PlayListComponent
     },
     {
-        path: 'playlist/create',
+        path: 'playlist/create/:_id',
         component: CreateListComponent
     }
 ];

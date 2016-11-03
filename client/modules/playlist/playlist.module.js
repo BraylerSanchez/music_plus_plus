@@ -17,6 +17,7 @@ var playlist_routes_1 = require('./playlist.routes');
 var list_component_1 = require('./components/list.component');
 var create_component_1 = require('./components/create.component');
 var playlistdetail_component_1 = require('./components/playlistdetail.component');
+var home_module_1 = require('../home/home.module');
 var PlaylistModule = (function () {
     function PlaylistModule() {
     }
@@ -28,6 +29,7 @@ var PlaylistModule = (function () {
                 forms_1.FormsModule,
                 common_1.CommonModule,
                 forms_1.ReactiveFormsModule,
+                home_module_1.HomeModule,
                 playlist_routes_1.routing
             ],
             declarations: [

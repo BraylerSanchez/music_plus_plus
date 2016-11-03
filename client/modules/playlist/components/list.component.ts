@@ -20,7 +20,7 @@ export class PlayListComponent{
     }
     
     toCreate(): void{
-        this.router.navigate(['/playlist/create'])
+        this.router.navigate(['/playlist/create/0'])
     }
     
 }

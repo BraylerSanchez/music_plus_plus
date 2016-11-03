@@ -9,6 +9,8 @@ import { PlayListComponent } from './components/list.component';
 import { CreateListComponent } from './components/create.component';
 import { PlayListDetailComponent } from './components/playlistdetail.component';
 
+import { HomeModule } from '../home/home.module';
+
 @NgModule({
     imports: [
         HttpModule,
@@ -16,6 +18,7 @@ import { PlayListDetailComponent } from './components/playlistdetail.component';
         FormsModule,
         CommonModule,
         ReactiveFormsModule,
+        HomeModule,
         routing
     ],
     declarations: [

@@ -295,8 +295,12 @@ webpackJsonp([0],{
 	                forms_1.FormsModule,
 	                common_1.CommonModule,
 	                home_routes_1.routing],
+	            exports: [
+	                search_component_1.SearchComponent
+	            ],
 	            declarations: [home_component_1.HomeComponent, search_component_1.SearchComponent],
-	            bootstrap: [home_component_1.HomeComponent]
+	            bootstrap: [home_component_1.HomeComponent],
+	            schemas: [core_1.CUSTOM_ELEMENTS_SCHEMA]
 	        }), 
 	        __metadata('design:paramtypes', [])
 	    ], HomeModule);
@@ -4846,8 +4850,10 @@ webpackJsonp([0],{
 	        this.videos = [];
 	        this.router.params.subscribe(function (params) {
 	            if (params['query'] != '0') {
-	                _this.queryString = params['query'];
-	                _this.search();
+	                _this.queryString = params['query'] || '';
+	                if (_this.queryString != '') {
+	                    _this.search();
+	                }
 	            }
 	        });
 	    }
@@ -4907,6 +4913,7 @@ webpackJsonp([0],{
 	var list_component_1 = __webpack_require__(71);
 	var create_component_1 = __webpack_require__(72);
 	var playlistdetail_component_1 = __webpack_require__(73);
+	var home_module_1 = __webpack_require__(63);
 	var PlaylistModule = (function () {
 	    function PlaylistModule() {
 	    }
@@ -4918,6 +4925,7 @@ webpackJsonp([0],{
 	                forms_1.FormsModule,
 	                common_1.CommonModule,
 	                forms_1.ReactiveFormsModule,
+	                home_module_1.HomeModule,
 	                playlist_routes_1.routing
 	            ],
 	            declarations: [
@@ -4951,7 +4959,7 @@ webpackJsonp([0],{
 	        component: list_component_1.PlayListComponent
 	    },
 	    {
-	        path: 'playlist/create',
+	        path: 'playlist/create/:_id',
 	        component: create_component_1.CreateListComponent
 	    }
 	];
@@ -4981,7 +4989,7 @@ webpackJsonp([0],{
 	        this.queryString = "";
 	    }
 	    PlayListComponent.prototype.toCreate = function () {
-	        this.router.navigate(['/playlist/create']);
+	        this.router.navigate(['/playlist/create/0']);
 	    };
 	    PlayListComponent = __decorate([
 	        core_1.Component({
@@ -5015,13 +5023,28 @@ webpackJsonp([0],{
 	var router_1 = __webpack_require__(32);
 	var search_component_1 = __webpack_require__(68);
 	var playlistdetail_component_1 = __webpack_require__(73);
+	var playlist_service_1 = __webpack_require__(74);
 	var CreateListComponent = (function () {
-	    function CreateListComponent(router) {
+	    function CreateListComponent(router, routerParams, playlistService) {
+	        var _this = this;
 	        this.router = router;
-	        this.step = "step1";
+	        this.routerParams = routerParams;
+	        this.playlistService = playlistService;
+	        this.step = 1;
+	        this.routerParams.params.subscribe(function (params) {
+	            var id = params['_id'];
+	            _this.playlistService.get(id).subscribe(function (result) {
+	                _this.playlist = result.playlist;
+	            });
+	        });
 	    }
-	    CreateListComponent.prototype.toSelectSong = function () {
+	    CreateListComponent.prototype.toStepTwo = function () {
 	        this.router.navigate(['/search']);
+	    };
+	    CreateListComponent.prototype.step1Save = function (playlist) {
+	        this.step = 2;
+	        this.playlist.name = playlist;
+	        this.playlist.description = playlist;
 	    };
 	    __decorate([
 	        core_1.ViewChild(search_component_1.SearchComponent), 
@@ -5037,9 +5060,10 @@ webpackJsonp([0],{
 	            styles: ["\n    \n    "
 	            ],
 	            styleUrls: ['modules/playlist/components/wizardtemplate.css'],
-	            template: " \n        <h3>Playlist create wizard</h3>\n        <div class=\"container col-sm-12\">\n        \t<div class=\"row\">\n        \t\t<section>\n                <div class=\"wizard\">\n                    <div class=\"wizard-inner\">\n                        <div class=\"connecting-line\"></div>\n                        <ul class=\"nav nav-tabs\" role=\"tablist\">\n                            <li role=\"presentation\" [ngClass]=\"{'active': step=='step1'}\">\n                                <a (click)=\"step='step1'\" role=\"tab\" title=\"Creat list detail\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-pencil\"></i>    \n                                    </span>\n                                </a>\n                            </li>\n        \n                            <li role=\"presentation\" class=\"disabled\">\n                                <a data-toogle=\"tab\" aria-controls=\"step2\" title=\"Select songs\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-folder-open\"></i>\n                                    </span>\n                                </a>\n                            </li>\n                            \n                            <li role=\"presentation\" class=\"disabled\">\n                                <a href=\"#complete\" data-toggle=\"tab\" aria-controls=\"complete\" role=\"tab\" title=\"Complete\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-ok\"></i>\n                                    </span>\n                                </a>\n                            </li>\n                            \n                        </ul>\n                    </div>\n                    \n                    <form role=\"form\">\n                        <div class=\"tab-content\">\n                            <div class=\"tab-pane active\" role=\"tabpanel\" id=\"step1\">\n                                <playlistdetail></playlistdetail>\n                            </div>\n                            <div class=\"tab-pane\" role=\"tabpanel\" id=\"step2\">\n                                \n                            </div>\n                            \n                            <div class=\"tab-pane\" role=\"tabpanel\" id=\"complete\">\n                                <h3>Complete</h3>\n                                <p>You have successfully completed all steps.</p>\n                            </div>\n                            <div class=\"clearfix\"></div>\n                        </div>\n                    </form>\n                </div>  \n                </section>    \n            </div>        \n        </div>\n    \n    \n    "
+	            template: " \n        <h3>Playlist create wizard</h3>\n        <div class=\"container col-sm-12\">\n        \t<div class=\"row\">\n        \t\t<section>\n                <div class=\"wizard\">\n                    <div class=\"wizard-inner\">\n                        <div class=\"connecting-line\"></div>\n                        <ul class=\"nav nav-tabs\" role=\"tablist\">\n                            <li role=\"presentation\" [ngClass]=\"{'active': step == 1, 'disabled': step > 1}\">\n                                <a (click)=\"step='step1'\" role=\"tab\" title=\"Creat list detail\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-pencil\"></i>    \n                                    </span>\n                                </a>\n                            </li>\n        \n                            <li role=\"presentation\" class=\"\" [ngClass]=\"{'active': step == 2, 'disabled': step < 2}\">\n                                <a (click)=\"step='step2'\" data-toogle=\"tab\" aria-controls=\"step2\" title=\"Select songs\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-folder-open\"></i>\n                                    </span>\n                                </a>\n                            </li>\n                            \n                            <li role=\"presentation\" [ngClass]=\"{'active': step=='3', 'disabled': step < 3}\">\n                                <a href=\"#complete\" data-toggle=\"tab\" aria-controls=\"complete\" role=\"tab\" title=\"Complete\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-ok\"></i>\n                                    </span>\n                                </a>\n                            </li>\n                            \n                        </ul>\n                    </div>\n                    \n                    <form role=\"form\">\n                        <div class=\"tab-content\">\n                            <div class=\"tab-pane active\" role=\"tabpanel\" [ngClass]=\"{'active': step=='1'}\">\n                                <playlistdetail \n                                (onSave)=\"step1Save($event)\"\n                                [playlist]=\"playlist\"\n                                ></playlistdetail>\n                            </div>\n                            <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step=='2'}\">\n                                <search></search>\n                            </div>\n                            \n                            <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step=='3'}\">\n                                <h3>Complete</h3>\n                                <p>You have successfully completed all steps.</p>\n                            </div>\n                            <div class=\"clearfix\"></div>\n                        </div>\n                    </form>\n                </div>  \n                </section>    \n            </div>        \n        </div>\n    \n    \n    ",
+	            providers: [playlist_service_1.PlaylistService]
 	        }), 
-	        __metadata('design:paramtypes', [router_1.Router])
+	        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, playlist_service_1.PlaylistService])
 	    ], CreateListComponent);
 	    return CreateListComponent;
 	}());
@@ -5066,28 +5090,98 @@ webpackJsonp([0],{
 	var router_1 = __webpack_require__(32);
 	var PlayListDetailComponent = (function () {
 	    function PlayListDetailComponent(fb, router) {
+	        this.fb = fb;
 	        this.router = router;
+	        this.onSave = new core_1.EventEmitter();
 	        this.createListForm = fb.group({
-	            'name': ["Please enter a name", forms_1.Validators.required],
-	            'description': ["Please enter a description", forms_1.Validators.required]
+	            'name': ['', forms_1.Validators.required],
+	            'description': ['']
 	        });
-	        this.queryString = "";
 	    }
-	    PlayListDetailComponent.prototype.toSelectSong = function () {
-	        this.router.navigate(['/search']);
+	    PlayListDetailComponent.prototype.setPlaylist = function (playlist) {
+	        this.playlist = playlist;
 	    };
+	    PlayListDetailComponent.prototype.getPlaylist = function () {
+	        return this.playlist;
+	    };
+	    PlayListDetailComponent.prototype.toSaveDetails = function () {
+	        this.playlist.name = this.createListForm.value.name;
+	        this.playlist.description = this.createListForm.value.description;
+	        console.log(this.playlist);
+	        this.onSave.next(this.playlist);
+	        // this.router.navigate(['/home']);
+	    };
+	    __decorate([
+	        core_1.Output(), 
+	        __metadata('design:type', Object)
+	    ], PlayListDetailComponent.prototype, "onSave", void 0);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', Object)
+	    ], PlayListDetailComponent.prototype, "playlist", void 0);
 	    PlayListDetailComponent = __decorate([
 	        core_1.Component({
 	            selector: 'playlistdetail',
-	            styles: ["\n        .label {\n            text-align: left;\n        }\n    \n    "
-	            ],
-	            template: " \n        <div class=\"container\">\n          <form class=\"form-horizontal\" [formGroup]=\"createListForm\" (click)=\"toSelectSong()\">\n            <div class=\"form-group\">\n                <div class=\"col-sm-5 col-sm-offset-2\">\n                    <label class=\"control-label col-sm-1\">Name:</label>\n                    <input class=\"form-control\" ngControl=\"name\" id=\"name\" type=\"text\" placeholder=\"Enter name\" required/>\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <div class=\"col-sm-5 col-sm-offset-2\">\n                    <label class=\"control-label col-sm-1\">Description:</label>\n                    <input class=\"form-control\" ngControl=\"description\" id=\"description\" type=\"text\" placeholder=\"Enter description\" required/>\n                </div>\n            </div>\n            <div class=\"form-group col-sm-9\">\n                <button class=\"btn btn-success\" type=\"button\">Create</button>\n                <button class=\"btn btn-default\" type=\"button\">Cancel</button>\n            </div>\n          </form>\n        </div>\n    "
+	            styles: [""],
+	            template: " \n        <div class=\"container\">\n          <form class=\"form-horizontal\" [formGroup]=\"createListForm\" (submit)=\"toSaveDetails()\">\n            <div class=\"form-group\">\n                <div class=\"col-sm-5 col-sm-offset-2\">\n                    <label class=\"control-label col-sm-1\">Name:</label>\n                    <input class=\"form-control\" formControlName=\"name\" id=\"name\" type=\"text\" placeholder=\"Enter name\" required/>\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <div class=\"col-sm-5 col-sm-offset-2\">\n                    <label class=\"control-label col-sm-1\">Description:</label>\n                    <input class=\"form-control\" formControlName=\"description\" id=\"description\" type=\"text\" placeholder=\"Enter description\" />\n                </div>\n            </div>\n            <div class=\"form-group col-sm-9\">\n                <button class=\"btn btn-success\" type=\"submit\" [disabled] = \"!createListForm.valid\" >Create</button>\n                <button class=\"btn btn-default\" type=\"button\">Cancel</button>\n            </div>\n          </form>\n        </div>\n    "
 	        }), 
 	        __metadata('design:paramtypes', [forms_1.FormBuilder, router_1.Router])
 	    ], PlayListDetailComponent);
 	    return PlayListDetailComponent;
 	}());
 	exports.PlayListDetailComponent = PlayListDetailComponent;
+
+
+/***/ },
+
+/***/ 74:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(4);
+	var http_1 = __webpack_require__(28);
+	__webpack_require__(29);
+	var headers = new http_1.ResponseOptions({
+	    headers: new http_1.Headers({
+	        'Content-Type': 'application/json'
+	    })
+	});
+	var PlaylistService = (function () {
+	    function PlaylistService(http) {
+	        this.http = http;
+	    }
+	    PlaylistService.prototype.get = function (_id) {
+	        return this.http.get("api/v1/playlist/" + _id, headers)
+	            .map(function (res) { return res.json(); });
+	    };
+	    PlaylistService.prototype.list = function () {
+	        return this.http.get('api/v1/playlist', headers)
+	            .map(function (res) { return res.json(); });
+	    };
+	    PlaylistService.prototype.save = function (_playlist) {
+	        return this.http.post('api/v1/playlist', headers, _playlist)
+	            .map(function (res) { return res.json(); });
+	    };
+	    PlaylistService.prototype.update = function (_id, _playlist) {
+	        return this.http.put("api/v1/playlist/" + _id, headers, _playlist)
+	            .map(function (res) { return res.json(); });
+	    };
+	    PlaylistService = __decorate([
+	        core_1.Injectable(), 
+	        __metadata('design:paramtypes', [http_1.Http])
+	    ], PlaylistService);
+	    return PlaylistService;
+	}());
+	exports.PlaylistService = PlaylistService;
 
 
 /***/ }

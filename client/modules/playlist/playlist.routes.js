@@ -8,7 +8,7 @@ exports.routes = [
         component: list_component_1.PlayListComponent
     },
     {
-        path: 'playlist/create',
+        path: 'playlist/create/:_id',
         component: create_component_1.CreateListComponent
     }
 ];

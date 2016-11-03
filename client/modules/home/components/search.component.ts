@@ -71,14 +71,16 @@ export class SearchComponent{
       this.videos = [];
       this.router.params.subscribe( (params) =>{
         if( params['query'] != '0'){
-          this.queryString = params['query'];
-          this.search();
+          this.queryString = params['query'] || '';
+          if(this.queryString != ''){
+            this.search();
+          }
         }
       }) 
     }
     
    search(): void{
-      if( this.queryString.length <=0){
+      if(this.queryString.length <=0){
         alert('Insert text to search.');
         return;
       }

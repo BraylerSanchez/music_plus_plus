@@ -23,8 +23,10 @@ var SearchComponent = (function () {
         this.videos = [];
         this.router.params.subscribe(function (params) {
             if (params['query'] != '0') {
-                _this.queryString = params['query'];
-                _this.search();
+                _this.queryString = params['query'] || '';
+                if (_this.queryString != '') {
+                    _this.search();
+                }
             }
         });
     }

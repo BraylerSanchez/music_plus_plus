@@ -9,7 +9,7 @@ const headers = new ResponseOptions({
 })
 
 @Injectable()
-export class PlayerService{
+export class PlaylistService{
     
     constructor(
         private http: Http

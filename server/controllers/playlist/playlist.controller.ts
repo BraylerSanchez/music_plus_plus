@@ -43,6 +43,7 @@ export class PlaylistController{
         if( id == '0'){
             res.send({
                 status: false,
+                playlist: {},
                 message: 'object no found'
             })
         }

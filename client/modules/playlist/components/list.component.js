@@ -16,7 +16,7 @@ var PlayListComponent = (function () {
         this.queryString = "";
     }
     PlayListComponent.prototype.toCreate = function () {
-        this.router.navigate(['/playlist/create']);
+        this.router.navigate(['/playlist/create/0']);
     };
     PlayListComponent = __decorate([
         core_1.Component({

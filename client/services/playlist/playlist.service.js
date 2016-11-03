@@ -16,31 +16,31 @@ var headers = new http_1.ResponseOptions({
         'Content-Type': 'application/json'
     })
 });
-var PlayerService = (function () {
-    function PlayerService(http) {
+var PlaylistService = (function () {
+    function PlaylistService(http) {
         this.http = http;
     }
-    PlayerService.prototype.get = function (_id) {
+    PlaylistService.prototype.get = function (_id) {
         return this.http.get("api/v1/playlist/" + _id, headers)
             .map(function (res) { return res.json(); });
     };
-    PlayerService.prototype.list = function () {
+    PlaylistService.prototype.list = function () {
         return this.http.get('api/v1/playlist', headers)
             .map(function (res) { return res.json(); });
     };
-    PlayerService.prototype.save = function (_playlist) {
+    PlaylistService.prototype.save = function (_playlist) {
         return this.http.post('api/v1/playlist', headers, _playlist)
             .map(function (res) { return res.json(); });
     };
-    PlayerService.prototype.update = function (_id, _playlist) {
+    PlaylistService.prototype.update = function (_id, _playlist) {
         return this.http.put("api/v1/playlist/" + _id, headers, _playlist)
             .map(function (res) { return res.json(); });
     };
-    PlayerService = __decorate([
+    PlaylistService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http])
-    ], PlayerService);
-    return PlayerService;
+    ], PlaylistService);
+    return PlaylistService;
 }());
-exports.PlayerService = PlayerService;
+exports.PlaylistService = PlaylistService;
 //# sourceMappingURL=playlist.service.js.map
