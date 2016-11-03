@@ -12,28 +12,27 @@ var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var Observable_1 = require('rxjs/Observable');
 require('rxjs/add/operator/map');
+require('rxjs/add/operator/share');
 var headers = new http_1.ResponseOptions({
     headers: new http_1.Headers({
         'Content-Type': 'application/json'
     })
 });
+var playSoundObserbable;
+exports.onPlayMusic = new Observable_1.Observable(function (observable) {
+    playSoundObserbable = observable;
+    return function () { };
+}).share();
+var stopSoundObserbable;
+exports.onStopMusic = new Observable_1.Observable(function (observable) {
+    stopSoundObserbable = observable;
+}).share();
 var PlayerService = (function () {
     function PlayerService(http) {
-        var _this = this;
         this.http = http;
         this.maxResults = 20;
-        this.isPlaying = false;
-        this.isOnList = false;
         this.apiPart = 'snippet';
         this.apiKey = 'AIzaSyDsnjiL2Wexp-DgCKMMQF7VyL2xzZLMFaY';
-        this.playSound = new Observable_1.Observable(function (observable) {
-            _this.playSoundObserbable = observable;
-        });
-        this.stopSound = new Observable_1.Observable(function (obs) {
-            _this.stopSoundObserbable = obs;
-        });
-        window.AudioContext = window.AudioContext || window.webkitAudioContext;
-        this.audioContext = new AudioContext();
     }
     PlayerService.prototype.search = function (query) {
         return this.http.get("https://www.googleapis.com/youtube/v3/search?part=" + this.apiPart + "&maxResults=" + this.maxResults + "&q=" + query + "&key=" + this.apiKey, headers)
@@ -50,43 +49,20 @@ var PlayerService = (function () {
             });
         });
     };
-    PlayerService.prototype.onStopMusic = function () {
-        var _this = this;
-        this.currentSound.stop();
-        this.isPlaying = false;
-        window.setTimeout(function () {
-            _this.stopSoundObserbable.next(_this.currentVideo);
-        }, 0);
-        return this.stopSound;
+    PlayerService.prototype.stopMusic = function (video) {
+        stopSoundObserbable.next(video);
     };
-    PlayerService.prototype.onPlayMusic = function (video) {
-        var _this = this;
-        if (video != undefined) {
-            if (this.currentSound != undefined && video.id == this.currentVideo.id) {
-                this.currentSound.start();
-            }
-            else {
-                if (this.currentSound) {
-                    this.currentSound.stop();
-                }
-                var request = new XMLHttpRequest();
-                request.open("GET", "/api/stream/play/" + video.id, true);
-                request.responseType = "arraybuffer";
-                request.onload = function () {
-                    _this.currentSound = _this.audioContext.createBufferSource();
-                    _this.audioContext.decodeAudioData(request.response, function (buffer) {
-                        _this.currentSound.buffer = buffer;
-                        _this.currentSound.connect(_this.audioContext.destination);
-                        _this.currentSound.start(_this.audioContext.currentTime);
-                        _this.currentVideo = video;
-                        _this.isPlaying = true;
-                        _this.playSoundObserbable.next(video);
-                    });
-                };
-                request.send();
-            }
-        }
-        return this.playSound;
+    PlayerService.prototype.getMusic = function (video) {
+        var request = new XMLHttpRequest();
+        request.open("GET", "/api/stream/play/" + video.id, true);
+        request.responseType = "arraybuffer";
+        request.onload = function () {
+            playSoundObserbable.next({
+                details: video,
+                buffer: request.response
+            });
+        };
+        request.send();
     };
     PlayerService = __decorate([
         core_1.Injectable(), 

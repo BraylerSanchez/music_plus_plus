@@ -12,10 +12,11 @@ var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var player_service_1 = require('../../../services/player/player.service');
 var SearchComponent = (function () {
-    function SearchComponent(playerService, router) {
+    function SearchComponent(playerService, router, ngZone) {
         var _this = this;
         this.playerService = playerService;
         this.router = router;
+        this.ngZone = ngZone;
         this.canciones = [];
         this.isOnList = false;
         this.currentSound = {
@@ -28,6 +29,15 @@ var SearchComponent = (function () {
                 _this.queryString = params['query'];
                 _this.search();
             }
+        });
+        player_service_1.onPlayMusic
+            .subscribe(function (response) {
+            _this.currentSound = response['details'];
+        });
+        player_service_1.onStopMusic
+            .subscribe(function (sound) {
+            _this.currentSound = sound;
+            _this.ngZone.run(function () { });
         });
     }
     SearchComponent.prototype.addToList = function (cancion) {
@@ -61,11 +71,7 @@ var SearchComponent = (function () {
         });
     };
     SearchComponent.prototype.play = function (video) {
-        var _this = this;
-        this.playerService.onPlayMusic(video)
-            .subscribe(function (sound) {
-            _this.currentSound = sound;
-        });
+        this.playerService.getMusic(video);
     };
     SearchComponent = __decorate([
         core_1.Component({
@@ -74,7 +80,7 @@ var SearchComponent = (function () {
             template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <i class=\"fa fa-search btn btn-default search-button\" type=\"button\" (click)=\"search()\"></i>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <div class=\"video list-group-item\" *ngFor=\"let video of videos\">\n            <div class=\"media-left\">\n              <span>\n                <img id=\"\n                \" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n              </span>\n            </div>\n            <div class=\"media-body text-left\">\n              <div class=\"media-heading\">\n                <h4 id=\"title\" >{{ video.title }}<i class=\"fa fa-plus pull-right\"\n                [ngClass]=\"{ 'fa-minus': video.isOnList, 'fa-plus': !video.isOnList }\" (click)=\"addToList(video)\"></i>\n                <img class=\"glyphicon pull-right\" *ngIf=\"video.id == currentSound.id\" [ngClass]=\"{ 'playing': video.id == currentSound.id }\">\n                </h4>\n              </div>\n              <span (click)=\"play(video)\" id=\"channel\">{{ video.channel }}</span>\n              <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n              \n            </div>\n          </div>\n        </div>\n        <div *ngFor=\"let cancion of canciones; let i = index\">\n        <ul>\n          <li>{{ i }} - {{ cancion.isOnList }} - {{cancion.title}}</li>\n        </ul>\n        </div>\n      </div>",
             providers: [player_service_1.PlayerService]
         }), 
-        __metadata('design:paramtypes', [player_service_1.PlayerService, router_1.ActivatedRoute])
+        __metadata('design:paramtypes', [player_service_1.PlayerService, router_1.ActivatedRoute, core_1.NgZone])
     ], SearchComponent);
     return SearchComponent;
 }());
