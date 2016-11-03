@@ -87,7 +87,6 @@ export class SearchComponent{
           this.search();
         }
       })
-
       onPlayMusic
          .subscribe( (response) => {
             this.currentSound = response['details'];
@@ -101,12 +100,9 @@ export class SearchComponent{
     
 addToList(cancion: any){
     if(!cancion.isOnList){
-
       cancion.isOnList = !this.isOnList;
       this.canciones.push(cancion);
-
     }else{
-      
       for( var i=this.canciones.length-1; i>=0; i--) {
         if( this.canciones[i].id == cancion.id){
           cancion.isOnList = this.isOnList;
