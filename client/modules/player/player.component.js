@@ -48,6 +48,10 @@ var PlayerComponent = (function () {
             _this.currentSound.start(0, _this.currentTime);
             _this.playingEvent = window.setInterval(function () {
                 _this.currentTime += 1;
+                if (_this.currentTime > _this.duration) {
+                    _this.currentTime = 0;
+                    _this.stop();
+                }
                 _this.ngZone.run(function () { });
             }, 1000);
         });
@@ -55,22 +59,22 @@ var PlayerComponent = (function () {
     };
     PlayerComponent.prototype.stop = function () {
         window.clearInterval(this.playingEvent);
-        this.currentTime = this.audioContext.currentTime;
-        this.currentSound.stop(this.audioContext.currentTime);
-        this.isPlaying = false;
+        this.currentSound.stop(this.currentTime);
         this.playerService.stopMusic(this.currentSound);
     };
     PlayerComponent.prototype.toMinute = function (value) {
-        return Math.round((value / 60) % 60);
+        var minute = Math.round((value / 60) % 60);
+        return minute < 10 ? '0' + minute : minute;
     };
     PlayerComponent.prototype.toSecound = function (value) {
-        return Math.round(value % 60);
+        var secound = Math.round(value % 60);
+        return secound < 10 ? '0' + secound : secound;
     };
     PlayerComponent = __decorate([
         core_1.Component({
             selector: 'player',
-            styles: ["\n        .player{\n            position: fixed;\n            z-index: 1000;\n            bottom: 0;\n            left: 0;\n            width: 100%;\n            background-color: #fff;\n            border-top: solid 1px #f3f3f3;\n            box-shadow: 0px 0px 4px 1px;\n            height: 48px;\n            padding-top: 10px;\n        }\n        .player .progress{\n            margin-top: 5px;\n        }\n        .player .progress .progress-bar{\n            background-color: #333;\n        }\n        .player .progress .sr-only{\n            color: white;\n            z-index: 1000;\n            position: relative;\n            text-shadow: 0px 0px 3px black;\n        }\n        \n        .player .controls a{\n            font-size: 20pt;\n            color: #333;\n        }\n        \n    "],
-            template: "\n    <div class=\"col-lg-12 no-padding-l-r player\">\n        <div class=\"col-lg-2 col-md-2 col-sm-2 hidden-xs no-padding-l-r\"></div>\n        <div class=\"col-lg-8 col-md-8 col-sm-8 col-xs-12\">\n            <div class=\"col-lg-2 col-md-2 col-sm-2 col-xs-2 no-padding-l-r controls\">\n                <a *ngIf=\"!isPlaying\" (click)=\"play()\" ><i class=\"glyphicon glyphicon-play\"></i></a>\n                <a *ngIf=\"isPlaying\" (click)=\"stop()\" ><i class=\"glyphicon glyphicon-pause\"></i></a>\n                <span></span>\n            </div>\n            <div class=\"col-lg-8 col-md-8 col-sm-8 col-xs-8\">\n                <div class=\"progress text-center\">\n                  <div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"0\" aria-valuemin=\"0\" aria-valuemax=\"100\" [ngStyle]=\"{'width': (currentTime / duration * 100) + '%'}\">\n                  </div>\n                  <span class=\"sr-only\">{{toMinute(currentTime)}}:{{toSecound(currentTime)}} of {{toMinute(duration)}}:{{toSecound(duration)}}</span>\n                </div>\n            </div>\n            <div class=\"col-lg-2 col-md-2 col-sm-2 col-xs-2 no-padding-l-r controls\">\n                <a><i class=\"glyphicon glyphicon-volume-up\"></i></a>\n            </div>\n        </div>\n        <div class=\"col-lg-2 col-md-2 col-sm-2 hidden-xs no-padding-l-r\"></div>\n    </div>",
+            styles: ["\n        .player{\n            position: fixed;\n            z-index: 1000;\n            bottom: 0;\n            left: 0;\n            width: 100%;\n            background-color: #fff;\n            border-top: solid 1px #c7c7c7;\n            box-shadow: 0px 0px 4px 1px;\n            height: 48px;\n            padding-top: 10px;\n        }\n        .player .progress{\n            margin-top: 5px;\n            position: relative;\n        }\n        .player .progress .progress-bar{\n            background-color: #333;\n        }\n        .player .controls a{\n            font-size: 20pt;\n            color: #333;\n        }\n        .player .progress .progress-counter{\n            color: black;\n            z-index: 1108;\n            position: absolute;\n            left: 45%;\n            text-shadow: 0px 0px 2px white;\n            bottom: 0;\n        }\n    "],
+            template: "\n    <div class=\"col-lg-12 no-padding-l-r player\">\n        <div class=\"col-lg-2 col-md-2 col-sm-2 hidden-xs no-padding-l-r\"></div>\n        <div class=\"col-lg-8 col-md-8 col-sm-8 col-xs-12\">\n            <div class=\"col-lg-2 col-md-2 col-sm-2 col-xs-2 no-padding-l-r controls\">\n                <a *ngIf=\"!isPlaying\" (click)=\"play()\" ><i class=\"glyphicon glyphicon-play\"></i></a>\n                <a *ngIf=\"isPlaying\" (click)=\"stop()\" ><i class=\"glyphicon glyphicon-pause\"></i></a>\n                <span></span>\n            </div>\n            <div class=\"col-lg-8 col-md-8 col-sm-8 col-xs-8\">\n                <div class=\"progress text-center\">\n                  <div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"0\" aria-valuemin=\"0\" aria-valuemax=\"100\" [ngStyle]=\"{'width': (currentTime / duration * 100) + '%'}\">\n                  </div>\n                  <span class=\"progress-counter\">{{toMinute(currentTime)}}:{{toSecound(currentTime)}} of {{toMinute(duration)}}:{{toSecound(duration)}}</span>\n                </div>\n            </div>\n            <div class=\"col-lg-2 col-md-2 col-sm-2 col-xs-2 no-padding-l-r controls\">\n                <a><i class=\"glyphicon glyphicon-volume-up\"></i></a>\n            </div>\n        </div>\n        <div class=\"col-lg-2 col-md-2 col-sm-2 hidden-xs no-padding-l-r\"></div>\n    </div>",
             providers: [player_service_1.PlayerService]
         }), 
         __metadata('design:paramtypes', [player_service_1.PlayerService, core_1.NgZone])

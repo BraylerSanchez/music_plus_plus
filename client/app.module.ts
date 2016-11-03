@@ -5,16 +5,16 @@ import { TemplateComponent }   from './templates/template.component';
 import { routing } from './app.routes';
 
 import { HomeModule } from './modules/home/home.module';
-
-import { PlayerComponent } from './modules/player/player.component';
+import { PlayerModule } from './modules/player/player.module';
 
 @NgModule({
     imports:      [
         routing,
         BrowserModule,
-        HomeModule
+        HomeModule,
+        PlayerModule
     ],
-    declarations: [ TemplateComponent, PlayerComponent ],
+    declarations: [ TemplateComponent ],
     bootstrap:    [ TemplateComponent ],
     providers: [
         {provide: LocationStrategy, 

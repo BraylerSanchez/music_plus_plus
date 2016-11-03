@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { PlayerComponent } from '../modules/player/player.component';
+import { PlayerComponent } from '../modules/player/components/player.component';
 
 @Component({
   selector: 'app',
