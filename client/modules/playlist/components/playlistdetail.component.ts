@@ -60,7 +60,7 @@ export class PlayListDetailComponent{
         this.playlist.name = this.createListForm.value.name;
         this.playlist.description = this.createListForm.value.description;
         console.log(this.playlist);
-         this.onSave.next(this.playlist)
+        this.onSave.next(this.playlist)
         // this.router.navigate(['/home']);
     }
 }

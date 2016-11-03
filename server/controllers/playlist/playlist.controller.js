@@ -37,7 +37,7 @@ var PlaylistController = (function () {
         if (id == '0') {
             res.send({
                 status: false,
-                playlist: {},
+                playlist: { sounds: [] },
                 message: 'object no found'
             });
         }

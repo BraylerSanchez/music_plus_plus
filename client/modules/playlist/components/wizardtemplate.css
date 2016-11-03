@@ -1,11 +1,9 @@
 .wizard {
-    margin: 10px auto;
     background: #333;
 }
 
     .wizard .nav-tabs {
         position: relative;
-        margin: 40px auto;
         margin-bottom: 0;
         border-bottom-color: #e0e0e0;
     }

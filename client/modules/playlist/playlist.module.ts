@@ -8,6 +8,7 @@ import { routing } from './playlist.routes';
 import { PlayListComponent } from './components/list.component';
 import { CreateListComponent } from './components/create.component';
 import { PlayListDetailComponent } from './components/playlistdetail.component';
+import { SongListComponent } from './components/songlist.component';
 
 import { HomeModule } from '../home/home.module';
 
@@ -25,6 +26,7 @@ import { HomeModule } from '../home/home.module';
         PlayListComponent,
         CreateListComponent,
         PlayListDetailComponent,
+        SongListComponent
         
     ],
     bootstrap: [
