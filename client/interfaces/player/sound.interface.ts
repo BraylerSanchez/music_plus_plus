@@ -5,5 +5,4 @@ export interface Sound{
     thumbnail: string;
     dateAt: Date;
     channel: string;
-    isOnList: boolean;
 }

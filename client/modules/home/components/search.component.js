@@ -17,8 +17,7 @@ var SearchComponent = (function () {
         this.playerService = playerService;
         this.router = router;
         this.ngZone = ngZone;
-        this.canciones = [];
-        this.isOnList = false;
+        this.sounds = [];
         this.currentSound = {
             id: ''
         };
@@ -40,19 +39,17 @@ var SearchComponent = (function () {
             _this.ngZone.run(function () { });
         });
     }
-    SearchComponent.prototype.addToList = function (cancion) {
-        if (!cancion.isOnList) {
-            cancion.isOnList = !this.isOnList;
-            this.canciones.push(cancion);
-        }
-        else {
-            for (var i = this.canciones.length - 1; i >= 0; i--) {
-                if (this.canciones[i].id == cancion.id) {
-                    cancion.isOnList = this.isOnList;
-                    this.canciones.splice(i, 1);
-                }
+    SearchComponent.prototype.addFromPlaylist = function (e, sound) {
+        this.sounds.push(sound);
+        e.stopPropagation();
+    };
+    SearchComponent.prototype.removeFromPlaylist = function (e, sound) {
+        for (var i = this.sounds.length - 1; i >= 0; i--) {
+            if (this.sounds[i].id == sound.id) {
+                this.sounds.splice(i, 1);
             }
         }
+        e.stopPropagation();
     };
     SearchComponent.prototype.handleKeyup = function (e) {
         if (e.keyCode == 13) {
@@ -73,11 +70,16 @@ var SearchComponent = (function () {
     SearchComponent.prototype.play = function (video) {
         this.playerService.getMusic(video);
     };
+    SearchComponent.prototype.isAdded = function (video) {
+        return this.sounds.some(function (sound) {
+            return sound.id == video.id;
+        });
+    };
     SearchComponent = __decorate([
         core_1.Component({
             selector: 'search',
-            styles: ["\n    .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n      \n      .playing{\n        content:url(\"assest/images/equalizer.gif\");\n        height: 10%;\n        width: 10%;\n      }\n      \n      .video{\n        color: #333333;\n      }\n\n    .media-object{\n            border-radius: 5px !important;\n        }\n    "],
-            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <i class=\"fa fa-search btn btn-default search-button\" type=\"button\" (click)=\"search()\"></i>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <div class=\"video list-group-item\" *ngFor=\"let video of videos\">\n            <div class=\"media-left\">\n              <span>\n                <img id=\"\n                \" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n              </span>\n            </div>\n            <div class=\"media-body text-left\">\n              <div class=\"media-heading\">\n                <h4 id=\"title\" >{{ video.title }}<i class=\"fa fa-plus pull-right\"\n                [ngClass]=\"{ 'fa-minus': video.isOnList, 'fa-plus': !video.isOnList }\" (click)=\"addToList(video)\"></i>\n                <img class=\"glyphicon pull-right\" *ngIf=\"video.id == currentSound.id\" [ngClass]=\"{ 'playing': video.id == currentSound.id }\">\n                </h4>\n              </div>\n              <span (click)=\"play(video)\" id=\"channel\">{{ video.channel }}</span>\n              <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n              \n            </div>\n          </div>\n        </div>\n        <div *ngFor=\"let cancion of canciones; let i = index\">\n        <ul>\n          <li>{{ i }} - {{ cancion.isOnList }} - {{cancion.title}}</li>\n        </ul>\n        </div>\n      </div>",
+            styles: ["\n      .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n      \n      .playing{\n        content:url(\"assest/images/equalizer.gif\");\n        height: 10%;\n        width: 10%;\n      }\n      \n      .video{\n        color: #333333;\n      }\n\n      .media-object{\n          border-radius: 5px !important;\n      }\n      .media-heading .title{\n        cursor: pointer;\n      }\n      .media-heading .title small{\n        display: none;\n      }\n      .media-heading:hover .title small{\n        display: inline-block;\n      }\n    "],
+            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <i class=\"fa fa-search btn btn-default search-button\" type=\"button\" (click)=\"search()\"></i>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <div class=\"video list-group-item\" *ngFor=\"let video of videos\">\n            <div class=\"media-left\">\n              <span>\n                <img id=\"\n                \" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n              </span>\n            </div>\n            <div class=\"media-body text-left\">\n              <div class=\"media-heading\">\n                <h4 class=\"title\" (click)=\"play(video)\" >\n                {{ video.title }} \n                <small >\n                  click to play <i class=\"fa fa-play\"></i>\n                </small>\n                <i *ngIf=\"!isAdded(video)\" class=\"fa fa-plus pull-right\" (click)=\"addFromPlaylist($event, video)\"></i>\n                <i *ngIf=\"isAdded(video)\" class=\"fa fa-minus pull-right\" (click)=\"removeFromPlaylist($event, video)\"></i>\n                <img class=\"glyphicon pull-right\" *ngIf=\"video.id == currentSound.id\" [ngClass]=\"{ 'playing': video.id == currentSound.id }\">\n                </h4>\n              </div>\n              <span  id=\"channel\">{{ video.channel }}</span>\n              <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n              \n            </div>\n          </div>\n        </div>\n        <div *ngFor=\"let cancion of canciones; let i = index\">\n        <ul>\n          <li>{{ i }} - {{ cancion.isOnList }} - {{cancion.title}}</li>\n        </ul>\n        </div>\n      </div>",
             providers: [player_service_1.PlayerService]
         }), 
         __metadata('design:paramtypes', [player_service_1.PlayerService, router_1.ActivatedRoute, core_1.NgZone])

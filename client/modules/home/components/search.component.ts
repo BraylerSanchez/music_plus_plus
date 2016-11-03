@@ -1,12 +1,13 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, NgZone, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
 import { PlayerService, onPlayMusic, onStopMusic } from '../../../services/player/player.service';
+import { Sound } from '../../../interfaces/player/sound.interface';
 
 @Component({
     selector: 'search',
     styles: 
     [`
-    .home .search-button{
+      .home .search-button{
         background-color: #333333 !important;
         color: white !important;
       }
@@ -21,9 +22,18 @@ import { PlayerService, onPlayMusic, onStopMusic } from '../../../services/playe
         color: #333333;
       }
 
-    .media-object{
-            border-radius: 5px !important;
-        }
+      .media-object{
+          border-radius: 5px !important;
+      }
+      .media-heading .title{
+        cursor: pointer;
+      }
+      .media-heading .title small{
+        display: none;
+      }
+      .media-heading:hover .title small{
+        display: inline-block;
+      }
     `],
     template: `
       <div class="inner cover">
@@ -45,12 +55,17 @@ import { PlayerService, onPlayMusic, onStopMusic } from '../../../services/playe
             </div>
             <div class="media-body text-left">
               <div class="media-heading">
-                <h4 id="title" >{{ video.title }}<i class="fa fa-plus pull-right"
-                [ngClass]="{ 'fa-minus': video.isOnList, 'fa-plus': !video.isOnList }" (click)="addToList(video)"></i>
+                <h4 class="title" (click)="play(video)" >
+                {{ video.title }} 
+                <small >
+                  click to play <i class="fa fa-play"></i>
+                </small>
+                <i *ngIf="!isAdded(video)" class="fa fa-plus pull-right" (click)="addFromPlaylist($event, video)"></i>
+                <i *ngIf="isAdded(video)" class="fa fa-minus pull-right" (click)="removeFromPlaylist($event, video)"></i>
                 <img class="glyphicon pull-right" *ngIf="video.id == currentSound.id" [ngClass]="{ 'playing': video.id == currentSound.id }">
                 </h4>
               </div>
-              <span (click)="play(video)" id="channel">{{ video.channel }}</span>
+              <span  id="channel">{{ video.channel }}</span>
               <span class="pull-right">{{ video.dateAt | date }}</span>
               
             </div>
@@ -66,13 +81,11 @@ import { PlayerService, onPlayMusic, onStopMusic } from '../../../services/playe
 })
 export class SearchComponent{
     private queryString:string;
-    private videos: Array<any>;
-    private canciones = [];
-    private isOnList = false;
+    private videos: Array<Sound>;
+    private sounds: Array<Sound> =[];
     private currentSound: any = {
       id: ''
     };
-    private audioContext:any;
     
     constructor(
       private playerService: PlayerService,
@@ -87,6 +100,7 @@ export class SearchComponent{
           this.search();
         }
       })
+      
       onPlayMusic
          .subscribe( (response) => {
             this.currentSound = response['details'];
@@ -98,27 +112,27 @@ export class SearchComponent{
       });
     }
     
-addToList(cancion: any){
-    if(!cancion.isOnList){
-      cancion.isOnList = !this.isOnList;
-      this.canciones.push(cancion);
-    }else{
-      for( var i=this.canciones.length-1; i>=0; i--) {
-        if( this.canciones[i].id == cancion.id){
-          cancion.isOnList = this.isOnList;
-          this.canciones.splice(i,1);
+    addFromPlaylist(e, sound: Sound){
+      this.sounds.push(sound);
+      e.stopPropagation();
+    }
+    
+    removeFromPlaylist(e,  sound: Sound){
+      for( var i=this.sounds.length-1; i>=0; i--) {
+        if( this.sounds[i].id == sound.id){
+          this.sounds.splice(i,1);
         }
       }
+      e.stopPropagation();
     }
-  }
+      
+    handleKeyup(e){
+        if( e.keyCode == 13){
+          this.search();
+        }  
+    }
     
-  handleKeyup(e){
-      if( e.keyCode == 13){
-        this.search();
-      }  
-  }
-    
-   search(): void{
+    search(): void{
       if( this.queryString.length <=0){
         alert('Insert text to search.');
         return;
@@ -131,5 +145,11 @@ addToList(cancion: any){
     
     play(video){
       this.playerService.getMusic(video);
+    }
+    
+    isAdded(video){
+      return this.sounds.some( (sound)=>{
+        return sound.id == video.id
+      })
     }
 }
