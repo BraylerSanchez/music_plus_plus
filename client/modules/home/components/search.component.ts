@@ -8,6 +8,8 @@ import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/share';
 
+import { ToasterService} from 'angular2-toaster/angular2-toaster';
+
 var addSoundToPlaylistTrigger: any;
 export const onAddSoundToPlaylist: Observable<any> = new Observable( (observable) =>{
   addSoundToPlaylistTrigger = observable;
@@ -51,6 +53,7 @@ export const onRemoveSoundToPlaylist: Observable<any> = new Observable( (observa
       }
     `],
     template: `
+      <toaster-container></toaster-container>
       <div class="inner cover">
         <form class="home">
           <div class="input-group input-group-lg">
@@ -87,7 +90,7 @@ export const onRemoveSoundToPlaylist: Observable<any> = new Observable( (observa
           </div>
         </div>
       </div>`,
-      providers: [PlayerService]
+      providers: [PlayerService, ToasterService]
 })
 export class SearchComponent{
     @Input()
@@ -102,9 +105,10 @@ export class SearchComponent{
     constructor(
       private playerService: PlayerService,
       private router: ActivatedRoute,
-      private ngZone: NgZone
+      private ngZone: NgZone,
+      private toasterService: ToasterService
     ){
-      this.playlist = this.playlist || { name:'', description:'', sounds: [], createAt: new Date(), userAt: '', updateAt: new Date()}
+      this.playlist = this.playlist || { name:'default', description:'', sounds: [], createAt: new Date(), userAt: '', updateAt: new Date()}
       this.queryString = '';
       this.videos = [];
       this.router.params.subscribe( (params) =>{
@@ -133,6 +137,7 @@ export class SearchComponent{
         sound: sound,
         playlist: this.playlist.name
       });
+      this.toasterService.pop('success', 'Added music to playlist', sound.title);
       e.stopPropagation();
     }
     
@@ -146,6 +151,7 @@ export class SearchComponent{
         sound: sound,
         playlist: this.playlist.name
       });
+      this.toasterService.pop('warning', 'Removed music from playlist', sound.title);
       e.stopPropagation();
     }
       
@@ -167,7 +173,12 @@ export class SearchComponent{
     }
     
     play(video){
+      addSoundToPlaylistTrigger.next({
+        sound: video,
+        playlist: this.playlist.name
+      });
       this.playerService.getMusic(video);
+      this.toasterService.pop('success', 'Playing Music', video.title);
     }
     
     isAdded(video){

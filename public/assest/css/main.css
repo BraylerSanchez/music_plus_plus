@@ -185,3 +185,16 @@ div.cover{
   padding-left: 0px !important;
   padding-right: 0px !important;
 }
+
+.padding-right-xs{
+    padding-right: 10px;
+}
+
+.padding-left-xs{
+    padding-left: 10px;
+}
+.toast-success{
+  background-color: white !important;
+  color: black !important;
+  opacity: 0.90 !important;
+}

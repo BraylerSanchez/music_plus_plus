@@ -4,6 +4,7 @@ import { PlayerComponent } from '../modules/player/components/player.component';
 @Component({
   selector: 'app',
     template: `
+    <toaster-container></toaster-container>
     <div class="site-wrapper">
       <div class="site-wrapper-inner">
         <div class="cover-container">

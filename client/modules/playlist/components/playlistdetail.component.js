@@ -11,10 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var forms_1 = require('@angular/forms');
 var router_1 = require('@angular/router');
-<<<<<<< HEAD
-var playlist_interface_1 = require('../../../interfaces/playlist/playlist.interface');
-=======
->>>>>>> features/play_list_component
 var PlayListDetailComponent = (function () {
     function PlayListDetailComponent(fb, router) {
         this.fb = fb;
@@ -44,11 +40,7 @@ var PlayListDetailComponent = (function () {
     ], PlayListDetailComponent.prototype, "onSave", void 0);
     __decorate([
         core_1.Input(), 
-<<<<<<< HEAD
-        __metadata('design:type', (typeof (_a = typeof playlist_interface_1.IPlayList !== 'undefined' && playlist_interface_1.IPlayList) === 'function' && _a) || Object)
-=======
         __metadata('design:type', Object)
->>>>>>> features/play_list_component
     ], PlayListDetailComponent.prototype, "playlist", void 0);
     PlayListDetailComponent = __decorate([
         core_1.Component({
@@ -59,10 +51,6 @@ var PlayListDetailComponent = (function () {
         __metadata('design:paramtypes', [forms_1.FormBuilder, router_1.Router])
     ], PlayListDetailComponent);
     return PlayListDetailComponent;
-<<<<<<< HEAD
-    var _a;
-=======
->>>>>>> features/play_list_component
 }());
 exports.PlayListDetailComponent = PlayListDetailComponent;
 //# sourceMappingURL=playlistdetail.component.js.map
