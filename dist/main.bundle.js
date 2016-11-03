@@ -36,9 +36,14 @@ webpackJsonp([0],{
 	var common_1 = __webpack_require__(23);
 	var platform_browser_1 = __webpack_require__(22);
 	var template_component_1 = __webpack_require__(25);
+<<<<<<< HEAD
 	var app_routes_1 = __webpack_require__(31);
 	var home_module_1 = __webpack_require__(63);
 	var playlist_module_1 = __webpack_require__(69);
+=======
+	var app_routes_1 = __webpack_require__(36);
+	var home_module_1 = __webpack_require__(68);
+>>>>>>> master
 	var player_component_1 = __webpack_require__(26);
 	var AppModule = (function () {
 	    function AppModule() {
@@ -92,7 +97,14 @@ webpackJsonp([0],{
 	    TemplateComponent = __decorate([
 	        core_1.Component({
 	            selector: 'app',
+<<<<<<< HEAD
 	            template: "\n    <div class=\"site-wrapper\">\n      <div class=\"site-wrapper-inner\">\n        <div class=\"cover-container\">\n          <div class=\"masthead clearfix\">\n            <div class=\"inner\">\n              <h3 class=\"masthead-brand\">Music</h3>\n              <nav>\n                <ul class=\"nav masthead-nav\">\n                  <li [routerLinkActive]=\"['active']\" ><a [routerLink]=\"['/home']\" > Home</a> </li>\n                  <li [routerLinkActive]=\"['active']\" ><a [routerLink]=\"['/playlist/list']\" > Play List</a> </li>\n                </ul>\n              </nav>\n            </div>\n          </div>\n          <div class=\"inner cover\">\n            <router-outlet></router-outlet>\n          </div>\n          <div class=\"mastfoot\">\n            <div class=\"inner\">\n              <p>by @los tigueres.</p>\n            </div>\n          </div>\n          <player></player>\n        </div>\n      </div>\n    </div>"
+=======
+	            template: "\n    <div class=\"site-wrapper\">\n      <div class=\"site-wrapper-inner\">\n        <div class=\"cover-container\">\n          <div class=\"masthead clearfix\">\n            <div class=\"inner\">\n              <h3 class=\"masthead-brand\"><i class=\"fa fa-music fa-1x\" (click)=\"search()\"></i> Music</h3>\n              <nav>\n                <div class=\"media-body\">\n                  <ul class=\"nav masthead-nav\">\n                    <li [routerLinkActive]=\"['active']\" >\n                      <a [routerLink]=\"['/home']\" >\n                        Home\n                      </a> \n                    </li>\n                  </ul>\n                </div>\n              </nav>\n            </div>\n          </div>\n          <div class=\"inner cover\">\n            <router-outlet></router-outlet>\n          </div>\n          <div class=\"mastfoot\">\n            <div class=\"inner\">\n              <p>by @los tigueres.</p>\n            </div>\n          </div>\n          <player></player>\n        </div>\n      </div>\n    </div>",
+	            styles: [
+	                "\n      .navItem{\n        display: block;\n        text-align: center;\n      }\n      "
+	            ]
+>>>>>>> master
 	        }), 
 	        __metadata('design:paramtypes', [])
 	    ], TemplateComponent);
@@ -119,22 +131,69 @@ webpackJsonp([0],{
 	var core_1 = __webpack_require__(4);
 	var player_service_1 = __webpack_require__(27);
 	var PlayerComponent = (function () {
-	    function PlayerComponent(playerService) {
+	    function PlayerComponent(playerService, ngZone) {
 	        var _this = this;
 	        this.playerService = playerService;
-	        this.playerService.onPlayMusic()
+	        this.ngZone = ngZone;
+	        this.isPlaying = false;
+	        this.currentTime = 0;
+	        this.duration = 0;
+	        window.AudioContext = window.AudioContext || window.webkitAudioContext;
+	        this.audioContext = new AudioContext();
+	        player_service_1.onPlayMusic
+	            .subscribe(function (response) {
+	            _this.currentSoundDetails = response['details'];
+	            _this.soundBuffer = response['buffer'];
+	            if (_this.currentSound) {
+	                _this.stop();
+	                _this.currentTime = 0;
+	            }
+	            _this.play();
+	        });
+	        player_service_1.onStopMusic
 	            .subscribe(function (sound) {
-	            _this.currentSound = sound;
+	            _this.isPlaying = false;
+	            _this.ngZone.run(function () { });
 	        });
 	    }
+	    PlayerComponent.prototype.play = function () {
+	        var _this = this;
+	        this.isPlaying = true;
+	        this.currentSound = this.audioContext.createBufferSource();
+	        this.audioContext.decodeAudioData(this.soundBuffer, function (buffer) {
+	            _this.currentSound.buffer = buffer;
+	            _this.duration = buffer.duration;
+	            _this.currentSound.connect(_this.audioContext.destination);
+	            _this.currentSound.loop = false;
+	            _this.currentSound.start(0, _this.currentTime);
+	            _this.playingEvent = window.setInterval(function () {
+	                _this.currentTime += 1;
+	                _this.ngZone.run(function () { });
+	            }, 1000);
+	        });
+	        this.ngZone.run(function () { });
+	    };
+	    PlayerComponent.prototype.stop = function () {
+	        window.clearInterval(this.playingEvent);
+	        this.currentTime = this.audioContext.currentTime;
+	        this.currentSound.stop(this.audioContext.currentTime);
+	        this.isPlaying = false;
+	        this.playerService.stopMusic(this.currentSound);
+	    };
+	    PlayerComponent.prototype.toMinute = function (value) {
+	        return Math.round((value / 60) % 60);
+	    };
+	    PlayerComponent.prototype.toSecound = function (value) {
+	        return Math.round(value % 60);
+	    };
 	    PlayerComponent = __decorate([
 	        core_1.Component({
 	            selector: 'player',
-	            styles: ["\n        .player{\n            position:absolute;\n            z-index: 1000;\n            bottom: 0;\n            left: 0;\n            width: 100%;\n        }\n    "],
-	            template: "\n    <div class=\"col-lg-12 no-padding-l-r player\">\n        <h1>Hola mundo</h1>\n    </div>",
+	            styles: ["\n        .player{\n            position: fixed;\n            z-index: 1000;\n            bottom: 0;\n            left: 0;\n            width: 100%;\n            background-color: #fff;\n            border-top: solid 1px #f3f3f3;\n            box-shadow: 0px 0px 4px 1px;\n            height: 48px;\n            padding-top: 10px;\n        }\n        .player .progress{\n            margin-top: 5px;\n        }\n        .player .progress .progress-bar{\n            background-color: #333;\n        }\n        .player .progress .sr-only{\n            color: white;\n            z-index: 1000;\n            position: relative;\n            text-shadow: 0px 0px 3px black;\n        }\n        \n        .player .controls a{\n            font-size: 20pt;\n            color: #333;\n        }\n        \n    "],
+	            template: "\n    <div class=\"col-lg-12 no-padding-l-r player\">\n        <div class=\"col-lg-2 col-md-2 col-sm-2 hidden-xs no-padding-l-r\"></div>\n        <div class=\"col-lg-8 col-md-8 col-sm-8 col-xs-12\">\n            <div class=\"col-lg-2 col-md-2 col-sm-2 col-xs-2 no-padding-l-r controls\">\n                <a *ngIf=\"!isPlaying\" (click)=\"play()\" ><i class=\"glyphicon glyphicon-play\"></i></a>\n                <a *ngIf=\"isPlaying\" (click)=\"stop()\" ><i class=\"glyphicon glyphicon-pause\"></i></a>\n                <span></span>\n            </div>\n            <div class=\"col-lg-8 col-md-8 col-sm-8 col-xs-8\">\n                <div class=\"progress text-center\">\n                  <div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"0\" aria-valuemin=\"0\" aria-valuemax=\"100\" [ngStyle]=\"{'width': (currentTime / duration * 100) + '%'}\">\n                  </div>\n                  <span class=\"sr-only\">{{toMinute(currentTime)}}:{{toSecound(currentTime)}} of {{toMinute(duration)}}:{{toSecound(duration)}}</span>\n                </div>\n            </div>\n            <div class=\"col-lg-2 col-md-2 col-sm-2 col-xs-2 no-padding-l-r controls\">\n                <a><i class=\"glyphicon glyphicon-volume-up\"></i></a>\n            </div>\n        </div>\n        <div class=\"col-lg-2 col-md-2 col-sm-2 hidden-xs no-padding-l-r\"></div>\n    </div>",
 	            providers: [player_service_1.PlayerService]
 	        }), 
-	        __metadata('design:paramtypes', [player_service_1.PlayerService])
+	        __metadata('design:paramtypes', [player_service_1.PlayerService, core_1.NgZone])
 	    ], PlayerComponent);
 	    return PlayerComponent;
 	}());
@@ -160,27 +219,27 @@ webpackJsonp([0],{
 	var http_1 = __webpack_require__(28);
 	var Observable_1 = __webpack_require__(6);
 	__webpack_require__(29);
+	__webpack_require__(31);
 	var headers = new http_1.ResponseOptions({
 	    headers: new http_1.Headers({
 	        'Content-Type': 'application/json'
 	    })
 	});
+	var playSoundObserbable;
+	exports.onPlayMusic = new Observable_1.Observable(function (observable) {
+	    playSoundObserbable = observable;
+	    return function () { };
+	}).share();
+	var stopSoundObserbable;
+	exports.onStopMusic = new Observable_1.Observable(function (observable) {
+	    stopSoundObserbable = observable;
+	}).share();
 	var PlayerService = (function () {
 	    function PlayerService(http) {
-	        var _this = this;
 	        this.http = http;
 	        this.maxResults = 20;
-	        this.isPlaying = false;
 	        this.apiPart = 'snippet';
 	        this.apiKey = 'AIzaSyDsnjiL2Wexp-DgCKMMQF7VyL2xzZLMFaY';
-	        this.playSound = new Observable_1.Observable(function (observable) {
-	            _this.playSoundObserbable = observable;
-	        });
-	        this.stopSound = new Observable_1.Observable(function (obs) {
-	            _this.stopSoundObserbable = obs;
-	        });
-	        window.AudioContext = window.AudioContext || window.webkitAudioContext;
-	        this.audioContext = new AudioContext();
 	    }
 	    PlayerService.prototype.search = function (query) {
 	        return this.http.get("https://www.googleapis.com/youtube/v3/search?part=" + this.apiPart + "&maxResults=" + this.maxResults + "&q=" + query + "&key=" + this.apiKey, headers)
@@ -197,43 +256,20 @@ webpackJsonp([0],{
 	            });
 	        });
 	    };
-	    PlayerService.prototype.onStopMusic = function () {
-	        var _this = this;
-	        this.currentSound.stop();
-	        this.isPlaying = false;
-	        window.setTimeout(function () {
-	            _this.stopSoundObserbable.next(_this.currentVideo);
-	        }, 0);
-	        return this.stopSound;
+	    PlayerService.prototype.stopMusic = function (video) {
+	        stopSoundObserbable.next(video);
 	    };
-	    PlayerService.prototype.onPlayMusic = function (video) {
-	        var _this = this;
-	        if (video != undefined) {
-	            if (this.currentSound != undefined && video.id == this.currentVideo.id) {
-	                this.currentSound.start();
-	            }
-	            else {
-	                if (this.currentSound) {
-	                    this.currentSound.stop();
-	                }
-	                var request = new XMLHttpRequest();
-	                request.open("GET", "/api/stream/play/" + video.id, true);
-	                request.responseType = "arraybuffer";
-	                request.onload = function () {
-	                    _this.currentSound = _this.audioContext.createBufferSource();
-	                    _this.audioContext.decodeAudioData(request.response, function (buffer) {
-	                        _this.currentSound.buffer = buffer;
-	                        _this.currentSound.connect(_this.audioContext.destination);
-	                        _this.currentSound.start(_this.audioContext.currentTime);
-	                        _this.currentVideo = video;
-	                        _this.isPlaying = true;
-	                        _this.playSoundObserbable.next(video);
-	                    });
-	                };
-	                request.send();
-	            }
-	        }
-	        return this.playSound;
+	    PlayerService.prototype.getMusic = function (video) {
+	        var request = new XMLHttpRequest();
+	        request.open("GET", "/api/stream/play/" + video.id, true);
+	        request.responseType = "arraybuffer";
+	        request.onload = function () {
+	            playSoundObserbable.next({
+	                details: video,
+	                buffer: request.response
+	            });
+	        };
+	        request.send();
 	    };
 	    PlayerService = __decorate([
 	        core_1.Injectable(), 
@@ -246,11 +282,11 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 31:
+/***/ 36:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var router_1 = __webpack_require__(32);
+	var router_1 = __webpack_require__(37);
 	exports.routes = [
 	    {
 	        path: '',
@@ -263,7 +299,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 63:
+/***/ 68:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -278,12 +314,12 @@ webpackJsonp([0],{
 	};
 	var core_1 = __webpack_require__(4);
 	var common_1 = __webpack_require__(23);
-	var forms_1 = __webpack_require__(64);
+	var forms_1 = __webpack_require__(69);
 	var http_1 = __webpack_require__(28);
 	var platform_browser_1 = __webpack_require__(22);
-	var home_routes_1 = __webpack_require__(66);
-	var home_component_1 = __webpack_require__(67);
-	var search_component_1 = __webpack_require__(68);
+	var home_routes_1 = __webpack_require__(71);
+	var home_component_1 = __webpack_require__(72);
+	var search_component_1 = __webpack_require__(73);
 	var HomeModule = (function () {
 	    function HomeModule() {
 	    }
@@ -311,7 +347,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 64:
+/***/ 69:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -320,7 +356,7 @@ webpackJsonp([0],{
 	 * License: MIT
 	 */
 	(function (global, factory) {
-	     true ? factory(exports, __webpack_require__(4), __webpack_require__(65), __webpack_require__(5), __webpack_require__(6), __webpack_require__(59)) :
+	     true ? factory(exports, __webpack_require__(4), __webpack_require__(70), __webpack_require__(5), __webpack_require__(6), __webpack_require__(64)) :
 	    typeof define === 'function' && define.amd ? define(['exports', '@angular/core', 'rxjs/operator/toPromise', 'rxjs/Subject', 'rxjs/Observable', 'rxjs/observable/fromPromise'], factory) :
 	    (factory((global.ng = global.ng || {}, global.ng.forms = global.ng.forms || {}),global.ng.core,global.Rx.Observable.prototype,global.Rx,global.Rx,global.Rx.Observable));
 	}(this, function (exports,_angular_core,rxjs_operator_toPromise,rxjs_Subject,rxjs_Observable,rxjs_observable_fromPromise) { 'use strict';
@@ -4755,13 +4791,13 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 66:
+/***/ 71:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var router_1 = __webpack_require__(32);
-	var home_component_1 = __webpack_require__(67);
-	var search_component_1 = __webpack_require__(68);
+	var router_1 = __webpack_require__(37);
+	var home_component_1 = __webpack_require__(72);
+	var search_component_1 = __webpack_require__(73);
 	exports.routes = [
 	    {
 	        path: 'home',
@@ -4776,7 +4812,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 67:
+/***/ 72:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4790,7 +4826,7 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
-	var router_1 = __webpack_require__(32);
+	var router_1 = __webpack_require__(37);
 	var HomeComponent = (function () {
 	    function HomeComponent(router) {
 	        this.router = router;
@@ -4811,7 +4847,7 @@ webpackJsonp([0],{
 	    HomeComponent = __decorate([
 	        core_1.Component({
 	            styles: ["\n      .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n    "],
-	            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <button class=\"btn btn-default search-button\" type=\"button\" (click)=\"search()\">Go!</button>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <a *ngFor=\"let video of videos\" class=\"list-group-item\" >{{video.title}}\n            <i *ngIf=\"currentSound.id != video.id\" (click)=\"play(video)\" class=\"glyphicon glyphicon-play pull-right\"></i>\n            <i *ngIf=\"currentSound.id == video.id\" (click)=\"stop(video)\" class=\"glyphicon glyphicon-pause pull-right\"></i>\n          </a>\n        </div>\n      </div>"
+	            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <i class=\"btn btn-default fa fa-search search-button\" type=\"button\" (click)=\"search()\"></i>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <a *ngFor=\"let video of videos\" class=\"list-group-item\" >{{video.title}}\n            <i *ngIf=\"currentSound.id != video.id\" (click)=\"play(video)\" class=\"glyphicon glyphicon-play pull-right\"></i>\n            <i *ngIf=\"currentSound.id == video.id\" (click)=\"stop(video)\" class=\"glyphicon glyphicon-pause pull-right\"></i>\n          </a>\n        </div>\n      </div>"
 	        }), 
 	        __metadata('design:paramtypes', [router_1.Router])
 	    ], HomeComponent);
@@ -4822,7 +4858,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 68:
+/***/ 73:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4836,13 +4872,15 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
-	var router_1 = __webpack_require__(32);
+	var router_1 = __webpack_require__(37);
 	var player_service_1 = __webpack_require__(27);
 	var SearchComponent = (function () {
-	    function SearchComponent(playerService, router) {
+	    function SearchComponent(playerService, router, ngZone) {
 	        var _this = this;
 	        this.playerService = playerService;
 	        this.router = router;
+	        this.ngZone = ngZone;
+	        this.sounds = [];
 	        this.currentSound = {
 	            id: ''
 	        };
@@ -4856,7 +4894,33 @@ webpackJsonp([0],{
 	                }
 	            }
 	        });
+	        player_service_1.onPlayMusic
+	            .subscribe(function (response) {
+	            _this.currentSound = response['details'];
+	        });
+	        player_service_1.onStopMusic
+	            .subscribe(function (sound) {
+	            _this.currentSound = sound;
+	            _this.ngZone.run(function () { });
+	        });
 	    }
+	    SearchComponent.prototype.addFromPlaylist = function (e, sound) {
+	        this.sounds.push(sound);
+	        e.stopPropagation();
+	    };
+	    SearchComponent.prototype.removeFromPlaylist = function (e, sound) {
+	        for (var i = this.sounds.length - 1; i >= 0; i--) {
+	            if (this.sounds[i].id == sound.id) {
+	                this.sounds.splice(i, 1);
+	            }
+	        }
+	        e.stopPropagation();
+	    };
+	    SearchComponent.prototype.handleKeyup = function (e) {
+	        if (e.keyCode == 13) {
+	            this.search();
+	        }
+	    };
 	    SearchComponent.prototype.search = function () {
 	        var _this = this;
 	        if (this.queryString.length <= 0) {
@@ -4869,20 +4933,26 @@ webpackJsonp([0],{
 	        });
 	    };
 	    SearchComponent.prototype.play = function (video) {
-	        var _this = this;
-	        this.playerService.onPlayMusic(video)
-	            .subscribe(function (sound) {
-	            _this.currentSound = sound;
+	        this.playerService.getMusic(video);
+	    };
+	    SearchComponent.prototype.isAdded = function (video) {
+	        return this.sounds.some(function (sound) {
+	            return sound.id == video.id;
 	        });
 	    };
 	    SearchComponent = __decorate([
 	        core_1.Component({
 	            selector: 'search',
+<<<<<<< HEAD
 	            styles: ["\n    .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n      \n      .playing{\n        content:url(\"http://rs339.pbsrc.com/albums/n442/mcrmy_derick/equalizer.gif~c200\");\n        height: 10%;\n        width: 10%;\n      }\n      \n      .video{\n        color: #333333;\n      }\n\n    .media-object{\n            border-radius: 5px !important;\n        }\n    "],
 	            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <button class=\"btn btn-default search-button\" type=\"button\" (click)=\"search()\">Go!</button>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <div class=\"video list-group-item\" *ngFor=\"let video of videos\" (click)=\"play(video)\">\n            <div class=\"media-left\">\n              <span>\n                <img id=\"\n                \" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n              </span>\n            </div>\n            <div class=\"media-body text-left\">\n              <h4 id=\"title\" class=\"media-heading\">{{ video.title }}\n              <img class=\"glyphicon pull-right\" *ngIf=\"video.id == currentSound.id\" [ngClass]=\"{ 'playing': video.id == currentSound.id }\">\n              </h4>\n              <span id=\"channel\">{{ video.channel }}</span>\n              \n              <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n            </div>\n          </div>\n        </div>\n      </div>",
+=======
+	            styles: ["\n      .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n      \n      .playing{\n        content:url(\"assest/images/equalizer.gif\");\n        height: 10%;\n        width: 10%;\n      }\n      \n      .video{\n        color: #333333;\n      }\n\n      .media-object{\n          border-radius: 5px !important;\n      }\n      .media-heading .title{\n        cursor: pointer;\n      }\n      .media-heading .title small{\n        display: none;\n      }\n      .media-heading:hover .title small{\n        display: inline-block;\n      }\n    "],
+	            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <i class=\"fa fa-search btn btn-default search-button\" type=\"button\" (click)=\"search()\"></i>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <div class=\"video list-group-item\" *ngFor=\"let video of videos\">\n            <div class=\"media-left\">\n              <span>\n                <img id=\"\n                \" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n              </span>\n            </div>\n            <div class=\"media-body text-left\">\n              <div class=\"media-heading\">\n                <h4 class=\"title\" (click)=\"play(video)\" >\n                {{ video.title }} \n                <small >\n                  click to play <i class=\"fa fa-play\"></i>\n                </small>\n                <i *ngIf=\"!isAdded(video)\" class=\"fa fa-plus pull-right\" (click)=\"addFromPlaylist($event, video)\"></i>\n                <i *ngIf=\"isAdded(video)\" class=\"fa fa-minus pull-right\" (click)=\"removeFromPlaylist($event, video)\"></i>\n                <img class=\"glyphicon pull-right\" *ngIf=\"video.id == currentSound.id\" [ngClass]=\"{ 'playing': video.id == currentSound.id }\">\n                </h4>\n              </div>\n              <span  id=\"channel\">{{ video.channel }}</span>\n              <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n              \n            </div>\n          </div>\n        </div>\n        <div *ngFor=\"let cancion of canciones; let i = index\">\n        <ul>\n          <li>{{ i }} - {{ cancion.isOnList }} - {{cancion.title}}</li>\n        </ul>\n        </div>\n      </div>",
+>>>>>>> master
 	            providers: [player_service_1.PlayerService]
 	        }), 
-	        __metadata('design:paramtypes', [player_service_1.PlayerService, router_1.ActivatedRoute])
+	        __metadata('design:paramtypes', [player_service_1.PlayerService, router_1.ActivatedRoute, core_1.NgZone])
 	    ], SearchComponent);
 	    return SearchComponent;
 	}());
