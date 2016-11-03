@@ -1,7 +1,9 @@
 import { Component, NgZone, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
 import { PlayerService } from '../../../services/player/player.service';
+import { IPlayList } from '../../../interfaces/playlist/playlist.interface';
 import { Sound } from '../../../interfaces/player/sound.interface';
+import { onAddSoundToPlaylist, onRemoveSoundToPlaylist } from '../../home/components/search.component';
 
 @Component({
     selector: 'songlist',
@@ -13,12 +15,12 @@ import { Sound } from '../../../interfaces/player/sound.interface';
     template: `
     
         <div class="list-group">
-            <div *ngIf="videos.length == 0">
+            <div *ngIf="playlist.sounds.length == 0">
                 <div class="alert alert-info">
                     <h4>Not songs added</h4>
                 </div>
             </div>
-            <div class="video list-group-item" *ngFor="let video of videos">
+            <div class="video list-group-item" *ngFor="let video of playlist.sounds">
                 <div class="media-left">
                     <span>
                         <img id="" class="media-object" src="{{ video.thumbnail }}" alt="...">
@@ -46,9 +48,19 @@ import { Sound } from '../../../interfaces/player/sound.interface';
 
 export class SongListComponent{
     @Input()
-    videos: Array<Sound> = [];
+    private playlist: IPlayList;
     
     constructor(){
+        onAddSoundToPlaylist.subscribe((result) => {
+            this.playlist.sounds.push(result.sound)
+        })
         
+        onRemoveSoundToPlaylist.subscribe((result) => {
+          for( var i = this.playlist.sounds.length-1; i>=0; i--) {
+            if( this.playlist.sounds[i].id == result.sound.id){
+              this.playlist.sounds.splice(i,1);
+            }
+          }
+        })
     }
 }

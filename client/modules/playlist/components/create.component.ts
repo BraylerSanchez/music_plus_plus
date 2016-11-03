@@ -62,7 +62,10 @@ import { PlaylistService } from '../../../services/playlist/playlist.service';
                             <div class="tab-pane" role="tabpanel" [ngClass]="{'active': step==2}">
                                 <div class="col-sm-6">
                                     <h3>Play list:</h3>
-                                    <songlist></songlist>
+                                    <songlist
+                                    
+                                    [playlist]="playlist"
+                                    ></songlist>
                                 </div>
                                 <div class="col-sm-6">
                                     <h3>Search songs:</h3>

@@ -1,7 +1,22 @@
-import { Component, NgZone, Input, Output, EventEmitter } from '@angular/core';
+import { Component, NgZone, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
 import { PlayerService, onPlayMusic, onStopMusic } from '../../../services/player/player.service';
 import { Sound } from '../../../interfaces/player/sound.interface';
+import { IPlaylist } from '../../../interfaces/playlist/playlist.interface';
+
+import { Observable } from 'rxjs/Observable'
+import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/share';
+
+var addSoundToPlaylistTrigger: any;
+export const onAddSoundToPlaylist: Observable<Sound> = new Observable( (observable) =>{
+  addSoundToPlaylistTrigger = observable;
+}).share();
+
+var removeSoundToPlaylistTrigger: any;
+export const onRemoveSoundToPlaylist: Observable<Sound> = new Observable( (observable) =>{
+  removeSoundToPlaylistTrigger = observable;
+}).share();
 
 @Component({
     selector: 'search',
@@ -71,18 +86,15 @@ import { Sound } from '../../../interfaces/player/sound.interface';
             </div>
           </div>
         </div>
-        <div *ngFor="let cancion of canciones; let i = index">
-        <ul>
-          <li>{{ i }} - {{ cancion.isOnList }} - {{cancion.title}}</li>
-        </ul>
-        </div>
       </div>`,
       providers: [PlayerService]
 })
 export class SearchComponent{
+    @Input()
+    playlist: IPlaylist;
+    
     private queryString:string;
     private videos: Array<Sound>;
-    private sounds: Array<Sound> =[];
     private currentSound: any = {
       id: ''
     };
@@ -115,16 +127,24 @@ export class SearchComponent{
     }
     
     addFromPlaylist(e, sound: Sound){
-      this.sounds.push(sound);
+      this.playlist.sounds.push(sound);
+      addSoundToPlaylistTrigger.next({
+        sound: sound,
+        playlist: this.playlist.name
+      });
       e.stopPropagation();
     }
     
     removeFromPlaylist(e,  sound: Sound){
-      for( var i=this.sounds.length-1; i>=0; i--) {
-        if( this.sounds[i].id == sound.id){
-          this.sounds.splice(i,1);
+      for( var i = this.playlist.sounds.length-1; i>=0; i--) {
+        if( this.playlist.sounds[i].id == sound.id){
+          this.playlist.sounds.splice(i,1);
         }
       }
+      removeSoundToPlaylistTrigger.next({
+        sound: sound,
+        playlist: this.playlist.name
+      });
       e.stopPropagation();
     }
       
@@ -150,7 +170,7 @@ export class SearchComponent{
     }
     
     isAdded(video){
-      return this.sounds.some( (sound)=>{
+      return this.playlist.sounds.some( (sound)=>{
         return sound.id == video.id
       })
     }
