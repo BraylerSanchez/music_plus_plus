@@ -2,13 +2,16 @@ import { Component, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SearchComponent } from '../../home/components/search.component';
 import { PlayListDetailComponent } from './playlistdetail.component';
+import { SongListComponent } from './songlist.component';
 import { IPlayList } from '../../../interfaces/playlist/playlist.interface';
 import { PlaylistService } from '../../../services/playlist/playlist.service';
 
 @Component({
     selector: 'playlistcreate',
     styles: [ `
-    
+        search div.cover {
+            margin-top: 0px !important;
+        }
     `
     ],
     styleUrls: ['modules/playlist/components/wizardtemplate.css'],
@@ -22,7 +25,7 @@ import { PlaylistService } from '../../../services/playlist/playlist.service';
                         <div class="connecting-line"></div>
                         <ul class="nav nav-tabs" role="tablist">
                             <li role="presentation" [ngClass]="{'active': step == 1, 'disabled': step > 1}">
-                                <a (click)="step='step1'" role="tab" title="Creat list detail">
+                                <a role="tab" title="Creat list detail">
                                     <span class="round-tab">
                                         <i class="glyphicon glyphicon-pencil"></i>    
                                     </span>
@@ -30,7 +33,7 @@ import { PlaylistService } from '../../../services/playlist/playlist.service';
                             </li>
         
                             <li role="presentation" class="" [ngClass]="{'active': step == 2, 'disabled': step < 2}">
-                                <a (click)="step='step2'" data-toogle="tab" aria-controls="step2" title="Select songs">
+                                <a data-toogle="tab" title="Select songs">
                                     <span class="round-tab">
                                         <i class="glyphicon glyphicon-folder-open"></i>
                                     </span>
@@ -38,7 +41,7 @@ import { PlaylistService } from '../../../services/playlist/playlist.service';
                             </li>
                             
                             <li role="presentation" [ngClass]="{'active': step=='3', 'disabled': step < 3}">
-                                <a href="#complete" data-toggle="tab" aria-controls="complete" role="tab" title="Complete">
+                                <a  title="Complete">
                                     <span class="round-tab">
                                         <i class="glyphicon glyphicon-ok"></i>
                                     </span>
@@ -50,17 +53,25 @@ import { PlaylistService } from '../../../services/playlist/playlist.service';
                     
                     <form role="form">
                         <div class="tab-content">
-                            <div class="tab-pane active" role="tabpanel" [ngClass]="{'active': step=='1'}">
+                            <div class="tab-pane active" role="tabpanel" [ngClass]="{'active': step==1}">
                                 <playlistdetail 
                                 (onSave)="step1Save($event)"
                                 [playlist]="playlist"
                                 ></playlistdetail>
                             </div>
-                            <div class="tab-pane" role="tabpanel" [ngClass]="{'active': step=='2'}">
-                                <search></search>
+                            <div class="tab-pane" role="tabpanel" [ngClass]="{'active': step==2}">
+                                <div class="col-sm-6">
+                                    <h3>Play list:</h3>
+                                    <songlist></songlist>
+                                </div>
+                                <div class="col-sm-6">
+                                    <h3>Search songs:</h3>
+                                    <search></search>
+                                </div>
+                                
                             </div>
                             
-                            <div class="tab-pane" role="tabpanel" [ngClass]="{'active': step=='3'}">
+                            <div class="tab-pane" role="tabpanel" [ngClass]="{'active': step==3}">
                                 <h3>Complete</h3>
                                 <p>You have successfully completed all steps.</p>
                             </div>
@@ -81,6 +92,7 @@ export class CreateListComponent{
     private step:number = 1;
     @ViewChild(SearchComponent) searchComponent: SearchComponent;
     @ViewChild(PlayListDetailComponent) playlistdetailComponent: PlayListDetailComponent;
+    @ViewChild(SongListComponent) songlistComponent : SongListComponent;
     private playlist: IPlayList;
     
     constructor(

@@ -173,6 +173,10 @@ div.masthead{
   z-index: 1000 !important;
 }
 
+.wizard search div.cover{
+  margin-top: 0px !important;
+}
+
 div.cover{
   margin-top: 100px !important;
 }
