@@ -9,7 +9,7 @@ import { PlayerComponent } from '../modules/player/player.component';
         <div class="cover-container">
           <div class="masthead clearfix">
             <div class="inner">
-              <h3 class="masthead-brand"><i class="fa fa-music fa-1x" (click)="search()"></i> Music</h3>
+              <h1 class="masthead-brand"><i class="fa fa-music fa-1x" (click)="search()"></i> Music</h1>
               <nav>
                 <div class="media-body">
                   <ul class="nav masthead-nav">
