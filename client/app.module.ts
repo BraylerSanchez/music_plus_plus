@@ -6,13 +6,15 @@ import { routing } from './app.routes';
 
 import { HomeModule } from './modules/home/home.module';
 import { PlayerModule } from './modules/player/player.module';
+import { PlaylistModule } from './modules/playlist/playlist.module';
 
 @NgModule({
     imports:      [
         routing,
         BrowserModule,
         HomeModule,
-        PlayerModule
+        PlayerModule,
+        PlaylistModule
     ],
     declarations: [ TemplateComponent ],
     bootstrap:    [ TemplateComponent ],

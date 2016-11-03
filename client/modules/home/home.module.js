@@ -27,8 +27,12 @@ var HomeModule = (function () {
                 forms_1.FormsModule,
                 common_1.CommonModule,
                 home_routes_1.routing],
+            exports: [
+                search_component_1.SearchComponent
+            ],
             declarations: [home_component_1.HomeComponent, search_component_1.SearchComponent],
-            bootstrap: [home_component_1.HomeComponent]
+            bootstrap: [home_component_1.HomeComponent],
+            schemas: [core_1.CUSTOM_ELEMENTS_SCHEMA]
         }), 
         __metadata('design:paramtypes', [])
     ], HomeModule);

@@ -37,7 +37,11 @@ var PlaylistController = (function () {
         if (id == '0') {
             res.send({
                 status: false,
+<<<<<<< HEAD
                 playlist: {},
+=======
+                playlist: { sounds: [] },
+>>>>>>> features/play_list_component
                 message: 'object no found'
             });
         }

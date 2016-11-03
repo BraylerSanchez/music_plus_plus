@@ -14,7 +14,12 @@ var platform_browser_1 = require('@angular/platform-browser');
 var template_component_1 = require('./templates/template.component');
 var app_routes_1 = require('./app.routes');
 var home_module_1 = require('./modules/home/home.module');
+<<<<<<< HEAD
 var player_module_1 = require('./modules/player/player.module');
+=======
+var playlist_module_1 = require('./modules/playlist/playlist.module');
+var player_component_1 = require('./modules/player/player.component');
+>>>>>>> features/play_list_component
 var AppModule = (function () {
     function AppModule() {
     }
@@ -24,7 +29,11 @@ var AppModule = (function () {
                 app_routes_1.routing,
                 platform_browser_1.BrowserModule,
                 home_module_1.HomeModule,
+<<<<<<< HEAD
                 player_module_1.PlayerModule
+=======
+                playlist_module_1.PlaylistModule
+>>>>>>> features/play_list_component
             ],
             declarations: [template_component_1.TemplateComponent],
             bootstrap: [template_component_1.TemplateComponent],

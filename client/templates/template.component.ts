@@ -9,11 +9,18 @@ import { PlayerComponent } from '../modules/player/components/player.component';
         <div class="cover-container">
           <div class="masthead clearfix">
             <div class="inner">
-              <h3 class="masthead-brand">Music</h3>
+              <h3 class="masthead-brand"><i class="fa fa-music fa-1x" (click)="search()"></i> Music</h3>
               <nav>
-                <ul class="nav masthead-nav">
-                  <li [routerLinkActive]="['active']" ><a [routerLink]="['/home']" > Home</a> </li>
-                </ul>
+                <div class="media-body">
+                  <ul class="nav masthead-nav">
+                    <li [routerLinkActive]="['active']" >
+                      <a [routerLink]="['/home']" >
+                        Home
+                      </a> 
+                    </li>
+                    <li [routerLinkActive]="['active']" ><a [routerLink]="['/playlist/list']" > Play List</a> </li>
+                  </ul>
+                </div>
               </nav>
             </div>
           </div>
@@ -28,7 +35,15 @@ import { PlayerComponent } from '../modules/player/components/player.component';
           <player></player>
         </div>
       </div>
-    </div>`
+    </div>`,
+    styles: [
+      `
+      .navItem{
+        display: block;
+        text-align: center;
+      }
+      `
+      ]
 })
 export class TemplateComponent{
     @ViewChild(PlayerComponent) playerComponent: PlayerComponent;
