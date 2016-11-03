@@ -25,7 +25,6 @@ export const onStopMusic: Observable<Sound> = new Observable( (observable) =>{
 
 @Injectable()
 export class PlayerService{
-    public currentVideo: Sound;
     private apiPart: string;
     private maxResults = 20;
     private apiKey: string;

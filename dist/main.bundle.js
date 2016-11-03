@@ -90,7 +90,10 @@ webpackJsonp([0],{
 	    TemplateComponent = __decorate([
 	        core_1.Component({
 	            selector: 'app',
-	            template: "\n    <div class=\"site-wrapper\">\n      <div class=\"site-wrapper-inner\">\n        <div class=\"cover-container\">\n          <div class=\"masthead clearfix\">\n            <div class=\"inner\">\n              <h3 class=\"masthead-brand\">Music</h3>\n              <nav>\n                <ul class=\"nav masthead-nav\">\n                  <li [routerLinkActive]=\"['active']\" ><a [routerLink]=\"['/home']\" > Home</a> </li>\n                </ul>\n              </nav>\n            </div>\n          </div>\n          <div class=\"inner cover\">\n            <router-outlet></router-outlet>\n          </div>\n          <div class=\"mastfoot\">\n            <div class=\"inner\">\n              <p>by @los tigueres.</p>\n            </div>\n          </div>\n          <player></player>\n        </div>\n      </div>\n    </div>"
+	            template: "\n    <div class=\"site-wrapper\">\n      <div class=\"site-wrapper-inner\">\n        <div class=\"cover-container\">\n          <div class=\"masthead clearfix\">\n            <div class=\"inner\">\n              <h3 class=\"masthead-brand\"><i class=\"fa fa-music fa-1x\" (click)=\"search()\"></i> Music</h3>\n              <nav>\n                <div class=\"media-body\">\n                  <ul class=\"nav masthead-nav\">\n                    <li [routerLinkActive]=\"['active']\" >\n                      <a [routerLink]=\"['/home']\" >\n                        Home\n                      </a> \n                    </li>\n                  </ul>\n                </div>\n              </nav>\n            </div>\n          </div>\n          <div class=\"inner cover\">\n            <router-outlet></router-outlet>\n          </div>\n          <div class=\"mastfoot\">\n            <div class=\"inner\">\n              <p>by @los tigueres.</p>\n            </div>\n          </div>\n          <player></player>\n        </div>\n      </div>\n    </div>",
+	            styles: [
+	                "\n      .navItem{\n        display: block;\n        text-align: center;\n      }\n      "
+	            ]
 	        }), 
 	        __metadata('design:paramtypes', [])
 	    ], TemplateComponent);
@@ -4829,7 +4832,7 @@ webpackJsonp([0],{
 	    HomeComponent = __decorate([
 	        core_1.Component({
 	            styles: ["\n      .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n    "],
-	            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <button class=\"btn btn-default search-button\" type=\"button\" (click)=\"search()\">Go!</button>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <a *ngFor=\"let video of videos\" class=\"list-group-item\" >{{video.title}}\n            <i *ngIf=\"currentSound.id != video.id\" (click)=\"play(video)\" class=\"glyphicon glyphicon-play pull-right\"></i>\n            <i *ngIf=\"currentSound.id == video.id\" (click)=\"stop(video)\" class=\"glyphicon glyphicon-pause pull-right\"></i>\n          </a>\n        </div>\n      </div>"
+	            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <i class=\"btn btn-default fa fa-search search-button\" type=\"button\" (click)=\"search()\"></i>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <a *ngFor=\"let video of videos\" class=\"list-group-item\" >{{video.title}}\n            <i *ngIf=\"currentSound.id != video.id\" (click)=\"play(video)\" class=\"glyphicon glyphicon-play pull-right\"></i>\n            <i *ngIf=\"currentSound.id == video.id\" (click)=\"stop(video)\" class=\"glyphicon glyphicon-pause pull-right\"></i>\n          </a>\n        </div>\n      </div>"
 	        }), 
 	        __metadata('design:paramtypes', [router_1.Router])
 	    ], HomeComponent);
@@ -4862,6 +4865,7 @@ webpackJsonp([0],{
 	        this.playerService = playerService;
 	        this.router = router;
 	        this.ngZone = ngZone;
+	        this.sounds = [];
 	        this.currentSound = {
 	            id: ''
 	        };
@@ -4883,6 +4887,23 @@ webpackJsonp([0],{
 	            _this.ngZone.run(function () { });
 	        });
 	    }
+	    SearchComponent.prototype.addFromPlaylist = function (e, sound) {
+	        this.sounds.push(sound);
+	        e.stopPropagation();
+	    };
+	    SearchComponent.prototype.removeFromPlaylist = function (e, sound) {
+	        for (var i = this.sounds.length - 1; i >= 0; i--) {
+	            if (this.sounds[i].id == sound.id) {
+	                this.sounds.splice(i, 1);
+	            }
+	        }
+	        e.stopPropagation();
+	    };
+	    SearchComponent.prototype.handleKeyup = function (e) {
+	        if (e.keyCode == 13) {
+	            this.search();
+	        }
+	    };
 	    SearchComponent.prototype.search = function () {
 	        var _this = this;
 	        if (this.queryString.length <= 0) {
@@ -4897,10 +4918,16 @@ webpackJsonp([0],{
 	    SearchComponent.prototype.play = function (video) {
 	        this.playerService.getMusic(video);
 	    };
+	    SearchComponent.prototype.isAdded = function (video) {
+	        return this.sounds.some(function (sound) {
+	            return sound.id == video.id;
+	        });
+	    };
 	    SearchComponent = __decorate([
 	        core_1.Component({
-	            styles: ["\n    .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n      \n      .playing{\n        content:url(\"http://rs339.pbsrc.com/albums/n442/mcrmy_derick/equalizer.gif~c200\");\n        height: 10%;\n        width: 10%;\n      }\n      \n      .video{\n        color: #333333;\n      }\n\n    .media-object{\n            border-radius: 5px !important;\n        }\n    "],
-	            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <button class=\"btn btn-default search-button\" type=\"button\" (click)=\"search()\">Go!</button>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <div class=\"video list-group-item\" *ngFor=\"let video of videos\" (click)=\"play(video)\">\n            <div class=\"media-left\">\n              <span>\n                <img id=\"\n                \" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n              </span>\n            </div>\n            <div class=\"media-body text-left\">\n              <h4 id=\"title\" class=\"media-heading\">{{ video.title }}\n              <img class=\"glyphicon pull-right\" *ngIf=\"video.id == currentSound.id\" [ngClass]=\"{ 'playing': video.id == currentSound.id }\">\n              </h4>\n              <span id=\"channel\">{{ video.channel }}</span>\n              \n              <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n            </div>\n          </div>\n        </div>\n      </div>",
+	            selector: 'search',
+	            styles: ["\n      .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n      \n      .playing{\n        content:url(\"assest/images/equalizer.gif\");\n        height: 10%;\n        width: 10%;\n      }\n      \n      .video{\n        color: #333333;\n      }\n\n      .media-object{\n          border-radius: 5px !important;\n      }\n      .media-heading .title{\n        cursor: pointer;\n      }\n      .media-heading .title small{\n        display: none;\n      }\n      .media-heading:hover .title small{\n        display: inline-block;\n      }\n    "],
+	            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <i class=\"fa fa-search btn btn-default search-button\" type=\"button\" (click)=\"search()\"></i>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <div class=\"video list-group-item\" *ngFor=\"let video of videos\">\n            <div class=\"media-left\">\n              <span>\n                <img id=\"\n                \" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n              </span>\n            </div>\n            <div class=\"media-body text-left\">\n              <div class=\"media-heading\">\n                <h4 class=\"title\" (click)=\"play(video)\" >\n                {{ video.title }} \n                <small >\n                  click to play <i class=\"fa fa-play\"></i>\n                </small>\n                <i *ngIf=\"!isAdded(video)\" class=\"fa fa-plus pull-right\" (click)=\"addFromPlaylist($event, video)\"></i>\n                <i *ngIf=\"isAdded(video)\" class=\"fa fa-minus pull-right\" (click)=\"removeFromPlaylist($event, video)\"></i>\n                <img class=\"glyphicon pull-right\" *ngIf=\"video.id == currentSound.id\" [ngClass]=\"{ 'playing': video.id == currentSound.id }\">\n                </h4>\n              </div>\n              <span  id=\"channel\">{{ video.channel }}</span>\n              <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n              \n            </div>\n          </div>\n        </div>\n        <div *ngFor=\"let cancion of canciones; let i = index\">\n        <ul>\n          <li>{{ i }} - {{ cancion.isOnList }} - {{cancion.title}}</li>\n        </ul>\n        </div>\n      </div>",
 	            providers: [player_service_1.PlayerService]
 	        }), 
 	        __metadata('design:paramtypes', [player_service_1.PlayerService, router_1.ActivatedRoute, core_1.NgZone])
