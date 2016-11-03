@@ -36,14 +36,9 @@ webpackJsonp([0],{
 	var common_1 = __webpack_require__(23);
 	var platform_browser_1 = __webpack_require__(22);
 	var template_component_1 = __webpack_require__(25);
-<<<<<<< HEAD
-	var app_routes_1 = __webpack_require__(31);
-	var home_module_1 = __webpack_require__(63);
-	var playlist_module_1 = __webpack_require__(69);
-=======
 	var app_routes_1 = __webpack_require__(36);
 	var home_module_1 = __webpack_require__(68);
->>>>>>> master
+	var playlist_module_1 = __webpack_require__(74);
 	var player_component_1 = __webpack_require__(26);
 	var AppModule = (function () {
 	    function AppModule() {
@@ -97,14 +92,10 @@ webpackJsonp([0],{
 	    TemplateComponent = __decorate([
 	        core_1.Component({
 	            selector: 'app',
-<<<<<<< HEAD
-	            template: "\n    <div class=\"site-wrapper\">\n      <div class=\"site-wrapper-inner\">\n        <div class=\"cover-container\">\n          <div class=\"masthead clearfix\">\n            <div class=\"inner\">\n              <h3 class=\"masthead-brand\">Music</h3>\n              <nav>\n                <ul class=\"nav masthead-nav\">\n                  <li [routerLinkActive]=\"['active']\" ><a [routerLink]=\"['/home']\" > Home</a> </li>\n                  <li [routerLinkActive]=\"['active']\" ><a [routerLink]=\"['/playlist/list']\" > Play List</a> </li>\n                </ul>\n              </nav>\n            </div>\n          </div>\n          <div class=\"inner cover\">\n            <router-outlet></router-outlet>\n          </div>\n          <div class=\"mastfoot\">\n            <div class=\"inner\">\n              <p>by @los tigueres.</p>\n            </div>\n          </div>\n          <player></player>\n        </div>\n      </div>\n    </div>"
-=======
-	            template: "\n    <div class=\"site-wrapper\">\n      <div class=\"site-wrapper-inner\">\n        <div class=\"cover-container\">\n          <div class=\"masthead clearfix\">\n            <div class=\"inner\">\n              <h3 class=\"masthead-brand\"><i class=\"fa fa-music fa-1x\" (click)=\"search()\"></i> Music</h3>\n              <nav>\n                <div class=\"media-body\">\n                  <ul class=\"nav masthead-nav\">\n                    <li [routerLinkActive]=\"['active']\" >\n                      <a [routerLink]=\"['/home']\" >\n                        Home\n                      </a> \n                    </li>\n                  </ul>\n                </div>\n              </nav>\n            </div>\n          </div>\n          <div class=\"inner cover\">\n            <router-outlet></router-outlet>\n          </div>\n          <div class=\"mastfoot\">\n            <div class=\"inner\">\n              <p>by @los tigueres.</p>\n            </div>\n          </div>\n          <player></player>\n        </div>\n      </div>\n    </div>",
+	            template: "\n    <div class=\"site-wrapper\">\n      <div class=\"site-wrapper-inner\">\n        <div class=\"cover-container\">\n          <div class=\"masthead clearfix\">\n            <div class=\"inner\">\n              <h3 class=\"masthead-brand\"><i class=\"fa fa-music fa-1x\" (click)=\"search()\"></i> Music</h3>\n              <nav>\n                <div class=\"media-body\">\n                  <ul class=\"nav masthead-nav\">\n                    <li [routerLinkActive]=\"['active']\" >\n                      <a [routerLink]=\"['/home']\" >\n                        Home\n                      </a> \n                    </li>\n                    <li [routerLinkActive]=\"['active']\" ><a [routerLink]=\"['/playlist/list']\" > Play List</a> </li>\n                  </ul>\n                </div>\n              </nav>\n            </div>\n          </div>\n          <div class=\"inner cover\">\n            <router-outlet></router-outlet>\n          </div>\n          <div class=\"mastfoot\">\n            <div class=\"inner\">\n              <p>by @los tigueres.</p>\n            </div>\n          </div>\n          <player></player>\n        </div>\n      </div>\n    </div>",
 	            styles: [
 	                "\n      .navItem{\n        display: block;\n        text-align: center;\n      }\n      "
 	            ]
->>>>>>> master
 	        }), 
 	        __metadata('design:paramtypes', [])
 	    ], TemplateComponent);
@@ -4874,13 +4865,25 @@ webpackJsonp([0],{
 	var core_1 = __webpack_require__(4);
 	var router_1 = __webpack_require__(37);
 	var player_service_1 = __webpack_require__(27);
+	var playlist_interface_1 = __webpack_require__(679);
+	var Observable_1 = __webpack_require__(6);
+	__webpack_require__(29);
+	__webpack_require__(31);
+	var addSoundToPlaylistTrigger;
+	exports.onAddSoundToPlaylist = new Observable_1.Observable(function (observable) {
+	    addSoundToPlaylistTrigger = observable;
+	}).share();
+	var removeSoundToPlaylistTrigger;
+	exports.onRemoveSoundToPlaylist = new Observable_1.Observable(function (observable) {
+	    removeSoundToPlaylistTrigger = observable;
+	}).share();
 	var SearchComponent = (function () {
 	    function SearchComponent(playerService, router, ngZone) {
 	        var _this = this;
 	        this.playerService = playerService;
 	        this.router = router;
 	        this.ngZone = ngZone;
-	        this.sounds = [];
+	        this.onAddSound = new EventEmitter();
 	        this.currentSound = {
 	            id: ''
 	        };
@@ -4905,15 +4908,23 @@ webpackJsonp([0],{
 	        });
 	    }
 	    SearchComponent.prototype.addFromPlaylist = function (e, sound) {
-	        this.sounds.push(sound);
+	        this.playlist.sounds.push(sound);
+	        addSoundToPlaylistTrigger.next({
+	            sound: sound,
+	            playlist: this.playlist.name
+	        });
 	        e.stopPropagation();
 	    };
 	    SearchComponent.prototype.removeFromPlaylist = function (e, sound) {
-	        for (var i = this.sounds.length - 1; i >= 0; i--) {
-	            if (this.sounds[i].id == sound.id) {
-	                this.sounds.splice(i, 1);
+	        for (var i = this.playlist.sounds.length - 1; i >= 0; i--) {
+	            if (this.playlist.sounds[i].id == sound.id) {
+	                this.playlist.sounds.splice(i, 1);
 	            }
 	        }
+	        removeSoundToPlaylistTrigger.next({
+	            sound: sound,
+	            playlist: this.playlist.name
+	        });
 	        e.stopPropagation();
 	    };
 	    SearchComponent.prototype.handleKeyup = function (e) {
@@ -4936,32 +4947,36 @@ webpackJsonp([0],{
 	        this.playerService.getMusic(video);
 	    };
 	    SearchComponent.prototype.isAdded = function (video) {
-	        return this.sounds.some(function (sound) {
+	        return this.playlist.sounds.some(function (sound) {
 	            return sound.id == video.id;
 	        });
 	    };
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', (typeof (_a = typeof playlist_interface_1.IPlaylist !== 'undefined' && playlist_interface_1.IPlaylist) === 'function' && _a) || Object)
+	    ], SearchComponent.prototype, "playlist", void 0);
+	    __decorate([
+	        Output(), 
+	        __metadata('design:type', Object)
+	    ], SearchComponent.prototype, "onAddSound", void 0);
 	    SearchComponent = __decorate([
 	        core_1.Component({
 	            selector: 'search',
-<<<<<<< HEAD
-	            styles: ["\n    .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n      \n      .playing{\n        content:url(\"http://rs339.pbsrc.com/albums/n442/mcrmy_derick/equalizer.gif~c200\");\n        height: 10%;\n        width: 10%;\n      }\n      \n      .video{\n        color: #333333;\n      }\n\n    .media-object{\n            border-radius: 5px !important;\n        }\n    "],
-	            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <button class=\"btn btn-default search-button\" type=\"button\" (click)=\"search()\">Go!</button>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <div class=\"video list-group-item\" *ngFor=\"let video of videos\" (click)=\"play(video)\">\n            <div class=\"media-left\">\n              <span>\n                <img id=\"\n                \" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n              </span>\n            </div>\n            <div class=\"media-body text-left\">\n              <h4 id=\"title\" class=\"media-heading\">{{ video.title }}\n              <img class=\"glyphicon pull-right\" *ngIf=\"video.id == currentSound.id\" [ngClass]=\"{ 'playing': video.id == currentSound.id }\">\n              </h4>\n              <span id=\"channel\">{{ video.channel }}</span>\n              \n              <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n            </div>\n          </div>\n        </div>\n      </div>",
-=======
 	            styles: ["\n      .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n      \n      .playing{\n        content:url(\"assest/images/equalizer.gif\");\n        height: 10%;\n        width: 10%;\n      }\n      \n      .video{\n        color: #333333;\n      }\n\n      .media-object{\n          border-radius: 5px !important;\n      }\n      .media-heading .title{\n        cursor: pointer;\n      }\n      .media-heading .title small{\n        display: none;\n      }\n      .media-heading:hover .title small{\n        display: inline-block;\n      }\n    "],
-	            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <i class=\"fa fa-search btn btn-default search-button\" type=\"button\" (click)=\"search()\"></i>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <div class=\"video list-group-item\" *ngFor=\"let video of videos\">\n            <div class=\"media-left\">\n              <span>\n                <img id=\"\n                \" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n              </span>\n            </div>\n            <div class=\"media-body text-left\">\n              <div class=\"media-heading\">\n                <h4 class=\"title\" (click)=\"play(video)\" >\n                {{ video.title }} \n                <small >\n                  click to play <i class=\"fa fa-play\"></i>\n                </small>\n                <i *ngIf=\"!isAdded(video)\" class=\"fa fa-plus pull-right\" (click)=\"addFromPlaylist($event, video)\"></i>\n                <i *ngIf=\"isAdded(video)\" class=\"fa fa-minus pull-right\" (click)=\"removeFromPlaylist($event, video)\"></i>\n                <img class=\"glyphicon pull-right\" *ngIf=\"video.id == currentSound.id\" [ngClass]=\"{ 'playing': video.id == currentSound.id }\">\n                </h4>\n              </div>\n              <span  id=\"channel\">{{ video.channel }}</span>\n              <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n              \n            </div>\n          </div>\n        </div>\n        <div *ngFor=\"let cancion of canciones; let i = index\">\n        <ul>\n          <li>{{ i }} - {{ cancion.isOnList }} - {{cancion.title}}</li>\n        </ul>\n        </div>\n      </div>",
->>>>>>> master
+	            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <i class=\"fa fa-search btn btn-default search-button\" type=\"button\" (click)=\"search()\"></i>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <div class=\"video list-group-item\" *ngFor=\"let video of videos\">\n            <div class=\"media-left\">\n              <span>\n                <img id=\"\n                \" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n              </span>\n            </div>\n            <div class=\"media-body text-left\">\n              <div class=\"media-heading\">\n                <h4 class=\"title\" (click)=\"play(video)\" >\n                {{ video.title }} \n                <small >\n                  click to play <i class=\"fa fa-play\"></i>\n                </small>\n                <i *ngIf=\"!isAdded(video)\" class=\"fa fa-plus pull-right\" (click)=\"addFromPlaylist($event, video)\"></i>\n                <i *ngIf=\"isAdded(video)\" class=\"fa fa-minus pull-right\" (click)=\"removeFromPlaylist($event, video)\"></i>\n                <img class=\"glyphicon pull-right\" *ngIf=\"video.id == currentSound.id\" [ngClass]=\"{ 'playing': video.id == currentSound.id }\">\n                </h4>\n              </div>\n              <span  id=\"channel\">{{ video.channel }}</span>\n              <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n              \n            </div>\n          </div>\n        </div>\n      </div>",
 	            providers: [player_service_1.PlayerService]
 	        }), 
 	        __metadata('design:paramtypes', [player_service_1.PlayerService, router_1.ActivatedRoute, core_1.NgZone])
 	    ], SearchComponent);
 	    return SearchComponent;
+	    var _a;
 	}());
 	exports.SearchComponent = SearchComponent;
 
 
 /***/ },
 
-/***/ 69:
+/***/ 74:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4976,14 +4991,14 @@ webpackJsonp([0],{
 	};
 	var core_1 = __webpack_require__(4);
 	var common_1 = __webpack_require__(23);
-	var forms_1 = __webpack_require__(64);
+	var forms_1 = __webpack_require__(69);
 	var http_1 = __webpack_require__(28);
 	var platform_browser_1 = __webpack_require__(22);
-	var playlist_routes_1 = __webpack_require__(70);
-	var list_component_1 = __webpack_require__(71);
-	var create_component_1 = __webpack_require__(72);
-	var playlistdetail_component_1 = __webpack_require__(73);
-	var home_module_1 = __webpack_require__(63);
+	var playlist_routes_1 = __webpack_require__(75);
+	var list_component_1 = __webpack_require__(76);
+	var create_component_1 = __webpack_require__(77);
+	var playlistdetail_component_1 = __webpack_require__(78);
+	var home_module_1 = __webpack_require__(68);
 	var PlaylistModule = (function () {
 	    function PlaylistModule() {
 	    }
@@ -5016,13 +5031,13 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 70:
+/***/ 75:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var router_1 = __webpack_require__(32);
-	var list_component_1 = __webpack_require__(71);
-	var create_component_1 = __webpack_require__(72);
+	var router_1 = __webpack_require__(37);
+	var list_component_1 = __webpack_require__(76);
+	var create_component_1 = __webpack_require__(77);
 	exports.routes = [
 	    {
 	        path: 'playlist/list',
@@ -5038,7 +5053,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 71:
+/***/ 76:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5052,7 +5067,7 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
-	var router_1 = __webpack_require__(32);
+	var router_1 = __webpack_require__(37);
 	var PlayListComponent = (function () {
 	    function PlayListComponent(router) {
 	        this.router = router;
@@ -5076,7 +5091,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 72:
+/***/ 77:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5090,10 +5105,10 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
-	var router_1 = __webpack_require__(32);
-	var search_component_1 = __webpack_require__(68);
-	var playlistdetail_component_1 = __webpack_require__(73);
-	var playlist_service_1 = __webpack_require__(74);
+	var router_1 = __webpack_require__(37);
+	var search_component_1 = __webpack_require__(73);
+	var playlistdetail_component_1 = __webpack_require__(78);
+	var playlist_service_1 = __webpack_require__(79);
 	var CreateListComponent = (function () {
 	    function CreateListComponent(router, routerParams, playlistService) {
 	        var _this = this;
@@ -5142,7 +5157,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 73:
+/***/ 78:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5156,8 +5171,8 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
-	var forms_1 = __webpack_require__(64);
-	var router_1 = __webpack_require__(32);
+	var forms_1 = __webpack_require__(69);
+	var router_1 = __webpack_require__(37);
 	var PlayListDetailComponent = (function () {
 	    function PlayListDetailComponent(fb, router) {
 	        this.fb = fb;
@@ -5204,7 +5219,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 74:
+/***/ 79:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5252,6 +5267,14 @@ webpackJsonp([0],{
 	    return PlaylistService;
 	}());
 	exports.PlaylistService = PlaylistService;
+
+
+/***/ },
+
+/***/ 679:
+/***/ function(module, exports) {
+
+	"use strict";
 
 
 /***/ }
