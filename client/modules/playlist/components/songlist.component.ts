@@ -13,7 +13,6 @@ import { onAddSoundToPlaylist, onRemoveSoundToPlaylist } from '../../home/compon
         }
     `],
     template: `
-    
         <div class="list-group">
             <div *ngIf="playlist.sounds.length == 0">
                 <div class="alert alert-info">
@@ -71,6 +70,7 @@ export class SongListComponent{
         }
       }
     }
+    
     isAdded(video){
       return this.playlist.sounds.some( (sound)=>{
         return sound.id == video.id

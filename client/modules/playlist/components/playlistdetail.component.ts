@@ -8,23 +8,23 @@ import { Sound } from '../../../interfaces/player/sound.interface';
     selector: 'playlistdetail',
     styles: [ ``],
     template: ` 
-        <div class="container">
+        <div class="container col-lg-12">
           <form class="form-horizontal" [formGroup]="createListForm" (submit)="toSaveDetails()">
             <div class="form-group">
-                <div class="col-sm-5 col-sm-offset-2">
+                <div class="col-sm-6 col-sm-offset-3">
                     <label class="control-label col-sm-1">Name:</label>
                     <input class="form-control" formControlName="name" id="name" type="text" placeholder="Enter name" required/>
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-sm-5 col-sm-offset-2">
+                <div class="col-sm-6 col-sm-offset-3">
                     <label class="control-label col-sm-1">Description:</label>
                     <input class="form-control" formControlName="description" id="description" type="text" placeholder="Enter description" />
                 </div>
             </div>
-            <div class="form-group col-sm-9">
+            <div class="form-group col-sm-13">
                 <button class="btn btn-success" type="submit" [disabled] = "!createListForm.valid" >Create</button>
-                <button class="btn btn-default" type="button">Cancel</button>
+                <button class="btn btn-default" type="button" (click)="this.router.navigate(['/home'])">Cancel</button>
             </div>
           </form>
         </div>
