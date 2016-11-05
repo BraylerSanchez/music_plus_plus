@@ -1,7 +1,8 @@
 import { NgModule }      from '@angular/core';
-import { LocationStrategy, HashLocationStrategy} from '@angular/common';
+import { LocationStrategy, HashLocationStrategy, CommonModule} from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { TemplateComponent }   from './templates/template.component';
+import { SideBarComponent }   from './templates/sidebar.component';
 import { routing } from './app.routes';
 import {ToasterModule} from 'angular2-toaster/angular2-toaster';
 
@@ -13,12 +14,13 @@ import { PlaylistModule } from './modules/playlist/playlist.module';
     imports:      [
         routing,
         BrowserModule,
+        CommonModule,
         HomeModule,
         PlayerModule,
         PlaylistModule,
         ToasterModule
     ],
-    declarations: [ TemplateComponent ],
+    declarations: [ TemplateComponent, SideBarComponent ],
     bootstrap:    [ TemplateComponent ],
     providers: [
         {provide: LocationStrategy, 

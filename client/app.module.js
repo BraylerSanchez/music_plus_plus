@@ -12,6 +12,7 @@ var core_1 = require('@angular/core');
 var common_1 = require('@angular/common');
 var platform_browser_1 = require('@angular/platform-browser');
 var template_component_1 = require('./templates/template.component');
+var sidebar_component_1 = require('./templates/sidebar.component');
 var app_routes_1 = require('./app.routes');
 var angular2_toaster_1 = require('angular2-toaster/angular2-toaster');
 var home_module_1 = require('./modules/home/home.module');
@@ -25,12 +26,13 @@ var AppModule = (function () {
             imports: [
                 app_routes_1.routing,
                 platform_browser_1.BrowserModule,
+                common_1.CommonModule,
                 home_module_1.HomeModule,
                 player_module_1.PlayerModule,
                 playlist_module_1.PlaylistModule,
                 angular2_toaster_1.ToasterModule
             ],
-            declarations: [template_component_1.TemplateComponent],
+            declarations: [template_component_1.TemplateComponent, sidebar_component_1.SideBarComponent],
             bootstrap: [template_component_1.TemplateComponent],
             providers: [
                 { provide: common_1.LocationStrategy,

@@ -198,5 +198,6 @@ export class PlayerComponent{
     suspend(){
         this.stop();
         this.currentSoundDetails = undefined;
+        this.playerService.suspendMusic();
     }
 }

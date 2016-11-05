@@ -116,6 +116,7 @@ var PlayerComponent = (function () {
     PlayerComponent.prototype.suspend = function () {
         this.stop();
         this.currentSoundDetails = undefined;
+        this.playerService.suspendMusic();
     };
     PlayerComponent = __decorate([
         core_1.Component({

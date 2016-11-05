@@ -8,7 +8,7 @@
     "webpack:w": "webpack --watch",
     "mongod": "mongod --smallfiles --dbpath=./db",
     "test": "tsc && concurrently \"tsc -w\"",
-    "develop": "tsc && concurrently \"tsc -w\" \"webpack --watch\" \"mongod --smallfiles --dbpath=./db\" ",
+    "develop": "tsc && concurrently \"tsc -w\" \"webpack --watch\" \"mongod --smallfiles --dbpath=./db\" \"node debug ./server/app.js\" ",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "typings": "typings",

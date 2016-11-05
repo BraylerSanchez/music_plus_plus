@@ -1,14 +1,16 @@
 import { Component, ViewChild } from '@angular/core';
 import { PlayerComponent } from '../modules/player/components/player.component';
+import { SideBarComponent } from './sidebar.component';
 
 @Component({
   selector: 'app',
     template: `
     <toaster-container></toaster-container>
+    <sidebar></sidebar>
     <div class="site-wrapper">
       <div class="site-wrapper-inner">
         <div class="cover-container">
-          <div class="masthead clearfix">
+          <!--div class="masthead clearfix">
             <div class="inner">
               <h3 class="masthead-brand"><i class="fa fa-music fa-1x" (click)="search()"></i> Music</h3>
               <nav>
@@ -24,7 +26,7 @@ import { PlayerComponent } from '../modules/player/components/player.component';
                 </div>
               </nav>
             </div>
-          </div>
+          </div -->
           <div class="inner cover">
             <router-outlet></router-outlet>
           </div>
@@ -37,17 +39,17 @@ import { PlayerComponent } from '../modules/player/components/player.component';
         </div>
       </div>
     </div>`,
-    styles: [
-      `
-      .navItem{
-        display: block;
-        text-align: center;
-      }
+    styles: [`
+        sidebar{
+            position: absolute;
+            z-index: 100;
+        }
       `
       ]
 })
 export class TemplateComponent{
     @ViewChild(PlayerComponent) playerComponent: PlayerComponent;
+    @ViewChild(SideBarComponent) sideBarComponent: SideBarComponent;
     constructor(){
         
     }

@@ -27,6 +27,10 @@ var stopSoundObserbable;
 exports.onStopMusic = new Observable_1.Observable(function (observable) {
     stopSoundObserbable = observable;
 }).share();
+var onSuspendMusicTrigger;
+exports.onSuspendMusic = new Observable_1.Observable(function (observable) {
+    onSuspendMusicTrigger = observable;
+}).share();
 var PlayerService = (function () {
     function PlayerService(http) {
         this.http = http;
@@ -54,7 +58,7 @@ var PlayerService = (function () {
     };
     PlayerService.prototype.getMusic = function (video) {
         var request = new XMLHttpRequest();
-        request.open("GET", "/api/stream/play/" + video.id, true);
+        request.open("GET", "/api/v1/youtube/convert/" + video.id, true);
         request.responseType = "arraybuffer";
         request.onload = function () {
             playSoundObserbable.next({
@@ -63,6 +67,9 @@ var PlayerService = (function () {
             });
         };
         request.send();
+    };
+    PlayerService.prototype.suspendMusic = function () {
+        onSuspendMusicTrigger.next();
     };
     PlayerService = __decorate([
         core_1.Injectable(), 
