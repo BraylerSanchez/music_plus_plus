@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { IPlayList } from '../interfaces/playlist/playlist.interface';
 import { Sound } from '../interfaces/player/sound.interface';
 import { onAddSoundToPlaylist, onRemoveSoundToPlaylist } from '../modules/home/components/search.component';
 import { PlayerService, onPlayMusic, onStopMusic, onSuspendMusic} from '../services/player/player.service';
+import { LoginService, onLoginUser, onLogoutUser } from '../services/user/login.service';
+
 declare var window: any;
 
 @Component({
@@ -185,6 +187,15 @@ declare var window: any;
                             <i class="fa fa-search fa-1x"></i> search
                         </a>
                     </li>
+                    <li>
+                        <span *ngIf="user">{{user.name}}</span>
+                        <a *ngIf="user" class="btn btn-warning btn-xs" (click)="logout()">
+                            <i class="fa fa-sign-out "></i> Sing-Out
+                        </a>
+                        <a *ngIf="!user" class="btn btn-primary btn-xs" (click)="login()">
+                            <i class="fa fa-google"></i> Sing-In
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="nowplay" *ngIf="active == 'nowplay'">
@@ -203,7 +214,7 @@ declare var window: any;
             </div>
         </div>
     </div>`,
-    providers: [PlayerService]
+    providers: [PlayerService, LoginService]
 })
 export class SideBarComponent implements OnInit{
     private active:string;
@@ -212,8 +223,12 @@ export class SideBarComponent implements OnInit{
     private playlist = { name:'default', description: '', sounds: [], createAt: new Date(), userAt: '', updateAt: new Date()};
     private windowHeight:number = 512;
     private menuLeft: number = 250;
-    
-    constructor(private playerService: PlayerService){
+    private user: any;
+    constructor(
+        private playerService: PlayerService,
+        private loginService: LoginService,
+        private ngZone: NgZone
+    ){
         this.active = '';
         
         onAddSoundToPlaylist.subscribe((result) => {
@@ -245,9 +260,18 @@ export class SideBarComponent implements OnInit{
         .subscribe( ()=>{
                this.windowHeight = window.document.body.clientHeight;
         })
+        onLoginUser.subscribe( (user) =>{
+            this.user = user;
+            this.ngZone.run(()=>{});
+        })
+        onLogoutUser.subscribe( ()=>{
+            this.user = undefined;
+            this.ngZone.run(()=>{});
+        })
     }
     ngOnInit(){
         this.windowHeight = window.document.body.clientHeight;
+        this.user = this.loginService.getUser();
     }
     
     setActive(menu){
@@ -263,5 +287,11 @@ export class SideBarComponent implements OnInit{
     
     hide(){
         this.active = '';
+    }
+    login(){
+        this.loginService.login();
+    }
+    logout(){
+        this.loginService.singOut();
     }
 }
