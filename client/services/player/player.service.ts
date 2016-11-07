@@ -67,10 +67,14 @@ export class PlayerService{
         request.responseType = "arraybuffer"; 
         
         request.onload = () => {
-            playSoundObserbable.next( {
-                details: video,
-                buffer: request.response
-            });
+            if( request.response.status){
+                alert(request.response.message);
+            }else{
+                playSoundObserbable.next( {
+                    details: video,
+                    buffer: request.response
+                });
+            }
         };
         request.send();
     }

@@ -12,8 +12,16 @@ var core_1 = require('@angular/core');
 var player_component_1 = require('../modules/player/components/player.component');
 var sidebar_component_1 = require('./sidebar.component');
 var TemplateComponent = (function () {
-    function TemplateComponent() {
+    function TemplateComponent(elementRef, renderer) {
+        this.elementRef = elementRef;
+        this.renderer = renderer;
     }
+    TemplateComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.renderer.listen(this.elementRef.nativeElement.children[2], 'click', function (event) {
+            _this.sideBarComponent.hide();
+        });
+    };
     __decorate([
         core_1.ViewChild(player_component_1.PlayerComponent), 
         __metadata('design:type', player_component_1.PlayerComponent)
@@ -29,7 +37,7 @@ var TemplateComponent = (function () {
             styles: ["\n        sidebar{\n            position: absolute;\n            z-index: 100;\n        }\n      "
             ]
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [core_1.ElementRef, core_1.Renderer])
     ], TemplateComponent);
     return TemplateComponent;
 }());

@@ -5,11 +5,12 @@ export class ConvertModel{
     }
     
     toStream(videoId){
-        return ytdl(`http://www.youtube.com/watch?v=${videoId}`,{
+        var stream = ytdl(`http://www.youtube.com/watch?v=${videoId}`,{
             quality: 'lowest',
             filter: function(format) { 
                 return format.container === 'mp4';
             }
         });
+        return stream;
     }
 }

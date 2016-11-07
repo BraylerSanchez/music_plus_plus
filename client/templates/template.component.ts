@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit, ElementRef, Renderer } from '@angular/core';
 import { PlayerComponent } from '../modules/player/components/player.component';
 import { SideBarComponent } from './sidebar.component';
 
@@ -47,10 +47,16 @@ import { SideBarComponent } from './sidebar.component';
       `
       ]
 })
-export class TemplateComponent{
+export class TemplateComponent implements OnInit{
     @ViewChild(PlayerComponent) playerComponent: PlayerComponent;
     @ViewChild(SideBarComponent) sideBarComponent: SideBarComponent;
-    constructor(){
+    constructor(private elementRef:ElementRef, private renderer: Renderer){
         
+    }
+    
+    ngOnInit(){
+         this.renderer.listen( this.elementRef.nativeElement.children[2], 'click', (event) => {
+             this.sideBarComponent.hide();
+        })
     }
 }

@@ -50,16 +50,19 @@ declare var window: any;
             cursor: pointer;
             transition: 1s;
         }
+        
         .sidebar ul.sidebar-menu li:hover{
             box-shadow: 0px 0px 5px white;
             color: white;
             background-color: #333333;
         }
+        
         .sidebar ul.sidebar-menu li.active{
             box-shadow: 0px 0px 5px white;
             color: white;
             background-color: #5bc0de;
         }
+        
         .sidebar div.menu{  
             background-color: white; 
             width: 213px;
@@ -68,8 +71,24 @@ declare var window: any;
             top: 0;
             position: absolute;
             transition: 1s;
+            overflow-x: auto;
             border-right: solid #333333 1px;
         }
+        
+        .sidebar div.menu::-webkit-scrollbar {
+            width: 7px;
+        }
+         
+        .sidebar div.menu::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        }
+         
+        .sidebar div.menu::-webkit-scrollbar-thumb {
+            background-color: rgb(84, 189, 220);
+            outline: 1px solid #999;
+            border-radius: 10px;
+        }
+        
         .sidebar div.menu .nowplay ul, .sidebar div.menu .home ul{
             padding: 0px;
         }
@@ -99,6 +118,37 @@ declare var window: any;
         }
         .sidebar div.menu .nowplay ul li:hover, .sidebar div.menu .home ul li:hover{
             background-color: #e4e4e4;
+        }
+        .sidebar div.menu .nowplay ul li{
+            text-align: left;
+        }
+        .sidebar div.menu .nowplay ul li span, .sidebar div.menu .nowplay ul li h5{
+            width: 90%;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sidebar div.menu .nowplay ul li h5{
+            width: 75%;
+        }
+        .sidebar div.menu .nowplay ul li.title a{
+            float: right;
+            position: relative;
+            top: -30px;
+        }
+        .sidebar div.menu .nowplay ul li i{
+            float: right;
+            top: -15px;
+            position: relative;
+        }
+        .sidebar div.menu .nowplay ul li.item i{
+            color: #5bc0de;
+        }
+        .sidebar div.menu .nowplay ul li.title i{
+            float: none;
+            top: 0;
+            color: #green;
         }
     `],
     template: `
@@ -139,9 +189,14 @@ declare var window: any;
             </div>
             <div class="nowplay" *ngIf="active == 'nowplay'">
                 <ul>
-                    <li class="title"><h5>{{playlist.name}}</h5></li>
-                    <li *ngFor="let sound of playlist.sounds" (click)="play(sound)">
-                        {{sound.title}}
+                    <li class="title">
+                        <h5>{{playlist.name}}</h5>
+                        <a class="btn btn-xs btn-success">Save <i class="fa fa-floppy-o"></i></a>
+                    </li>
+                    <li class="item" *ngFor="let sound of playlist.sounds" (click)="play(sound)">
+                        <span title="{{sound.title}}">
+                            {{sound.title}}
+                        </span>
                         <i *ngIf="currentSound.id == sound.id" class="fa fa-volume-up"></i>
                     </li>
                 </ul>
@@ -157,6 +212,7 @@ export class SideBarComponent implements OnInit{
     private playlist = { name:'default', description: '', sounds: [], createAt: new Date(), userAt: '', updateAt: new Date()};
     private windowHeight:number = 512;
     private menuLeft: number = 250;
+    
     constructor(private playerService: PlayerService){
         this.active = '';
         
@@ -203,5 +259,9 @@ export class SideBarComponent implements OnInit{
     }
     play(sound:Sound){
         this.playerService.getMusic(sound);
+    }
+    
+    hide(){
+        this.active = '';
     }
 }

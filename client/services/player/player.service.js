@@ -61,10 +61,15 @@ var PlayerService = (function () {
         request.open("GET", "/api/v1/youtube/convert/" + video.id, true);
         request.responseType = "arraybuffer";
         request.onload = function () {
-            playSoundObserbable.next({
-                details: video,
-                buffer: request.response
-            });
+            if (request.response.status) {
+                alert(request.response.message);
+            }
+            else {
+                playSoundObserbable.next({
+                    details: video,
+                    buffer: request.response
+                });
+            }
         };
         request.send();
     };
