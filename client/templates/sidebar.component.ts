@@ -268,6 +268,7 @@ export class SideBarComponent implements OnInit{
             this.user = undefined;
             this.ngZone.run(()=>{});
         })
+        this.user = this.loginService.getUser();
     }
     ngOnInit(){
         this.windowHeight = window.document.body.clientHeight;

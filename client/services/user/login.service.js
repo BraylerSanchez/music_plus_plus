@@ -29,17 +29,27 @@ var LoginService = (function () {
                 client_id: _this.client_id
             });
         });
+        var user = localStorage.getItem('ms_user');
+        if (user) {
+            this.user = JSON.parse(user);
+        }
     }
     LoginService.prototype.setUser = function (user) {
+        localStorage.setItem('ms_user', JSON.stringify(user));
         this.user = user;
     };
     LoginService.prototype.getUser = function () {
-        return this.user;
+        var user = localStorage.getItem('ms_user');
+        if (user) {
+            this.user = JSON.parse(user);
+        }
+        return JSON.parse(user);
     };
     LoginService.prototype.singOut = function () {
         var _this = this;
         var auth2 = gapi.auth2.getAuthInstance();
         auth2.signOut().then(function () {
+            localStorage.removeItem('ms_user');
             _this.user = undefined;
             logoutUserObserbable.next();
         });

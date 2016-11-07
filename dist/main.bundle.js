@@ -615,6 +615,7 @@ webpackJsonp([0],{
 	            _this.user = undefined;
 	            _this.ngZone.run(function () { });
 	        });
+	        this.user = this.loginService.getUser();
 	    }
 	    SideBarComponent.prototype.ngOnInit = function () {
 	        this.windowHeight = window.document.body.clientHeight;
@@ -689,17 +690,39 @@ webpackJsonp([0],{
 	                client_id: _this.client_id
 	            });
 	        });
+<<<<<<< HEAD
 	    }
 	    LoginService.prototype.setUser = function (user) {
 	        this.user = user;
 	    };
 	    LoginService.prototype.getUser = function () {
 	        return this.user;
+=======
+	        var user = localStorage.getItem('ms_user');
+	        if (user) {
+	            this.user = JSON.parse(user);
+	        }
+	    }
+	    LoginService.prototype.setUser = function (user) {
+	        localStorage.setItem('ms_user', JSON.stringify(user));
+	        this.user = user;
+	    };
+	    LoginService.prototype.getUser = function () {
+	        var user = localStorage.getItem('ms_user');
+	        if (user) {
+	            this.user = JSON.parse(user);
+	        }
+	        return JSON.parse(user);
+>>>>>>> features/google_login
 	    };
 	    LoginService.prototype.singOut = function () {
 	        var _this = this;
 	        var auth2 = gapi.auth2.getAuthInstance();
 	        auth2.signOut().then(function () {
+<<<<<<< HEAD
+=======
+	            localStorage.removeItem('ms_user');
+>>>>>>> features/google_login
 	            _this.user = undefined;
 	            logoutUserObserbable.next();
 	        });
