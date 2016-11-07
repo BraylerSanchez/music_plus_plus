@@ -37,11 +37,11 @@ webpackJsonp([0],{
 	var platform_browser_1 = __webpack_require__(22);
 	var template_component_1 = __webpack_require__(25);
 	var sidebar_component_1 = __webpack_require__(76);
-	var app_routes_1 = __webpack_require__(77);
+	var app_routes_1 = __webpack_require__(78);
 	var angular2_toaster_1 = __webpack_require__(69);
-	var home_module_1 = __webpack_require__(78);
-	var player_module_1 = __webpack_require__(83);
-	var playlist_module_1 = __webpack_require__(84);
+	var home_module_1 = __webpack_require__(79);
+	var player_module_1 = __webpack_require__(84);
+	var playlist_module_1 = __webpack_require__(85);
 	var AppModule = (function () {
 	    function AppModule() {
 	    }
@@ -564,7 +564,7 @@ webpackJsonp([0],{
 	var core_1 = __webpack_require__(4);
 	var search_component_1 = __webpack_require__(37);
 	var player_service_1 = __webpack_require__(27);
-	var login_service_1 = __webpack_require__(689);
+	var login_service_1 = __webpack_require__(77);
 	var SideBarComponent = (function () {
 	    function SideBarComponent(playerService, loginService, ngZone) {
 	        var _this = this;
@@ -612,6 +612,7 @@ webpackJsonp([0],{
 	            _this.user = undefined;
 	            _this.ngZone.run(function () { });
 	        });
+	        this.user = this.loginService.getUser();
 	    }
 	    SideBarComponent.prototype.ngOnInit = function () {
 	        this.windowHeight = window.document.body.clientHeight;
@@ -656,6 +657,94 @@ webpackJsonp([0],{
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(4);
+	var Observable_1 = __webpack_require__(6);
+	__webpack_require__(29);
+	__webpack_require__(31);
+	var loginUserObserbable;
+	exports.onLoginUser = new Observable_1.Observable(function (observable) {
+	    loginUserObserbable = observable;
+	}).share();
+	var logoutUserObserbable;
+	exports.onLogoutUser = new Observable_1.Observable(function (observable) {
+	    logoutUserObserbable = observable;
+	}).share();
+	var LoginService = (function () {
+	    function LoginService() {
+	        var _this = this;
+	        this.client_id = '347784008330-m2u9l7c3hp2stho4bc8bvf38cmi1tr2p.apps.googleusercontent.com';
+	        gapi.load('auth2', function () {
+	            _this.auth2 = gapi.auth2.init({
+	                client_id: _this.client_id
+	            });
+	        });
+	        var user = localStorage.getItem('ms_user');
+	        if (user) {
+	            this.user = JSON.parse(user);
+	        }
+	    }
+	    LoginService.prototype.setUser = function (user) {
+	        localStorage.setItem('ms_user', JSON.stringify(user));
+	        this.user = user;
+	    };
+	    LoginService.prototype.getUser = function () {
+	        var user = localStorage.getItem('ms_user');
+	        if (user) {
+	            this.user = JSON.parse(user);
+	        }
+	        return JSON.parse(user);
+	    };
+	    LoginService.prototype.singOut = function () {
+	        var _this = this;
+	        var auth2 = gapi.auth2.getAuthInstance();
+	        auth2.signOut().then(function () {
+	            localStorage.removeItem('ms_user');
+	            _this.user = undefined;
+	            logoutUserObserbable.next();
+	        });
+	    };
+	    LoginService.prototype.login = function () {
+	        var _this = this;
+	        this.auth2.grantOfflineAccess().then(function (authResult) {
+	            if (authResult['code']) {
+	                var profile = _this.auth2.currentUser.get().getBasicProfile();
+	                var user = {
+	                    _id: profile.getId(),
+	                    name: profile.getGivenName(),
+	                    thumbnail: profile.getImageUrl()
+	                };
+	                _this.setUser(user);
+	                loginUserObserbable.next(user);
+	            }
+	            else {
+	                console.log('Error authenticating user.');
+	            }
+	        });
+	    };
+	    LoginService = __decorate([
+	        core_1.Injectable(), 
+	        __metadata('design:paramtypes', [])
+	    ], LoginService);
+	    return LoginService;
+	}());
+	exports.LoginService = LoginService;
+
+
+/***/ },
+
+/***/ 78:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
 	var router_1 = __webpack_require__(38);
 	exports.routes = [
 	    {
@@ -669,7 +758,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 78:
+/***/ 79:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -684,11 +773,11 @@ webpackJsonp([0],{
 	};
 	var core_1 = __webpack_require__(4);
 	var common_1 = __webpack_require__(23);
-	var forms_1 = __webpack_require__(79);
+	var forms_1 = __webpack_require__(80);
 	var http_1 = __webpack_require__(28);
 	var platform_browser_1 = __webpack_require__(22);
-	var home_routes_1 = __webpack_require__(81);
-	var home_component_1 = __webpack_require__(82);
+	var home_routes_1 = __webpack_require__(82);
+	var home_component_1 = __webpack_require__(83);
 	var search_component_1 = __webpack_require__(37);
 	var angular2_toaster_1 = __webpack_require__(69);
 	var HomeModule = (function () {
@@ -719,7 +808,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 79:
+/***/ 80:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -728,7 +817,7 @@ webpackJsonp([0],{
 	 * License: MIT
 	 */
 	(function (global, factory) {
-	     true ? factory(exports, __webpack_require__(4), __webpack_require__(80), __webpack_require__(5), __webpack_require__(6), __webpack_require__(65)) :
+	     true ? factory(exports, __webpack_require__(4), __webpack_require__(81), __webpack_require__(5), __webpack_require__(6), __webpack_require__(65)) :
 	    typeof define === 'function' && define.amd ? define(['exports', '@angular/core', 'rxjs/operator/toPromise', 'rxjs/Subject', 'rxjs/Observable', 'rxjs/observable/fromPromise'], factory) :
 	    (factory((global.ng = global.ng || {}, global.ng.forms = global.ng.forms || {}),global.ng.core,global.Rx.Observable.prototype,global.Rx,global.Rx,global.Rx.Observable));
 	}(this, function (exports,_angular_core,rxjs_operator_toPromise,rxjs_Subject,rxjs_Observable,rxjs_observable_fromPromise) { 'use strict';
@@ -5163,12 +5252,12 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 81:
+/***/ 82:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var router_1 = __webpack_require__(38);
-	var home_component_1 = __webpack_require__(82);
+	var home_component_1 = __webpack_require__(83);
 	var search_component_1 = __webpack_require__(37);
 	exports.routes = [
 	    {
@@ -5184,7 +5273,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 82:
+/***/ 83:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5230,7 +5319,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 83:
+/***/ 84:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5269,7 +5358,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 84:
+/***/ 85:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5284,15 +5373,15 @@ webpackJsonp([0],{
 	};
 	var core_1 = __webpack_require__(4);
 	var common_1 = __webpack_require__(23);
-	var forms_1 = __webpack_require__(79);
+	var forms_1 = __webpack_require__(80);
 	var http_1 = __webpack_require__(28);
 	var platform_browser_1 = __webpack_require__(22);
-	var playlist_routes_1 = __webpack_require__(85);
-	var list_component_1 = __webpack_require__(86);
-	var create_component_1 = __webpack_require__(87);
-	var playlistdetail_component_1 = __webpack_require__(88);
-	var songlist_component_1 = __webpack_require__(89);
-	var home_module_1 = __webpack_require__(78);
+	var playlist_routes_1 = __webpack_require__(86);
+	var list_component_1 = __webpack_require__(87);
+	var create_component_1 = __webpack_require__(88);
+	var playlistdetail_component_1 = __webpack_require__(89);
+	var songlist_component_1 = __webpack_require__(90);
+	var home_module_1 = __webpack_require__(79);
 	var PlaylistModule = (function () {
 	    function PlaylistModule() {
 	    }
@@ -5326,13 +5415,13 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 85:
+/***/ 86:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var router_1 = __webpack_require__(38);
-	var list_component_1 = __webpack_require__(86);
-	var create_component_1 = __webpack_require__(87);
+	var list_component_1 = __webpack_require__(87);
+	var create_component_1 = __webpack_require__(88);
 	exports.routes = [
 	    {
 	        path: 'playlist/list',
@@ -5348,7 +5437,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 86:
+/***/ 87:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5386,7 +5475,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 87:
+/***/ 88:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5402,8 +5491,8 @@ webpackJsonp([0],{
 	var core_1 = __webpack_require__(4);
 	var router_1 = __webpack_require__(38);
 	var search_component_1 = __webpack_require__(37);
-	var playlistdetail_component_1 = __webpack_require__(88);
-	var songlist_component_1 = __webpack_require__(89);
+	var playlistdetail_component_1 = __webpack_require__(89);
+	var songlist_component_1 = __webpack_require__(90);
 	var playlist_service_1 = __webpack_require__(36);
 	var CreateListComponent = (function () {
 	    function CreateListComponent(router, routerParams, playlistService) {
@@ -5458,7 +5547,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 88:
+/***/ 89:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5472,7 +5561,7 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
-	var forms_1 = __webpack_require__(79);
+	var forms_1 = __webpack_require__(80);
 	var router_1 = __webpack_require__(38);
 	var PlayListDetailComponent = (function () {
 	    function PlayListDetailComponent(fb, router) {
@@ -5520,7 +5609,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 89:
+/***/ 90:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5580,84 +5669,6 @@ webpackJsonp([0],{
 	    return SongListComponent;
 	}());
 	exports.SongListComponent = SongListComponent;
-
-
-/***/ },
-
-/***/ 689:
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-	    return c > 3 && r && Object.defineProperty(target, key, r), r;
-	};
-	var __metadata = (this && this.__metadata) || function (k, v) {
-	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-	};
-	var core_1 = __webpack_require__(4);
-	var Observable_1 = __webpack_require__(6);
-	__webpack_require__(29);
-	__webpack_require__(31);
-	var loginUserObserbable;
-	exports.onLoginUser = new Observable_1.Observable(function (observable) {
-	    loginUserObserbable = observable;
-	}).share();
-	var logoutUserObserbable;
-	exports.onLogoutUser = new Observable_1.Observable(function (observable) {
-	    logoutUserObserbable = observable;
-	}).share();
-	var LoginService = (function () {
-	    function LoginService() {
-	        var _this = this;
-	        this.client_id = '347784008330-m2u9l7c3hp2stho4bc8bvf38cmi1tr2p.apps.googleusercontent.com';
-	        gapi.load('auth2', function () {
-	            _this.auth2 = gapi.auth2.init({
-	                client_id: _this.client_id
-	            });
-	        });
-	    }
-	    LoginService.prototype.setUser = function (user) {
-	        this.user = user;
-	    };
-	    LoginService.prototype.getUser = function () {
-	        return this.user;
-	    };
-	    LoginService.prototype.singOut = function () {
-	        var _this = this;
-	        var auth2 = gapi.auth2.getAuthInstance();
-	        auth2.signOut().then(function () {
-	            _this.user = undefined;
-	            logoutUserObserbable.next();
-	        });
-	    };
-	    LoginService.prototype.login = function () {
-	        var _this = this;
-	        this.auth2.grantOfflineAccess().then(function (authResult) {
-	            if (authResult['code']) {
-	                var profile = _this.auth2.currentUser.get().getBasicProfile();
-	                var user = {
-	                    _id: profile.getId(),
-	                    name: profile.getGivenName(),
-	                    thumbnail: profile.getImageUrl()
-	                };
-	                _this.setUser(user);
-	                loginUserObserbable.next(user);
-	            }
-	            else {
-	                console.log('Error authenticating user.');
-	            }
-	        });
-	    };
-	    LoginService = __decorate([
-	        core_1.Injectable(), 
-	        __metadata('design:paramtypes', [])
-	    ], LoginService);
-	    return LoginService;
-	}());
-	exports.LoginService = LoginService;
 
 
 /***/ }

@@ -59,6 +59,7 @@ var SideBarComponent = (function () {
             _this.user = undefined;
             _this.ngZone.run(function () { });
         });
+        this.user = this.loginService.getUser();
     }
     SideBarComponent.prototype.ngOnInit = function () {
         this.windowHeight = window.document.body.clientHeight;
