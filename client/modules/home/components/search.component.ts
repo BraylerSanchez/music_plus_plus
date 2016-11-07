@@ -31,8 +31,9 @@ export const onRemoveSoundToPlaylist: Observable<any> = new Observable( (observa
       
       .playing{
         content:url("assest/images/equalizer.gif");
-        height: 10%;
+        height: 50%;
         width: 10%;
+        margin-top: -15px;
       }
       
       .video{
@@ -168,7 +169,10 @@ export class SearchComponent{
       }
       this.playerService.search(this.queryString)
       .subscribe( (videos) =>{
-        this.videos = videos;
+        this.videos = videos.map((video)=>{
+          video.title = video.title.length > 40 ? video.title.substring(0,37)+'...': video.title;
+          return video;
+        });
       })
     }
     
