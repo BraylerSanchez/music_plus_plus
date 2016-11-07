@@ -5,6 +5,7 @@ import { PlayListDetailComponent } from './playlistdetail.component';
 import { SongListComponent } from './songlist.component';
 import { IPlayList } from '../../../interfaces/playlist/playlist.interface';
 import { PlaylistService } from '../../../services/playlist/playlist.service';
+import { LoginService } from '../../../services/user/login.service';
 
 @Component({
     selector: 'playlistcreate',
@@ -108,7 +109,7 @@ import { PlaylistService } from '../../../services/playlist/playlist.service';
     
     
     `,
-    providers: [PlaylistService]
+    providers: [PlaylistService, LoginService]
 })
 
 export class CreateListComponent{
@@ -116,12 +117,13 @@ export class CreateListComponent{
     @ViewChild(SearchComponent) searchComponent: SearchComponent;
     @ViewChild(PlayListDetailComponent) playlistdetailComponent: PlayListDetailComponent;
     @ViewChild(SongListComponent) songlistComponent : SongListComponent;
-    private playlist = { name: '', description: '', sounds: [] };
+    private playlist = { name: '', description: '', sounds: [], userAt: "" };
     
     constructor(
         private router:Router, 
         private routerParams: ActivatedRoute,
-        private playlistService: PlaylistService
+        private playlistService: PlaylistService,
+        private loginService: LoginService
     ){
         this.routerParams.params.subscribe((params) => {
            var id = params['_id'];
@@ -167,8 +169,9 @@ export class CreateListComponent{
         this.playlist.description = playlist;
     }
     
-    toSavePlayList(playlist){
-        this.playlistService.save(playlist).subscribe((result) => {
+    toSavePlayList(){
+        this.playlist.userAt = this.loginService.getUser()._id;
+        this.playlistService.save(this.playlist).subscribe((result) => {
             if(result.status === true){
                 alert(result.message);
                 this.router.navigate(['./home']);

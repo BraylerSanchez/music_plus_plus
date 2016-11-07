@@ -42,7 +42,7 @@ var PlaylistService = (function () {
             .map(function (res) { return res.json(); });
     };
     /*delete(_playlist){
-        return this.http.delete('api/v1/playlist', headers, _playlist)
+        return this.http['delete']('api/v1/playlist', headers, _playlist)
             .map( res => res.json())
     }*/
     PlaylistService.prototype.changePlaylist = function (playlist) {
