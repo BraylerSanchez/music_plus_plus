@@ -30,18 +30,28 @@ export class LoginService{
               client_id: this.client_id
             });
         });
+        var user = localStorage.getItem('ms_user');
+        if( user ){
+            this.user = JSON.parse(user);
+        }
     }
     
     setUser(user: IUser){
+        localStorage.setItem('ms_user', JSON.stringify(user));
         this.user = user;
     }
     
     getUser():IUser{
-        return this.user;
+        var user = localStorage.getItem('ms_user');
+        if( user ){
+            this.user = JSON.parse(user);
+        }
+        return JSON.parse(user);
     }
     singOut(){
         var auth2 = gapi.auth2.getAuthInstance();
         auth2.signOut().then( () => {
+            localStorage.removeItem('ms_user');
             this.user = undefined;
             logoutUserObserbable.next();
         });
