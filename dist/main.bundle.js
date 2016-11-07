@@ -393,15 +393,15 @@ webpackJsonp([0],{
 	            .map(function (res) { return res.json(); });
 	    };
 	    PlaylistService.prototype.save = function (_playlist) {
-	        return this.http.post('api/v1/playlist', headers, _playlist)
+	        return this.http.post('api/v1/playlist', _playlist, headers)
 	            .map(function (res) { return res.json(); });
 	    };
 	    PlaylistService.prototype.update = function (_id, _playlist) {
-	        return this.http.put("api/v1/playlist/" + _id, headers, _playlist)
+	        return this.http.put("api/v1/playlist/" + _id, _playlist, headers)
 	            .map(function (res) { return res.json(); });
 	    };
 	    /*delete(_playlist){
-	        return this.http['delete']('api/v1/playlist', headers, _playlist)
+	        return this.http['delete']('api/v1/playlist', _playlist, headers)
 	            .map( res => res.json())
 	    }*/
 	    PlaylistService.prototype.changePlaylist = function (playlist) {
@@ -690,14 +690,6 @@ webpackJsonp([0],{
 	                client_id: _this.client_id
 	            });
 	        });
-<<<<<<< HEAD
-	    }
-	    LoginService.prototype.setUser = function (user) {
-	        this.user = user;
-	    };
-	    LoginService.prototype.getUser = function () {
-	        return this.user;
-=======
 	        var user = localStorage.getItem('ms_user');
 	        if (user) {
 	            this.user = JSON.parse(user);
@@ -713,16 +705,12 @@ webpackJsonp([0],{
 	            this.user = JSON.parse(user);
 	        }
 	        return JSON.parse(user);
->>>>>>> features/google_login
 	    };
 	    LoginService.prototype.singOut = function () {
 	        var _this = this;
 	        var auth2 = gapi.auth2.getAuthInstance();
 	        auth2.signOut().then(function () {
-<<<<<<< HEAD
-=======
 	            localStorage.removeItem('ms_user');
->>>>>>> features/google_login
 	            _this.user = undefined;
 	            logoutUserObserbable.next();
 	        });

@@ -34,15 +34,15 @@ var PlaylistService = (function () {
             .map(function (res) { return res.json(); });
     };
     PlaylistService.prototype.save = function (_playlist) {
-        return this.http.post('api/v1/playlist', headers, _playlist)
+        return this.http.post('api/v1/playlist', _playlist, headers)
             .map(function (res) { return res.json(); });
     };
     PlaylistService.prototype.update = function (_id, _playlist) {
-        return this.http.put("api/v1/playlist/" + _id, headers, _playlist)
+        return this.http.put("api/v1/playlist/" + _id, _playlist, headers)
             .map(function (res) { return res.json(); });
     };
     /*delete(_playlist){
-        return this.http['delete']('api/v1/playlist', headers, _playlist)
+        return this.http['delete']('api/v1/playlist', _playlist, headers)
             .map( res => res.json())
     }*/
     PlaylistService.prototype.changePlaylist = function (playlist) {

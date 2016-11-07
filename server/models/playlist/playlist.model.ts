@@ -50,7 +50,6 @@ export class PlaylistModel{
         var playlist = new this.playlistModelMG( _playlist );
         playlist.save( (error, doc) =>{
             if (error) {
-                console.log(error);
                 def.reject(error)
             } else {
                 def.resolve( "Playlist save success." );
