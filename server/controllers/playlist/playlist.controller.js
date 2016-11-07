@@ -6,6 +6,8 @@ var PlaylistController = (function () {
     }
     PlaylistController.prototype.save = function (req, res) {
         var playlist = req.body;
+        playlist.createAt = new Date();
+        playlist.updateAt = new Date();
         this.playlistModel.save(playlist).then(function (message) {
             res.json({
                 status: true,
@@ -20,6 +22,7 @@ var PlaylistController = (function () {
     };
     PlaylistController.prototype.update = function (req, res) {
         var playlist = req.body, _id = req.params['_id'];
+        playlist.updateAt = new Date();
         this.playlistModel.update(_id, playlist).then(function (message) {
             res.json({
                 status: true,

@@ -9,6 +9,8 @@ export class PlaylistController{
     
     save(req, res){
         var playlist = req.body;
+        playlist.createAt = new Date();
+        playlist.updateAt = new Date();
         this.playlistModel.save(playlist).then( (message) =>{
             res.json({
                 status: true,
@@ -25,6 +27,7 @@ export class PlaylistController{
     update(req, res){
         var playlist = req.body,
             _id = req.params['_id'];
+        playlist.updateAt = new Date();
         this.playlistModel.update(_id, playlist).then( (message) =>{
             res.json({
                 status: true,
