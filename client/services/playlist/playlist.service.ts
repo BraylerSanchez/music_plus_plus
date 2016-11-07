@@ -32,17 +32,17 @@ export class PlaylistService{
             .map( res => res.json())
     }
     save(_playlist){
-        return this.http.post('api/v1/playlist', headers, _playlist )
+        return this.http.post('api/v1/playlist', _playlist, headers )
             .map( res => res.json())
     }
     
     update(_id:string, _playlist){
-        return this.http.put(`api/v1/playlist/${_id}`, headers, _playlist )
+        return this.http.put(`api/v1/playlist/${_id}`, _playlist, headers )
             .map( res => res.json())
     }
     
     /*delete(_playlist){
-        return this.http['delete']('api/v1/playlist', headers, _playlist)
+        return this.http['delete']('api/v1/playlist', _playlist, headers)
             .map( res => res.json())
     }*/
     

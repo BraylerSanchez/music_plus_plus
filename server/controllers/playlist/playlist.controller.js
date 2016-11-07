@@ -5,6 +5,7 @@ var PlaylistController = (function () {
         this.playlistModel = new playlist_model_1.PlaylistModel();
     }
     PlaylistController.prototype.save = function (req, res) {
+        console.log(req.body);
         var playlist = req.body;
         playlist.createAt = new Date();
         playlist.updateAt = new Date();

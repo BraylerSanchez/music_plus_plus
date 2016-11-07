@@ -8,9 +8,11 @@ export class PlaylistController{
     }
     
     save(req, res){
+        console.log(req.body);
         var playlist = req.body;
         playlist.createAt = new Date();
         playlist.updateAt = new Date();
+        
         this.playlistModel.save(playlist).then( (message) =>{
             res.json({
                 status: true,
