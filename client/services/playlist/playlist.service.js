@@ -10,11 +10,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
+var Observable_1 = require('rxjs/Observable');
 require('rxjs/add/operator/map');
 var headers = new http_1.ResponseOptions({
     headers: new http_1.Headers({
         'Content-Type': 'application/json'
     })
+});
+var onPlaylistChangeTrigger;
+exports.onPlaylistChange = new Observable_1.Observable(function (observable) {
+    onPlaylistChangeTrigger = observable;
 });
 var PlaylistService = (function () {
     function PlaylistService(http) {
@@ -35,6 +40,13 @@ var PlaylistService = (function () {
     PlaylistService.prototype.update = function (_id, _playlist) {
         return this.http.put("api/v1/playlist/" + _id, headers, _playlist)
             .map(function (res) { return res.json(); });
+    };
+    /*delete(_playlist){
+        return this.http.delete('api/v1/playlist', headers, _playlist)
+            .map( res => res.json())
+    }*/
+    PlaylistService.prototype.changePlaylist = function (playlist) {
+        onPlaylistChangeTrigger.next(playlist);
     };
     PlaylistService = __decorate([
         core_1.Injectable(), 

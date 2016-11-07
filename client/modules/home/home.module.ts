@@ -9,12 +9,15 @@ import { routing } from './home.routes';
 import { HomeComponent } from './components/home.component';
 import { SearchComponent } from './components/search.component';
 
+import {ToasterModule} from 'angular2-toaster/angular2-toaster';
+
 @NgModule({
     imports: [
         HttpModule,
         BrowserModule,
         FormsModule,
         CommonModule,
+        ToasterModule,
         routing],
       exports: [
           SearchComponent

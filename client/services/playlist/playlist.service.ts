@@ -1,11 +1,18 @@
 import { Injectable } from '@angular/core'
 import {Http, Headers, Response, ResponseOptions} from '@angular/http'
+import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/operator/map'
+
+import { IPlayList } from '../../interfaces/playlist/playlist.interface'
 
 const headers = new ResponseOptions({
     headers: new Headers({
         'Content-Type': 'application/json'
     })
+})
+var onPlaylistChangeTrigger: any;
+export const onPlaylistChange: Observable<IPlayList> = new Observable( (observable) =>{
+    onPlaylistChangeTrigger = observable;
 })
 
 @Injectable()
@@ -38,4 +45,8 @@ export class PlaylistService{
         return this.http['delete']('api/v1/playlist', headers, _playlist)
             .map( res => res.json())
     }*/
+    
+    changePlaylist( playlist: IPlayList){
+        onPlaylistChangeTrigger.next(playlist)
+    }
 }

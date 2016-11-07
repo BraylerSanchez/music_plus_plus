@@ -23,6 +23,11 @@ export const onStopMusic: Observable<Sound> = new Observable( (observable) =>{
     stopSoundObserbable = observable; 
 }).share();
 
+var onSuspendMusicTrigger: any;
+export const onSuspendMusic: Observable<Sound> = new Observable( (observable) =>{
+    onSuspendMusicTrigger = observable; 
+}).share();
+
 @Injectable()
 export class PlayerService{
     private apiPart: string;
@@ -58,15 +63,22 @@ export class PlayerService{
     
     getMusic(video: Sound ){
         var request = new XMLHttpRequest();
-        request.open("GET", `/api/stream/play/${video.id}`, true); 
+        request.open("GET", `/api/v1/youtube/convert/${video.id}`, true); 
         request.responseType = "arraybuffer"; 
         
         request.onload = () => {
-            playSoundObserbable.next( {
-                details: video,
-                buffer: request.response
-            });
+            if( request.response.status){
+                alert(request.response.message);
+            }else{
+                playSoundObserbable.next( {
+                    details: video,
+                    buffer: request.response
+                });
+            }
         };
         request.send();
+    }
+    suspendMusic(){
+        onSuspendMusicTrigger.next();
     }
 }

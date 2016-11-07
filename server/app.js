@@ -4,8 +4,8 @@ var body_parser_1 = require('body-parser');
 var path_1 = require('path');
 var config = require('config');
 var mongoose = require('mongoose');
-var ytdl = require('ytdl-core');
 var playlist_routes_1 = require('./routes/playlist/playlist.routes');
+var convert_routes_1 = require('./routes/youtube/convert.routes');
 var AppServer = (function () {
     function AppServer() {
         this.app = express();
@@ -24,16 +24,7 @@ var AppServer = (function () {
     };
     AppServer.prototype.services = function () {
         new playlist_routes_1.PlaylistRoutes(this.app);
-        this.app.get('/api/stream/play/:videoId', function (req, res) {
-            res.set({ 'Content-Type': 'audio/mpeg' });
-            var stream = ytdl("http://www.youtube.com/watch?v=" + req.params['videoId'], {
-                quality: 'lowest',
-                filter: function (format) {
-                    return format.container === 'mp4';
-                }
-            })
-                .pipe(res);
-        });
+        new convert_routes_1.ConvertRoutes(this.app);
         this.app.get('/', function (req, res) {
             res.sendFile(__dirname + '../pulic/index.html');
         });

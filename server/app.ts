@@ -1,12 +1,11 @@
 import * as express from 'express'
 import { json } from 'body-parser'
 import { join } from 'path'
-import * as fs from 'fs'
 import * as config from 'config'
-import * as mongoose from 'mongoose' 
-var ytdl = require('ytdl-core')
+import * as mongoose from 'mongoose'
 
 import { PlaylistRoutes } from './routes/playlist/playlist.routes'
+import { ConvertRoutes } from './routes/youtube/convert.routes'
 
 declare var process:any
 
@@ -33,17 +32,7 @@ class AppServer{
     
     services(){
         new PlaylistRoutes(this.app);
-        
-        this.app.get('/api/stream/play/:videoId', (req, res) =>{
-            res.set({'Content-Type': 'audio/mpeg'});
-            var stream = ytdl(`http://www.youtube.com/watch?v=${req.params['videoId']}`,{
-                quality: 'lowest',
-                filter: function(format) { 
-                    return format.container === 'mp4';
-                }
-            })
-            .pipe(res)
-        })
+        new ConvertRoutes(this.app);
         this.app.get('/', function(req, res){
            res.sendFile(__dirname + '../pulic/index.html')
         });
