@@ -47,6 +47,7 @@ var PlaylistModel = (function () {
         var playlist = new this.playlistModelMG(_playlist);
         playlist.save(function (error, doc) {
             if (error) {
+                console.log(error);
                 def.reject(error);
             }
             else {

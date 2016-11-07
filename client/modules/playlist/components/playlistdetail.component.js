@@ -30,9 +30,7 @@ var PlayListDetailComponent = (function () {
     PlayListDetailComponent.prototype.toSaveDetails = function () {
         this.playlist.name = this.createListForm.value.name;
         this.playlist.description = this.createListForm.value.description;
-        console.log(this.playlist);
         this.onSave.next(this.playlist);
-        // this.router.navigate(['/home']);
     };
     __decorate([
         core_1.Output(), 
@@ -46,7 +44,7 @@ var PlayListDetailComponent = (function () {
         core_1.Component({
             selector: 'playlistdetail',
             styles: [""],
-            template: " \n        <div class=\"container col-lg-12\">\n          <form class=\"form-horizontal\" [formGroup]=\"createListForm\" (submit)=\"toSaveDetails()\">\n            <div class=\"form-group\">\n                <div class=\"col-sm-6 col-sm-offset-3\">\n                    <label class=\"control-label col-sm-1\">Name:</label>\n                    <input class=\"form-control\" formControlName=\"name\" id=\"name\" type=\"text\" placeholder=\"Enter name\" required/>\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <div class=\"col-sm-6 col-sm-offset-3\">\n                    <label class=\"control-label col-sm-1\">Description:</label>\n                    <input class=\"form-control\" formControlName=\"description\" id=\"description\" type=\"text\" placeholder=\"Enter description\" />\n                </div>\n            </div>\n            <div class=\"form-group col-sm-13\">\n                <button class=\"btn btn-success\" type=\"submit\" [disabled] = \"!createListForm.valid\" >Create</button>\n                <button class=\"btn btn-default\" type=\"button\" (click)=\"this.router.navigate(['/home'])\">Cancel</button>\n            </div>\n          </form>\n        </div>\n    "
+            template: " \n        <div class=\"container col-lg-12\">\n          <form class=\"form-horizontal\" [formGroup]=\"createListForm\" (submit)=\"toSaveDetails()\">\n            <div class=\"form-group\">\n                <div class=\"col-sm-6 col-sm-offset-3\">\n                    <label class=\"control-label col-sm-1\">Name:</label>\n                    <input class=\"form-control\" formControlName=\"name\" id=\"name\" type=\"text\" placeholder=\"Enter name\" required/>\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <div class=\"col-sm-6 col-sm-offset-3\">\n                    <label class=\"control-label col-sm-1\">Description:</label>\n                    <input class=\"form-control\" formControlName=\"description\" id=\"description\" type=\"text\" placeholder=\"Enter description\" />\n                </div>\n            </div>\n          </form>\n        </div>\n    "
         }), 
         __metadata('design:paramtypes', [forms_1.FormBuilder, router_1.Router])
     ], PlayListDetailComponent);

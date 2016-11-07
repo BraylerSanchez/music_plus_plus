@@ -5124,10 +5124,47 @@ webpackJsonp([0],{
 	    CreateListComponent.prototype.toCancel = function () {
 	        this.router.navigate(['/playlist/list']);
 	    };
+	    CreateListComponent.prototype.toNext = function () {
+	        if (this.playlistdetailComponent.createListForm.valid) {
+	            if (this.step == 1) {
+	                this.playlist.name = this.playlistdetailComponent.createListForm.value.name;
+	                this.playlist.description = this.playlistdetailComponent.createListForm.value.description;
+	                this.step = 2;
+	            }
+	            else if (this.step == 2) {
+	                this.playlist.name = this.playlistdetailComponent.createListForm.value.name;
+	                this.playlist.description = this.playlistdetailComponent.createListForm.value.description;
+	                this.step = 3;
+	            }
+	        }
+	        else {
+	            alert('Information required.');
+	        }
+	    };
+	    CreateListComponent.prototype.toPrevious = function () {
+	        if (this.step == 2) {
+	            this.step = 1;
+	        }
+	        else if (this.step == 3) {
+	            this.step = 2;
+	        }
+	    };
 	    CreateListComponent.prototype.step1Save = function (playlist) {
 	        this.step = 2;
 	        this.playlist.name = playlist;
 	        this.playlist.description = playlist;
+	    };
+	    CreateListComponent.prototype.toSavePlayList = function (playlist) {
+	        var _this = this;
+	        this.playlistService.save(playlist).subscribe(function (result) {
+	            if (result.status === true) {
+	                alert(result.message);
+	                _this.router.navigate(['./home']);
+	            }
+	            else {
+	                alert(result.message);
+	            }
+	        });
 	    };
 	    __decorate([
 	        core_1.ViewChild(search_component_1.SearchComponent), 
@@ -5144,10 +5181,10 @@ webpackJsonp([0],{
 	    CreateListComponent = __decorate([
 	        core_1.Component({
 	            selector: 'playlistcreate',
-	            styles: ["\n        search div.cover {\n            margin-top: 0px !important;\n        }\n        \n    "
+	            styles: ["\n        search div.cover {\n            margin-top: 0px !important;\n        }\n        .buttons {\n            margin-top: 5px;\n        }\n        \n    "
 	            ],
 	            styleUrls: ['modules/playlist/components/wizardtemplate.css'],
-	            template: " \n        <h3>Playlist create wizard</h3>\n        <div class=\"container col-lg-12\">\n        \t<div class=\"row\">\n        \t\t<section>\n                <div class=\"wizard\">\n                    <div class=\"wizard-inner\">\n                        <div class=\"connecting-line\"></div>\n                        <ul class=\"nav nav-tabs\" role=\"tablist\">\n                            <li role=\"presentation\" [ngClass]=\"{'active': step == 1, 'disabled': step > 1}\">\n                                <a role=\"tab\" title=\"Creat list detail\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></i> \n                                    </span>\n                                </a>\n                            </li>\n        \n                            <li role=\"presentation\" class=\"\" [ngClass]=\"{'active': step == 2, 'disabled': step < 2}\">\n                                <a data-toogle=\"tab\" title=\"Select songs\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-th-list\" aria-hidden=\"true\"></i>\n                                    </span>\n                                </a>\n                            </li>\n                            \n                            <li role=\"presentation\" [ngClass]=\"{'active': step=='3', 'disabled': step < 3}\">\n                                <a  title=\"Complete\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-ok\" aria-hidden=\"true\"></i>\n                                    </span>\n                                </a>\n                            </li>\n                            \n                        </ul>\n                    </div>\n                    \n                    <form role=\"form\">\n                        <div class=\"tab-content\">\n                        <div class=\"\">\n                            <a class=\"btn btn-default pull-left\" (click)=\"toCancel()\">\n                                <i class=\"fa fa-times\" ></i> Cancel\n                            </a>\n                            <button *ngIf=\"step === 1 || step === 2\" class=\"btn btn-primary pull-right\">\n                                Next <i class=\"fa fa-arrow-right \" aria-hidden=\"true\" ></i> \n                            </button>\n                            <h1> </h1>\n                            <button *ngIf=\"step === 2 || step === 3\" class=\"btn btn-primary pull-right\">\n                                <i class=\"fa fa-arrow-left \" aria-hidden=\"true\" ></i> Previous\n                                \n                            </button>\n                            <button *ngIf=\"step === 3\" class=\"btn btn-success pull-right\">\n                                Save <i class=\"fa fa-check\" aria-hidden=\"true\" ></i> \n                            </button>\n                        </div>\n                            <div class=\"tab-pane active\" role=\"tabpanel\" [ngClass]=\"{'active': step==1}\">\n                                <playlistdetail \n                                (onSave)=\"step1Save($event)\"\n                                [playlist]=\"playlist\"\n                                ></playlistdetail>\n                            </div>\n                            <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step==2}\">\n                                <div class=\"col-sm-6\">\n                                    <h3>Play list:</h3>\n                                    <songlist\n                                        [playlist]=\"playlist\"\n                                    ></songlist>\n                                </div>\n                                <div class=\"col-sm-6\">\n                                    <h3>Search songs:</h3>\n                                    <search\n                                        [playlist]=\"playlist\"\n                                    ></search>\n                                </div>\n                            </div>\n                           \n                            \n                            <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step==3}\">\n                                <h3>Complete</h3>\n                                <p>You have successfully completed all steps.</p>\n                                <div class=\"form-group\">\n                                    <button class=\"btn btn-default pull-left\" type=\"button\" (click)=\"this.router.navigate(['/home'])\">\n                                        <i class=\"fa fa-arrow-left \" aria-hidden=\"true\" ></i> Cancel\n                                    </button>\n                                    <button class=\"btn btn-primary pull-right\">\n                                        Next <i class=\"fa fa-arrow-right \" aria-hidden=\"true\" ></i> \n                                    </button>\n                                </div>\n                            </div>\n                            <div class=\"clearfix\"></div>\n                        </div>\n                    </form>\n                </div>  \n                </section>    \n            </div>        \n        </div>\n    \n    \n    ",
+	            template: " \n        <h3>Playlist create wizard</h3>\n        <div class=\"container col-lg-12\">\n        \t<div class=\"row\">\n        \t\t<section>\n                <div class=\"wizard\">\n                    <div class=\"wizard-inner\">\n                        <div class=\"connecting-line\"></div>\n                        <ul class=\"nav nav-tabs\" role=\"tablist\">\n                            <li role=\"presentation\" [ngClass]=\"{'active': step == 1}\">\n                                <a role=\"tab\" title=\"Creat list detail\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></i> \n                                    </span>\n                                </a>\n                            </li>\n        \n                            <li role=\"presentation\" class=\"\" [ngClass]=\"{'active': step == 2}\">\n                                <a data-toogle=\"tab\" title=\"Select songs\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-th-list\" aria-hidden=\"true\"></i>\n                                    </span>\n                                </a>\n                            </li>\n                            \n                            <li role=\"presentation\" [ngClass]=\"{'active': step=='3'}\">\n                                <a  title=\"Complete\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-ok\" aria-hidden=\"true\"></i>\n                                    </span>\n                                </a>\n                            </li>\n                        </ul>\n                    </div>\n                    <div class=\"buttons col-lg-12\">\n                        <a class=\"btn btn-default pull-left\" (click)=\"toCancel()\">\n                            <i class=\"fa fa-times\" ></i> Cancel\n                        </a>\n                        <a *ngIf=\"step === 1 || step === 2\" class=\"btn btn-primary pull-right\" (click)=\"toNext()\">\n                            Next <i class=\"fa fa-arrow-right \" aria-hidden=\"true\" ></i> \n                        </a>\n                        <a *ngIf=\"step === 3\" class=\"btn btn-success pull-right\" (click)=\"toSavePlayList()\">\n                            Save <i class=\"fa fa-floppy-o\" aria-hidden=\"true\" ></i> \n                        </a>\n                        <a *ngIf=\"step === 2 || step === 3\" class=\"btn btn-primary pull-right\" (click)=\"toPrevious()\">\n                            <i class=\"fa fa-arrow-left \" aria-hidden=\"true\" ></i> Previous\n                        </a>\n                    </div>\n                </div>\n                    \n                    <form role=\"form\" class=\"forms\">\n                        <div class=\"tab-content\">\n                            <div class=\"tab-pane active\" role=\"tabpanel\" [ngClass]=\"{'active': step==1}\">\n                                <playlistdetail \n                                (onSave)=\"step1Save($event)\"\n                                [playlist]=\"playlist\"\n                                ></playlistdetail>\n                            </div>\n                            <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step==2}\">\n                                <div class=\"col-sm-6\">\n                                    <h3>Play list:</h3>\n                                    <songlist\n                                        [playlist]=\"playlist\"\n                                    ></songlist>\n                                </div>\n                                <div class=\"col-sm-6\">\n                                    <h3>Search songs:</h3>\n                                    <search\n                                        [playlist]=\"playlist\"\n                                    ></search>\n                                </div>\n                            </div>\n                            <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step==3}\">\n                                <h3>Summary</h3>\n                                <h4>Name: {{playlist.name}} </h4>\n                                <h4>Description: {{playlist.description}} </h4>\n                                <songlist\n                                        [playlist]=\"playlist\"\n                                ></songlist>\n                            </div>\n                            <div class=\"clearfix\"></div>\n                        </div>\n                    </form>\n                </section>    \n            </div>        \n        </div>\n    \n    \n    ",
 	            providers: [playlist_service_1.PlaylistService]
 	        }), 
 	        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, playlist_service_1.PlaylistService])
@@ -5194,9 +5231,7 @@ webpackJsonp([0],{
 	    PlayListDetailComponent.prototype.toSaveDetails = function () {
 	        this.playlist.name = this.createListForm.value.name;
 	        this.playlist.description = this.createListForm.value.description;
-	        console.log(this.playlist);
 	        this.onSave.next(this.playlist);
-	        // this.router.navigate(['/home']);
 	    };
 	    __decorate([
 	        core_1.Output(), 
@@ -5210,7 +5245,7 @@ webpackJsonp([0],{
 	        core_1.Component({
 	            selector: 'playlistdetail',
 	            styles: [""],
-	            template: " \n        <div class=\"container col-lg-12\">\n          <form class=\"form-horizontal\" [formGroup]=\"createListForm\" (submit)=\"toSaveDetails()\">\n            <div class=\"form-group\">\n                <div class=\"col-sm-6 col-sm-offset-3\">\n                    <label class=\"control-label col-sm-1\">Name:</label>\n                    <input class=\"form-control\" formControlName=\"name\" id=\"name\" type=\"text\" placeholder=\"Enter name\" required/>\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <div class=\"col-sm-6 col-sm-offset-3\">\n                    <label class=\"control-label col-sm-1\">Description:</label>\n                    <input class=\"form-control\" formControlName=\"description\" id=\"description\" type=\"text\" placeholder=\"Enter description\" />\n                </div>\n            </div>\n            <div class=\"form-group col-sm-13\">\n                <button class=\"btn btn-success\" type=\"submit\" [disabled] = \"!createListForm.valid\" >Create</button>\n                <button class=\"btn btn-default\" type=\"button\" (click)=\"this.router.navigate(['/home'])\">Cancel</button>\n            </div>\n          </form>\n        </div>\n    "
+	            template: " \n        <div class=\"container col-lg-12\">\n          <form class=\"form-horizontal\" [formGroup]=\"createListForm\" (submit)=\"toSaveDetails()\">\n            <div class=\"form-group\">\n                <div class=\"col-sm-6 col-sm-offset-3\">\n                    <label class=\"control-label col-sm-1\">Name:</label>\n                    <input class=\"form-control\" formControlName=\"name\" id=\"name\" type=\"text\" placeholder=\"Enter name\" required/>\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <div class=\"col-sm-6 col-sm-offset-3\">\n                    <label class=\"control-label col-sm-1\">Description:</label>\n                    <input class=\"form-control\" formControlName=\"description\" id=\"description\" type=\"text\" placeholder=\"Enter description\" />\n                </div>\n            </div>\n          </form>\n        </div>\n    "
 	        }), 
 	        __metadata('design:paramtypes', [forms_1.FormBuilder, router_1.Router])
 	    ], PlayListDetailComponent);

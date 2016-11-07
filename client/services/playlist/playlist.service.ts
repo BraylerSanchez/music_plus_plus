@@ -35,7 +35,7 @@ export class PlaylistService{
     }
     
     /*delete(_playlist){
-        return this.http.delete('api/v1/playlist', headers, _playlist)
+        return this.http['delete']('api/v1/playlist', headers, _playlist)
             .map( res => res.json())
     }*/
 }

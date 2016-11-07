@@ -22,10 +22,6 @@ import { Sound } from '../../../interfaces/player/sound.interface';
                     <input class="form-control" formControlName="description" id="description" type="text" placeholder="Enter description" />
                 </div>
             </div>
-            <div class="form-group col-sm-13">
-                <button class="btn btn-success" type="submit" [disabled] = "!createListForm.valid" >Create</button>
-                <button class="btn btn-default" type="button" (click)="this.router.navigate(['/home'])">Cancel</button>
-            </div>
           </form>
         </div>
     `
@@ -34,13 +30,13 @@ import { Sound } from '../../../interfaces/player/sound.interface';
 export class PlayListDetailComponent{
     @Output()
     private onSave = new EventEmitter() 
-    private createListForm:any;
+    public createListForm:any;
     
     @Input()
     private playlist: IPlayList;
     
     constructor(
-        private fb: FormBuilder, 
+        public fb: FormBuilder, 
         private router:Router
     ){
         this.createListForm = fb.group({
@@ -59,8 +55,6 @@ export class PlayListDetailComponent{
     toSaveDetails( ): void{
         this.playlist.name = this.createListForm.value.name;
         this.playlist.description = this.createListForm.value.description;
-        console.log(this.playlist);
-        this.onSave.next(this.playlist)
-        // this.router.navigate(['/home']);
+        this.onSave.next(this.playlist);
     }
 }
