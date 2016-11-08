@@ -9,30 +9,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var search_component_1 = require('../../home/components/search.component');
+var playlist_service_1 = require('../../../services/playlist/playlist.service');
 var SongListComponent = (function () {
     function SongListComponent() {
-        var _this = this;
-        search_component_1.onAddSoundToPlaylist.subscribe(function (result) {
-            //this.playlist.sounds.push(result.sound)
-        });
-        search_component_1.onRemoveSoundToPlaylist.subscribe(function (result) {
-            for (var i = _this.playlist.sounds.length - 1; i >= 0; i--) {
-                if (_this.playlist.sounds[i].id == result.sound.id) {
-                    _this.playlist.sounds.splice(i, 1);
-                }
-            }
-        });
     }
-    SongListComponent.prototype.addFromPlaylist = function (e, sound) {
-        this.playlist.sounds.push(sound);
-    };
-    SongListComponent.prototype.removeFromPlaylist = function (e, sound) {
-        for (var i = this.playlist.sounds.length - 1; i >= 0; i--) {
-            if (this.playlist.sounds[i].id == sound.id) {
-                this.playlist.sounds.splice(i, 1);
+    SongListComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        playlist_service_1.onAddSound.subscribe(function (result) {
+            if (result.playlist != 'default') {
+                _this.playlist.sounds.push(result.sound);
             }
-        }
+        });
+    };
+    SongListComponent.prototype.removeFromPlaylist = function (e, index) {
+        this.playlist.sounds.splice(index, 1);
     };
     SongListComponent.prototype.isAdded = function (video) {
         return this.playlist.sounds.some(function (sound) {
@@ -47,7 +37,7 @@ var SongListComponent = (function () {
         core_1.Component({
             selector: 'songlist',
             styles: ["\n        .video{\n            color: #333333;\n        }\n    "],
-            template: "\n        <div class=\"list-group\">\n            <div *ngIf=\"playlist.sounds.length == 0\">\n                <div class=\"alert alert-info\">\n                    <h4>Not songs added</h4>\n                </div>\n            </div>\n            <div class=\"video list-group-item\" *ngFor=\"let video of playlist.sounds\">\n                <div class=\"media-left\">\n                    <span>\n                        <img id=\"\" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n                    </span>\n                </div>\n                <div class=\"media-body text-left\">\n                    <div class=\"media-heading\">\n                        <h4 class=\"title\">\n                            {{ video.title }} \n                            <i *ngIf=\"!isAdded(video)\" class=\"fa fa-plus pull-right\" (click)=\"addFromPlaylist($event, video)\"></i>\n                            <i *ngIf=\"isAdded(video)\" class=\"fa fa-minus pull-right\" (click)=\"removeFromPlaylist($event, video)\"></i>\n                        </h4>\n                    </div>\n                    <span  id=\"channel\">{{ video.channel }}</span>\n                    <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n                </div>\n            </div>\n        </div>",
+            template: "\n        <h3>Play list:</h3>\n        <div class=\"list-group\">\n            <div *ngIf=\"playlist.sounds.length == 0\">\n                <div class=\"alert alert-info\">\n                    <h4>Not songs added</h4>\n                </div>\n            </div>\n            <div class=\"video list-group-item\" *ngFor=\"let video of playlist.sounds; let i = index\">\n                <div class=\"media-left\">\n                    <span>\n                        <img id=\"\" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n                    </span>\n                </div>\n                <div class=\"media-body text-left\">\n                    <div class=\"media-heading\">\n                        <h4 class=\"title\">\n                            {{ video.title }} \n                            <i *ngIf=\"!isAdded(video)\" class=\"fa fa-plus pull-right\" (click)=\"addFromPlaylist($event, video)\"></i>\n                            <i *ngIf=\"isAdded(video)\" class=\"fa fa-minus pull-right\" (click)=\"removeFromPlaylist($event, i)\"></i>\n                        </h4>\n                    </div>\n                    <span  id=\"channel\">{{ video.channel }}</span>\n                    <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n                </div>\n            </div>\n        </div>",
             providers: []
         }), 
         __metadata('design:paramtypes', [])

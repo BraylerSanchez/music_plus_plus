@@ -6,8 +6,8 @@ import { Router } from '@angular/router'
       .home .search-button{
         background-color: #333333 !important;
         color: white !important;
-      }
-    `],
+      }`
+    ],
     template: `
       <div class="inner cover">
         <form class="home">

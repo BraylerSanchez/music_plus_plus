@@ -9,9 +9,9 @@ export class PlaylistModel{
         this.playlistModelMG = mongoose.model('playlist', PlayListSchema)
     }
     
-    list( ){
+    list( _userId ){
         var def = defer();
-        this.playlistModelMG.find( {}, (error, docs) =>{
+        this.playlistModelMG.find( {userAt: _userId}, (error, docs) =>{
             if( error ){
                 def.reject( error );
             }else{

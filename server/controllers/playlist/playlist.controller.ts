@@ -66,7 +66,8 @@ export class PlaylistController{
     }
     
     list(req, res){
-        this.playlistModel.list( ).then( (docs) =>{
+        let userId = req.params['_userId'];
+        this.playlistModel.list( userId ).then( (docs) =>{
             res.json({
                 status: true,
                 playlists: docs

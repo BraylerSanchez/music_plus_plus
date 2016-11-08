@@ -58,7 +58,8 @@ var PlaylistController = (function () {
         });
     };
     PlaylistController.prototype.list = function (req, res) {
-        this.playlistModel.list().then(function (docs) {
+        var userId = req.params['_userId'];
+        this.playlistModel.list(userId).then(function (docs) {
             res.json({
                 status: true,
                 playlists: docs

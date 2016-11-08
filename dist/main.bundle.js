@@ -36,10 +36,10 @@ webpackJsonp([0],{
 	var common_1 = __webpack_require__(23);
 	var platform_browser_1 = __webpack_require__(22);
 	var template_component_1 = __webpack_require__(25);
-	var sidebar_component_1 = __webpack_require__(76);
-	var app_routes_1 = __webpack_require__(78);
-	var angular2_toaster_1 = __webpack_require__(69);
-	var home_module_1 = __webpack_require__(79);
+	var sidebar_component_1 = __webpack_require__(36);
+	var app_routes_1 = __webpack_require__(39);
+	var angular2_toaster_1 = __webpack_require__(71);
+	var home_module_1 = __webpack_require__(78);
 	var player_module_1 = __webpack_require__(84);
 	var playlist_module_1 = __webpack_require__(85);
 	var AppModule = (function () {
@@ -87,7 +87,7 @@ webpackJsonp([0],{
 	};
 	var core_1 = __webpack_require__(4);
 	var player_component_1 = __webpack_require__(26);
-	var sidebar_component_1 = __webpack_require__(76);
+	var sidebar_component_1 = __webpack_require__(36);
 	var TemplateComponent = (function () {
 	    function TemplateComponent(elementRef, renderer) {
 	        this.elementRef = elementRef;
@@ -110,7 +110,7 @@ webpackJsonp([0],{
 	    TemplateComponent = __decorate([
 	        core_1.Component({
 	            selector: 'app',
-	            template: "\n    <toaster-container></toaster-container>\n    <sidebar></sidebar>\n    <div class=\"site-wrapper\">\n      <div class=\"site-wrapper-inner\">\n        <div class=\"cover-container\">\n          <!--div class=\"masthead clearfix\">\n            <div class=\"inner\">\n              <h1 class=\"masthead-brand\"><i class=\"fa fa-music fa-1x\" (click)=\"search()\"></i> Music</h1>\n              <nav>\n                <div class=\"media-body\">\n                  <ul class=\"nav masthead-nav\">\n                    <li [routerLinkActive]=\"['active']\" >\n                      <a [routerLink]=\"['/home']\" >\n                        Home\n                      </a> \n                    </li>\n                    <li [routerLinkActive]=\"['active']\" ><a [routerLink]=\"['/playlist/list']\" > Play List</a> </li>\n                  </ul>\n                </div>\n              </nav>\n            </div>\n          </div -->\n          <div class=\"inner cover\">\n            <router-outlet></router-outlet>\n          </div>\n          <div class=\"mastfoot\">\n            <div class=\"inner\">\n              <p>by @los tigueres.</p>\n            </div>\n          </div>\n          <player></player>\n        </div>\n      </div>\n    </div>",
+	            template: "\n    <toaster-container></toaster-container>\n    <sidebar></sidebar>\n    <div class=\"site-wrapper\">\n      <div class=\"site-wrapper-inner\">\n        <div class=\"cover-container\">\n          <!--div class=\"masthead clearfix\">\n            <div class=\"inner\">\n              <h1 class=\"masthead-brand\"><i class=\"fa fa-music fa-1x\" (click)=\"search()\"></i> Music</h1>\n              <nav>\n                <div class=\"media-body\">\n                  <ul class=\"nav masthead-nav\">\n                    <li [routerLinkActive]=\"['active']\" >\n                      <a [routerLink]=\"['/home']\" >\n                        Home\n                      </a> \n                    </li>\n                    <li [routerLinkActive]=\"['active']\" ><a [routerLink]=\"['/playlist/list']\" > Play List</a> </li>\n                  </ul>\n                </div>\n              </nav>\n            </div>\n          </div -->\n          <div class=\"inner cover\">\n            <router-outlet></router-outlet>\n          </div>\n          <div class=\"col-xs-12 mastfoot\">\n            <div class=\"inner\">\n              <p>by @los tigueres.</p>\n            </div>\n          </div>\n          <player></player>\n        </div>\n      </div>\n    </div>",
 	            styles: ["\n        sidebar{\n            position: absolute;\n            z-index: 100;\n        }\n      "
 	            ]
 	        }), 
@@ -138,8 +138,6 @@ webpackJsonp([0],{
 	};
 	var core_1 = __webpack_require__(4);
 	var player_service_1 = __webpack_require__(27);
-	var playlist_service_1 = __webpack_require__(36);
-	var search_component_1 = __webpack_require__(37);
 	window.AudioContext = window.AudioContext || window.webkitAudioContext;
 	var PlayerComponent = (function () {
 	    function PlayerComponent(playerService, ngZone) {
@@ -170,20 +168,6 @@ webpackJsonp([0],{
 	            .subscribe(function () {
 	            _this.isPlaying = false;
 	            _this.ngZone.run(function () { });
-	        });
-	        search_component_1.onAddSoundToPlaylist.subscribe(function (result) {
-	            _this.playlist.sounds.push(result.sound);
-	        });
-	        search_component_1.onRemoveSoundToPlaylist.subscribe(function (result) {
-	            for (var i = _this.playlist.sounds.length - 1; i >= 0; i--) {
-	                if (_this.playlist.sounds[i].id == result.sound.id) {
-	                    _this.playlist.sounds.splice(i, 1);
-	                }
-	            }
-	        });
-	        playlist_service_1.onPlaylistChange.subscribe(function (playlist) {
-	            _this.playlist = playlist;
-	            _this.playerService.getMusic(_this.playlist.sounds[0]);
 	        });
 	    };
 	    PlayerComponent.prototype.play = function () {
@@ -368,228 +352,26 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
-	var http_1 = __webpack_require__(28);
-	var Observable_1 = __webpack_require__(6);
-	__webpack_require__(29);
-	var headers = new http_1.ResponseOptions({
-	    headers: new http_1.Headers({
-	        'Content-Type': 'application/json'
-	    })
-	});
-	var onPlaylistChangeTrigger;
-	exports.onPlaylistChange = new Observable_1.Observable(function (observable) {
-	    onPlaylistChangeTrigger = observable;
-	});
-	var PlaylistService = (function () {
-	    function PlaylistService(http) {
-	        this.http = http;
-	    }
-	    PlaylistService.prototype.get = function (_id) {
-	        return this.http.get("api/v1/playlist/" + _id, headers)
-	            .map(function (res) { return res.json(); });
-	    };
-	    PlaylistService.prototype.list = function () {
-	        return this.http.get('api/v1/playlist', headers)
-	            .map(function (res) { return res.json(); });
-	    };
-	    PlaylistService.prototype.save = function (_playlist) {
-	        return this.http.post('api/v1/playlist', _playlist, headers)
-	            .map(function (res) { return res.json(); });
-	    };
-	    PlaylistService.prototype.update = function (_id, _playlist) {
-	        return this.http.put("api/v1/playlist/" + _id, _playlist, headers)
-	            .map(function (res) { return res.json(); });
-	    };
-	    /*delete(_playlist){
-	        return this.http['delete']('api/v1/playlist', _playlist, headers)
-	            .map( res => res.json())
-	    }*/
-	    PlaylistService.prototype.changePlaylist = function (playlist) {
-	        onPlaylistChangeTrigger.next(playlist);
-	    };
-	    PlaylistService = __decorate([
-	        core_1.Injectable(), 
-	        __metadata('design:paramtypes', [http_1.Http])
-	    ], PlaylistService);
-	    return PlaylistService;
-	}());
-	exports.PlaylistService = PlaylistService;
-
-
-/***/ },
-
-/***/ 37:
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-	    return c > 3 && r && Object.defineProperty(target, key, r), r;
-	};
-	var __metadata = (this && this.__metadata) || function (k, v) {
-	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-	};
-	var core_1 = __webpack_require__(4);
-	var router_1 = __webpack_require__(38);
 	var player_service_1 = __webpack_require__(27);
-	var Observable_1 = __webpack_require__(6);
-	__webpack_require__(29);
-	__webpack_require__(31);
-	var angular2_toaster_1 = __webpack_require__(69);
-	var addSoundToPlaylistTrigger;
-	exports.onAddSoundToPlaylist = new Observable_1.Observable(function (observable) {
-	    addSoundToPlaylistTrigger = observable;
-	}).share();
-	var removeSoundToPlaylistTrigger;
-	exports.onRemoveSoundToPlaylist = new Observable_1.Observable(function (observable) {
-	    removeSoundToPlaylistTrigger = observable;
-	}).share();
-	var SearchComponent = (function () {
-	    function SearchComponent(playerService, router, ngZone, toasterService) {
-	        var _this = this;
-	        this.playerService = playerService;
-	        this.router = router;
-	        this.ngZone = ngZone;
-	        this.toasterService = toasterService;
-	        this.currentSound = {
-	            id: ''
-	        };
-	        this.playlist = this.playlist || { name: 'default', description: '', sounds: [], createAt: new Date(), userAt: '', updateAt: new Date() };
-	        this.queryString = '';
-	        this.videos = [];
-	        this.router.params.subscribe(function (params) {
-	            if (params['query'] != '0') {
-	                _this.queryString = params['query'] || '';
-	                if (_this.queryString != '') {
-	                    _this.search();
-	                }
-	            }
-	        });
-	        player_service_1.onPlayMusic
-	            .subscribe(function (response) {
-	            _this.currentSound = response['details'];
-	        });
-	        player_service_1.onStopMusic
-	            .subscribe(function (sound) {
-	            _this.currentSound = sound;
-	            _this.ngZone.run(function () { });
-	        });
-	    }
-	    SearchComponent.prototype.addFromPlaylist = function (e, sound) {
-	        this.playlist.sounds.push(sound);
-	        addSoundToPlaylistTrigger.next({
-	            sound: sound,
-	            playlist: this.playlist.name
-	        });
-	        this.toasterService.pop('success', 'Added music to playlist', sound.title);
-	        e.stopPropagation();
-	    };
-	    SearchComponent.prototype.removeFromPlaylist = function (e, sound) {
-	        for (var i = this.playlist.sounds.length - 1; i >= 0; i--) {
-	            if (this.playlist.sounds[i].id == sound.id) {
-	                this.playlist.sounds.splice(i, 1);
-	            }
-	        }
-	        removeSoundToPlaylistTrigger.next({
-	            sound: sound,
-	            playlist: this.playlist.name
-	        });
-	        this.toasterService.pop('warning', 'Removed music from playlist', sound.title);
-	        e.stopPropagation();
-	    };
-	    SearchComponent.prototype.handleKeyup = function (e) {
-	        if (e.keyCode == 13) {
-	            this.search();
-	        }
-	    };
-	    SearchComponent.prototype.search = function () {
-	        var _this = this;
-	        if (this.queryString.length <= 0) {
-	            alert('Insert text to search.');
-	            return;
-	        }
-	        this.playerService.search(this.queryString)
-	            .subscribe(function (videos) {
-	            _this.videos = videos.map(function (video) {
-	                video.title = video.title.length > 40 ? video.title.substring(0, 37) + '...' : video.title;
-	                return video;
-	            });
-	        });
-	    };
-	    SearchComponent.prototype.play = function (video) {
-	        addSoundToPlaylistTrigger.next({
-	            sound: video,
-	            playlist: this.playlist.name
-	        });
-	        this.playerService.getMusic(video);
-	        this.toasterService.pop('success', 'Playing Music', video.title);
-	    };
-	    SearchComponent.prototype.isAdded = function (video) {
-	        return this.playlist.sounds.some(function (sound) {
-	            return sound.id == video.id;
-	        });
-	    };
-	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', Object)
-	    ], SearchComponent.prototype, "playlist", void 0);
-	    SearchComponent = __decorate([
-	        core_1.Component({
-	            selector: 'search',
-	            styles: ["\n      .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n      \n      .playing{\n        content:url(\"assest/images/equalizer.gif\");\n        height: 50%;\n        width: 10%;\n        margin-top: -15px;\n      }\n      \n      .video{\n        color: #333333;\n      }\n\n      .media-object{\n          border-radius: 5px !important;\n      }\n      .media-heading .title{\n        cursor: pointer;\n      }\n      .media-heading .title small{\n        display: none;\n      }\n      .media-heading:hover .title small{\n        display: inline-block;\n      }\n    "],
-	            template: "\n      <toaster-container></toaster-container>\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <i class=\"fa fa-search btn btn-default search-button\" type=\"button\" (click)=\"search()\"></i>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <div class=\"video list-group-item\" *ngFor=\"let video of videos\">\n            <div class=\"media-left\">\n              <span>\n                <img id=\"\n                \" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n              </span>\n            </div>\n            <div class=\"media-body text-left\">\n              <div class=\"media-heading\">\n                <h4 class=\"title\" (click)=\"play(video)\" >\n                {{ video.title }} \n                <small >\n                  click to play <i class=\"fa fa-play\"></i>\n                </small>\n                <i *ngIf=\"!isAdded(video)\" class=\"fa fa-plus pull-right\" (click)=\"addFromPlaylist($event, video)\"></i>\n                <i *ngIf=\"isAdded(video)\" class=\"fa fa-minus pull-right\" (click)=\"removeFromPlaylist($event, video)\"></i>\n                <img class=\"glyphicon pull-right\" *ngIf=\"video.id == currentSound.id\" [ngClass]=\"{ 'playing': video.id == currentSound.id }\">\n                </h4>\n              </div>\n              <span  id=\"channel\">{{ video.channel }}</span>\n              <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n              \n            </div>\n          </div>\n        </div>\n      </div>",
-	            providers: [player_service_1.PlayerService, angular2_toaster_1.ToasterService]
-	        }), 
-	        __metadata('design:paramtypes', [player_service_1.PlayerService, router_1.ActivatedRoute, core_1.NgZone, angular2_toaster_1.ToasterService])
-	    ], SearchComponent);
-	    return SearchComponent;
-	}());
-	exports.SearchComponent = SearchComponent;
-
-
-/***/ },
-
-/***/ 76:
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-	    return c > 3 && r && Object.defineProperty(target, key, r), r;
-	};
-	var __metadata = (this && this.__metadata) || function (k, v) {
-	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-	};
-	var core_1 = __webpack_require__(4);
-	var search_component_1 = __webpack_require__(37);
-	var player_service_1 = __webpack_require__(27);
-	var login_service_1 = __webpack_require__(77);
+	var login_service_1 = __webpack_require__(37);
+	var playlist_service_1 = __webpack_require__(38);
 	var SideBarComponent = (function () {
-	    function SideBarComponent(playerService, loginService, ngZone) {
+	    function SideBarComponent(playerService, loginService, ngZone, playlistService) {
 	        var _this = this;
 	        this.playerService = playerService;
 	        this.loginService = loginService;
 	        this.ngZone = ngZone;
+	        this.playlistService = playlistService;
 	        this.currentSound = { id: '' };
 	        this.isPlaying = false;
 	        this.playlist = { name: 'default', description: '', sounds: [], createAt: new Date(), userAt: '', updateAt: new Date() };
 	        this.windowHeight = 512;
 	        this.menuLeft = 250;
 	        this.active = '';
-	        search_component_1.onAddSoundToPlaylist.subscribe(function (result) {
-	            _this.playlist.sounds.push(result.sound);
-	            _this.active = 'nowplay';
-	        });
-	        search_component_1.onRemoveSoundToPlaylist.subscribe(function (result) {
-	            _this.active = 'nowplay';
-	            for (var i = _this.playlist.sounds.length - 1; i >= 0; i--) {
-	                if (_this.playlist.sounds[i].id == result.sound.id) {
-	                    _this.playlist.sounds.splice(i, 1);
-	                }
+	        playlist_service_1.onAddSound.subscribe(function (result) {
+	            if (result.playlist == _this.playlist.name) {
+	                _this.playlist.sounds.push(result.sound);
+	                _this.active = 'nowplay';
 	            }
 	        });
 	        player_service_1.onPlayMusic
@@ -617,9 +399,18 @@ webpackJsonp([0],{
 	        });
 	        this.user = this.loginService.getUser();
 	    }
+	    SideBarComponent.prototype.removeFromPlaylist = function (e, index, sound) {
+	        this.playlistService.removeSoundToPlaylist(sound);
+	        this.playlist.sounds.splice(index, 1);
+	        e.stopPropagation();
+	    };
 	    SideBarComponent.prototype.ngOnInit = function () {
 	        this.windowHeight = window.document.body.clientHeight;
 	        this.user = this.loginService.getUser();
+	        var playlist = this.playlistService.getCurrentPlaylist();
+	        if (playlist) {
+	            this.playlist = playlist;
+	        }
 	    };
 	    SideBarComponent.prototype.setActive = function (menu) {
 	        if (menu == this.active) {
@@ -644,10 +435,10 @@ webpackJsonp([0],{
 	        core_1.Component({
 	            selector: 'sidebar',
 	            styles: ["\n        .sidebar{\n            position: fixed;\n            left: 0;\n            top: 0;\n        }\n        .sidebar ul.sidebar-menu{\n            transition: 1s;\n            position: relative;\n            margin: 0;\n            padding: 0;\n            text-align: left;\n        }\n        .sidebar ul.sidebar-menu li:first-of-type{\n            margin-top: 0px;\n        }\n        .sidebar ul.sidebar-menu li{\n            border-top: #333333 solid 1px;\n            border-right: #333333 solid 1px;\n            border-left: #333333 solid 1px;\n            font-size: 12pt;\n            display: block;\n            width: 128px;\n            text-transform: uppercase;\n            margin-right: 10px;\n            margin-top: 109px;\n            -webkit-transform: rotate(45deg);\n            -moz-transform: rotate(45deg);\n            -o-transform: rotate(45deg);\n            transform: rotate(90deg);\n            -webkit-transform-origin: 0 100%;\n            -moz-transform-origin: 0 100%;\n            -o-transform-origin: 0 100%;\n            transform-origin: 0 100%;\n            background-color: white;\n            border-top-left-radius: 24px;\n            border-top-right-radius: 24px;\n            text-align: center;\n            padding-top: 5px;\n            color: black;\n            cursor: pointer;\n            transition: 1s;\n        }\n        \n        .sidebar ul.sidebar-menu li:hover{\n            box-shadow: 0px 0px 5px white;\n            color: white;\n            background-color: #333333;\n        }\n        \n        .sidebar ul.sidebar-menu li.active{\n            box-shadow: 0px 0px 5px white;\n            color: white;\n            background-color: #5bc0de;\n        }\n        \n        .sidebar div.menu{  \n            background-color: white; \n            width: 213px;\n            box-shadow: 0px 0px 5px;\n            left: 0;\n            top: 0;\n            position: absolute;\n            transition: 1s;\n            overflow-x: auto;\n            border-right: solid #333333 1px;\n        }\n        \n        .sidebar div.menu::-webkit-scrollbar {\n            width: 7px;\n        }\n         \n        .sidebar div.menu::-webkit-scrollbar-track {\n            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);\n        }\n         \n        .sidebar div.menu::-webkit-scrollbar-thumb {\n            background-color: rgb(84, 189, 220);\n            outline: 1px solid #999;\n            border-radius: 10px;\n        }\n        \n        .sidebar div.menu .nowplay ul, .sidebar div.menu .home ul{\n            padding: 0px;\n        }\n        .sidebar div.menu .nowplay ul li.title, .sidebar div.menu .home ul li.title{\n            background-color: #333333;\n            padding: 5px;\n            font-size: 11pt;\n            color: white;\n        }\n        .sidebar div.menu .nowplay ul li, .sidebar div.menu .home ul li{\n            padding: 5px;\n            font-size: 9pt;\n            border-bottom: 1px solid #d0d0d0;\n            color: #333333;\n            cursor: pointer;\n        }\n        .sidebar div.menu .nowplay ul li.active, .sidebar div.menu .home ul li.active{\n            background-color: #5bc0de;\n        }\n        .sidebar div.menu .home ul li{\n            font-size: 12pt;\n            text-align: left;\n            padding-left: 30px;\n        }\n        .sidebar div.menu .home ul li a{\n            color: #333333;\n        }\n        .sidebar div.menu .nowplay ul li:hover, .sidebar div.menu .home ul li:hover{\n            background-color: #e4e4e4;\n        }\n        .sidebar div.menu .nowplay ul li{\n            text-align: left;\n        }\n        .sidebar div.menu .nowplay ul li span, .sidebar div.menu .nowplay ul li h5{\n            width: 90%;\n            display: block;\n            white-space: nowrap;\n            overflow: hidden;\n            text-overflow: ellipsis;\n        }\n        .sidebar div.menu .nowplay ul li h5{\n            width: 75%;\n        }\n        .sidebar div.menu .nowplay ul li.title a{\n            float: right;\n            position: relative;\n            top: -30px;\n        }\n        .sidebar div.menu .nowplay ul li i{\n            float: right;\n            top: -15px;\n            position: relative;\n        }\n        .sidebar div.menu .nowplay ul li.item i{\n            color: #5bc0de;\n        }\n        .sidebar div.menu .nowplay ul li.title i{\n            float: none;\n            top: 0;\n            color: #green;\n        }\n    "],
-	            template: "\n    <div class=\"sidebar\">\n        <ul class=\"sidebar-menu\" [ngStyle]=\"{'left': active != ''? menuLeft : '0px'}\">\n            <li [ngClass]=\"{'active': active == 'menu'}\" (click)=\"setActive('menu')\" >\n                MENU\n            </li>\n            <li [ngClass]=\"{'active': active == 'playlist'}\" (click)=\"setActive('playlist')\">\n                PLAYLIST\n            </li>\n            <li [ngClass]=\"{'active': active == 'nowplay'}\" (click)=\"setActive('nowplay')\">\n                PLAYING\n                <i *ngIf=\"isPlaying\" class=\"fa fa-volume-up\"></i>\n            </li>\n        </ul>\n        <div class=\"menu\" [ngStyle]=\"{'width': active != ''? menuLeft : '0px', 'opacity': active != ''? '1':'0', 'height': windowHeight}\">\n            <div class=\"home\" *ngIf=\"active == 'menu'\">\n                <ul>\n                    <li class=\"title\">\n                    <h3><i class=\"fa fa-music fa-1x\"></i> MUSIC </h3></li>\n                    <li  [routerLinkActive]=\"['active']\" >\n                        <a [routerLink]=\"['/home']\" >\n                            <i class=\"fa fa-home fa-1x\"></i> Home\n                        </a>\n                    </li>\n                    <li  [routerLinkActive]=\"['active']\" >\n                        <a [routerLink]=\"['/playlist/list']\" >\n                            <i class=\"fa fa-list  fa-1x\"></i> Playlist\n                        </a>\n                    </li>\n                    <li  [routerLinkActive]=\"['active']\" >\n                        <a [routerLink]=\"['/search/0']\" >\n                            <i class=\"fa fa-search fa-1x\"></i> search\n                        </a>\n                    </li>\n                    <li>\n                        <span *ngIf=\"user\">{{user.name}}</span>\n                        <a *ngIf=\"user\" class=\"btn btn-warning btn-xs\" (click)=\"logout()\">\n                            <i class=\"fa fa-sign-out \"></i> Sing-Out\n                        </a>\n                        <a *ngIf=\"!user\" class=\"btn btn-primary btn-xs\" (click)=\"login()\">\n                            <i class=\"fa fa-google\"></i> Sing-In\n                        </a>\n                    </li>\n                </ul>\n            </div>\n            <div class=\"nowplay\" *ngIf=\"active == 'nowplay'\">\n                <ul>\n                    <li class=\"title\">\n                        <h5>{{playlist.name}}</h5>\n                        <a class=\"btn btn-xs btn-success\">Save <i class=\"fa fa-floppy-o\"></i></a>\n                    </li>\n                    <li class=\"item\" *ngFor=\"let sound of playlist.sounds\" (click)=\"play(sound)\">\n                        <span title=\"{{sound.title}}\">\n                            {{sound.title}}\n                        </span>\n                        <i *ngIf=\"currentSound.id == sound.id\" class=\"fa fa-volume-up\"></i>\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </div>",
-	            providers: [player_service_1.PlayerService, login_service_1.LoginService]
+	            template: "\n    <div class=\"sidebar\">\n        <ul class=\"sidebar-menu\" [ngStyle]=\"{'left': active != ''? menuLeft : '0px'}\">\n            <li [ngClass]=\"{'active': active == 'menu'}\" (click)=\"setActive('menu')\" >\n                MENU\n            </li>\n            <li [ngClass]=\"{'active': active == 'playlist'}\" (click)=\"setActive('playlist')\">\n                PLAYLIST\n            </li>\n            <li [ngClass]=\"{'active': active == 'nowplay'}\" (click)=\"setActive('nowplay')\">\n                PLAYING\n                <i *ngIf=\"isPlaying\" class=\"fa fa-volume-up\"></i>\n            </li>\n        </ul>\n        <div class=\"menu\" [ngStyle]=\"{'width': active != ''? menuLeft : '0px', 'opacity': active != ''? '1':'0', 'height': windowHeight}\">\n            <div class=\"home\" *ngIf=\"active == 'menu'\">\n                <ul>\n                    <li class=\"title\">\n                    <h3><i class=\"fa fa-music fa-1x\"></i> MUSIC </h3></li>\n                    <li  [routerLinkActive]=\"['active']\" >\n                        <a [routerLink]=\"['/home']\" >\n                            <i class=\"fa fa-home fa-1x\"></i> Home\n                        </a>\n                    </li>\n                    <li  [routerLinkActive]=\"['active']\" >\n                        <a [routerLink]=\"['/playlist/list']\" >\n                            <i class=\"fa fa-list  fa-1x\"></i> Playlist\n                        </a>\n                    </li>\n                    <li  [routerLinkActive]=\"['active']\" >\n                        <a [routerLink]=\"['/search/0']\" >\n                            <i class=\"fa fa-search fa-1x\"></i> search\n                        </a>\n                    </li>\n                    <li>\n                        <span *ngIf=\"user\">{{user.name}}</span>\n                        <a *ngIf=\"user\" class=\"btn btn-warning btn-xs\" (click)=\"logout()\">\n                            <i class=\"fa fa-sign-out \"></i> Sing-Out\n                        </a>\n                        <a *ngIf=\"!user\" class=\"btn btn-primary btn-xs\" (click)=\"login()\">\n                            <i class=\"fa fa-google\"></i> Sing-In\n                        </a>\n                    </li>\n                </ul>\n            </div>\n            <div class=\"nowplay\" *ngIf=\"active == 'nowplay'\">\n                <ul>\n                    <li class=\"title\">\n                        <h5>{{playlist.name}}</h5>\n                        <a *ngIf=\"playlist.name == 'default'\" [routerLink]=\"['/playlist/create/default']\" class=\"btn btn-xs btn-success\">Save <i class=\"fa fa-floppy-o\"></i></a>\n                    </li>\n                    <li class=\"item\" *ngFor=\"let sound of playlist.sounds; let i = index\" (click)=\"play(sound)\">\n                        <span title=\"{{sound.title}}\">\n                            {{sound.title}}\n                        </span>\n                        <i *ngIf=\"currentSound.id == sound.id\" class=\"fa fa-volume-up\"></i>\n                        <i *ngIf=\"currentSound.id != sound.id\" class=\"fa fa-minus pull-right\" (click)=\"removeFromPlaylist($event, i, sound)\"></i>\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </div>",
+	            providers: [player_service_1.PlayerService, login_service_1.LoginService, playlist_service_1.PlaylistService]
 	        }), 
-	        __metadata('design:paramtypes', [player_service_1.PlayerService, login_service_1.LoginService, core_1.NgZone])
+	        __metadata('design:paramtypes', [player_service_1.PlayerService, login_service_1.LoginService, core_1.NgZone, playlist_service_1.PlaylistService])
 	    ], SideBarComponent);
 	    return SideBarComponent;
 	}());
@@ -656,7 +447,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 77:
+/***/ 37:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -744,11 +535,123 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 78:
+/***/ 38:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var router_1 = __webpack_require__(38);
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(4);
+	var http_1 = __webpack_require__(28);
+	var Observable_1 = __webpack_require__(6);
+	__webpack_require__(29);
+	__webpack_require__(31);
+	var headers = new http_1.ResponseOptions({
+	    headers: new http_1.Headers({
+	        'Content-Type': 'application/json'
+	    })
+	});
+	var onPlaylistChangeTrigger;
+	exports.onPlaylistChange = new Observable_1.Observable(function (observable) {
+	    onPlaylistChangeTrigger = observable;
+	});
+	var addSoundTrigger;
+	exports.onAddSound = new Observable_1.Observable(function (observable) {
+	    addSoundTrigger = observable;
+	}).share();
+	var removeSoundTrigger;
+	exports.onRemoveSound = new Observable_1.Observable(function (observable) {
+	    removeSoundTrigger = observable;
+	}).share();
+	var PlaylistService = (function () {
+	    function PlaylistService(http) {
+	        this.http = http;
+	    }
+	    PlaylistService.prototype.get = function (_id) {
+	        return this.http.get("api/v1/playlist/" + _id, headers)
+	            .map(function (res) { return res.json(); });
+	    };
+	    PlaylistService.prototype.list = function (_userId) {
+	        return this.http.get("api/v1/" + _userId + "/playlist", headers)
+	            .map(function (res) { return res.json(); });
+	    };
+	    PlaylistService.prototype.save = function (_playlist) {
+	        return this.http.post('api/v1/playlist', _playlist, headers)
+	            .map(function (res) { return res.json(); });
+	    };
+	    PlaylistService.prototype.update = function (_id, _playlist) {
+	        return this.http.put("api/v1/playlist/" + _id, _playlist, headers)
+	            .map(function (res) { return res.json(); });
+	    };
+	    /*delete(_playlist){
+	        return this.http['delete']('api/v1/playlist', _playlist, headers)
+	            .map( res => res.json())
+	    }*/
+	    PlaylistService.prototype.changePlaylist = function (playlist) {
+	        localStorage.setItem('ms_currentPlaylist', JSON.stringify(playlist));
+	        onPlaylistChangeTrigger.next(playlist);
+	    };
+	    PlaylistService.prototype.getCurrentPlaylist = function () {
+	        var playlist;
+	        playlist = localStorage.getItem('ms_currentPlaylist');
+	        if (playlist) {
+	            playlist = JSON.parse(playlist);
+	            return playlist;
+	        }
+	        else {
+	            playlist = { name: 'default', description: '', sounds: [], userAt: '', createAt: new Date(), updateAt: new Date() };
+	            this.setCurrentPlaylist(playlist);
+	            return playlist;
+	        }
+	    };
+	    PlaylistService.prototype.setCurrentPlaylist = function (playlist) {
+	        localStorage.setItem('ms_currentPlaylist', JSON.stringify(playlist));
+	    };
+	    PlaylistService.prototype.addSoundToPlaylist = function (result) {
+	        var playlist = this.getCurrentPlaylist();
+	        playlist.sounds.push(result.sound);
+	        this.setCurrentPlaylist(playlist);
+	        addSoundTrigger.next({
+	            sound: result.sound,
+	            playlist: result.playlist
+	        });
+	    };
+	    PlaylistService.prototype.removeSoundToPlaylist = function (sound) {
+	        var playlist = this.getCurrentPlaylist();
+	        for (var i = playlist.sounds.length - 1; i >= 0; i--) {
+	            if (playlist.sounds[i].id == sound.id) {
+	                playlist.sounds.splice(i, 1);
+	            }
+	        }
+	        this.setCurrentPlaylist(playlist);
+	        removeSoundTrigger.next({
+	            sound: sound,
+	            playlist: playlist.name
+	        });
+	    };
+	    PlaylistService = __decorate([
+	        core_1.Injectable(), 
+	        __metadata('design:paramtypes', [http_1.Http])
+	    ], PlaylistService);
+	    return PlaylistService;
+	}());
+	exports.PlaylistService = PlaylistService;
+
+
+/***/ },
+
+/***/ 39:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var router_1 = __webpack_require__(40);
 	exports.routes = [
 	    {
 	        path: '',
@@ -761,7 +664,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 79:
+/***/ 78:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -776,13 +679,13 @@ webpackJsonp([0],{
 	};
 	var core_1 = __webpack_require__(4);
 	var common_1 = __webpack_require__(23);
-	var forms_1 = __webpack_require__(80);
+	var forms_1 = __webpack_require__(79);
 	var http_1 = __webpack_require__(28);
 	var platform_browser_1 = __webpack_require__(22);
-	var home_routes_1 = __webpack_require__(82);
-	var home_component_1 = __webpack_require__(83);
-	var search_component_1 = __webpack_require__(37);
-	var angular2_toaster_1 = __webpack_require__(69);
+	var home_routes_1 = __webpack_require__(81);
+	var home_component_1 = __webpack_require__(82);
+	var search_component_1 = __webpack_require__(83);
+	var angular2_toaster_1 = __webpack_require__(71);
 	var HomeModule = (function () {
 	    function HomeModule() {
 	    }
@@ -811,7 +714,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 80:
+/***/ 79:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -820,7 +723,7 @@ webpackJsonp([0],{
 	 * License: MIT
 	 */
 	(function (global, factory) {
-	     true ? factory(exports, __webpack_require__(4), __webpack_require__(81), __webpack_require__(5), __webpack_require__(6), __webpack_require__(65)) :
+	     true ? factory(exports, __webpack_require__(4), __webpack_require__(80), __webpack_require__(5), __webpack_require__(6), __webpack_require__(67)) :
 	    typeof define === 'function' && define.amd ? define(['exports', '@angular/core', 'rxjs/operator/toPromise', 'rxjs/Subject', 'rxjs/Observable', 'rxjs/observable/fromPromise'], factory) :
 	    (factory((global.ng = global.ng || {}, global.ng.forms = global.ng.forms || {}),global.ng.core,global.Rx.Observable.prototype,global.Rx,global.Rx,global.Rx.Observable));
 	}(this, function (exports,_angular_core,rxjs_operator_toPromise,rxjs_Subject,rxjs_Observable,rxjs_observable_fromPromise) { 'use strict';
@@ -5255,13 +5158,13 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 82:
+/***/ 81:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var router_1 = __webpack_require__(38);
-	var home_component_1 = __webpack_require__(83);
-	var search_component_1 = __webpack_require__(37);
+	var router_1 = __webpack_require__(40);
+	var home_component_1 = __webpack_require__(82);
+	var search_component_1 = __webpack_require__(83);
 	exports.routes = [
 	    {
 	        path: 'home',
@@ -5276,7 +5179,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 83:
+/***/ 82:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5290,7 +5193,7 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
-	var router_1 = __webpack_require__(38);
+	var router_1 = __webpack_require__(40);
 	var HomeComponent = (function () {
 	    function HomeComponent(router) {
 	        this.router = router;
@@ -5310,7 +5213,8 @@ webpackJsonp([0],{
 	    };
 	    HomeComponent = __decorate([
 	        core_1.Component({
-	            styles: ["\n      .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n    "],
+	            styles: ["\n      .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }"
+	            ],
 	            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <i class=\"btn btn-default fa fa-search search-button\" type=\"button\" (click)=\"search()\"></i>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <a *ngFor=\"let video of videos\" class=\"list-group-item\" >{{video.title}}\n            <i *ngIf=\"currentSound.id != video.id\" (click)=\"play(video)\" class=\"glyphicon glyphicon-play pull-right\"></i>\n            <i *ngIf=\"currentSound.id == video.id\" (click)=\"stop(video)\" class=\"glyphicon glyphicon-pause pull-right\"></i>\n          </a>\n        </div>\n      </div>"
 	        }), 
 	        __metadata('design:paramtypes', [router_1.Router])
@@ -5318,6 +5222,108 @@ webpackJsonp([0],{
 	    return HomeComponent;
 	}());
 	exports.HomeComponent = HomeComponent;
+
+
+/***/ },
+
+/***/ 83:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(4);
+	var router_1 = __webpack_require__(40);
+	var player_service_1 = __webpack_require__(27);
+	var angular2_toaster_1 = __webpack_require__(71);
+	var playlist_service_1 = __webpack_require__(38);
+	var SearchComponent = (function () {
+	    function SearchComponent(playerService, router, ngZone, toasterService, playlistService) {
+	        var _this = this;
+	        this.playerService = playerService;
+	        this.router = router;
+	        this.ngZone = ngZone;
+	        this.toasterService = toasterService;
+	        this.playlistService = playlistService;
+	        this.currentSound = {
+	            id: ''
+	        };
+	        this.playlist = this.playlist || { name: 'default', description: '', sounds: [], createAt: new Date(), userAt: '', updateAt: new Date() };
+	        this.queryString = '';
+	        this.videos = [];
+	        this.router.params.subscribe(function (params) {
+	            if (params['query'] != '0') {
+	                _this.queryString = params['query'] || '';
+	                if (_this.queryString != '') {
+	                    _this.search();
+	                }
+	            }
+	        });
+	        player_service_1.onPlayMusic
+	            .subscribe(function (response) {
+	            _this.currentSound = response['details'];
+	        });
+	        player_service_1.onStopMusic
+	            .subscribe(function (sound) {
+	            _this.currentSound = sound;
+	            _this.ngZone.run(function () { });
+	        });
+	    }
+	    SearchComponent.prototype.addToPlaylist = function (e, sound) {
+	        this.playlistService.addSoundToPlaylist({
+	            playlist: this.playlist.name,
+	            sound: sound
+	        });
+	        this.toasterService.pop('success', 'Added music to playlist', sound.title);
+	        e.stopPropagation();
+	    };
+	    SearchComponent.prototype.handleKeyup = function (e) {
+	        if (e.keyCode == 13) {
+	            this.search();
+	        }
+	    };
+	    SearchComponent.prototype.search = function () {
+	        var _this = this;
+	        if (this.queryString.length <= 0) {
+	            alert('Insert text to search.');
+	            return;
+	        }
+	        this.playerService.search(this.queryString)
+	            .subscribe(function (videos) {
+	            _this.videos = videos.map(function (video) {
+	                video.title = video.title.length > 40 ? video.title.substring(0, 37) + '...' : video.title;
+	                return video;
+	            });
+	        });
+	    };
+	    SearchComponent.prototype.play = function (sound) {
+	        this.playlistService.addSoundToPlaylist(sound);
+	        this.playerService.getMusic(sound);
+	        this.toasterService.pop('success', 'Playing Music', sound.title);
+	    };
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', Object)
+	    ], SearchComponent.prototype, "playlist", void 0);
+	    SearchComponent = __decorate([
+	        core_1.Component({
+	            selector: 'search',
+	            styles: ["\n      .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n      \n      .playing{\n        content:url(\"assest/images/equalizer.gif\");\n        height: 50%;\n        width: 10%;\n        margin-top: -15px;\n      }\n      \n      .video{\n        color: #333333;\n      }\n\n      .media-object{\n          border-radius: 5px !important;\n      }\n      .media-heading .title{\n        cursor: pointer;\n      }\n      .media-heading .title small{\n        display: none;\n      }\n      .media-heading:hover .title small{\n        display: inline-block;\n      }\n    "],
+	            template: "\n      <toaster-container></toaster-container>\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <i class=\"fa fa-search btn btn-default search-button\" type=\"button\" (click)=\"search()\"></i>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <div class=\"video list-group-item\" *ngFor=\"let video of videos\">\n            <div class=\"media-left\">\n              <span>\n                <img id=\"\n                \" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n              </span>\n            </div>\n            <div class=\"media-body text-left\">\n              <div class=\"media-heading\">\n                <h4 class=\"title\" (click)=\"play(video)\" >\n                {{ video.title }} \n                <small >\n                  click to play <i class=\"fa fa-play\"></i>\n                </small>\n                <i class=\"fa fa-plus pull-right\" (click)=\"addToPlaylist($event, video)\"></i> currentSound.id }\">\n                </h4>\n              </div>\n              <span  id=\"channel\">{{ video.channel }}</span>\n              <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n              \n            </div>\n          </div>\n        </div>\n      </div>",
+	            providers: [player_service_1.PlayerService, angular2_toaster_1.ToasterService, playlist_service_1.PlaylistService]
+	        }), 
+	        __metadata('design:paramtypes', [player_service_1.PlayerService, router_1.ActivatedRoute, core_1.NgZone, angular2_toaster_1.ToasterService, playlist_service_1.PlaylistService])
+	    ], SearchComponent);
+	    return SearchComponent;
+	}());
+	exports.SearchComponent = SearchComponent;
 
 
 /***/ },
@@ -5376,7 +5382,7 @@ webpackJsonp([0],{
 	};
 	var core_1 = __webpack_require__(4);
 	var common_1 = __webpack_require__(23);
-	var forms_1 = __webpack_require__(80);
+	var forms_1 = __webpack_require__(79);
 	var http_1 = __webpack_require__(28);
 	var platform_browser_1 = __webpack_require__(22);
 	var playlist_routes_1 = __webpack_require__(86);
@@ -5384,7 +5390,7 @@ webpackJsonp([0],{
 	var create_component_1 = __webpack_require__(88);
 	var playlistdetail_component_1 = __webpack_require__(89);
 	var songlist_component_1 = __webpack_require__(90);
-	var home_module_1 = __webpack_require__(79);
+	var home_module_1 = __webpack_require__(78);
 	var PlaylistModule = (function () {
 	    function PlaylistModule() {
 	    }
@@ -5422,7 +5428,7 @@ webpackJsonp([0],{
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var router_1 = __webpack_require__(38);
+	var router_1 = __webpack_require__(40);
 	var list_component_1 = __webpack_require__(87);
 	var create_component_1 = __webpack_require__(88);
 	exports.routes = [
@@ -5454,22 +5460,43 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
-	var router_1 = __webpack_require__(38);
+	var router_1 = __webpack_require__(40);
+	var playlist_service_1 = __webpack_require__(38);
+	var login_service_1 = __webpack_require__(37);
 	var PlayListComponent = (function () {
-	    function PlayListComponent(router) {
+	    function PlayListComponent(router, playlistService, loginService) {
 	        this.router = router;
+	        this.playlistService = playlistService;
+	        this.loginService = loginService;
+	        this.playLists = [];
 	        this.queryString = "";
 	    }
+	    PlayListComponent.prototype.ngOnInit = function () {
+	        this.load();
+	    };
 	    PlayListComponent.prototype.toCreate = function () {
 	        this.router.navigate(['/playlist/create/0']);
+	    };
+	    PlayListComponent.prototype.load = function () {
+	        var _this = this;
+	        var userId = this.loginService.getUser()._id;
+	        this.playlistService.list(userId).subscribe(function (result) {
+	            if (result.status == true) {
+	                _this.playLists = result.playlists;
+	            }
+	            else {
+	                alert(result.message);
+	            }
+	        });
 	    };
 	    PlayListComponent = __decorate([
 	        core_1.Component({
 	            selector: 'playList',
 	            styles: ["\n    "],
-	            template: "\n        <h1>List</h1>\n            <i class=\"glyphicon glyphicon-plus-sign btn-lg\" (click)=\"toCreate()\"></i>\n        <div>\n            <h2>Lists added</h2>\n        </div>\n    "
+	            template: "\n        <div class=\"inner cover\">\n        <h1>Playlists</h1>\n        <div class=\"col-lg-12 no-padding-l-r\">\n            <div class=\"col-lg-12 text-right margin-bottom-xs\">\n                <a class=\"btn btn-success\" (click)=\"toCreate()\">\n                    <i class=\"glyphicon glyphicon-plus-sign\"></i> Create New\n                </a>\n            </div>\n            <table class=\"table table-striped\" *ngIf=\"playLists.length > 0\">\n                <thead>\n                    <tr>\n                        <th>Name</th>\n                        <th>Description</th>\n                        <th>Sound Length</th>\n                        <th>Action</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr *ngFor=\"let playlist of playLists\">\n                        <td>{{playlist.name}}</td>\n                        <td>{{playlist.description}}</td>\n                        <td>{{playlist.sounds.length}}</td>\n                        <td>\n                            <a class=\"btn btn-xs btn-warning\">\n                                Edit <i class=\"fa fa-pencil\"></i>\n                            </a>\n                            <a class=\"btn btn-xs btn-danger\">\n                                Remove <i class=\"fa fa-times\"></i>\n                            </a>\n                        </td>\n                    </tr>\n                </tbody>\n            </table>\n            <div class=\"col-lg-12\" *ngIf=\"playLists.length <= 0\">\n                <div class=\"alert alert-warning\">\n                    Click on <a class=\"btn btn-success\" (click)=\"toCreate()\"><i class=\"glyphicon glyphicon-plus-sign\"></i> Create New</a>\n                    to start create playlist.\n                </div>\n            </div>\n        </div>\n        </div>\n    ",
+	            providers: [playlist_service_1.PlaylistService, login_service_1.LoginService]
 	        }), 
-	        __metadata('design:paramtypes', [router_1.Router])
+	        __metadata('design:paramtypes', [router_1.Router, playlist_service_1.PlaylistService, login_service_1.LoginService])
 	    ], PlayListComponent);
 	    return PlayListComponent;
 	}());
@@ -5492,12 +5519,12 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
-	var router_1 = __webpack_require__(38);
-	var search_component_1 = __webpack_require__(37);
+	var router_1 = __webpack_require__(40);
+	var search_component_1 = __webpack_require__(83);
 	var playlistdetail_component_1 = __webpack_require__(89);
 	var songlist_component_1 = __webpack_require__(90);
-	var playlist_service_1 = __webpack_require__(36);
-	var login_service_1 = __webpack_require__(77);
+	var playlist_service_1 = __webpack_require__(38);
+	var login_service_1 = __webpack_require__(37);
 	var CreateListComponent = (function () {
 	    function CreateListComponent(router, routerParams, playlistService, loginService) {
 	        var _this = this;
@@ -5509,9 +5536,14 @@ webpackJsonp([0],{
 	        this.playlist = { name: '', description: '', sounds: [], userAt: "" };
 	        this.routerParams.params.subscribe(function (params) {
 	            var id = params['_id'];
-	            _this.playlistService.get(id).subscribe(function (result) {
-	                _this.playlist = result.playlist;
-	            });
+	            if (id == 'default') {
+	                _this.playlist = _this.playlistService.getCurrentPlaylist();
+	            }
+	            else {
+	                _this.playlistService.get(id).subscribe(function (result) {
+	                    _this.playlist = result.playlist;
+	                });
+	            }
 	        });
 	    }
 	    CreateListComponent.prototype.toCancel = function () {
@@ -5519,6 +5551,10 @@ webpackJsonp([0],{
 	    };
 	    CreateListComponent.prototype.toNext = function () {
 	        if (this.playlistdetailComponent.createListForm.valid) {
+	            if (this.playlistdetailComponent.createListForm.value.name == 'default') {
+	                alert('playlist name can\'n be "default"');
+	                return;
+	            }
 	            if (this.step == 1) {
 	                this.playlist.name = this.playlistdetailComponent.createListForm.value.name;
 	                this.playlist.description = this.playlistdetailComponent.createListForm.value.description;
@@ -5553,7 +5589,7 @@ webpackJsonp([0],{
 	        this.playlistService.save(this.playlist).subscribe(function (result) {
 	            if (result.status === true) {
 	                alert(result.message);
-	                _this.router.navigate(['./home']);
+	                _this.router.navigate(['/playlist/create/0']);
 	            }
 	            else {
 	                alert(result.message);
@@ -5578,7 +5614,7 @@ webpackJsonp([0],{
 	            styles: ["\n        search div.cover {\n            margin-top: 0px !important;\n        }\n        .buttons {\n            margin-top: 5px;\n        }\n        \n    "
 	            ],
 	            styleUrls: ['modules/playlist/components/wizardtemplate.css'],
-	            template: " \n        <h3>Playlist create wizard</h3>\n        <div class=\"container col-lg-12\">\n        \t<div class=\"row\">\n        \t\t<section>\n                <div class=\"wizard\">\n                    <div class=\"wizard-inner\">\n                        <div class=\"connecting-line\"></div>\n                        <ul class=\"nav nav-tabs\" role=\"tablist\">\n                            <li role=\"presentation\" [ngClass]=\"{'active': step == 1}\">\n                                <a role=\"tab\" title=\"Creat list detail\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></i> \n                                    </span>\n                                </a>\n                            </li>\n        \n                            <li role=\"presentation\" class=\"\" [ngClass]=\"{'active': step == 2}\">\n                                <a data-toogle=\"tab\" title=\"Select songs\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-th-list\" aria-hidden=\"true\"></i>\n                                    </span>\n                                </a>\n                            </li>\n                            \n                            <li role=\"presentation\" [ngClass]=\"{'active': step=='3'}\">\n                                <a  title=\"Complete\">\n                                    <span class=\"round-tab\">\n                                        <i class=\"glyphicon glyphicon-ok\" aria-hidden=\"true\"></i>\n                                    </span>\n                                </a>\n                            </li>\n                        </ul>\n                    </div>\n                    <div class=\"buttons col-lg-12\">\n                        <a class=\"btn btn-default pull-left\" (click)=\"toCancel()\">\n                            <i class=\"fa fa-times\" ></i> Cancel\n                        </a>\n                        <a *ngIf=\"step === 1 || step === 2\" class=\"btn btn-primary pull-right\" (click)=\"toNext()\">\n                            Next <i class=\"fa fa-arrow-right \" aria-hidden=\"true\" ></i> \n                        </a>\n                        <a *ngIf=\"step === 3\" class=\"btn btn-success pull-right\" (click)=\"toSavePlayList()\">\n                            Save <i class=\"fa fa-floppy-o\" aria-hidden=\"true\" ></i> \n                        </a>\n                        <a *ngIf=\"step === 2 || step === 3\" class=\"btn btn-primary pull-right\" (click)=\"toPrevious()\">\n                            <i class=\"fa fa-arrow-left \" aria-hidden=\"true\" ></i> Previous\n                        </a>\n                    </div>\n                </div>\n                    \n                    <form role=\"form\" class=\"forms\">\n                        <div class=\"tab-content\">\n                            <div class=\"tab-pane active\" role=\"tabpanel\" [ngClass]=\"{'active': step==1}\">\n                                <playlistdetail \n                                (onSave)=\"step1Save($event)\"\n                                [playlist]=\"playlist\"\n                                ></playlistdetail>\n                            </div>\n                            <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step==2}\">\n                                <div class=\"col-sm-6\">\n                                    <h3>Play list:</h3>\n                                    <songlist\n                                        [playlist]=\"playlist\"\n                                    ></songlist>\n                                </div>\n                                <div class=\"col-sm-6\">\n                                    <h3>Search songs:</h3>\n                                    <search\n                                        [playlist]=\"playlist\"\n                                    ></search>\n                                </div>\n                            </div>\n                            <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step==3}\">\n                                <h3>Summary</h3>\n                                <h4>Name: {{playlist.name}} </h4>\n                                <h4>Description: {{playlist.description}} </h4>\n                                <songlist\n                                        [playlist]=\"playlist\"\n                                ></songlist>\n                            </div>\n                            <div class=\"clearfix\"></div>\n                        </div>\n                    </form>\n                </section>    \n            </div>        \n        </div>\n    \n    \n    ",
+	            template: " \n        <div class=\"inner cover\">\n            <h3>Playlist create wizard</h3>\n            <div class=\"container col-lg-12\">\n            \t<div class=\"row\">\n                    <div class=\"wizard\">\n                        <div class=\"wizard-inner\">\n                            <div class=\"connecting-line\"></div>\n                            <ul class=\"nav nav-tabs\" role=\"tablist\">\n                                <li role=\"presentation\" [ngClass]=\"{'active': step == 1}\">\n                                    <a role=\"tab\" title=\"Creat list detail\">\n                                        <span class=\"round-tab\">\n                                            <i class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></i> \n                                        </span>\n                                    </a>\n                                </li>\n                                <li role=\"presentation\" class=\"\" [ngClass]=\"{'active': step == 2}\">\n                                    <a data-toogle=\"tab\" title=\"Select songs\">\n                                        <span class=\"round-tab\">\n                                            <i class=\"glyphicon glyphicon-th-list\" aria-hidden=\"true\"></i>\n                                        </span>\n                                    </a>\n                                </li>\n                                <li role=\"presentation\" [ngClass]=\"{'active': step=='3'}\">\n                                    <a  title=\"Complete\">\n                                        <span class=\"round-tab\">\n                                            <i class=\"glyphicon glyphicon-ok\" aria-hidden=\"true\"></i>\n                                        </span>\n                                    </a>\n                                </li>\n                            </ul>\n                        </div>\n                    </div>\n                    <div class=\"margin-bottom-xs margin-top-xs col-xs-12 no-padding-l-r\">\n                        <a class=\"btn btn-warning pull-left\" (click)=\"toCancel()\">\n                            <i class=\"fa fa-times\" ></i> Cancel\n                        </a>\n                        <a *ngIf=\"step === 1 || step === 2\" class=\"btn btn-primary pull-right\" (click)=\"toNext()\">\n                            Next <i class=\"fa fa-arrow-right \" aria-hidden=\"true\" ></i> \n                        </a>\n                        <a *ngIf=\"step === 3\" class=\"btn btn-success pull-right\" (click)=\"toSavePlayList()\">\n                            Save <i class=\"fa fa-floppy-o\" aria-hidden=\"true\" ></i> \n                        </a>\n                        <a *ngIf=\"step === 2 || step === 3\" class=\"btn btn-primary pull-right margin-right-xs\" (click)=\"toPrevious()\">\n                            <i class=\"fa fa-arrow-left \" aria-hidden=\"true\" ></i> Previous\n                        </a>\n                    </div>\n                    <div class=\"tab-content col-lg-xs no-padding-l-r\">\n                        <div class=\"tab-pane active\" role=\"tabpanel\" [ngClass]=\"{'active': step==1}\">\n                            <playlistdetail \n                                (onSave)=\"step1Save($event)\"\n                                [playlist]=\"playlist\">\n                            </playlistdetail>\n                        </div>\n                        <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step==2}\">\n                            <div class=\"col-sm-6\">\n                                <songlist\n                                    [playlist]=\"playlist\"\n                                ></songlist>\n                            </div>\n                            <div class=\"col-sm-6\">\n                                <h3>Search songs:</h3>\n                                <search\n                                    [playlist]=\"playlist\"\n                                ></search>\n                            </div>\n                        </div>\n                        <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step==3}\">\n                            <h3>Summary</h3>\n                            <h4>Name: {{playlist.name}} </h4>\n                            <h4>Description: {{playlist.description}} </h4>\n                        </div>\n                        <div class=\"clearfix\"></div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    ",
 	            providers: [playlist_service_1.PlaylistService, login_service_1.LoginService]
 	        }), 
 	        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, playlist_service_1.PlaylistService, login_service_1.LoginService])
@@ -5604,8 +5640,8 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
-	var forms_1 = __webpack_require__(80);
-	var router_1 = __webpack_require__(38);
+	var forms_1 = __webpack_require__(79);
+	var router_1 = __webpack_require__(40);
 	var PlayListDetailComponent = (function () {
 	    function PlayListDetailComponent(fb, router) {
 	        this.fb = fb;
@@ -5639,7 +5675,7 @@ webpackJsonp([0],{
 	        core_1.Component({
 	            selector: 'playlistdetail',
 	            styles: [""],
-	            template: " \n        <div class=\"container col-lg-12\">\n          <form class=\"form-horizontal\" [formGroup]=\"createListForm\" (submit)=\"toSaveDetails()\">\n            <div class=\"form-group\">\n                <div class=\"col-sm-6 col-sm-offset-3\">\n                    <label class=\"control-label col-sm-1\">Name:</label>\n                    <input class=\"form-control\" formControlName=\"name\" id=\"name\" type=\"text\" placeholder=\"Enter name\" required/>\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <div class=\"col-sm-6 col-sm-offset-3\">\n                    <label class=\"control-label col-sm-1\">Description:</label>\n                    <input class=\"form-control\" formControlName=\"description\" id=\"description\" type=\"text\" placeholder=\"Enter description\" />\n                </div>\n            </div>\n          </form>\n        </div>\n    "
+	            template: " \n        <div class=\"container col-lg-6 col-sm-offset-3\">\n          <form [formGroup]=\"createListForm\" (submit)=\"toSaveDetails()\">\n            <div class=\"form-group text-left\">\n                <label class=\"control-label col-lg-12 no-padding-l-r\">Name:</label>\n                <input class=\"form-control\" autofocus formControlName=\"name\" id=\"name\" type=\"text\" placeholder=\"Enter name\" required/>\n            </div>\n            <div class=\"form-group text-left\">\n                <label class=\"control-label col-lg-12 no-padding-l-r\">Description:</label>\n                <input class=\"form-control\" formControlName=\"description\" id=\"description\" type=\"text\" placeholder=\"Enter description\" />\n            </div>\n          </form>\n        </div>\n    "
 	        }), 
 	        __metadata('design:paramtypes', [forms_1.FormBuilder, router_1.Router])
 	    ], PlayListDetailComponent);
@@ -5664,30 +5700,20 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
-	var search_component_1 = __webpack_require__(37);
+	var playlist_service_1 = __webpack_require__(38);
 	var SongListComponent = (function () {
 	    function SongListComponent() {
-	        var _this = this;
-	        search_component_1.onAddSoundToPlaylist.subscribe(function (result) {
-	            //this.playlist.sounds.push(result.sound)
-	        });
-	        search_component_1.onRemoveSoundToPlaylist.subscribe(function (result) {
-	            for (var i = _this.playlist.sounds.length - 1; i >= 0; i--) {
-	                if (_this.playlist.sounds[i].id == result.sound.id) {
-	                    _this.playlist.sounds.splice(i, 1);
-	                }
-	            }
-	        });
 	    }
-	    SongListComponent.prototype.addFromPlaylist = function (e, sound) {
-	        this.playlist.sounds.push(sound);
-	    };
-	    SongListComponent.prototype.removeFromPlaylist = function (e, sound) {
-	        for (var i = this.playlist.sounds.length - 1; i >= 0; i--) {
-	            if (this.playlist.sounds[i].id == sound.id) {
-	                this.playlist.sounds.splice(i, 1);
+	    SongListComponent.prototype.ngOnInit = function () {
+	        var _this = this;
+	        playlist_service_1.onAddSound.subscribe(function (result) {
+	            if (result.playlist != 'default') {
+	                _this.playlist.sounds.push(result.sound);
 	            }
-	        }
+	        });
+	    };
+	    SongListComponent.prototype.removeFromPlaylist = function (e, index) {
+	        this.playlist.sounds.splice(index, 1);
 	    };
 	    SongListComponent.prototype.isAdded = function (video) {
 	        return this.playlist.sounds.some(function (sound) {
@@ -5702,7 +5728,7 @@ webpackJsonp([0],{
 	        core_1.Component({
 	            selector: 'songlist',
 	            styles: ["\n        .video{\n            color: #333333;\n        }\n    "],
-	            template: "\n        <div class=\"list-group\">\n            <div *ngIf=\"playlist.sounds.length == 0\">\n                <div class=\"alert alert-info\">\n                    <h4>Not songs added</h4>\n                </div>\n            </div>\n            <div class=\"video list-group-item\" *ngFor=\"let video of playlist.sounds\">\n                <div class=\"media-left\">\n                    <span>\n                        <img id=\"\" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n                    </span>\n                </div>\n                <div class=\"media-body text-left\">\n                    <div class=\"media-heading\">\n                        <h4 class=\"title\">\n                            {{ video.title }} \n                            <i *ngIf=\"!isAdded(video)\" class=\"fa fa-plus pull-right\" (click)=\"addFromPlaylist($event, video)\"></i>\n                            <i *ngIf=\"isAdded(video)\" class=\"fa fa-minus pull-right\" (click)=\"removeFromPlaylist($event, video)\"></i>\n                        </h4>\n                    </div>\n                    <span  id=\"channel\">{{ video.channel }}</span>\n                    <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n                </div>\n            </div>\n        </div>",
+	            template: "\n        <h3>Play list:</h3>\n        <div class=\"list-group\">\n            <div *ngIf=\"playlist.sounds.length == 0\">\n                <div class=\"alert alert-info\">\n                    <h4>Not songs added</h4>\n                </div>\n            </div>\n            <div class=\"video list-group-item\" *ngFor=\"let video of playlist.sounds; let i = index\">\n                <div class=\"media-left\">\n                    <span>\n                        <img id=\"\" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n                    </span>\n                </div>\n                <div class=\"media-body text-left\">\n                    <div class=\"media-heading\">\n                        <h4 class=\"title\">\n                            {{ video.title }} \n                            <i *ngIf=\"!isAdded(video)\" class=\"fa fa-plus pull-right\" (click)=\"addFromPlaylist($event, video)\"></i>\n                            <i *ngIf=\"isAdded(video)\" class=\"fa fa-minus pull-right\" (click)=\"removeFromPlaylist($event, i)\"></i>\n                        </h4>\n                    </div>\n                    <span  id=\"channel\">{{ video.channel }}</span>\n                    <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n                </div>\n            </div>\n        </div>",
 	            providers: []
 	        }), 
 	        __metadata('design:paramtypes', [])
