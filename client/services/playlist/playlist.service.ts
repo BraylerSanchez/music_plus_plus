@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core'
 import {Http, Headers, Response, ResponseOptions} from '@angular/http'
 import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/operator/map'
-import 'rxjs/add/operator/share';
 
 import { IPlayList } from '../../interfaces/playlist/playlist.interface'
-import { Sound } from '../../interfaces/player/sound.interface'
 
 const headers = new ResponseOptions({
     headers: new Headers({
@@ -35,14 +33,14 @@ export class PlaylistService{
     ){
     }
     
-    get(_id:string){
-        return this.http.get(`api/v1/playlist/${_id}`, headers )
-        .map( res => res.json())
-    }
-    
     list(_userId){
         return this.http.get(`api/v1/${_userId}/playlist`, headers )
             .map( res => res.json())
+    }
+    
+    get(_id:string){
+        return this.http.get(`api/v1/playlist/${_id}`, headers )
+        .map( res => res.json())
     }
     
     save(_playlist){

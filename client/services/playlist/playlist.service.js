@@ -12,7 +12,6 @@ var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var Observable_1 = require('rxjs/Observable');
 require('rxjs/add/operator/map');
-require('rxjs/add/operator/share');
 var headers = new http_1.ResponseOptions({
     headers: new http_1.Headers({
         'Content-Type': 'application/json'
@@ -34,12 +33,12 @@ var PlaylistService = (function () {
     function PlaylistService(http) {
         this.http = http;
     }
-    PlaylistService.prototype.get = function (_id) {
-        return this.http.get("api/v1/playlist/" + _id, headers)
-            .map(function (res) { return res.json(); });
-    };
     PlaylistService.prototype.list = function (_userId) {
         return this.http.get("api/v1/" + _userId + "/playlist", headers)
+            .map(function (res) { return res.json(); });
+    };
+    PlaylistService.prototype.get = function (_id) {
+        return this.http.get("api/v1/playlist/" + _id, headers)
             .map(function (res) { return res.json(); });
     };
     PlaylistService.prototype.save = function (_playlist) {

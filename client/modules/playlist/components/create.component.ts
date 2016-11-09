@@ -3,7 +3,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { SearchComponent } from '../../home/components/search.component';
 import { PlayListDetailComponent } from './playlistdetail.component';
 import { SongListComponent } from './songlist.component';
+import { SummaryComponent } from './summary.component';
+
 import { IPlayList } from '../../../interfaces/playlist/playlist.interface';
+
 import { PlaylistService } from '../../../services/playlist/playlist.service';
 import { LoginService } from '../../../services/user/login.service';
 
@@ -23,7 +26,7 @@ import { LoginService } from '../../../services/user/login.service';
     template: ` 
         <div class="inner cover">
             <h3>Playlist create wizard</h3>
-            <div class="container col-lg-12">
+            <div class="container col-xs-12">
             	<div class="row">
                     <div class="wizard">
                         <div class="wizard-inner">
@@ -67,7 +70,8 @@ import { LoginService } from '../../../services/user/login.service';
                             <i class="fa fa-arrow-left " aria-hidden="true" ></i> Previous
                         </a>
                     </div>
-                    <div class="tab-content col-lg-xs no-padding-l-r">
+                   
+                    <div class="tab-content no-padding-l-r">
                         <div class="tab-pane active" role="tabpanel" [ngClass]="{'active': step==1}">
                             <playlistdetail 
                                 (onSave)="step1Save($event)"
@@ -88,9 +92,11 @@ import { LoginService } from '../../../services/user/login.service';
                             </div>
                         </div>
                         <div class="tab-pane" role="tabpanel" [ngClass]="{'active': step==3}">
-                            <h3>Summary</h3>
-                            <h4>Name: {{playlist.name}} </h4>
-                            <h4>Description: {{playlist.description}} </h4>
+                            <div class="col-lg-12">
+                                <summary
+                                    [playlist]="playlist">
+                                </summary>
+                            </div>
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -106,6 +112,7 @@ export class CreateListComponent{
     @ViewChild(SearchComponent) searchComponent: SearchComponent;
     @ViewChild(PlayListDetailComponent) playlistdetailComponent: PlayListDetailComponent;
     @ViewChild(SongListComponent) songlistComponent : SongListComponent;
+    @ViewChild(SummaryComponent) summaryComponent: SummaryComponent;
     private playlist = { name: '', description: '', sounds: [], userAt: "" };
     
     constructor(

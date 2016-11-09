@@ -18,6 +18,7 @@ var list_component_1 = require('./components/list.component');
 var create_component_1 = require('./components/create.component');
 var playlistdetail_component_1 = require('./components/playlistdetail.component');
 var songlist_component_1 = require('./components/songlist.component');
+var summary_component_1 = require('./components/summary.component');
 var home_module_1 = require('../home/home.module');
 var PlaylistModule = (function () {
     function PlaylistModule() {
@@ -37,7 +38,8 @@ var PlaylistModule = (function () {
                 list_component_1.PlayListComponent,
                 create_component_1.CreateListComponent,
                 playlistdetail_component_1.PlayListDetailComponent,
-                songlist_component_1.SongListComponent
+                songlist_component_1.SongListComponent,
+                summary_component_1.SummaryComponent
             ],
             bootstrap: [
                 list_component_1.PlayListComponent
