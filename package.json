@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Streaming from youtube",
   "main": "./server/index.js",
+  "engine": "node 6.7.0",
   "scripts": {
     "start": "node ./server/app.js",
     "webpack:w": "webpack --watch",
