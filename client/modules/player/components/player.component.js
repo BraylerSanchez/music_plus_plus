@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var player_service_1 = require('../../../services/player/player.service');
 var playlist_service_1 = require('../../../services/playlist/playlist.service');
-var search_component_1 = require('../../home/components/search.component');
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 var PlayerComponent = (function () {
     function PlayerComponent(playerService, ngZone) {
@@ -43,19 +42,10 @@ var PlayerComponent = (function () {
             _this.isPlaying = false;
             _this.ngZone.run(function () { });
         });
-        search_component_1.onAddSoundToPlaylist.subscribe(function (result) {
-            _this.playlist.sounds.push(result.sound);
-        });
-        search_component_1.onRemoveSoundToPlaylist.subscribe(function (result) {
-            for (var i = _this.playlist.sounds.length - 1; i >= 0; i--) {
-                if (_this.playlist.sounds[i].id == result.sound.id) {
-                    _this.playlist.sounds.splice(i, 1);
-                }
-            }
-        });
         playlist_service_1.onPlaylistChange.subscribe(function (playlist) {
-            _this.playlist = playlist;
-            _this.playerService.getMusic(_this.playlist.sounds[0]);
+            if (playlist.sounds[0]) {
+                _this.playerService.getMusic(playlist.sounds[0]);
+            }
         });
     };
     PlayerComponent.prototype.play = function () {

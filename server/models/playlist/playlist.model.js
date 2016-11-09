@@ -6,9 +6,9 @@ var PlaylistModel = (function () {
     function PlaylistModel() {
         this.playlistModelMG = mongoose.model('playlist', playlist_schema_1.PlayListSchema);
     }
-    PlaylistModel.prototype.list = function () {
+    PlaylistModel.prototype.list = function (_userId) {
         var def = q_1.defer();
-        this.playlistModelMG.find({}, function (error, docs) {
+        this.playlistModelMG.find({ userAt: _userId }, function (error, docs) {
             if (error) {
                 def.reject(error);
             }

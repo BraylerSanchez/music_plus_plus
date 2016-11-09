@@ -23,6 +23,10 @@ var PlayListDetailComponent = (function () {
     }
     PlayListDetailComponent.prototype.setPlaylist = function (playlist) {
         this.playlist = playlist;
+        if (playlist['_id']) {
+            this.createListForm.controls['name'].setValue(playlist.name);
+            this.createListForm.controls['description'].setValue(playlist.description);
+        }
     };
     PlayListDetailComponent.prototype.getPlaylist = function () {
         return this.playlist;
@@ -44,7 +48,7 @@ var PlayListDetailComponent = (function () {
         core_1.Component({
             selector: 'playlistdetail',
             styles: [""],
-            template: " \n        <div class=\"container col-lg-12\">\n          <form class=\"form-horizontal\" [formGroup]=\"createListForm\" (submit)=\"toSaveDetails()\">\n            <div class=\"form-group\">\n                <div class=\"col-sm-6 col-sm-offset-3\">\n                    <label class=\"control-label col-sm-1\">Name:</label>\n                    <input class=\"form-control\" formControlName=\"name\" id=\"name\" type=\"text\" placeholder=\"Enter name\" required/>\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <div class=\"col-sm-6 col-sm-offset-3\">\n                    <label class=\"control-label col-sm-1\">Description:</label>\n                    <input class=\"form-control\" formControlName=\"description\" id=\"description\" type=\"text\" placeholder=\"Enter description\" />\n                </div>\n            </div>\n          </form>\n        </div>\n    "
+            template: " \n        <div class=\"container col-lg-6 col-sm-offset-3\">\n          <form [formGroup]=\"createListForm\" (submit)=\"toSaveDetails()\">\n            <div class=\"form-group text-left\">\n                <label class=\"control-label col-lg-12 no-padding-l-r\">Name:</label>\n                <input class=\"form-control\" autofocus formControlName=\"name\" id=\"name\" type=\"text\" placeholder=\"Enter name\" required/>\n            </div>\n            <div class=\"form-group text-left\">\n                <label class=\"control-label col-lg-12 no-padding-l-r\">Description:</label>\n                <input class=\"form-control\" formControlName=\"description\" id=\"description\" type=\"text\" placeholder=\"Enter description\" />\n            </div>\n          </form>\n        </div>\n    "
         }), 
         __metadata('design:paramtypes', [forms_1.FormBuilder, router_1.Router])
     ], PlayListDetailComponent);

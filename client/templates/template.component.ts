@@ -30,7 +30,7 @@ import { SideBarComponent } from './sidebar.component';
           <div class="inner cover">
             <router-outlet></router-outlet>
           </div>
-          <div class="mastfoot">
+          <div class="col-xs-12 mastfoot">
             <div class="inner">
               <p>by @los tigueres.</p>
             </div>

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Streaming from youtube",
   "main": "./server/index.js",
+  "engine": "node 6.7.0",
   "scripts": {
     "start": "node ./server/app.js",
     "webpack:w": "webpack --watch",
@@ -10,6 +11,7 @@
     "test": "tsc && concurrently \"tsc -w\"",
     "develop": "tsc && concurrently \"tsc -w\" \"webpack --watch\" \"mongod --smallfiles --dbpath=./db\" ",
     "tsc": "tsc",
+    "build": "concurrently \"tsc\" \"webpack\"",
     "tsc:w": "tsc -w",
     "typings": "typings",
     "postinstall": "typings install",
@@ -17,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wilsonhamiltond/youtubestreaming.git"
+    "url": "git+https://github.com/wilsonhamiltond/music-streaming.git"
   },
   "keywords": [
     "stream",
@@ -29,9 +31,9 @@
   "author": "Wilson Hamilton",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/wilsonhamiltond/youtubestreaming/issues"
+    "url": "https://github.com/wilsonhamiltond/music-streaming/issues"
   },
-  "homepage": "https://github.com/wilsonhamiltond/youtubestreaming#readme",
+  "homepage": "https://github.com/wilsonhamiltond/music-streaming#readme",
   "dependencies": {
     "@angular/common": "~2.1.2",
     "@angular/compiler": "~2.1.2",

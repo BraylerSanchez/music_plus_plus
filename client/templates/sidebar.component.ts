@@ -1,9 +1,10 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { IPlayList } from '../interfaces/playlist/playlist.interface';
 import { Sound } from '../interfaces/player/sound.interface';
-import { onAddSoundToPlaylist, onRemoveSoundToPlaylist } from '../modules/home/components/search.component';
 import { PlayerService, onPlayMusic, onStopMusic, onSuspendMusic} from '../services/player/player.service';
 import { LoginService, onLoginUser, onLogoutUser } from '../services/user/login.service';
+
+import { PlaylistService, onAddSound, onRemoveSound } from '../services/playlist/playlist.service';
 
 declare var window: any;
 
@@ -202,19 +203,20 @@ declare var window: any;
                 <ul>
                     <li class="title">
                         <h5>{{playlist.name}}</h5>
-                        <a class="btn btn-xs btn-success">Save <i class="fa fa-floppy-o"></i></a>
+                        <a *ngIf="playlist.name == 'default'" [routerLink]="['/playlist/create/default']" class="btn btn-xs btn-success">Save <i class="fa fa-floppy-o"></i></a>
                     </li>
-                    <li class="item" *ngFor="let sound of playlist.sounds" (click)="play(sound)">
+                    <li class="item" *ngFor="let sound of playlist.sounds; let i = index" (click)="play(sound)">
                         <span title="{{sound.title}}">
                             {{sound.title}}
                         </span>
                         <i *ngIf="currentSound.id == sound.id" class="fa fa-volume-up"></i>
+                        <i *ngIf="currentSound.id != sound.id" class="fa fa-minus pull-right" (click)="removeFromPlaylist($event, i, sound)"></i>
                     </li>
                 </ul>
             </div>
         </div>
     </div>`,
-    providers: [PlayerService, LoginService]
+    providers: [PlayerService, LoginService, PlaylistService]
 })
 export class SideBarComponent implements OnInit{
     private active:string;
@@ -227,21 +229,15 @@ export class SideBarComponent implements OnInit{
     constructor(
         private playerService: PlayerService,
         private loginService: LoginService,
-        private ngZone: NgZone
+        private ngZone: NgZone,
+        private playlistService:PlaylistService
     ){
         this.active = '';
         
-        onAddSoundToPlaylist.subscribe((result) => {
-            this.playlist.sounds.push(result.sound)
-            this.active = 'nowplay';
-        })
-        
-        onRemoveSoundToPlaylist.subscribe((result) => {
-            this.active = 'nowplay';
-            for( var i = this.playlist.sounds.length-1; i>=0; i--) {
-                if( this.playlist.sounds[i].id == result.sound.id){
-                  this.playlist.sounds.splice(i,1);
-                }
+        onAddSound.subscribe((result) => {
+            if( result.playlist == this.playlist.name){
+                this.playlist.sounds.push(result.sound)
+                this.active = 'nowplay';
             }
         })
         
@@ -270,9 +266,21 @@ export class SideBarComponent implements OnInit{
         })
         this.user = this.loginService.getUser();
     }
+    
+    removeFromPlaylist(e, index, sound) {
+        this.playlistService.removeSoundToPlaylist(sound);
+        
+        this.playlist.sounds.splice(index,1);
+        e.stopPropagation();
+    }
+        
     ngOnInit(){
         this.windowHeight = window.document.body.clientHeight;
         this.user = this.loginService.getUser();
+        var playlist = this.playlistService.getCurrentPlaylist();
+        if( playlist ){
+            this.playlist = playlist;
+        }
     }
     
     setActive(menu){

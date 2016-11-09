@@ -1,10 +1,9 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { PlayerService, onPlayMusic, onStopMusic } from '../../../services/player/player.service';
 import { onPlaylistChange } from '../../../services/playlist/playlist.service';
 
 import { Sound } from '../../../interfaces/player/sound.interface';
 import { IPlayList } from '../../../interfaces/playlist/playlist.interface';
-import { onAddSoundToPlaylist, onRemoveSoundToPlaylist } from '../../home/components/search.component';
 
 declare var window: any;
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -117,24 +116,12 @@ export class PlayerComponent{
             this.ngZone.run(()=>{});
         });
         
-        onAddSoundToPlaylist.subscribe((result) => {
-            this.playlist.sounds.push(result.sound)
-        })
-        
-        onRemoveSoundToPlaylist.subscribe((result) => {
-          for( var i = this.playlist.sounds.length-1; i>=0; i--) {
-            if( this.playlist.sounds[i].id == result.sound.id){
-              this.playlist.sounds.splice(i,1);
-            }
-          }
-        })
-        
         onPlaylistChange.subscribe( (playlist) =>{
-            this.playlist = playlist;
-            this.playerService.getMusic(this.playlist.sounds[0]);
+            if( playlist.sounds[0] ){
+                this.playerService.getMusic(playlist.sounds[0]);
+            }
         })
     }
-    
     play(){
         this.isPlaying = true;
         this.currentSound = this.audioContext.createBufferSource();

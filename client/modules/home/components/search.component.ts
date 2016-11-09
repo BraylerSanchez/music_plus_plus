@@ -4,21 +4,8 @@ import { PlayerService, onPlayMusic, onStopMusic } from '../../../services/playe
 import { Sound } from '../../../interfaces/player/sound.interface';
 import { IPlayList } from '../../../interfaces/playlist/playlist.interface';
 
-import { Observable } from 'rxjs/Observable'
-import 'rxjs/add/operator/map'
-import 'rxjs/add/operator/share';
-
 import { ToasterService} from 'angular2-toaster/angular2-toaster';
-
-var addSoundToPlaylistTrigger: any;
-export const onAddSoundToPlaylist: Observable<any> = new Observable( (observable) =>{
-  addSoundToPlaylistTrigger = observable;
-}).share();
-
-var removeSoundToPlaylistTrigger: any;
-export const onRemoveSoundToPlaylist: Observable<any> = new Observable( (observable) =>{
-  removeSoundToPlaylistTrigger = observable;
-}).share();
+import { PlaylistService} from '../../../services/playlist/playlist.service';
 
 @Component({
     selector: 'search',
@@ -49,7 +36,7 @@ export const onRemoveSoundToPlaylist: Observable<any> = new Observable( (observa
       .media-heading .title small{
         display: none;
       }
-      .media-heading:hover .title small{
+      .media-heading .title span:hover + small{
         display: inline-block;
       }
     `],
@@ -74,14 +61,12 @@ export const onRemoveSoundToPlaylist: Observable<any> = new Observable( (observa
             </div>
             <div class="media-body text-left">
               <div class="media-heading">
-                <h4 class="title" (click)="play(video)" >
-                {{ video.title }} 
+                <h4 class="title" >
+                <span  (click)="play(video)" title="{{ video.title }}">{{ video.title }}</span>
                 <small >
                   click to play <i class="fa fa-play"></i>
                 </small>
-                <i *ngIf="!isAdded(video)" class="fa fa-plus pull-right" (click)="addFromPlaylist($event, video)"></i>
-                <i *ngIf="isAdded(video)" class="fa fa-minus pull-right" (click)="removeFromPlaylist($event, video)"></i>
-                <img class="glyphicon pull-right" *ngIf="video.id == currentSound.id" [ngClass]="{ 'playing': video.id == currentSound.id }">
+                <i class="fa fa-plus pull-right" (click)="addToPlaylist($event, video)"></i>
                 </h4>
               </div>
               <span  id="channel">{{ video.channel }}</span>
@@ -91,7 +76,7 @@ export const onRemoveSoundToPlaylist: Observable<any> = new Observable( (observa
           </div>
         </div>
       </div>`,
-      providers: [PlayerService, ToasterService]
+      providers: [PlayerService, ToasterService, PlaylistService]
 })
 export class SearchComponent{
     @Input()
@@ -107,7 +92,8 @@ export class SearchComponent{
       private playerService: PlayerService,
       private router: ActivatedRoute,
       private ngZone: NgZone,
-      private toasterService: ToasterService
+      private toasterService: ToasterService,
+      private playlistService: PlaylistService
     ){
       this.playlist = this.playlist || { name:'default', description:'', sounds: [], createAt: new Date(), userAt: '', updateAt: new Date()}
       this.queryString = '';
@@ -132,30 +118,15 @@ export class SearchComponent{
       });
     }
     
-    addFromPlaylist(e, sound: Sound){
-      this.playlist.sounds.push(sound);
-      addSoundToPlaylistTrigger.next({
-        sound: sound,
-        playlist: this.playlist.name
+    addToPlaylist(e, sound: Sound){
+      this.playlistService.addSoundToPlaylist({
+        playlist: this.playlist.name,
+        sound: sound
       });
       this.toasterService.pop('success', 'Added music to playlist', sound.title);
       e.stopPropagation();
     }
     
-    removeFromPlaylist(e,  sound: Sound){
-      for( var i = this.playlist.sounds.length-1; i>=0; i--) {
-        if( this.playlist.sounds[i].id == sound.id){
-          this.playlist.sounds.splice(i,1);
-        }
-      }
-      removeSoundToPlaylistTrigger.next({
-        sound: sound,
-        playlist: this.playlist.name
-      });
-      this.toasterService.pop('warning', 'Removed music from playlist', sound.title);
-      e.stopPropagation();
-    }
-      
     handleKeyup(e){
         if( e.keyCode == 13){
           this.search();
@@ -176,18 +147,9 @@ export class SearchComponent{
       })
     }
     
-    play(video){
-      addSoundToPlaylistTrigger.next({
-        sound: video,
-        playlist: this.playlist.name
-      });
-      this.playerService.getMusic(video);
-      this.toasterService.pop('success', 'Playing Music', video.title);
-    }
-    
-    isAdded(video){
-      return this.playlist.sounds.some( (sound)=>{
-        return sound.id == video.id
-      })
+    play(sound){
+      this.playlistService.addSoundToPlaylist(sound);
+      this.playerService.getMusic(sound);
+      this.toasterService.pop('success', 'Playing Music', sound.title);
     }
 }
