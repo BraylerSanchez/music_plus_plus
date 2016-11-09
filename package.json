@@ -14,7 +14,7 @@
     "build": "concurrently \"tsc\" \"webpack\"",
     "tsc:w": "tsc -w",
     "typings": "typings",
-    "postinstall": "concurrently \"typings install\" \"build\" ",
+    "postinstall": "concurrently \"typings install\" \"tsc\" \"webpack\" ",
     "preinstall": "npm i typings -g"
   },
   "repository": {
