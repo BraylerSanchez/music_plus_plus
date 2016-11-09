@@ -36,12 +36,13 @@ webpackJsonp([0],{
 	var common_1 = __webpack_require__(23);
 	var platform_browser_1 = __webpack_require__(22);
 	var template_component_1 = __webpack_require__(25);
-	var sidebar_component_1 = __webpack_require__(36);
+	var sidebar_component_1 = __webpack_require__(37);
 	var app_routes_1 = __webpack_require__(39);
 	var angular2_toaster_1 = __webpack_require__(71);
 	var home_module_1 = __webpack_require__(78);
 	var player_module_1 = __webpack_require__(84);
-	var playlist_module_1 = __webpack_require__(85);
+	var playlist_module_1 = __webpack_require__(86);
+	//import { CanActivateViaAuthGuard } from './services/user/login.service';
 	var AppModule = (function () {
 	    function AppModule() {
 	    }
@@ -59,9 +60,11 @@ webpackJsonp([0],{
 	            declarations: [template_component_1.TemplateComponent, sidebar_component_1.SideBarComponent],
 	            bootstrap: [template_component_1.TemplateComponent],
 	            providers: [
-	                { provide: common_1.LocationStrategy,
+	                {
+	                    provide: common_1.LocationStrategy,
 	                    useClass: common_1.HashLocationStrategy
-	                }]
+	                }
+	            ]
 	        }), 
 	        __metadata('design:paramtypes', [])
 	    ], AppModule);
@@ -87,7 +90,7 @@ webpackJsonp([0],{
 	};
 	var core_1 = __webpack_require__(4);
 	var player_component_1 = __webpack_require__(26);
-	var sidebar_component_1 = __webpack_require__(36);
+	var sidebar_component_1 = __webpack_require__(37);
 	var TemplateComponent = (function () {
 	    function TemplateComponent(elementRef, renderer) {
 	        this.elementRef = elementRef;
@@ -138,7 +141,7 @@ webpackJsonp([0],{
 	};
 	var core_1 = __webpack_require__(4);
 	var player_service_1 = __webpack_require__(27);
-	var playlist_service_1 = __webpack_require__(38);
+	var playlist_service_1 = __webpack_require__(36);
 	window.AudioContext = window.AudioContext || window.webkitAudioContext;
 	var PlayerComponent = (function () {
 	    function PlayerComponent(playerService, ngZone) {
@@ -358,203 +361,6 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
-	var player_service_1 = __webpack_require__(27);
-	var login_service_1 = __webpack_require__(37);
-	var playlist_service_1 = __webpack_require__(38);
-	var SideBarComponent = (function () {
-	    function SideBarComponent(playerService, loginService, ngZone, playlistService) {
-	        var _this = this;
-	        this.playerService = playerService;
-	        this.loginService = loginService;
-	        this.ngZone = ngZone;
-	        this.playlistService = playlistService;
-	        this.currentSound = { id: '' };
-	        this.isPlaying = false;
-	        this.playlist = { name: 'default', description: '', sounds: [], createAt: new Date(), userAt: '', updateAt: new Date() };
-	        this.windowHeight = 512;
-	        this.menuLeft = 250;
-	        this.active = '';
-	        playlist_service_1.onAddSound.subscribe(function (result) {
-	            if (result.playlist == _this.playlist.name) {
-	                _this.playlist.sounds.push(result.sound);
-	                _this.active = 'nowplay';
-	            }
-	        });
-	        player_service_1.onPlayMusic
-	            .subscribe(function (response) {
-	            _this.windowHeight = window.document.body.clientHeight - 48;
-	            _this.isPlaying = true;
-	            _this.active = 'nowplay';
-	            _this.currentSound = response['details'];
-	        });
-	        player_service_1.onStopMusic
-	            .subscribe(function (response) {
-	            _this.isPlaying = false;
-	        });
-	        player_service_1.onSuspendMusic
-	            .subscribe(function () {
-	            _this.windowHeight = window.document.body.clientHeight;
-	        });
-	        login_service_1.onLoginUser.subscribe(function (user) {
-	            _this.user = user;
-	            _this.ngZone.run(function () { });
-	        });
-	        login_service_1.onLogoutUser.subscribe(function () {
-	            _this.user = undefined;
-	            _this.ngZone.run(function () { });
-	        });
-	        this.user = this.loginService.getUser();
-	    }
-	    SideBarComponent.prototype.removeFromPlaylist = function (e, index, sound) {
-	        this.playlistService.removeSoundToPlaylist(sound);
-	        this.playlist.sounds.splice(index, 1);
-	        e.stopPropagation();
-	    };
-	    SideBarComponent.prototype.ngOnInit = function () {
-	        this.windowHeight = window.document.body.clientHeight;
-	        this.user = this.loginService.getUser();
-	        var playlist = this.playlistService.getCurrentPlaylist();
-	        if (playlist) {
-	            this.playlist = playlist;
-	        }
-	    };
-	    SideBarComponent.prototype.setActive = function (menu) {
-	        if (menu == this.active) {
-	            this.active = '';
-	            return;
-	        }
-	        this.active = menu;
-	    };
-	    SideBarComponent.prototype.play = function (sound) {
-	        this.playerService.getMusic(sound);
-	    };
-	    SideBarComponent.prototype.hide = function () {
-	        this.active = '';
-	    };
-	    SideBarComponent.prototype.login = function () {
-	        this.loginService.login();
-	    };
-	    SideBarComponent.prototype.logout = function () {
-	        this.loginService.singOut();
-	    };
-	    SideBarComponent = __decorate([
-	        core_1.Component({
-	            selector: 'sidebar',
-	            styles: ["\n        .sidebar{\n            position: fixed;\n            left: 0;\n            top: 0;\n        }\n        .sidebar ul.sidebar-menu{\n            transition: 1s;\n            position: relative;\n            margin: 0;\n            padding: 0;\n            text-align: left;\n        }\n        .sidebar ul.sidebar-menu li:first-of-type{\n            margin-top: 0px;\n        }\n        .sidebar ul.sidebar-menu li{\n            border-top: #333333 solid 1px;\n            border-right: #333333 solid 1px;\n            border-left: #333333 solid 1px;\n            font-size: 12pt;\n            display: block;\n            width: 128px;\n            text-transform: uppercase;\n            margin-right: 10px;\n            margin-top: 109px;\n            -webkit-transform: rotate(45deg);\n            -moz-transform: rotate(45deg);\n            -o-transform: rotate(45deg);\n            transform: rotate(90deg);\n            -webkit-transform-origin: 0 100%;\n            -moz-transform-origin: 0 100%;\n            -o-transform-origin: 0 100%;\n            transform-origin: 0 100%;\n            background-color: white;\n            border-top-left-radius: 24px;\n            border-top-right-radius: 24px;\n            text-align: center;\n            padding-top: 5px;\n            color: black;\n            cursor: pointer;\n            transition: 1s;\n        }\n        \n        .sidebar ul.sidebar-menu li:hover{\n            box-shadow: 0px 0px 5px white;\n            color: white;\n            background-color: #333333;\n        }\n        \n        .sidebar ul.sidebar-menu li.active{\n            box-shadow: 0px 0px 5px white;\n            color: white;\n            background-color: #5bc0de;\n        }\n        \n        .sidebar div.menu{  \n            background-color: white; \n            width: 213px;\n            box-shadow: 0px 0px 5px;\n            left: 0;\n            top: 0;\n            position: absolute;\n            transition: 1s;\n            overflow-x: auto;\n            border-right: solid #333333 1px;\n        }\n        \n        .sidebar div.menu::-webkit-scrollbar {\n            width: 7px;\n        }\n         \n        .sidebar div.menu::-webkit-scrollbar-track {\n            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);\n        }\n         \n        .sidebar div.menu::-webkit-scrollbar-thumb {\n            background-color: rgb(84, 189, 220);\n            outline: 1px solid #999;\n            border-radius: 10px;\n        }\n        \n        .sidebar div.menu .nowplay ul, .sidebar div.menu .home ul{\n            padding: 0px;\n        }\n        .sidebar div.menu .nowplay ul li.title, .sidebar div.menu .home ul li.title{\n            background-color: #333333;\n            padding: 5px;\n            font-size: 11pt;\n            color: white;\n        }\n        .sidebar div.menu .nowplay ul li, .sidebar div.menu .home ul li{\n            padding: 5px;\n            font-size: 9pt;\n            border-bottom: 1px solid #d0d0d0;\n            color: #333333;\n            cursor: pointer;\n        }\n        .sidebar div.menu .nowplay ul li.active, .sidebar div.menu .home ul li.active{\n            background-color: #5bc0de;\n        }\n        .sidebar div.menu .home ul li{\n            font-size: 12pt;\n            text-align: left;\n            padding-left: 30px;\n        }\n        .sidebar div.menu .home ul li a{\n            color: #333333;\n        }\n        .sidebar div.menu .nowplay ul li:hover, .sidebar div.menu .home ul li:hover{\n            background-color: #e4e4e4;\n        }\n        .sidebar div.menu .nowplay ul li{\n            text-align: left;\n        }\n        .sidebar div.menu .nowplay ul li span, .sidebar div.menu .nowplay ul li h5{\n            width: 90%;\n            display: block;\n            white-space: nowrap;\n            overflow: hidden;\n            text-overflow: ellipsis;\n        }\n        .sidebar div.menu .nowplay ul li h5{\n            width: 75%;\n        }\n        .sidebar div.menu .nowplay ul li.title a{\n            float: right;\n            position: relative;\n            top: -30px;\n        }\n        .sidebar div.menu .nowplay ul li i{\n            float: right;\n            top: -15px;\n            position: relative;\n        }\n        .sidebar div.menu .nowplay ul li.item i{\n            color: #5bc0de;\n        }\n        .sidebar div.menu .nowplay ul li.title i{\n            float: none;\n            top: 0;\n            color: #green;\n        }\n    "],
-	            template: "\n    <div class=\"sidebar\">\n        <ul class=\"sidebar-menu\" [ngStyle]=\"{'left': active != ''? menuLeft : '0px'}\">\n            <li [ngClass]=\"{'active': active == 'menu'}\" (click)=\"setActive('menu')\" >\n                MENU\n            </li>\n            <li [ngClass]=\"{'active': active == 'playlist'}\" (click)=\"setActive('playlist')\">\n                PLAYLIST\n            </li>\n            <li [ngClass]=\"{'active': active == 'nowplay'}\" (click)=\"setActive('nowplay')\">\n                PLAYING\n                <i *ngIf=\"isPlaying\" class=\"fa fa-volume-up\"></i>\n            </li>\n        </ul>\n        <div class=\"menu\" [ngStyle]=\"{'width': active != ''? menuLeft : '0px', 'opacity': active != ''? '1':'0', 'height': windowHeight}\">\n            <div class=\"home\" *ngIf=\"active == 'menu'\">\n                <ul>\n                    <li class=\"title\">\n                    <h3><i class=\"fa fa-music fa-1x\"></i> MUSIC </h3></li>\n                    <li  [routerLinkActive]=\"['active']\" >\n                        <a [routerLink]=\"['/home']\" >\n                            <i class=\"fa fa-home fa-1x\"></i> Home\n                        </a>\n                    </li>\n                    <li  [routerLinkActive]=\"['active']\" >\n                        <a [routerLink]=\"['/playlist/list']\" >\n                            <i class=\"fa fa-list  fa-1x\"></i> Playlist\n                        </a>\n                    </li>\n                    <li  [routerLinkActive]=\"['active']\" >\n                        <a [routerLink]=\"['/search/0']\" >\n                            <i class=\"fa fa-search fa-1x\"></i> search\n                        </a>\n                    </li>\n                    <li>\n                        <span *ngIf=\"user\">{{user.name}}</span>\n                        <a *ngIf=\"user\" class=\"btn btn-warning btn-xs\" (click)=\"logout()\">\n                            <i class=\"fa fa-sign-out \"></i> Sing-Out\n                        </a>\n                        <a *ngIf=\"!user\" class=\"btn btn-primary btn-xs\" (click)=\"login()\">\n                            <i class=\"fa fa-google\"></i> Sing-In\n                        </a>\n                    </li>\n                </ul>\n            </div>\n            <div class=\"nowplay\" *ngIf=\"active == 'nowplay'\">\n                <ul>\n                    <li class=\"title\">\n                        <h5>{{playlist.name}}</h5>\n                        <a *ngIf=\"playlist.name == 'default'\" [routerLink]=\"['/playlist/create/default']\" class=\"btn btn-xs btn-success\">Save <i class=\"fa fa-floppy-o\"></i></a>\n                    </li>\n                    <li class=\"item\" *ngFor=\"let sound of playlist.sounds; let i = index\" (click)=\"play(sound)\">\n                        <span title=\"{{sound.title}}\">\n                            {{sound.title}}\n                        </span>\n                        <i *ngIf=\"currentSound.id == sound.id\" class=\"fa fa-volume-up\"></i>\n                        <i *ngIf=\"currentSound.id != sound.id\" class=\"fa fa-minus pull-right\" (click)=\"removeFromPlaylist($event, i, sound)\"></i>\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </div>",
-	            providers: [player_service_1.PlayerService, login_service_1.LoginService, playlist_service_1.PlaylistService]
-	        }), 
-	        __metadata('design:paramtypes', [player_service_1.PlayerService, login_service_1.LoginService, core_1.NgZone, playlist_service_1.PlaylistService])
-	    ], SideBarComponent);
-	    return SideBarComponent;
-	}());
-	exports.SideBarComponent = SideBarComponent;
-
-
-/***/ },
-
-/***/ 37:
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-	    return c > 3 && r && Object.defineProperty(target, key, r), r;
-	};
-	var __metadata = (this && this.__metadata) || function (k, v) {
-	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-	};
-	var core_1 = __webpack_require__(4);
-	var Observable_1 = __webpack_require__(6);
-	__webpack_require__(29);
-	__webpack_require__(31);
-	var loginUserObserbable;
-	exports.onLoginUser = new Observable_1.Observable(function (observable) {
-	    loginUserObserbable = observable;
-	}).share();
-	var logoutUserObserbable;
-	exports.onLogoutUser = new Observable_1.Observable(function (observable) {
-	    logoutUserObserbable = observable;
-	}).share();
-	var LoginService = (function () {
-	    function LoginService() {
-	        var _this = this;
-	        this.client_id = '347784008330-m2u9l7c3hp2stho4bc8bvf38cmi1tr2p.apps.googleusercontent.com';
-	        gapi.load('auth2', function () {
-	            _this.auth2 = gapi.auth2.init({
-	                client_id: _this.client_id
-	            });
-	        });
-	        var user = localStorage.getItem('ms_user');
-	        if (user) {
-	            this.user = JSON.parse(user);
-	        }
-	    }
-	    LoginService.prototype.setUser = function (user) {
-	        localStorage.setItem('ms_user', JSON.stringify(user));
-	        this.user = user;
-	    };
-	    LoginService.prototype.getUser = function () {
-	        var user = localStorage.getItem('ms_user');
-	        if (user) {
-	            this.user = JSON.parse(user);
-	        }
-	        return JSON.parse(user);
-	    };
-	    LoginService.prototype.singOut = function () {
-	        var _this = this;
-	        var auth2 = gapi.auth2.getAuthInstance();
-	        auth2.signOut().then(function () {
-	            localStorage.removeItem('ms_user');
-	            _this.user = undefined;
-	            logoutUserObserbable.next();
-	        });
-	    };
-	    LoginService.prototype.login = function () {
-	        var _this = this;
-	        this.auth2.grantOfflineAccess().then(function (authResult) {
-	            if (authResult['code']) {
-	                var profile = _this.auth2.currentUser.get().getBasicProfile();
-	                var user = {
-	                    _id: profile.getId(),
-	                    name: profile.getGivenName(),
-	                    thumbnail: profile.getImageUrl()
-	                };
-	                _this.setUser(user);
-	                loginUserObserbable.next(user);
-	            }
-	            else {
-	                console.log('Error authenticating user.');
-	            }
-	        });
-	    };
-	    LoginService = __decorate([
-	        core_1.Injectable(), 
-	        __metadata('design:paramtypes', [])
-	    ], LoginService);
-	    return LoginService;
-	}());
-	exports.LoginService = LoginService;
-
-
-/***/ },
-
-/***/ 38:
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-	    return c > 3 && r && Object.defineProperty(target, key, r), r;
-	};
-	var __metadata = (this && this.__metadata) || function (k, v) {
-	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-	};
-	var core_1 = __webpack_require__(4);
 	var http_1 = __webpack_require__(28);
 	var Observable_1 = __webpack_require__(6);
 	__webpack_require__(29);
@@ -649,6 +455,221 @@ webpackJsonp([0],{
 	    return PlaylistService;
 	}());
 	exports.PlaylistService = PlaylistService;
+
+
+/***/ },
+
+/***/ 37:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(4);
+	var router_1 = __webpack_require__(40);
+	var player_service_1 = __webpack_require__(27);
+	var login_service_1 = __webpack_require__(38);
+	var playlist_service_1 = __webpack_require__(36);
+	var SideBarComponent = (function () {
+	    function SideBarComponent(playerService, loginService, ngZone, playlistService, router) {
+	        var _this = this;
+	        this.playerService = playerService;
+	        this.loginService = loginService;
+	        this.ngZone = ngZone;
+	        this.playlistService = playlistService;
+	        this.router = router;
+	        this.currentSound = { id: '' };
+	        this.isPlaying = false;
+	        this.playlist = { name: 'default', description: '', sounds: [], createAt: new Date(), userAt: '', updateAt: new Date() };
+	        this.windowHeight = 512;
+	        this.menuLeft = 250;
+	        this.playlists = [];
+	        this.active = '';
+	        playlist_service_1.onAddSound.subscribe(function (result) {
+	            if (result.playlist == _this.playlist.name) {
+	                _this.playlist.sounds.push(result.sound);
+	                _this.active = 'nowplay';
+	            }
+	        });
+	        player_service_1.onPlayMusic
+	            .subscribe(function (response) {
+	            _this.windowHeight = window.document.body.clientHeight - 48;
+	            _this.isPlaying = true;
+	            _this.active = 'nowplay';
+	            _this.currentSound = response['details'];
+	        });
+	        player_service_1.onStopMusic
+	            .subscribe(function (response) {
+	            _this.isPlaying = false;
+	        });
+	        player_service_1.onSuspendMusic
+	            .subscribe(function () {
+	            _this.windowHeight = window.document.body.clientHeight;
+	        });
+	        login_service_1.onLoginUser.subscribe(function (user) {
+	            _this.user = user;
+	            _this.playlistService.list(_this.user._id).subscribe(function (result) {
+	                if (result.status == true)
+	                    _this.playlists = result.playlists;
+	                _this.ngZone.run(function () { });
+	            });
+	        });
+	        login_service_1.onLogoutUser.subscribe(function () {
+	            _this.user = undefined;
+	            _this.play;
+	            _this.ngZone.run(function () { });
+	        });
+	        this.user = this.loginService.getUser();
+	        if (this.user) {
+	            this.playlistService.list(this.user._id).subscribe(function (result) {
+	                if (result.status == true)
+	                    _this.playlists = result.playlists;
+	            });
+	        }
+	    }
+	    SideBarComponent.prototype.removeFromPlaylist = function (e, index, sound) {
+	        this.playlistService.removeSoundToPlaylist(sound);
+	        this.playlist.sounds.splice(index, 1);
+	        e.stopPropagation();
+	    };
+	    SideBarComponent.prototype.ngOnInit = function () {
+	        this.windowHeight = window.document.body.clientHeight;
+	        this.user = this.loginService.getUser();
+	        var playlist = this.playlistService.getCurrentPlaylist();
+	        if (playlist) {
+	            this.playlist = playlist;
+	        }
+	    };
+	    SideBarComponent.prototype.setActive = function (menu) {
+	        if (menu == this.active) {
+	            this.active = '';
+	            return;
+	        }
+	        this.active = menu;
+	    };
+	    SideBarComponent.prototype.play = function (sound) {
+	        this.playerService.getMusic(sound);
+	    };
+	    SideBarComponent.prototype.hide = function () {
+	        this.active = '';
+	    };
+	    SideBarComponent.prototype.login = function () {
+	        this.loginService.login();
+	    };
+	    SideBarComponent.prototype.logout = function () {
+	        this.loginService.singOut();
+	        this.router.navigate(['/home']);
+	    };
+	    SideBarComponent.prototype.change = function (playlist) {
+	        this.playlistService.changePlaylist(playlist);
+	    };
+	    SideBarComponent = __decorate([
+	        core_1.Component({
+	            selector: 'sidebar',
+	            styles: ["\n        .sidebar{\n            position: fixed;\n            left: 0;\n            top: 0;\n        }\n        .sidebar ul.sidebar-menu{\n            transition: 1s;\n            position: relative;\n            margin: 0;\n            padding: 0;\n            text-align: left;\n        }\n        .sidebar ul.sidebar-menu li:first-of-type{\n            margin-top: 0px;\n        }\n        .sidebar ul.sidebar-menu li{\n            border-top: #333333 solid 1px;\n            border-right: #333333 solid 1px;\n            border-left: #333333 solid 1px;\n            font-size: 12pt;\n            display: block;\n            width: 128px;\n            text-transform: uppercase;\n            margin-right: 10px;\n            margin-top: 109px;\n            -webkit-transform: rotate(45deg);\n            -moz-transform: rotate(45deg);\n            -o-transform: rotate(45deg);\n            transform: rotate(90deg);\n            -webkit-transform-origin: 0 100%;\n            -moz-transform-origin: 0 100%;\n            -o-transform-origin: 0 100%;\n            transform-origin: 0 100%;\n            background-color: white;\n            border-top-left-radius: 24px;\n            border-top-right-radius: 24px;\n            text-align: center;\n            padding-top: 5px;\n            color: black;\n            cursor: pointer;\n            transition: 1s;\n        }\n        \n        .sidebar ul.sidebar-menu li:hover{\n            box-shadow: 0px 0px 5px white;\n            color: white;\n            background-color: #333333;\n        }\n        \n        .sidebar ul.sidebar-menu li.active{\n            box-shadow: 0px 0px 5px white;\n            color: white;\n            background-color: #5bc0de;\n        }\n        \n        .sidebar div.menu{  \n            background-color: white; \n            width: 213px;\n            box-shadow: 0px 0px 5px;\n            left: 0;\n            top: 0;\n            position: absolute;\n            transition: 1s;\n            overflow-x: auto;\n            border-right: solid #333333 1px;\n        }\n        \n        .sidebar div.menu::-webkit-scrollbar {\n            width: 7px;\n        }\n         \n        .sidebar div.menu::-webkit-scrollbar-track {\n            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);\n        }\n         \n        .sidebar div.menu::-webkit-scrollbar-thumb {\n            background-color: rgb(84, 189, 220);\n            outline: 1px solid #999;\n            border-radius: 10px;\n        }\n        \n        .sidebar div.menu .nowplay ul, .sidebar div.menu .home ul{\n            padding: 0px;\n        }\n        .sidebar div.menu .nowplay ul li.title, .sidebar div.menu .home ul li.title{\n            background-color: #333333;\n            padding: 5px;\n            font-size: 11pt;\n            color: white;\n        }\n        .sidebar div.menu .nowplay ul li, .sidebar div.menu .home ul li{\n            padding: 5px;\n            font-size: 9pt;\n            border-bottom: 1px solid #d0d0d0;\n            color: #333333;\n            cursor: pointer;\n        }\n        .sidebar div.menu .nowplay ul li.active, .sidebar div.menu .home ul li.active{\n            background-color: #5bc0de;\n        }\n        .sidebar div.menu .home ul li{\n            font-size: 12pt;\n            text-align: left;\n            padding-left: 30px;\n        }\n        .sidebar div.menu .home ul li a{\n            color: #333333;\n        }\n        .sidebar div.menu .nowplay ul li:hover, .sidebar div.menu .home ul li:hover{\n            background-color: #e4e4e4;\n        }\n        .sidebar div.menu .nowplay ul li{\n            text-align: left;\n        }\n        .sidebar div.menu .nowplay ul li span, .sidebar div.menu .nowplay ul li h5{\n            width: 90%;\n            display: block;\n            white-space: nowrap;\n            overflow: hidden;\n            text-overflow: ellipsis;\n        }\n        .sidebar div.menu .nowplay ul li h5{\n            width: 75%;\n        }\n        .sidebar div.menu .nowplay ul li.title a{\n            float: right;\n            position: relative;\n            top: -30px;\n        }\n        .sidebar div.menu .nowplay ul li i{\n            float: right;\n            top: -15px;\n            position: relative;\n        }\n        .sidebar div.menu .nowplay ul li.item i{\n            color: #5bc0de;\n        }\n        .sidebar div.menu .nowplay ul li.title i{\n            float: none;\n            top: 0;\n            color: #green;\n        }\n    "],
+	            template: "\n    <div class=\"sidebar\">\n        <ul class=\"sidebar-menu\" [ngStyle]=\"{'left': active != ''? menuLeft : '0px'}\">\n            <li [ngClass]=\"{'active': active == 'menu'}\" (click)=\"setActive('menu')\" >\n                MENU\n            </li>\n            <li [ngClass]=\"{'active': active == 'playlist'}\" (click)=\"setActive('playlist')\" *ngIf=\"user\">\n                PLAYLIST\n            </li>\n            <li [ngClass]=\"{'active': active == 'nowplay'}\" (click)=\"setActive('nowplay')\">\n                PLAYING\n                <i *ngIf=\"isPlaying\" class=\"fa fa-volume-up\"></i>\n            </li>\n        </ul>\n        <div class=\"menu\" [ngStyle]=\"{'width': active != ''? menuLeft : '0px', 'opacity': active != ''? '1':'0', 'height': windowHeight}\">\n            <div class=\"home\" *ngIf=\"active == 'menu'\">\n                <ul>\n                    <li class=\"title\">\n                    <h3><i class=\"fa fa-music fa-1x\"></i> MUSIC </h3></li>\n                    <li  [routerLinkActive]=\"['active']\" >\n                        <a [routerLink]=\"['/home']\" >\n                            <i class=\"fa fa-home fa-1x\"></i> Home\n                        </a>\n                    </li>\n                    <li  [routerLinkActive]=\"['active']\" *ngIf=\"user\" >\n                        <a [routerLink]=\"['/playlist/list']\" >\n                            <i class=\"fa fa-list  fa-1x\"></i> Playlist\n                        </a>\n                    </li>\n                    <li  [routerLinkActive]=\"['active']\" >\n                        <a [routerLink]=\"['/search/0']\" >\n                            <i class=\"fa fa-search fa-1x\"></i> search\n                        </a>\n                    </li>\n                    <li>\n                        <span *ngIf=\"user\">{{user.name}}</span>\n                        <a *ngIf=\"user\" class=\"btn btn-warning btn-xs\" (click)=\"logout()\">\n                            <i class=\"fa fa-sign-out \"></i> Sing-Out\n                        </a>\n                        <a *ngIf=\"!user\" class=\"btn btn-primary btn-xs\" (click)=\"login()\">\n                            <i class=\"fa fa-google\"></i> Sing-In\n                        </a>\n                    </li>\n                </ul>\n            </div>\n            <div class=\"nowplay\" *ngIf=\"active == 'playlist'\">\n                <ul>\n                    <li class=\"title\">\n                        <h5>Playlist</h5>\n                        <a [routerLink]=\"['/playlist/create/0']\" class=\"btn btn-xs btn-success\">Create <i class=\"fa fa-plus\"></i></a>\n                    </li>\n                    <li class=\"item\" *ngFor=\"let playlist of playlists\" (click)=\"change(playlist)\">\n                        <span title=\"{{playlist.name}}\">\n                            {{playlist.name}}\n                        </span>\n                    </li>\n                </ul>\n            </div>\n            <div class=\"nowplay\" *ngIf=\"active == 'nowplay'\">\n                <ul>\n                    <li class=\"title\">\n                        <h5>{{playlist.name}}</h5>\n                        <a *ngIf=\"playlist.name == 'default'\" [routerLink]=\"['/playlist/create/default']\" class=\"btn btn-xs btn-success\">Save <i class=\"fa fa-floppy-o\"></i></a>\n                    </li>\n                    <li class=\"item\" *ngFor=\"let sound of playlist.sounds; let i = index\" (click)=\"play(sound)\">\n                        <span title=\"{{sound.title}}\">\n                            {{sound.title}}\n                        </span>\n                        <i *ngIf=\"currentSound.id == sound.id\" class=\"fa fa-volume-up\"></i>\n                        <i *ngIf=\"currentSound.id != sound.id\" class=\"fa fa-minus pull-right\" (click)=\"removeFromPlaylist($event, i, sound)\"></i>\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </div>",
+	            providers: [player_service_1.PlayerService, login_service_1.LoginService, playlist_service_1.PlaylistService]
+	        }), 
+	        __metadata('design:paramtypes', [player_service_1.PlayerService, login_service_1.LoginService, core_1.NgZone, playlist_service_1.PlaylistService, router_1.Router])
+	    ], SideBarComponent);
+	    return SideBarComponent;
+	}());
+	exports.SideBarComponent = SideBarComponent;
+
+
+/***/ },
+
+/***/ 38:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(4);
+	var Observable_1 = __webpack_require__(6);
+	__webpack_require__(29);
+	__webpack_require__(31);
+	var loginUserObserbable;
+	exports.onLoginUser = new Observable_1.Observable(function (observable) {
+	    loginUserObserbable = observable;
+	}).share();
+	var logoutUserObserbable;
+	exports.onLogoutUser = new Observable_1.Observable(function (observable) {
+	    logoutUserObserbable = observable;
+	}).share();
+	var LoginService = (function () {
+	    function LoginService() {
+	        var _this = this;
+	        this.client_id = '347784008330-m2u9l7c3hp2stho4bc8bvf38cmi1tr2p.apps.googleusercontent.com';
+	        gapi.load('auth2', function () {
+	            _this.auth2 = gapi.auth2.init({
+	                client_id: _this.client_id
+	            });
+	        });
+	        var user = localStorage.getItem('ms_user');
+	        if (user) {
+	            this.user = JSON.parse(user);
+	        }
+	    }
+	    LoginService.prototype.setUser = function (user) {
+	        localStorage.setItem('ms_user', JSON.stringify(user));
+	        this.user = user;
+	    };
+	    LoginService.prototype.getUser = function () {
+	        var user = localStorage.getItem('ms_user');
+	        if (user) {
+	            this.user = JSON.parse(user);
+	        }
+	        return JSON.parse(user);
+	    };
+	    LoginService.prototype.singOut = function () {
+	        var _this = this;
+	        var auth2 = gapi.auth2.getAuthInstance();
+	        auth2.signOut().then(function () {
+	            localStorage.removeItem('ms_user');
+	            _this.user = undefined;
+	            logoutUserObserbable.next();
+	        });
+	    };
+	    LoginService.prototype.login = function () {
+	        var _this = this;
+	        this.auth2.grantOfflineAccess().then(function (authResult) {
+	            if (authResult['code']) {
+	                var profile = _this.auth2.currentUser.get().getBasicProfile();
+	                var user = {
+	                    _id: profile.getId(),
+	                    name: profile.getGivenName(),
+	                    thumbnail: profile.getImageUrl()
+	                };
+	                _this.setUser(user);
+	                loginUserObserbable.next(user);
+	            }
+	            else {
+	                console.log('Error authenticating user.');
+	            }
+	        });
+	    };
+	    LoginService = __decorate([
+	        core_1.Injectable(), 
+	        __metadata('design:paramtypes', [])
+	    ], LoginService);
+	    return LoginService;
+	}());
+	exports.LoginService = LoginService;
 
 
 /***/ },
@@ -5249,7 +5270,7 @@ webpackJsonp([0],{
 	var router_1 = __webpack_require__(40);
 	var player_service_1 = __webpack_require__(27);
 	var angular2_toaster_1 = __webpack_require__(71);
-	var playlist_service_1 = __webpack_require__(38);
+	var playlist_service_1 = __webpack_require__(36);
 	var SearchComponent = (function () {
 	    function SearchComponent(playerService, router, ngZone, toasterService, playlistService) {
 	        var _this = this;
@@ -5387,16 +5408,51 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
+	var login_service_1 = __webpack_require__(38);
+	var CanActivateViaAuthGuard = (function () {
+	    function CanActivateViaAuthGuard(loginService) {
+	        this.loginService = loginService;
+	    }
+	    CanActivateViaAuthGuard.prototype.canActivate = function () {
+	        return this.loginService.getUser()._id != undefined;
+	    };
+	    CanActivateViaAuthGuard = __decorate([
+	        core_1.Injectable(), 
+	        __metadata('design:paramtypes', [login_service_1.LoginService])
+	    ], CanActivateViaAuthGuard);
+	    return CanActivateViaAuthGuard;
+	}());
+	exports.CanActivateViaAuthGuard = CanActivateViaAuthGuard;
+
+
+/***/ },
+
+/***/ 86:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(4);
 	var common_1 = __webpack_require__(23);
 	var forms_1 = __webpack_require__(79);
 	var http_1 = __webpack_require__(28);
 	var platform_browser_1 = __webpack_require__(22);
-	var playlist_routes_1 = __webpack_require__(86);
-	var list_component_1 = __webpack_require__(87);
-	var create_component_1 = __webpack_require__(88);
-	var playlistdetail_component_1 = __webpack_require__(89);
-	var songlist_component_1 = __webpack_require__(90);
+	var playlist_routes_1 = __webpack_require__(87);
+	var list_component_1 = __webpack_require__(88);
+	var create_component_1 = __webpack_require__(89);
+	var playlistdetail_component_1 = __webpack_require__(90);
+	var songlist_component_1 = __webpack_require__(91);
 	var home_module_1 = __webpack_require__(78);
+	var can_active_service_1 = __webpack_require__(85);
+	var login_service_1 = __webpack_require__(38);
 	var PlaylistModule = (function () {
 	    function PlaylistModule() {
 	    }
@@ -5417,6 +5473,16 @@ webpackJsonp([0],{
 	                playlistdetail_component_1.PlayListDetailComponent,
 	                songlist_component_1.SongListComponent
 	            ],
+	            providers: [
+	                {
+	                    provide: 'CanAlwaysActivateGuard',
+	                    useValue: function () {
+	                        return true;
+	                    }
+	                },
+	                login_service_1.LoginService,
+	                can_active_service_1.CanActivateViaAuthGuard
+	            ],
 	            bootstrap: [
 	                list_component_1.PlayListComponent
 	            ]
@@ -5430,21 +5496,30 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 86:
+/***/ 87:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var router_1 = __webpack_require__(40);
-	var list_component_1 = __webpack_require__(87);
-	var create_component_1 = __webpack_require__(88);
+	var list_component_1 = __webpack_require__(88);
+	var create_component_1 = __webpack_require__(89);
+	var can_active_service_1 = __webpack_require__(85);
 	exports.routes = [
 	    {
 	        path: 'playlist/list',
-	        component: list_component_1.PlayListComponent
+	        component: list_component_1.PlayListComponent,
+	        canActivate: [
+	            'CanAlwaysActivateGuard',
+	            can_active_service_1.CanActivateViaAuthGuard
+	        ]
 	    },
 	    {
 	        path: 'playlist/create/:_id',
-	        component: create_component_1.CreateListComponent
+	        component: create_component_1.CreateListComponent,
+	        canActivate: [
+	            'CanAlwaysActivateGuard',
+	            can_active_service_1.CanActivateViaAuthGuard
+	        ]
 	    }
 	];
 	exports.routing = router_1.RouterModule.forChild(exports.routes);
@@ -5452,7 +5527,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 87:
+/***/ 88:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5467,8 +5542,8 @@ webpackJsonp([0],{
 	};
 	var core_1 = __webpack_require__(4);
 	var router_1 = __webpack_require__(40);
-	var playlist_service_1 = __webpack_require__(38);
-	var login_service_1 = __webpack_require__(37);
+	var playlist_service_1 = __webpack_require__(36);
+	var login_service_1 = __webpack_require__(38);
 	var PlayListComponent = (function () {
 	    function PlayListComponent(router, playlistService, loginService) {
 	        this.router = router;
@@ -5529,7 +5604,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 88:
+/***/ 89:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5545,10 +5620,10 @@ webpackJsonp([0],{
 	var core_1 = __webpack_require__(4);
 	var router_1 = __webpack_require__(40);
 	var search_component_1 = __webpack_require__(83);
-	var playlistdetail_component_1 = __webpack_require__(89);
-	var songlist_component_1 = __webpack_require__(90);
-	var playlist_service_1 = __webpack_require__(38);
-	var login_service_1 = __webpack_require__(37);
+	var playlistdetail_component_1 = __webpack_require__(90);
+	var songlist_component_1 = __webpack_require__(91);
+	var playlist_service_1 = __webpack_require__(36);
+	var login_service_1 = __webpack_require__(38);
 	var CreateListComponent = (function () {
 	    function CreateListComponent(router, routerParams, playlistService, loginService) {
 	        var _this = this;
@@ -5658,7 +5733,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 89:
+/***/ 90:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5722,7 +5797,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 90:
+/***/ 91:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5736,7 +5811,7 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
-	var playlist_service_1 = __webpack_require__(38);
+	var playlist_service_1 = __webpack_require__(36);
 	var SongListComponent = (function () {
 	    function SongListComponent() {
 	    }

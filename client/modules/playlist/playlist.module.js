@@ -19,6 +19,8 @@ var create_component_1 = require('./components/create.component');
 var playlistdetail_component_1 = require('./components/playlistdetail.component');
 var songlist_component_1 = require('./components/songlist.component');
 var home_module_1 = require('../home/home.module');
+var can_active_service_1 = require('../../services/user/can.active.service');
+var login_service_1 = require('../../services/user/login.service');
 var PlaylistModule = (function () {
     function PlaylistModule() {
     }
@@ -38,6 +40,16 @@ var PlaylistModule = (function () {
                 create_component_1.CreateListComponent,
                 playlistdetail_component_1.PlayListDetailComponent,
                 songlist_component_1.SongListComponent
+            ],
+            providers: [
+                {
+                    provide: 'CanAlwaysActivateGuard',
+                    useValue: function () {
+                        return true;
+                    }
+                },
+                login_service_1.LoginService,
+                can_active_service_1.CanActivateViaAuthGuard
             ],
             bootstrap: [
                 list_component_1.PlayListComponent
