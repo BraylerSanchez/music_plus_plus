@@ -1,14 +1,12 @@
-webpackJsonp([0],{
-
-/***/ 0:
+webpackJsonp([0],[
+/* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__(1);
 
 
 /***/ },
-
-/***/ 1:
+/* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -18,8 +16,29 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-/***/ 24:
+/* 2 */,
+/* 3 */,
+/* 4 */,
+/* 5 */,
+/* 6 */,
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */,
+/* 11 */,
+/* 12 */,
+/* 13 */,
+/* 14 */,
+/* 15 */,
+/* 16 */,
+/* 17 */,
+/* 18 */,
+/* 19 */,
+/* 20 */,
+/* 21 */,
+/* 22 */,
+/* 23 */,
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -37,11 +56,7 @@ webpackJsonp([0],{
 	var platform_browser_1 = __webpack_require__(22);
 	var template_component_1 = __webpack_require__(25);
 	var sidebar_component_1 = __webpack_require__(37);
-<<<<<<< HEAD
-	var app_routes_1 = __webpack_require__(39);
-=======
 	var app_routes_1 = __webpack_require__(70);
->>>>>>> master
 	var angular2_toaster_1 = __webpack_require__(71);
 	var home_module_1 = __webpack_require__(78);
 	var player_module_1 = __webpack_require__(84);
@@ -78,8 +93,7 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-/***/ 25:
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -129,8 +143,7 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-/***/ 26:
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -258,8 +271,7 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-/***/ 27:
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -339,8 +351,15 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-/***/ 36:
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */,
+/* 34 */,
+/* 35 */,
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -357,10 +376,6 @@ webpackJsonp([0],{
 	var http_1 = __webpack_require__(28);
 	var Observable_1 = __webpack_require__(6);
 	__webpack_require__(29);
-<<<<<<< HEAD
-=======
-	__webpack_require__(31);
->>>>>>> master
 	var headers = new http_1.ResponseOptions({
 	    headers: new http_1.Headers({
 	        'Content-Type': 'application/json'
@@ -382,24 +397,14 @@ webpackJsonp([0],{
 	    function PlaylistService(http) {
 	        this.http = http;
 	    }
-<<<<<<< HEAD
 	    PlaylistService.prototype.list = function (_userId) {
 	        return this.http.get("api/v1/" + _userId + "/playlist", headers)
 	            .map(function (res) { return res.json(); });
 	    };
-=======
->>>>>>> master
 	    PlaylistService.prototype.get = function (_id) {
 	        return this.http.get("api/v1/playlist/" + _id, headers)
 	            .map(function (res) { return res.json(); });
 	    };
-<<<<<<< HEAD
-=======
-	    PlaylistService.prototype.list = function (_userId) {
-	        return this.http.get("api/v1/" + _userId + "/playlist", headers)
-	            .map(function (res) { return res.json(); });
-	    };
->>>>>>> master
 	    PlaylistService.prototype.save = function (_playlist) {
 	        return this.http.post('api/v1/playlist', _playlist, headers)
 	            .map(function (res) { return res.json(); });
@@ -464,8 +469,7 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-/***/ 37:
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -479,14 +483,9 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
-<<<<<<< HEAD
-	var player_service_1 = __webpack_require__(27);
-	var login_service_1 = __webpack_require__(38);
-=======
 	var router_1 = __webpack_require__(38);
 	var player_service_1 = __webpack_require__(27);
 	var login_service_1 = __webpack_require__(69);
->>>>>>> master
 	var playlist_service_1 = __webpack_require__(36);
 	var SideBarComponent = (function () {
 	    function SideBarComponent(playerService, loginService, ngZone, playlistService, router) {
@@ -596,12 +595,38 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-<<<<<<< HEAD
-/***/ 38:
-=======
-/***/ 69:
->>>>>>> master
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */,
+/* 54 */,
+/* 55 */,
+/* 56 */,
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */,
+/* 68 */,
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -688,20 +713,11 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-<<<<<<< HEAD
-/***/ 39:
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var router_1 = __webpack_require__(40);
-=======
-/***/ 70:
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var router_1 = __webpack_require__(38);
->>>>>>> master
 	exports.routes = [
 	    {
 	        path: '',
@@ -713,8 +729,14 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-/***/ 78:
+/* 71 */,
+/* 72 */,
+/* 73 */,
+/* 74 */,
+/* 75 */,
+/* 76 */,
+/* 77 */,
+/* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -763,8 +785,7 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-/***/ 79:
+/* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -5207,8 +5228,8 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-/***/ 81:
+/* 80 */,
+/* 81 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5228,8 +5249,7 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-/***/ 82:
+/* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5275,8 +5295,7 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-/***/ 83:
+/* 83 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5379,8 +5398,7 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-/***/ 84:
+/* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5418,8 +5436,7 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-/***/ 85:
+/* 85 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5444,7 +5461,7 @@ webpackJsonp([0],{
 	var songlist_component_1 = __webpack_require__(90);
 	var summary_component_1 = __webpack_require__(91);
 	var home_module_1 = __webpack_require__(78);
-	var can_active_service_1 = __webpack_require__(91);
+	var can_active_service_1 = __webpack_require__(92);
 	var login_service_1 = __webpack_require__(69);
 	var PlaylistModule = (function () {
 	    function PlaylistModule() {
@@ -5489,15 +5506,14 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-/***/ 86:
+/* 86 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var router_1 = __webpack_require__(38);
 	var list_component_1 = __webpack_require__(87);
 	var create_component_1 = __webpack_require__(88);
-	var can_active_service_1 = __webpack_require__(91);
+	var can_active_service_1 = __webpack_require__(92);
 	exports.routes = [
 	    {
 	        path: 'playlist/list',
@@ -5520,8 +5536,7 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-/***/ 87:
+/* 87 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5535,15 +5550,9 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
-<<<<<<< HEAD
-	var router_1 = __webpack_require__(40);
-	var playlist_service_1 = __webpack_require__(36);
-	var login_service_1 = __webpack_require__(38);
-=======
 	var router_1 = __webpack_require__(38);
 	var playlist_service_1 = __webpack_require__(36);
 	var login_service_1 = __webpack_require__(69);
->>>>>>> master
 	var PlayListComponent = (function () {
 	    function PlayListComponent(router, playlistService, loginService) {
 	        this.router = router;
@@ -5603,8 +5612,7 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-/***/ 88:
+/* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5622,14 +5630,9 @@ webpackJsonp([0],{
 	var search_component_1 = __webpack_require__(83);
 	var playlistdetail_component_1 = __webpack_require__(89);
 	var songlist_component_1 = __webpack_require__(90);
-<<<<<<< HEAD
 	var summary_component_1 = __webpack_require__(91);
 	var playlist_service_1 = __webpack_require__(36);
-	var login_service_1 = __webpack_require__(38);
-=======
-	var playlist_service_1 = __webpack_require__(36);
 	var login_service_1 = __webpack_require__(69);
->>>>>>> master
 	var CreateListComponent = (function () {
 	    function CreateListComponent(router, routerParams, playlistService, loginService) {
 	        var _this = this;
@@ -5742,8 +5745,7 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-/***/ 89:
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5806,8 +5808,7 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-/***/ 90:
+/* 90 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5860,8 +5861,7 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-/***/ 91:
+/* 91 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5875,7 +5875,6 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
-<<<<<<< HEAD
 	var SummaryComponent = (function () {
 	    function SummaryComponent() {
 	    }
@@ -5895,7 +5894,23 @@ webpackJsonp([0],{
 	    return SummaryComponent;
 	}());
 	exports.SummaryComponent = SummaryComponent;
-=======
+
+
+/***/ },
+/* 92 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(4);
 	var login_service_1 = __webpack_require__(69);
 	var CanActivateViaAuthGuard = (function () {
 	    function CanActivateViaAuthGuard(loginService) {
@@ -5911,9 +5926,7 @@ webpackJsonp([0],{
 	    return CanActivateViaAuthGuard;
 	}());
 	exports.CanActivateViaAuthGuard = CanActivateViaAuthGuard;
->>>>>>> master
 
 
 /***/ }
-
-});
+]);
