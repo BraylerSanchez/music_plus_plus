@@ -37,11 +37,11 @@ webpackJsonp([0],{
 	var platform_browser_1 = __webpack_require__(22);
 	var template_component_1 = __webpack_require__(25);
 	var sidebar_component_1 = __webpack_require__(37);
-	var app_routes_1 = __webpack_require__(39);
+	var app_routes_1 = __webpack_require__(70);
 	var angular2_toaster_1 = __webpack_require__(71);
 	var home_module_1 = __webpack_require__(78);
 	var player_module_1 = __webpack_require__(84);
-	var playlist_module_1 = __webpack_require__(86);
+	var playlist_module_1 = __webpack_require__(85);
 	//import { CanActivateViaAuthGuard } from './services/user/login.service';
 	var AppModule = (function () {
 	    function AppModule() {
@@ -299,19 +299,8 @@ webpackJsonp([0],{
 	        this.apiKey = 'AIzaSyDsnjiL2Wexp-DgCKMMQF7VyL2xzZLMFaY';
 	    }
 	    PlayerService.prototype.search = function (query) {
-	        return this.http.get("https://www.googleapis.com/youtube/v3/search?part=" + this.apiPart + "&maxResults=" + this.maxResults + "&q=" + query + "&key=" + this.apiKey, headers)
-	            .map(function (res) {
-	            return res.json().items.map(function (video) {
-	                return {
-	                    title: video.snippet.title,
-	                    description: video.snippet.description,
-	                    channel: video.snippet.channelTitle,
-	                    thumbnail: video.snippet.thumbnails.default.url,
-	                    dateAt: video.snippet.publishedAt,
-	                    id: video.id.videoId
-	                };
-	            });
-	        });
+	        return this.http.get("/api/v1/youtube/search/" + query, headers)
+	            .map(function (res) { return res.json(); });
 	    };
 	    PlayerService.prototype.stopMusic = function (video) {
 	        stopSoundObserbable.next(video);
@@ -473,9 +462,9 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
-	var router_1 = __webpack_require__(40);
+	var router_1 = __webpack_require__(38);
 	var player_service_1 = __webpack_require__(27);
-	var login_service_1 = __webpack_require__(38);
+	var login_service_1 = __webpack_require__(69);
 	var playlist_service_1 = __webpack_require__(36);
 	var SideBarComponent = (function () {
 	    function SideBarComponent(playerService, loginService, ngZone, playlistService, router) {
@@ -586,7 +575,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 38:
+/***/ 69:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -674,11 +663,11 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 39:
+/***/ 70:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var router_1 = __webpack_require__(40);
+	var router_1 = __webpack_require__(38);
 	exports.routes = [
 	    {
 	        path: '',
@@ -750,7 +739,7 @@ webpackJsonp([0],{
 	 * License: MIT
 	 */
 	(function (global, factory) {
-	     true ? factory(exports, __webpack_require__(4), __webpack_require__(80), __webpack_require__(5), __webpack_require__(6), __webpack_require__(67)) :
+	     true ? factory(exports, __webpack_require__(4), __webpack_require__(80), __webpack_require__(5), __webpack_require__(6), __webpack_require__(65)) :
 	    typeof define === 'function' && define.amd ? define(['exports', '@angular/core', 'rxjs/operator/toPromise', 'rxjs/Subject', 'rxjs/Observable', 'rxjs/observable/fromPromise'], factory) :
 	    (factory((global.ng = global.ng || {}, global.ng.forms = global.ng.forms || {}),global.ng.core,global.Rx.Observable.prototype,global.Rx,global.Rx,global.Rx.Observable));
 	}(this, function (exports,_angular_core,rxjs_operator_toPromise,rxjs_Subject,rxjs_Observable,rxjs_observable_fromPromise) { 'use strict';
@@ -5189,7 +5178,7 @@ webpackJsonp([0],{
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var router_1 = __webpack_require__(40);
+	var router_1 = __webpack_require__(38);
 	var home_component_1 = __webpack_require__(82);
 	var search_component_1 = __webpack_require__(83);
 	exports.routes = [
@@ -5220,7 +5209,7 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
-	var router_1 = __webpack_require__(40);
+	var router_1 = __webpack_require__(38);
 	var HomeComponent = (function () {
 	    function HomeComponent(router) {
 	        this.router = router;
@@ -5267,7 +5256,7 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
-	var router_1 = __webpack_require__(40);
+	var router_1 = __webpack_require__(38);
 	var player_service_1 = __webpack_require__(27);
 	var angular2_toaster_1 = __webpack_require__(71);
 	var playlist_service_1 = __webpack_require__(36);
@@ -5323,11 +5312,13 @@ webpackJsonp([0],{
 	            return;
 	        }
 	        this.playerService.search(this.queryString)
-	            .subscribe(function (videos) {
-	            _this.videos = videos.map(function (video) {
-	                video.title = video.title.length > 40 ? video.title.substring(0, 37) + '...' : video.title;
-	                return video;
-	            });
+	            .subscribe(function (result) {
+	            if (result.status == true) {
+	                _this.videos = result.sounds.map(function (video) {
+	                    video.title = video.title.length > 40 ? video.title.substring(0, 37) + '...' : video.title;
+	                    return video;
+	                });
+	            }
 	        });
 	    };
 	    SearchComponent.prototype.play = function (sound) {
@@ -5408,51 +5399,18 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
-	var login_service_1 = __webpack_require__(38);
-	var CanActivateViaAuthGuard = (function () {
-	    function CanActivateViaAuthGuard(loginService) {
-	        this.loginService = loginService;
-	    }
-	    CanActivateViaAuthGuard.prototype.canActivate = function () {
-	        return this.loginService.getUser()._id != undefined;
-	    };
-	    CanActivateViaAuthGuard = __decorate([
-	        core_1.Injectable(), 
-	        __metadata('design:paramtypes', [login_service_1.LoginService])
-	    ], CanActivateViaAuthGuard);
-	    return CanActivateViaAuthGuard;
-	}());
-	exports.CanActivateViaAuthGuard = CanActivateViaAuthGuard;
-
-
-/***/ },
-
-/***/ 86:
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-	    return c > 3 && r && Object.defineProperty(target, key, r), r;
-	};
-	var __metadata = (this && this.__metadata) || function (k, v) {
-	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-	};
-	var core_1 = __webpack_require__(4);
 	var common_1 = __webpack_require__(23);
 	var forms_1 = __webpack_require__(79);
 	var http_1 = __webpack_require__(28);
 	var platform_browser_1 = __webpack_require__(22);
-	var playlist_routes_1 = __webpack_require__(87);
-	var list_component_1 = __webpack_require__(88);
-	var create_component_1 = __webpack_require__(89);
-	var playlistdetail_component_1 = __webpack_require__(90);
-	var songlist_component_1 = __webpack_require__(91);
+	var playlist_routes_1 = __webpack_require__(86);
+	var list_component_1 = __webpack_require__(87);
+	var create_component_1 = __webpack_require__(88);
+	var playlistdetail_component_1 = __webpack_require__(89);
+	var songlist_component_1 = __webpack_require__(90);
 	var home_module_1 = __webpack_require__(78);
-	var can_active_service_1 = __webpack_require__(85);
-	var login_service_1 = __webpack_require__(38);
+	var can_active_service_1 = __webpack_require__(91);
+	var login_service_1 = __webpack_require__(69);
 	var PlaylistModule = (function () {
 	    function PlaylistModule() {
 	    }
@@ -5496,14 +5454,14 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 87:
+/***/ 86:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var router_1 = __webpack_require__(40);
-	var list_component_1 = __webpack_require__(88);
-	var create_component_1 = __webpack_require__(89);
-	var can_active_service_1 = __webpack_require__(85);
+	var router_1 = __webpack_require__(38);
+	var list_component_1 = __webpack_require__(87);
+	var create_component_1 = __webpack_require__(88);
+	var can_active_service_1 = __webpack_require__(91);
 	exports.routes = [
 	    {
 	        path: 'playlist/list',
@@ -5527,7 +5485,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 88:
+/***/ 87:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5541,9 +5499,9 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
-	var router_1 = __webpack_require__(40);
+	var router_1 = __webpack_require__(38);
 	var playlist_service_1 = __webpack_require__(36);
-	var login_service_1 = __webpack_require__(38);
+	var login_service_1 = __webpack_require__(69);
 	var PlayListComponent = (function () {
 	    function PlayListComponent(router, playlistService, loginService) {
 	        this.router = router;
@@ -5604,7 +5562,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 89:
+/***/ 88:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5618,12 +5576,12 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(4);
-	var router_1 = __webpack_require__(40);
+	var router_1 = __webpack_require__(38);
 	var search_component_1 = __webpack_require__(83);
-	var playlistdetail_component_1 = __webpack_require__(90);
-	var songlist_component_1 = __webpack_require__(91);
+	var playlistdetail_component_1 = __webpack_require__(89);
+	var songlist_component_1 = __webpack_require__(90);
 	var playlist_service_1 = __webpack_require__(36);
-	var login_service_1 = __webpack_require__(38);
+	var login_service_1 = __webpack_require__(69);
 	var CreateListComponent = (function () {
 	    function CreateListComponent(router, routerParams, playlistService, loginService) {
 	        var _this = this;
@@ -5733,7 +5691,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 90:
+/***/ 89:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5748,7 +5706,7 @@ webpackJsonp([0],{
 	};
 	var core_1 = __webpack_require__(4);
 	var forms_1 = __webpack_require__(79);
-	var router_1 = __webpack_require__(40);
+	var router_1 = __webpack_require__(38);
 	var PlayListDetailComponent = (function () {
 	    function PlayListDetailComponent(fb, router) {
 	        this.fb = fb;
@@ -5797,7 +5755,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 91:
+/***/ 90:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5847,6 +5805,39 @@ webpackJsonp([0],{
 	    return SongListComponent;
 	}());
 	exports.SongListComponent = SongListComponent;
+
+
+/***/ },
+
+/***/ 91:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(4);
+	var login_service_1 = __webpack_require__(69);
+	var CanActivateViaAuthGuard = (function () {
+	    function CanActivateViaAuthGuard(loginService) {
+	        this.loginService = loginService;
+	    }
+	    CanActivateViaAuthGuard.prototype.canActivate = function () {
+	        return this.loginService.getUser()._id != undefined;
+	    };
+	    CanActivateViaAuthGuard = __decorate([
+	        core_1.Injectable(), 
+	        __metadata('design:paramtypes', [login_service_1.LoginService])
+	    ], CanActivateViaAuthGuard);
+	    return CanActivateViaAuthGuard;
+	}());
+	exports.CanActivateViaAuthGuard = CanActivateViaAuthGuard;
 
 
 /***/ }

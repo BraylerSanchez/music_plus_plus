@@ -65,11 +65,13 @@ var SearchComponent = (function () {
             return;
         }
         this.playerService.search(this.queryString)
-            .subscribe(function (videos) {
-            _this.videos = videos.map(function (video) {
-                video.title = video.title.length > 40 ? video.title.substring(0, 37) + '...' : video.title;
-                return video;
-            });
+            .subscribe(function (result) {
+            if (result.status == true) {
+                _this.videos = result.sounds.map(function (video) {
+                    video.title = video.title.length > 40 ? video.title.substring(0, 37) + '...' : video.title;
+                    return video;
+                });
+            }
         });
     };
     SearchComponent.prototype.play = function (sound) {

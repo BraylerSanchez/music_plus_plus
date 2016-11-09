@@ -39,19 +39,8 @@ var PlayerService = (function () {
         this.apiKey = 'AIzaSyDsnjiL2Wexp-DgCKMMQF7VyL2xzZLMFaY';
     }
     PlayerService.prototype.search = function (query) {
-        return this.http.get("https://www.googleapis.com/youtube/v3/search?part=" + this.apiPart + "&maxResults=" + this.maxResults + "&q=" + query + "&key=" + this.apiKey, headers)
-            .map(function (res) {
-            return res.json().items.map(function (video) {
-                return {
-                    title: video.snippet.title,
-                    description: video.snippet.description,
-                    channel: video.snippet.channelTitle,
-                    thumbnail: video.snippet.thumbnails.default.url,
-                    dateAt: video.snippet.publishedAt,
-                    id: video.id.videoId
-                };
-            });
-        });
+        return this.http.get("/api/v1/youtube/search/" + query, headers)
+            .map(function (res) { return res.json(); });
     };
     PlayerService.prototype.stopMusic = function (video) {
         stopSoundObserbable.next(video);
