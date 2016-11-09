@@ -353,7 +353,6 @@ webpackJsonp([0],{
 	var http_1 = __webpack_require__(28);
 	var Observable_1 = __webpack_require__(6);
 	__webpack_require__(29);
-	__webpack_require__(31);
 	var headers = new http_1.ResponseOptions({
 	    headers: new http_1.Headers({
 	        'Content-Type': 'application/json'
@@ -375,12 +374,12 @@ webpackJsonp([0],{
 	    function PlaylistService(http) {
 	        this.http = http;
 	    }
-	    PlaylistService.prototype.get = function (_id) {
-	        return this.http.get("api/v1/playlist/" + _id, headers)
-	            .map(function (res) { return res.json(); });
-	    };
 	    PlaylistService.prototype.list = function (_userId) {
 	        return this.http.get("api/v1/" + _userId + "/playlist", headers)
+	            .map(function (res) { return res.json(); });
+	    };
+	    PlaylistService.prototype.get = function (_id) {
+	        return this.http.get("api/v1/playlist/" + _id, headers)
 	            .map(function (res) { return res.json(); });
 	    };
 	    PlaylistService.prototype.save = function (_playlist) {
@@ -5408,6 +5407,7 @@ webpackJsonp([0],{
 	var create_component_1 = __webpack_require__(88);
 	var playlistdetail_component_1 = __webpack_require__(89);
 	var songlist_component_1 = __webpack_require__(90);
+	var summary_component_1 = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./components/summary.component\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 	var home_module_1 = __webpack_require__(78);
 	var can_active_service_1 = __webpack_require__(91);
 	var login_service_1 = __webpack_require__(69);
@@ -5429,7 +5429,8 @@ webpackJsonp([0],{
 	                list_component_1.PlayListComponent,
 	                create_component_1.CreateListComponent,
 	                playlistdetail_component_1.PlayListDetailComponent,
-	                songlist_component_1.SongListComponent
+	                songlist_component_1.SongListComponent,
+	                summary_component_1.SummaryComponent
 	            ],
 	            providers: [
 	                {
@@ -5580,6 +5581,7 @@ webpackJsonp([0],{
 	var search_component_1 = __webpack_require__(83);
 	var playlistdetail_component_1 = __webpack_require__(89);
 	var songlist_component_1 = __webpack_require__(90);
+	var summary_component_1 = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./summary.component\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 	var playlist_service_1 = __webpack_require__(36);
 	var login_service_1 = __webpack_require__(69);
 	var CreateListComponent = (function () {
@@ -5673,18 +5675,23 @@ webpackJsonp([0],{
 	        core_1.ViewChild(songlist_component_1.SongListComponent), 
 	        __metadata('design:type', songlist_component_1.SongListComponent)
 	    ], CreateListComponent.prototype, "songlistComponent", void 0);
+	    __decorate([
+	        core_1.ViewChild(summary_component_1.SummaryComponent), 
+	        __metadata('design:type', (typeof (_a = typeof summary_component_1.SummaryComponent !== 'undefined' && summary_component_1.SummaryComponent) === 'function' && _a) || Object)
+	    ], CreateListComponent.prototype, "summaryComponent", void 0);
 	    CreateListComponent = __decorate([
 	        core_1.Component({
 	            selector: 'playlistcreate',
 	            styles: ["\n        search div.cover {\n            margin-top: 0px !important;\n        }\n        .buttons {\n            margin-top: 5px;\n        }\n        \n    "
 	            ],
 	            styleUrls: ['modules/playlist/components/wizardtemplate.css'],
-	            template: " \n        <div class=\"inner cover\">\n            <h3>Playlist create wizard</h3>\n            <div class=\"container col-lg-12\">\n            \t<div class=\"row\">\n                    <div class=\"wizard\">\n                        <div class=\"wizard-inner\">\n                            <div class=\"connecting-line\"></div>\n                            <ul class=\"nav nav-tabs\" role=\"tablist\">\n                                <li role=\"presentation\" [ngClass]=\"{'active': step == 1}\">\n                                    <a role=\"tab\" title=\"Creat list detail\">\n                                        <span class=\"round-tab\">\n                                            <i class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></i> \n                                        </span>\n                                    </a>\n                                </li>\n                                <li role=\"presentation\" class=\"\" [ngClass]=\"{'active': step == 2}\">\n                                    <a data-toogle=\"tab\" title=\"Select songs\">\n                                        <span class=\"round-tab\">\n                                            <i class=\"glyphicon glyphicon-th-list\" aria-hidden=\"true\"></i>\n                                        </span>\n                                    </a>\n                                </li>\n                                <li role=\"presentation\" [ngClass]=\"{'active': step=='3'}\">\n                                    <a  title=\"Complete\">\n                                        <span class=\"round-tab\">\n                                            <i class=\"glyphicon glyphicon-ok\" aria-hidden=\"true\"></i>\n                                        </span>\n                                    </a>\n                                </li>\n                            </ul>\n                        </div>\n                    </div>\n                    <div class=\"margin-bottom-xs margin-top-xs col-xs-12 no-padding-l-r\">\n                        <a class=\"btn btn-warning pull-left\" (click)=\"toCancel()\">\n                            <i class=\"fa fa-times\" ></i> Cancel\n                        </a>\n                        <a *ngIf=\"step === 1 || step === 2\" class=\"btn btn-primary pull-right\" (click)=\"toNext()\">\n                            Next <i class=\"fa fa-arrow-right \" aria-hidden=\"true\" ></i> \n                        </a>\n                        <a *ngIf=\"step === 3\" class=\"btn btn-success pull-right\" (click)=\"toSavePlayList()\">\n                            Save <i class=\"fa fa-floppy-o\" aria-hidden=\"true\" ></i> \n                        </a>\n                        <a *ngIf=\"step === 2 || step === 3\" class=\"btn btn-primary pull-right margin-right-xs\" (click)=\"toPrevious()\">\n                            <i class=\"fa fa-arrow-left \" aria-hidden=\"true\" ></i> Previous\n                        </a>\n                    </div>\n                    <div class=\"tab-content col-lg-xs no-padding-l-r\">\n                        <div class=\"tab-pane active\" role=\"tabpanel\" [ngClass]=\"{'active': step==1}\">\n                            <playlistdetail \n                                (onSave)=\"step1Save($event)\"\n                                [playlist]=\"playlist\">\n                            </playlistdetail>\n                        </div>\n                        <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step==2}\">\n                            <div class=\"col-sm-6\">\n                                <songlist\n                                    [playlist]=\"playlist\"\n                                ></songlist>\n                            </div>\n                            <div class=\"col-sm-6\">\n                                <h3>Search songs:</h3>\n                                <search\n                                    [playlist]=\"playlist\"\n                                ></search>\n                            </div>\n                        </div>\n                        <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step==3}\">\n                            <h3>Summary</h3>\n                            <h4>Name: {{playlist.name}} </h4>\n                            <h4>Description: {{playlist.description}} </h4>\n                        </div>\n                        <div class=\"clearfix\"></div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    ",
+	            template: " \n        <div class=\"inner cover\">\n            <h3>Playlist create wizard</h3>\n            <div class=\"container col-xs-12\">\n            \t<div class=\"row\">\n                    <div class=\"wizard\">\n                        <div class=\"wizard-inner\">\n                            <div class=\"connecting-line\"></div>\n                            <ul class=\"nav nav-tabs\" role=\"tablist\">\n                                <li role=\"presentation\" [ngClass]=\"{'active': step == 1}\">\n                                    <a role=\"tab\" title=\"Creat list detail\">\n                                        <span class=\"round-tab\">\n                                            <i class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></i> \n                                        </span>\n                                    </a>\n                                </li>\n                                <li role=\"presentation\" class=\"\" [ngClass]=\"{'active': step == 2}\">\n                                    <a data-toogle=\"tab\" title=\"Select songs\">\n                                        <span class=\"round-tab\">\n                                            <i class=\"glyphicon glyphicon-th-list\" aria-hidden=\"true\"></i>\n                                        </span>\n                                    </a>\n                                </li>\n                                <li role=\"presentation\" [ngClass]=\"{'active': step=='3'}\">\n                                    <a  title=\"Complete\">\n                                        <span class=\"round-tab\">\n                                            <i class=\"glyphicon glyphicon-ok\" aria-hidden=\"true\"></i>\n                                        </span>\n                                    </a>\n                                </li>\n                            </ul>\n                        </div>\n                    </div>\n                    <div class=\"margin-bottom-xs margin-top-xs col-xs-12 no-padding-l-r\">\n                        <a class=\"btn btn-warning pull-left\" (click)=\"toCancel()\">\n                            <i class=\"fa fa-times\" ></i> Cancel\n                        </a>\n                        <a *ngIf=\"step === 1 || step === 2\" class=\"btn btn-primary pull-right\" (click)=\"toNext()\">\n                            Next <i class=\"fa fa-arrow-right \" aria-hidden=\"true\" ></i> \n                        </a>\n                        <a *ngIf=\"step === 3\" class=\"btn btn-success pull-right\" (click)=\"toSavePlayList()\">\n                            Save <i class=\"fa fa-floppy-o\" aria-hidden=\"true\" ></i> \n                        </a>\n                        <a *ngIf=\"step === 2 || step === 3\" class=\"btn btn-primary pull-right margin-right-xs\" (click)=\"toPrevious()\">\n                            <i class=\"fa fa-arrow-left \" aria-hidden=\"true\" ></i> Previous\n                        </a>\n                    </div>\n                   \n                    <div class=\"tab-content no-padding-l-r\">\n                        <div class=\"tab-pane active\" role=\"tabpanel\" [ngClass]=\"{'active': step==1}\">\n                            <playlistdetail \n                                (onSave)=\"step1Save($event)\"\n                                [playlist]=\"playlist\">\n                            </playlistdetail>\n                        </div>\n                        <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step==2}\">\n                            <div class=\"col-sm-6\">\n                                <songlist\n                                    [playlist]=\"playlist\"\n                                ></songlist>\n                            </div>\n                            <div class=\"col-sm-6\">\n                                <h3>Search songs:</h3>\n                                <search\n                                    [playlist]=\"playlist\"\n                                ></search>\n                            </div>\n                        </div>\n                        <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step==3}\">\n                            <div class=\"col-lg-12\">\n                                <summary\n                                    [playlist]=\"playlist\">\n                                </summary>\n                            </div>\n                        </div>\n                        <div class=\"clearfix\"></div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    ",
 	            providers: [playlist_service_1.PlaylistService, login_service_1.LoginService]
 	        }), 
 	        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, playlist_service_1.PlaylistService, login_service_1.LoginService])
 	    ], CreateListComponent);
 	    return CreateListComponent;
+	    var _a;
 	}());
 	exports.CreateListComponent = CreateListComponent;
 
@@ -5744,7 +5751,7 @@ webpackJsonp([0],{
 	        core_1.Component({
 	            selector: 'playlistdetail',
 	            styles: [""],
-	            template: " \n        <div class=\"container col-lg-6 col-sm-offset-3\">\n          <form [formGroup]=\"createListForm\" (submit)=\"toSaveDetails()\">\n            <div class=\"form-group text-left\">\n                <label class=\"control-label col-lg-12 no-padding-l-r\">Name:</label>\n                <input class=\"form-control\" autofocus formControlName=\"name\" id=\"name\" type=\"text\" placeholder=\"Enter name\" required/>\n            </div>\n            <div class=\"form-group text-left\">\n                <label class=\"control-label col-lg-12 no-padding-l-r\">Description:</label>\n                <input class=\"form-control\" formControlName=\"description\" id=\"description\" type=\"text\" placeholder=\"Enter description\" />\n            </div>\n          </form>\n        </div>\n    "
+	            template: " \n        <div class=\"container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2\">\n          <form [formGroup]=\"createListForm\" (submit)=\"toSaveDetails()\">\n            <div class=\"form-group text-left\">\n                <label class=\"control-label col-sm-12 no-padding-l-r\">Name:</label>\n                <input class=\"form-control\" autofocus formControlName=\"name\" id=\"name\" type=\"text\" placeholder=\"Enter name\" required/>\n                <label class=\"control-label col-sm-12 no-padding-l-r\">Description:</label>\n                <input class=\"form-control\" formControlName=\"description\" id=\"description\" type=\"text\" placeholder=\"Enter description\" />\n            </div>\n          </form>\n        </div>\n    "
 	        }), 
 	        __metadata('design:paramtypes', [forms_1.FormBuilder, router_1.Router])
 	    ], PlayListDetailComponent);

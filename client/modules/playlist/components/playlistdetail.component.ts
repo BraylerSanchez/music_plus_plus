@@ -8,14 +8,12 @@ import { Sound } from '../../../interfaces/player/sound.interface';
     selector: 'playlistdetail',
     styles: [ ``],
     template: ` 
-        <div class="container col-lg-6 col-sm-offset-3">
+        <div class="container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
           <form [formGroup]="createListForm" (submit)="toSaveDetails()">
             <div class="form-group text-left">
-                <label class="control-label col-lg-12 no-padding-l-r">Name:</label>
+                <label class="control-label col-sm-12 no-padding-l-r">Name:</label>
                 <input class="form-control" autofocus formControlName="name" id="name" type="text" placeholder="Enter name" required/>
-            </div>
-            <div class="form-group text-left">
-                <label class="control-label col-lg-12 no-padding-l-r">Description:</label>
+                <label class="control-label col-sm-12 no-padding-l-r">Description:</label>
                 <input class="form-control" formControlName="description" id="description" type="text" placeholder="Enter description" />
             </div>
           </form>
