@@ -60,7 +60,8 @@
     "systemjs": "0.19.40",
     "ts-loader": "^0.9.5",
     "ytdl-core": "^0.7.19",
-    "zone.js": "^0.6.26"
+    "zone.js": "^0.6.26",
+    "request": "^2.78.0"
   },
   "devDependencies": {
     "concurrently": "^3.1.0",

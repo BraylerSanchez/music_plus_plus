@@ -1,4 +1,5 @@
 import { Component, OnInit, NgZone } from '@angular/core';
+import { Router } from '@angular/router';
 import { IPlayList } from '../interfaces/playlist/playlist.interface';
 import { Sound } from '../interfaces/player/sound.interface';
 import { PlayerService, onPlayMusic, onStopMusic, onSuspendMusic} from '../services/player/player.service';
@@ -160,7 +161,7 @@ declare var window: any;
             <li [ngClass]="{'active': active == 'menu'}" (click)="setActive('menu')" >
                 MENU
             </li>
-            <li [ngClass]="{'active': active == 'playlist'}" (click)="setActive('playlist')">
+            <li [ngClass]="{'active': active == 'playlist'}" (click)="setActive('playlist')" *ngIf="user">
                 PLAYLIST
             </li>
             <li [ngClass]="{'active': active == 'nowplay'}" (click)="setActive('nowplay')">
@@ -178,7 +179,7 @@ declare var window: any;
                             <i class="fa fa-home fa-1x"></i> Home
                         </a>
                     </li>
-                    <li  [routerLinkActive]="['active']" >
+                    <li  [routerLinkActive]="['active']" *ngIf="user" >
                         <a [routerLink]="['/playlist/list']" >
                             <i class="fa fa-list  fa-1x"></i> Playlist
                         </a>
@@ -196,6 +197,19 @@ declare var window: any;
                         <a *ngIf="!user" class="btn btn-primary btn-xs" (click)="login()">
                             <i class="fa fa-google"></i> Sing-In
                         </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="nowplay" *ngIf="active == 'playlist'">
+                <ul>
+                    <li class="title">
+                        <h5>Playlist</h5>
+                        <a [routerLink]="['/playlist/create/0']" class="btn btn-xs btn-success">Create <i class="fa fa-plus"></i></a>
+                    </li>
+                    <li class="item" *ngFor="let playlist of playlists" (click)="change(playlist)">
+                        <span title="{{playlist.name}}">
+                            {{playlist.name}}
+                        </span>
                     </li>
                 </ul>
             </div>
@@ -226,11 +240,13 @@ export class SideBarComponent implements OnInit{
     private windowHeight:number = 512;
     private menuLeft: number = 250;
     private user: any;
+    private playlists= [];
     constructor(
         private playerService: PlayerService,
         private loginService: LoginService,
         private ngZone: NgZone,
-        private playlistService:PlaylistService
+        private playlistService:PlaylistService,
+        private router: Router
     ){
         this.active = '';
         
@@ -258,13 +274,24 @@ export class SideBarComponent implements OnInit{
         })
         onLoginUser.subscribe( (user) =>{
             this.user = user;
+            this.playlistService.list(this.user._id).subscribe( (result)=>{
+                if( result.status == true)
+                    this.playlists = result.playlists;
             this.ngZone.run(()=>{});
+            })
         })
         onLogoutUser.subscribe( ()=>{
             this.user = undefined;
+            this.play
             this.ngZone.run(()=>{});
         })
         this.user = this.loginService.getUser();
+        if(this.user){
+            this.playlistService.list(this.user._id).subscribe( (result)=>{
+                if( result.status == true)
+                    this.playlists = result.playlists;
+            })
+        }
     }
     
     removeFromPlaylist(e, index, sound) {
@@ -302,5 +329,10 @@ export class SideBarComponent implements OnInit{
     }
     logout(){
         this.loginService.singOut();
+        this.router.navigate(['/home']);
+    }
+    
+    change(playlist){
+        this.playlistService.changePlaylist(playlist);
     }
 }

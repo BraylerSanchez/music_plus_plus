@@ -6,6 +6,7 @@ var config = require('config');
 var mongoose = require('mongoose');
 var playlist_routes_1 = require('./routes/playlist/playlist.routes');
 var convert_routes_1 = require('./routes/youtube/convert.routes');
+var search_routes_1 = require('./routes/youtube/search.routes');
 var AppServer = (function () {
     function AppServer() {
         this.app = express();
@@ -25,6 +26,7 @@ var AppServer = (function () {
     AppServer.prototype.services = function () {
         new playlist_routes_1.PlaylistRoutes(this.app);
         new convert_routes_1.ConvertRoutes(this.app);
+        new search_routes_1.SearchRoutes(this.app);
         this.app.get('/', function (req, res) {
             res.sendFile(__dirname + '../pulic/index.html');
         });

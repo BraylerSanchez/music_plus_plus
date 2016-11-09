@@ -139,11 +139,13 @@ export class SearchComponent{
         return;
       }
       this.playerService.search(this.queryString)
-      .subscribe( (videos) =>{
-        this.videos = videos.map((video)=>{
-          video.title = video.title.length > 40 ? video.title.substring(0,37)+'...': video.title;
-          return video;
-        });
+      .subscribe( (result) =>{
+        if(result.status == true){
+          this.videos = result.sounds.map((video)=>{
+            video.title = video.title.length > 40 ? video.title.substring(0,37)+'...': video.title;
+            return video;
+          });
+        }
       })
     }
     

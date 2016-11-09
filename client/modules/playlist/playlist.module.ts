@@ -13,6 +13,9 @@ import { SummaryComponent } from './components/summary.component';
 
 import { HomeModule } from '../home/home.module';
 
+import { CanActivateViaAuthGuard } from '../../services/user/can.active.service';
+import { LoginService } from '../../services/user/login.service';
+
 @NgModule({
     imports: [
         HttpModule,
@@ -29,6 +32,16 @@ import { HomeModule } from '../home/home.module';
         PlayListDetailComponent,
         SongListComponent,
         SummaryComponent
+    ],
+    providers: [
+        {
+            provide: 'CanAlwaysActivateGuard',
+            useValue: () => {
+              return true;
+            }
+        },
+        LoginService,
+        CanActivateViaAuthGuard
     ],
     bootstrap: [
         PlayListComponent

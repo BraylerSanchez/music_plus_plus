@@ -3,5 +3,9 @@
         "host": "heroku_4t7c4b61:k2o50ld8a4293l7q9asqimm8jc@ds149437.mlab.com",
         "port": "49437",
         "dbName": "heroku_4t7c4b61"
+    },
+    "youtubeParams": {
+        "resultLength": 20,
+        "apiKey": "AIzaSyDsnjiL2Wexp-DgCKMMQF7VyL2xzZLMFaY"
     }
 }

@@ -42,19 +42,8 @@ export class PlayerService{
     }
     
     search(query:string){
-        return this.http.get(`https://www.googleapis.com/youtube/v3/search?part=${this.apiPart}&maxResults=${this.maxResults}&q=${query}&key=${this.apiKey}`, headers )
-            .map( res =>
-                res.json().items.map( (video) => {
-                    return {
-                        title: video.snippet.title,
-                        description:video.snippet.description,
-                        channel: video.snippet.channelTitle,
-                        thumbnail: video.snippet.thumbnails.default.url,
-                        dateAt: video.snippet.publishedAt,
-                        id: video.id.videoId
-                    }
-                })
-            )
+        return this.http.get(`/api/v1/youtube/search/${query}`, headers )
+            .map( res => res.json() )
     }
     
     stopMusic(video){

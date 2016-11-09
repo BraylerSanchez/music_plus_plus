@@ -1,17 +1,16 @@
 0 info it worked if it ends with ok
 1 verbose cli [ '/home/ubuntu/.nvm/versions/node/v4.5.0/bin/node',
 1 verbose cli   '/home/ubuntu/.nvm/versions/node/v4.5.0/bin/npm',
-1 verbose cli   'run',
-1 verbose cli   'develop' ]
+1 verbose cli   'start' ]
 2 info using npm@2.15.9
 3 info using node@v4.5.0
-4 verbose run-script [ 'predevelop', 'develop', 'postdevelop' ]
-5 info predevelop youtubestreaming@1.0.0
-6 info develop youtubestreaming@1.0.0
+4 verbose run-script [ 'prestart', 'start', 'poststart' ]
+5 info prestart youtubestreaming@1.0.0
+6 info start youtubestreaming@1.0.0
 7 verbose unsafe-perm in lifecycle true
-8 info youtubestreaming@1.0.0 Failed to exec develop script
-9 verbose stack Error: youtubestreaming@1.0.0 develop: `tsc && concurrently "tsc -w" "webpack --watch" "mongod --smallfiles --dbpath=./db" `
-9 verbose stack Exit status 2
+8 info youtubestreaming@1.0.0 Failed to exec start script
+9 verbose stack Error: youtubestreaming@1.0.0 start: `node ./server/app.js`
+9 verbose stack Exit status 1
 9 verbose stack     at EventEmitter.<anonymous> (/home/ubuntu/.nvm/versions/node/v4.5.0/lib/node_modules/npm/lib/utils/lifecycle.js:217:16)
 9 verbose stack     at emitTwo (events.js:87:13)
 9 verbose stack     at EventEmitter.emit (events.js:172:7)
@@ -23,17 +22,17 @@
 10 verbose pkgid youtubestreaming@1.0.0
 11 verbose cwd /home/ubuntu/workspace/music-streaming
 12 error Linux 4.2.0-c9
-13 error argv "/home/ubuntu/.nvm/versions/node/v4.5.0/bin/node" "/home/ubuntu/.nvm/versions/node/v4.5.0/bin/npm" "run" "develop"
+13 error argv "/home/ubuntu/.nvm/versions/node/v4.5.0/bin/node" "/home/ubuntu/.nvm/versions/node/v4.5.0/bin/npm" "start"
 14 error node v4.5.0
 15 error npm  v2.15.9
 16 error code ELIFECYCLE
-17 error youtubestreaming@1.0.0 develop: `tsc && concurrently "tsc -w" "webpack --watch" "mongod --smallfiles --dbpath=./db" `
-17 error Exit status 2
-18 error Failed at the youtubestreaming@1.0.0 develop script 'tsc && concurrently "tsc -w" "webpack --watch" "mongod --smallfiles --dbpath=./db" '.
+17 error youtubestreaming@1.0.0 start: `node ./server/app.js`
+17 error Exit status 1
+18 error Failed at the youtubestreaming@1.0.0 start script 'node ./server/app.js'.
 18 error This is most likely a problem with the youtubestreaming package,
 18 error not with npm itself.
 18 error Tell the author that this fails on your system:
-18 error     tsc && concurrently "tsc -w" "webpack --watch" "mongod --smallfiles --dbpath=./db"
+18 error     node ./server/app.js
 18 error You can get information on how to open an issue for this project with:
 18 error     npm bugs youtubestreaming
 18 error Or if that isn't available, you can get their info via:
