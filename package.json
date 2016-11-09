@@ -5,7 +5,7 @@
   "main": "./server/index.js",
   "engine": "node 6.7.0",
   "scripts": {
-    "start": "node ./server/app.js",
+    "start": "concurrently \"tsc\" \"webpack\" \"node ./server/app.js\" ",
     "webpack:w": "webpack --watch",
     "mongod": "mongod --smallfiles --dbpath=./db",
     "test": "tsc && concurrently \"tsc -w\"",
@@ -15,7 +15,7 @@
     "tsc:w": "tsc -w",
     "typings": "typings",
     "postinstall": "typings install && tsc && webpack ",
-    "preinstall": "npm i typings tsc webpack -g"
+    "preinstall": "npm i typings -g"
   },
   "repository": {
     "type": "git",
