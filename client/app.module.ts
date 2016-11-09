@@ -10,6 +10,8 @@ import { HomeModule } from './modules/home/home.module';
 import { PlayerModule } from './modules/player/player.module';
 import { PlaylistModule } from './modules/playlist/playlist.module';
 
+//import { CanActivateViaAuthGuard } from './services/user/login.service';
+
 @NgModule({
     imports:      [
         routing,
@@ -23,8 +25,10 @@ import { PlaylistModule } from './modules/playlist/playlist.module';
     declarations: [ TemplateComponent, SideBarComponent ],
     bootstrap:    [ TemplateComponent ],
     providers: [
-        {provide: LocationStrategy, 
-        useClass: HashLocationStrategy
-    }]
+        {
+            provide: LocationStrategy, 
+            useClass: HashLocationStrategy
+        }
+    ]
 })
 export class AppModule { }

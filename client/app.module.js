@@ -18,6 +18,7 @@ var angular2_toaster_1 = require('angular2-toaster/angular2-toaster');
 var home_module_1 = require('./modules/home/home.module');
 var player_module_1 = require('./modules/player/player.module');
 var playlist_module_1 = require('./modules/playlist/playlist.module');
+//import { CanActivateViaAuthGuard } from './services/user/login.service';
 var AppModule = (function () {
     function AppModule() {
     }
@@ -35,9 +36,11 @@ var AppModule = (function () {
             declarations: [template_component_1.TemplateComponent, sidebar_component_1.SideBarComponent],
             bootstrap: [template_component_1.TemplateComponent],
             providers: [
-                { provide: common_1.LocationStrategy,
+                {
+                    provide: common_1.LocationStrategy,
                     useClass: common_1.HashLocationStrategy
-                }]
+                }
+            ]
         }), 
         __metadata('design:paramtypes', [])
     ], AppModule);
