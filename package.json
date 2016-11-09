@@ -5,7 +5,7 @@
   "main": "./server/index.js",
   "engine": "node 6.7.0",
   "scripts": {
-    "start": "tsc && concurrently \"tsc\" \"webpack\" \"node ./server/app.js\" ",
+    "start": "node ./server/app.js",
     "webpack:w": "webpack --watch",
     "mongod": "mongod --smallfiles --dbpath=./db",
     "test": "tsc && concurrently \"tsc -w\"",
