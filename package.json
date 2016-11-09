@@ -15,7 +15,7 @@
     "tsc:w": "tsc -w",
     "typings": "typings",
     "postinstall": "typings install && tsc && webpack ",
-    "preinstall": "npm i typings -g"
+    "preinstall": "npm i typings tsc webpack -g"
   },
   "repository": {
     "type": "git",
