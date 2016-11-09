@@ -1,7 +1,7 @@
 {
     "dbConfig":{
-        "host": "localhost",
-        "port": "27017",
+        "host": "heroku_8w7ntdjl:6n8gttupcjbd1i53un72khjpfp@ds049496.mlab.com",
+        "port": "49496",
         "dbName": "musicstream"
     }
 }
