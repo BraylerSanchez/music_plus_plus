@@ -9,12 +9,8 @@
     "webpack:w": "webpack --watch",
     "mongod": "mongod --smallfiles --dbpath=./db",
     "test": "tsc && concurrently \"tsc -w\"",
-<<<<<<< HEAD
     "watch": "tsc && concurrently \"tsc -w\" \"webpack --watch\" \"mongod --smallfiles --dbpath=./db\" ",
     "run:d": "export NODE_ENV=production && node ./server/app.js",
-=======
-    "develop": "export NODE_ENV=production && tsc && concurrently \"tsc -w\" \"webpack --watch\" \"mongod --smallfiles --dbpath=./db\" ",
->>>>>>> 8d683a48a21a824ecfb5d5093ab116c514ecedae
     "tsc": "tsc",
     "build": "concurrently \"tsc\" \"webpack\"",
     "tsc:w": "tsc -w",
