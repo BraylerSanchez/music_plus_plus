@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wilsonhamiltond/youtubestreaming.git"
+    "url": "git+https://github.com/wilsonhamiltond/music-streaming.git"
   },
   "keywords": [
     "stream",
@@ -29,9 +29,9 @@
   "author": "Wilson Hamilton",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/wilsonhamiltond/youtubestreaming/issues"
+    "url": "https://github.com/wilsonhamiltond/music-streaming/issues"
   },
-  "homepage": "https://github.com/wilsonhamiltond/youtubestreaming#readme",
+  "homepage": "https://github.com/wilsonhamiltond/music-streaming#readme",
   "dependencies": {
     "@angular/common": "~2.1.2",
     "@angular/compiler": "~2.1.2",
