@@ -18,7 +18,7 @@ export class SearchModel{
         var def = defer();
         request({
             method: 'GET',
-            url: `https://www.googleapis.com/youtube/v3/search?part=${this.apiPart}&maxResults=${this.resultLength}&q=${query}&key=${this.apiKey}&type=video&videoDuration=medium`,
+            url: `https://www.googleapis.com/youtube/v3/search?part=${this.apiPart}&maxResults=${this.resultLength}&q=${query}&key=${this.apiKey}&type=video`,
             headers: {
                'Content-Type': 'application/json'
             }
