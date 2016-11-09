@@ -6,6 +6,7 @@ import * as mongoose from 'mongoose'
 
 import { PlaylistRoutes } from './routes/playlist/playlist.routes'
 import { ConvertRoutes } from './routes/youtube/convert.routes'
+import { SearchRoutes } from './routes/youtube/search.routes'
 
 declare var process:any
 
@@ -33,6 +34,7 @@ class AppServer{
     services(){
         new PlaylistRoutes(this.app);
         new ConvertRoutes(this.app);
+        new SearchRoutes(this.app);
         this.app.get('/', function(req, res){
            res.sendFile(__dirname + '../pulic/index.html')
         });
