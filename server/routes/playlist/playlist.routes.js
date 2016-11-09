@@ -8,7 +8,7 @@ var PlaylistRoutes = (function () {
         app.get('/api/v1/playlist/:_id', function (req, res) { return _this.playlistController.get(req, res); });
         app.post('/api/v1/playlist', function (req, res) { return _this.playlistController.save(req, res); });
         app.put('/api/v1/playlist/:_id', function (req, res) { return _this.playlistController.update(req, res); });
-        app.delete('/api/v1/playlist', function (req, res) { return _this.playlistController.delete(req, res); });
+        app.delete('/api/v1/playlist/:_id', function (req, res) { return _this.playlistController.delete(req, res); });
     }
     return PlaylistRoutes;
 }());

@@ -22,8 +22,7 @@ exports.SoundSchema = new mongoose_1.Schema({
         default: Date()
     },
     chanel: {
-        type: Date,
-        default: Date()
+        type: String
     }
 });
 //# sourceMappingURL=sound.schema.js.map

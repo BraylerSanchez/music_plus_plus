@@ -22,6 +22,7 @@ import { LoginService } from '../../../services/user/login.service';
                         <th>Name</th>
                         <th>Description</th>
                         <th>Sound Length</th>
+                        <th>Play</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -31,10 +32,15 @@ import { LoginService } from '../../../services/user/login.service';
                         <td>{{playlist.description}}</td>
                         <td>{{playlist.sounds.length}}</td>
                         <td>
-                            <a class="btn btn-xs btn-warning">
+                            <a class="btn btn-xs btn-primary" (click)="play(playlist)">
+                                Listen <i class="fa fa-play-circle-o"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a class="btn btn-xs btn-warning" [routerLink]="['/playlist/create', playlist._id]">
                                 Edit <i class="fa fa-pencil"></i>
                             </a>
-                            <a class="btn btn-xs btn-danger">
+                            <a class="btn btn-xs btn-danger" (click)="delete(playlist['_id'])">
                                 Remove <i class="fa fa-times"></i>
                             </a>
                         </td>
@@ -69,6 +75,24 @@ export class PlayListComponent implements OnInit{
     
     toCreate(): void{
         this.router.navigate(['/playlist/create/0'])
+    }
+    
+    play(playlist){
+        this.playlistService.changePlaylist(playlist);
+    }
+    
+    delete(_id){
+        let result = confirm('Do you want delete this playList?');
+        if(result == true){
+            this.playlistService.delete(_id).subscribe( (result)=>{
+                if( result.status == true){
+                    alert('Playlist delete success')
+                    this.load();
+                }else{
+                    alert(result.message)
+                }
+            })
+        }
     }
     
     load(){

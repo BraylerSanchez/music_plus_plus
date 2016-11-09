@@ -23,6 +23,10 @@ var PlayListDetailComponent = (function () {
     }
     PlayListDetailComponent.prototype.setPlaylist = function (playlist) {
         this.playlist = playlist;
+        if (playlist['_id']) {
+            this.createListForm.controls['name'].setValue(playlist.name);
+            this.createListForm.controls['description'].setValue(playlist.description);
+        }
     };
     PlayListDetailComponent.prototype.getPlaylist = function () {
         return this.playlist;

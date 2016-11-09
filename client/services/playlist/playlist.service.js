@@ -50,10 +50,10 @@ var PlaylistService = (function () {
         return this.http.put("api/v1/playlist/" + _id, _playlist, headers)
             .map(function (res) { return res.json(); });
     };
-    /*delete(_playlist){
-        return this.http['delete']('api/v1/playlist', _playlist, headers)
-            .map( res => res.json())
-    }*/
+    PlaylistService.prototype.delete = function (_id) {
+        return this.http.delete("api/v1/playlist/" + _id, headers)
+            .map(function (res) { return res.json(); });
+    };
     PlaylistService.prototype.changePlaylist = function (playlist) {
         localStorage.setItem('ms_currentPlaylist', JSON.stringify(playlist));
         onPlaylistChangeTrigger.next(playlist);

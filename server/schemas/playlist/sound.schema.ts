@@ -22,7 +22,6 @@ export const SoundSchema = new Schema({
         default: Date()
     },
     chanel: {
-        type: Date,
-        default: Date()
+        type: String
     }
 });

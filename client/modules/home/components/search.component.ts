@@ -36,7 +36,7 @@ import { PlaylistService} from '../../../services/playlist/playlist.service';
       .media-heading .title small{
         display: none;
       }
-      .media-heading:hover .title small{
+      .media-heading .title span:hover + small{
         display: inline-block;
       }
     `],
@@ -61,12 +61,12 @@ import { PlaylistService} from '../../../services/playlist/playlist.service';
             </div>
             <div class="media-body text-left">
               <div class="media-heading">
-                <h4 class="title" (click)="play(video)" >
-                {{ video.title }} 
+                <h4 class="title" >
+                <span  (click)="play(video)" title="{{ video.title }}">{{ video.title }}</span>
                 <small >
                   click to play <i class="fa fa-play"></i>
                 </small>
-                <i class="fa fa-plus pull-right" (click)="addToPlaylist($event, video)"></i> currentSound.id }">
+                <i class="fa fa-plus pull-right" (click)="addToPlaylist($event, video)"></i>
                 </h4>
               </div>
               <span  id="channel">{{ video.channel }}</span>

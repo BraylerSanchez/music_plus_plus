@@ -120,7 +120,8 @@ export class CreateListComponent{
                this.playlist = this.playlistService.getCurrentPlaylist();
            }else{
                this.playlistService.get(id).subscribe((result) => {
-                   this.playlist = result.playlist;
+                    this.playlist = result.playlist;
+                    this.playlistdetailComponent.setPlaylist(this.playlist);
                })
            }
         });
@@ -168,10 +169,16 @@ export class CreateListComponent{
     
     toSavePlayList(){
         this.playlist.userAt = this.loginService.getUser()._id;
-        this.playlistService.save(this.playlist).subscribe((result) => {
+        var response;
+        if( this.playlist['_id']){
+            response = this.playlistService.update( this.playlist['_id'], this.playlist);
+        }else{
+            response = this.playlistService.save(this.playlist);
+        }
+        response.subscribe((result) => {
             if(result.status === true){
                 alert(result.message);
-                this.router.navigate(['/playlist/create/0']);
+                this.router.navigate(['/playlist/list']);
             }
             else{
                 alert(result.message);

@@ -8,7 +8,6 @@ export class PlaylistController{
     }
     
     save(req, res){
-        console.log(req.body);
         var playlist = req.body;
         playlist.createAt = new Date();
         playlist.updateAt = new Date();
@@ -48,7 +47,7 @@ export class PlaylistController{
         if( id == '0'){
             res.send({
                 status: false,
-                playlist: { sounds: [] },
+                playlist: { name:'', description:'', sounds: [], userAt: ''},
                 message: 'object no found'
             })
         }
@@ -81,7 +80,7 @@ export class PlaylistController{
     }
     
     delete(req, res){
-        var id = req.body['_id'];
+        var id = req.params['_id'];
         this.playlistModel.delete( id ).then( (result) =>{
             res.json({
                 status: true,

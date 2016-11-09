@@ -1,5 +1,6 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { PlayerService, onPlayMusic, onStopMusic } from '../../../services/player/player.service';
+import { onPlaylistChange } from '../../../services/playlist/playlist.service';
 
 import { Sound } from '../../../interfaces/player/sound.interface';
 import { IPlayList } from '../../../interfaces/playlist/playlist.interface';
@@ -115,6 +116,11 @@ export class PlayerComponent{
             this.ngZone.run(()=>{});
         });
         
+        onPlaylistChange.subscribe( (playlist) =>{
+            if( playlist.sounds[0] ){
+                this.playerService.getMusic(playlist.sounds[0]);
+            }
+        })
     }
     play(){
         this.isPlaying = true;

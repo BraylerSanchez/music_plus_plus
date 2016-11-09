@@ -5,7 +5,6 @@ var PlaylistController = (function () {
         this.playlistModel = new playlist_model_1.PlaylistModel();
     }
     PlaylistController.prototype.save = function (req, res) {
-        console.log(req.body);
         var playlist = req.body;
         playlist.createAt = new Date();
         playlist.updateAt = new Date();
@@ -41,7 +40,7 @@ var PlaylistController = (function () {
         if (id == '0') {
             res.send({
                 status: false,
-                playlist: { sounds: [] },
+                playlist: { name: '', description: '', sounds: [], userAt: '' },
                 message: 'object no found'
             });
         }
@@ -72,7 +71,7 @@ var PlaylistController = (function () {
         });
     };
     PlaylistController.prototype.delete = function (req, res) {
-        var id = req.body['_id'];
+        var id = req.params['_id'];
         this.playlistModel.delete(id).then(function (result) {
             res.json({
                 status: true,

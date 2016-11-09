@@ -32,6 +32,7 @@ var CreateListComponent = (function () {
             else {
                 _this.playlistService.get(id).subscribe(function (result) {
                     _this.playlist = result.playlist;
+                    _this.playlistdetailComponent.setPlaylist(_this.playlist);
                 });
             }
         });
@@ -76,10 +77,17 @@ var CreateListComponent = (function () {
     CreateListComponent.prototype.toSavePlayList = function () {
         var _this = this;
         this.playlist.userAt = this.loginService.getUser()._id;
-        this.playlistService.save(this.playlist).subscribe(function (result) {
+        var response;
+        if (this.playlist['_id']) {
+            response = this.playlistService.update(this.playlist['_id'], this.playlist);
+        }
+        else {
+            response = this.playlistService.save(this.playlist);
+        }
+        response.subscribe(function (result) {
             if (result.status === true) {
                 alert(result.message);
-                _this.router.navigate(['/playlist/create/0']);
+                _this.router.navigate(['/playlist/list']);
             }
             else {
                 alert(result.message);

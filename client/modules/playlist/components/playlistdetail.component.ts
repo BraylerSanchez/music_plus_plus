@@ -41,13 +41,17 @@ export class PlayListDetailComponent{
         });
     }
     
-    public setPlaylist(playlist: IPlayList):void{
+    public setPlaylist(playlist):void{
         this.playlist = playlist;
+        if( playlist['_id']){
+            this.createListForm.controls['name'].setValue( playlist.name );
+            this.createListForm.controls['description'].setValue( playlist.description );
+        }
     }
     public getPlaylist(): IPlayList{
         return this.playlist;
     }
-    
+
     toSaveDetails( ): void{
         this.playlist.name = this.createListForm.value.name;
         this.playlist.description = this.createListForm.value.description;

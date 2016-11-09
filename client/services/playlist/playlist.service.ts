@@ -55,10 +55,10 @@ export class PlaylistService{
             .map( res => res.json())
     }
     
-    /*delete(_playlist){
-        return this.http['delete']('api/v1/playlist', _playlist, headers)
+    delete(_id: string){
+        return this.http.delete(`api/v1/playlist/${_id}`, headers)
             .map( res => res.json())
-    }*/
+    }
     
     changePlaylist( playlist: IPlayList){
         localStorage.setItem('ms_currentPlaylist', JSON.stringify( playlist ) )

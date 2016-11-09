@@ -138,6 +138,7 @@ webpackJsonp([0],{
 	};
 	var core_1 = __webpack_require__(4);
 	var player_service_1 = __webpack_require__(27);
+	var playlist_service_1 = __webpack_require__(38);
 	window.AudioContext = window.AudioContext || window.webkitAudioContext;
 	var PlayerComponent = (function () {
 	    function PlayerComponent(playerService, ngZone) {
@@ -168,6 +169,11 @@ webpackJsonp([0],{
 	            .subscribe(function () {
 	            _this.isPlaying = false;
 	            _this.ngZone.run(function () { });
+	        });
+	        playlist_service_1.onPlaylistChange.subscribe(function (playlist) {
+	            if (playlist.sounds[0]) {
+	                _this.playerService.getMusic(playlist.sounds[0]);
+	            }
 	        });
 	    };
 	    PlayerComponent.prototype.play = function () {
@@ -590,10 +596,10 @@ webpackJsonp([0],{
 	        return this.http.put("api/v1/playlist/" + _id, _playlist, headers)
 	            .map(function (res) { return res.json(); });
 	    };
-	    /*delete(_playlist){
-	        return this.http['delete']('api/v1/playlist', _playlist, headers)
-	            .map( res => res.json())
-	    }*/
+	    PlaylistService.prototype.delete = function (_id) {
+	        return this.http.delete("api/v1/playlist/" + _id, headers)
+	            .map(function (res) { return res.json(); });
+	    };
 	    PlaylistService.prototype.changePlaylist = function (playlist) {
 	        localStorage.setItem('ms_currentPlaylist', JSON.stringify(playlist));
 	        onPlaylistChangeTrigger.next(playlist);
@@ -5315,8 +5321,8 @@ webpackJsonp([0],{
 	    SearchComponent = __decorate([
 	        core_1.Component({
 	            selector: 'search',
-	            styles: ["\n      .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n      \n      .playing{\n        content:url(\"assest/images/equalizer.gif\");\n        height: 50%;\n        width: 10%;\n        margin-top: -15px;\n      }\n      \n      .video{\n        color: #333333;\n      }\n\n      .media-object{\n          border-radius: 5px !important;\n      }\n      .media-heading .title{\n        cursor: pointer;\n      }\n      .media-heading .title small{\n        display: none;\n      }\n      .media-heading:hover .title small{\n        display: inline-block;\n      }\n    "],
-	            template: "\n      <toaster-container></toaster-container>\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <i class=\"fa fa-search btn btn-default search-button\" type=\"button\" (click)=\"search()\"></i>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <div class=\"video list-group-item\" *ngFor=\"let video of videos\">\n            <div class=\"media-left\">\n              <span>\n                <img id=\"\n                \" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n              </span>\n            </div>\n            <div class=\"media-body text-left\">\n              <div class=\"media-heading\">\n                <h4 class=\"title\" (click)=\"play(video)\" >\n                {{ video.title }} \n                <small >\n                  click to play <i class=\"fa fa-play\"></i>\n                </small>\n                <i class=\"fa fa-plus pull-right\" (click)=\"addToPlaylist($event, video)\"></i> currentSound.id }\">\n                </h4>\n              </div>\n              <span  id=\"channel\">{{ video.channel }}</span>\n              <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n              \n            </div>\n          </div>\n        </div>\n      </div>",
+	            styles: ["\n      .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n      \n      .playing{\n        content:url(\"assest/images/equalizer.gif\");\n        height: 50%;\n        width: 10%;\n        margin-top: -15px;\n      }\n      \n      .video{\n        color: #333333;\n      }\n\n      .media-object{\n          border-radius: 5px !important;\n      }\n      .media-heading .title{\n        cursor: pointer;\n      }\n      .media-heading .title small{\n        display: none;\n      }\n      .media-heading .title span:hover + small{\n        display: inline-block;\n      }\n    "],
+	            template: "\n      <toaster-container></toaster-container>\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <i class=\"fa fa-search btn btn-default search-button\" type=\"button\" (click)=\"search()\"></i>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <div class=\"video list-group-item\" *ngFor=\"let video of videos\">\n            <div class=\"media-left\">\n              <span>\n                <img id=\"\n                \" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n              </span>\n            </div>\n            <div class=\"media-body text-left\">\n              <div class=\"media-heading\">\n                <h4 class=\"title\" >\n                <span  (click)=\"play(video)\" title=\"{{ video.title }}\">{{ video.title }}</span>\n                <small >\n                  click to play <i class=\"fa fa-play\"></i>\n                </small>\n                <i class=\"fa fa-plus pull-right\" (click)=\"addToPlaylist($event, video)\"></i>\n                </h4>\n              </div>\n              <span  id=\"channel\">{{ video.channel }}</span>\n              <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n              \n            </div>\n          </div>\n        </div>\n      </div>",
 	            providers: [player_service_1.PlayerService, angular2_toaster_1.ToasterService, playlist_service_1.PlaylistService]
 	        }), 
 	        __metadata('design:paramtypes', [player_service_1.PlayerService, router_1.ActivatedRoute, core_1.NgZone, angular2_toaster_1.ToasterService, playlist_service_1.PlaylistService])
@@ -5477,6 +5483,24 @@ webpackJsonp([0],{
 	    PlayListComponent.prototype.toCreate = function () {
 	        this.router.navigate(['/playlist/create/0']);
 	    };
+	    PlayListComponent.prototype.play = function (playlist) {
+	        this.playlistService.changePlaylist(playlist);
+	    };
+	    PlayListComponent.prototype.delete = function (_id) {
+	        var _this = this;
+	        var result = confirm('Do you want delete this playList?');
+	        if (result == true) {
+	            this.playlistService.delete(_id).subscribe(function (result) {
+	                if (result.status == true) {
+	                    alert('Playlist delete success');
+	                    _this.load();
+	                }
+	                else {
+	                    alert(result.message);
+	                }
+	            });
+	        }
+	    };
 	    PlayListComponent.prototype.load = function () {
 	        var _this = this;
 	        var userId = this.loginService.getUser()._id;
@@ -5493,7 +5517,7 @@ webpackJsonp([0],{
 	        core_1.Component({
 	            selector: 'playList',
 	            styles: ["\n    "],
-	            template: "\n        <div class=\"inner cover\">\n        <h1>Playlists</h1>\n        <div class=\"col-lg-12 no-padding-l-r\">\n            <div class=\"col-lg-12 text-right margin-bottom-xs\">\n                <a class=\"btn btn-success\" (click)=\"toCreate()\">\n                    <i class=\"glyphicon glyphicon-plus-sign\"></i> Create New\n                </a>\n            </div>\n            <table class=\"table table-striped\" *ngIf=\"playLists.length > 0\">\n                <thead>\n                    <tr>\n                        <th>Name</th>\n                        <th>Description</th>\n                        <th>Sound Length</th>\n                        <th>Action</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr *ngFor=\"let playlist of playLists\">\n                        <td>{{playlist.name}}</td>\n                        <td>{{playlist.description}}</td>\n                        <td>{{playlist.sounds.length}}</td>\n                        <td>\n                            <a class=\"btn btn-xs btn-warning\">\n                                Edit <i class=\"fa fa-pencil\"></i>\n                            </a>\n                            <a class=\"btn btn-xs btn-danger\">\n                                Remove <i class=\"fa fa-times\"></i>\n                            </a>\n                        </td>\n                    </tr>\n                </tbody>\n            </table>\n            <div class=\"col-lg-12\" *ngIf=\"playLists.length <= 0\">\n                <div class=\"alert alert-warning\">\n                    Click on <a class=\"btn btn-success\" (click)=\"toCreate()\"><i class=\"glyphicon glyphicon-plus-sign\"></i> Create New</a>\n                    to start create playlist.\n                </div>\n            </div>\n        </div>\n        </div>\n    ",
+	            template: "\n        <div class=\"inner cover\">\n        <h1>Playlists</h1>\n        <div class=\"col-lg-12 no-padding-l-r\">\n            <div class=\"col-lg-12 text-right margin-bottom-xs\">\n                <a class=\"btn btn-success\" (click)=\"toCreate()\">\n                    <i class=\"glyphicon glyphicon-plus-sign\"></i> Create New\n                </a>\n            </div>\n            <table class=\"table table-striped\" *ngIf=\"playLists.length > 0\">\n                <thead>\n                    <tr>\n                        <th>Name</th>\n                        <th>Description</th>\n                        <th>Sound Length</th>\n                        <th>Play</th>\n                        <th>Action</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr *ngFor=\"let playlist of playLists\">\n                        <td>{{playlist.name}}</td>\n                        <td>{{playlist.description}}</td>\n                        <td>{{playlist.sounds.length}}</td>\n                        <td>\n                            <a class=\"btn btn-xs btn-primary\" (click)=\"play(playlist)\">\n                                Listen <i class=\"fa fa-play-circle-o\"></i>\n                            </a>\n                        </td>\n                        <td>\n                            <a class=\"btn btn-xs btn-warning\" [routerLink]=\"['/playlist/create', playlist._id]\">\n                                Edit <i class=\"fa fa-pencil\"></i>\n                            </a>\n                            <a class=\"btn btn-xs btn-danger\" (click)=\"delete(playlist['_id'])\">\n                                Remove <i class=\"fa fa-times\"></i>\n                            </a>\n                        </td>\n                    </tr>\n                </tbody>\n            </table>\n            <div class=\"col-lg-12\" *ngIf=\"playLists.length <= 0\">\n                <div class=\"alert alert-warning\">\n                    Click on <a class=\"btn btn-success\" (click)=\"toCreate()\"><i class=\"glyphicon glyphicon-plus-sign\"></i> Create New</a>\n                    to start create playlist.\n                </div>\n            </div>\n        </div>\n        </div>\n    ",
 	            providers: [playlist_service_1.PlaylistService, login_service_1.LoginService]
 	        }), 
 	        __metadata('design:paramtypes', [router_1.Router, playlist_service_1.PlaylistService, login_service_1.LoginService])
@@ -5542,6 +5566,7 @@ webpackJsonp([0],{
 	            else {
 	                _this.playlistService.get(id).subscribe(function (result) {
 	                    _this.playlist = result.playlist;
+	                    _this.playlistdetailComponent.setPlaylist(_this.playlist);
 	                });
 	            }
 	        });
@@ -5586,10 +5611,17 @@ webpackJsonp([0],{
 	    CreateListComponent.prototype.toSavePlayList = function () {
 	        var _this = this;
 	        this.playlist.userAt = this.loginService.getUser()._id;
-	        this.playlistService.save(this.playlist).subscribe(function (result) {
+	        var response;
+	        if (this.playlist['_id']) {
+	            response = this.playlistService.update(this.playlist['_id'], this.playlist);
+	        }
+	        else {
+	            response = this.playlistService.save(this.playlist);
+	        }
+	        response.subscribe(function (result) {
 	            if (result.status === true) {
 	                alert(result.message);
-	                _this.router.navigate(['/playlist/create/0']);
+	                _this.router.navigate(['/playlist/list']);
 	            }
 	            else {
 	                alert(result.message);
@@ -5654,6 +5686,10 @@ webpackJsonp([0],{
 	    }
 	    PlayListDetailComponent.prototype.setPlaylist = function (playlist) {
 	        this.playlist = playlist;
+	        if (playlist['_id']) {
+	            this.createListForm.controls['name'].setValue(playlist.name);
+	            this.createListForm.controls['description'].setValue(playlist.description);
+	        }
 	    };
 	    PlayListDetailComponent.prototype.getPlaylist = function () {
 	        return this.playlist;

@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var player_service_1 = require('../../../services/player/player.service');
+var playlist_service_1 = require('../../../services/playlist/playlist.service');
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 var PlayerComponent = (function () {
     function PlayerComponent(playerService, ngZone) {
@@ -40,6 +41,11 @@ var PlayerComponent = (function () {
             .subscribe(function () {
             _this.isPlaying = false;
             _this.ngZone.run(function () { });
+        });
+        playlist_service_1.onPlaylistChange.subscribe(function (playlist) {
+            if (playlist.sounds[0]) {
+                _this.playerService.getMusic(playlist.sounds[0]);
+            }
         });
     };
     PlayerComponent.prototype.play = function () {
