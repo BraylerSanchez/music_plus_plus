@@ -5,11 +5,11 @@
   "main": "./server/index.js",
   "engine": "node 6.7.0",
   "scripts": {
-    "start": "export NODE_ENV=developer && node ./server/app.js",
+    "start": "export NODE_ENV=production && node ./server/app.js",
     "webpack:w": "webpack --watch",
     "mongod": "mongod --smallfiles --dbpath=./db",
     "test": "tsc && concurrently \"tsc -w\"",
-    "develop": "tsc && concurrently \"tsc -w\" \"webpack --watch\" \"mongod --smallfiles --dbpath=./db\" \"node ./server/app.js\" ",
+    "develop": "tsc && concurrently \"tsc -w\" \"webpack --watch\" \"mongod --smallfiles --dbpath=./db\" ",
     "tsc": "tsc",
     "build": "concurrently \"tsc\" \"webpack\"",
     "tsc:w": "tsc -w",
