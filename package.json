@@ -10,10 +10,11 @@
     "test": "tsc && concurrently \"tsc -w\"",
     "develop": "tsc && concurrently \"tsc -w\" \"webpack --watch\" \"mongod --smallfiles --dbpath=./db\" ",
     "tsc": "tsc",
+    "build": "concurrently \"tsc\" \"webpack\"",
     "tsc:w": "tsc -w",
     "typings": "typings",
-    "postinstall": "typings install",
-    "preinstall": "npm i typings -g"
+    "postinstall": "concurrently \"typings install\" \"build\"",
+    "preinstall": "npm i typings webpack -g"
   },
   "repository": {
     "type": "git",
