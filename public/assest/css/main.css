@@ -35,6 +35,9 @@ body {
   text-align: center;
   text-shadow: 0 1px 3px rgba(0,0,0,.5);
 }
+playlist, playlistcreate{
+  padding: 0 20px;
+}
 
 /* Extra markup and styles for table-esque vertical and horizontal centering */
 .site-wrapper {
@@ -52,6 +55,12 @@ body {
 .cover-container {
   margin-right: auto;
   margin-left: auto;
+  background: white;
+  margin-top: 15px;
+  color: black !important;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 0px 18px 5px #040404;
 }
 
 /* Padding for spacing */
@@ -173,11 +182,53 @@ div.masthead{
   z-index: 1000 !important;
 }
 
+.row search div.cover{
+  margin-top: 0px !important;
+}
+
 div.cover{
-  margin-top: 100px !important;
+  margin-top: 20px !important;
+}
+.margin-bottom-xs{
+  margin-bottom: 10px;
+}
+.margin-top-xs{
+  margin-top: 10px;
+}
+.margin-right-xs{
+  margin-right: 10px;
+}
+.margin-left-xs{
+  margin-left: 10px;
 }
 
 .no-padding-l-r{
   padding-left: 0px !important;
   padding-right: 0px !important;
+}
+
+.padding-right-xs{
+    padding-right: 10px;
+}
+
+.padding-left-xs{
+    padding-left: 10px;
+}
+.toast-success{
+  background-color: white !important;
+  color: black !important;
+  opacity: 0.90 !important;
+}
+
+input.ng-touched.ng-invalid{
+  border-color: #c75f00;
+  background-color: #ffd7a8;
+}
+input.ng-touched.ng-valid{
+  border-color: #0ba20b;
+  background-color: #a7dca7;
+}
+
+table tr{
+  color: black;
 }

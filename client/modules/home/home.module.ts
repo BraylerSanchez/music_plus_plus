@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -7,17 +7,24 @@ import { BrowserModule } from '@angular/platform-browser';
 import { routing } from './home.routes';
 
 import { HomeComponent } from './components/home.component';
-import { SearchComponent } from './components/search.component'
+import { SearchComponent } from './components/search.component';
+
+import {ToasterModule} from 'angular2-toaster/angular2-toaster';
 
 @NgModule({
     imports: [
         HttpModule,
         BrowserModule,
         FormsModule,
-        CommonModule, 
+        CommonModule,
+        ToasterModule,
         routing],
+      exports: [
+          SearchComponent
+      ],
     declarations: [HomeComponent, SearchComponent],
-    bootstrap: [HomeComponent]
+    bootstrap: [HomeComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 
 export class HomeModule{}

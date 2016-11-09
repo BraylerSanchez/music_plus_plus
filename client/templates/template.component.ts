@@ -1,15 +1,18 @@
-import { Component, ViewChild } from '@angular/core';
-import { PlayerComponent } from '../modules/player/player.component';
+import { Component, ViewChild, OnInit, ElementRef, Renderer } from '@angular/core';
+import { PlayerComponent } from '../modules/player/components/player.component';
+import { SideBarComponent } from './sidebar.component';
 
 @Component({
   selector: 'app',
     template: `
+    <toaster-container></toaster-container>
+    <sidebar></sidebar>
     <div class="site-wrapper">
       <div class="site-wrapper-inner">
         <div class="cover-container">
-          <div class="masthead clearfix">
+          <!--div class="masthead clearfix">
             <div class="inner">
-              <h3 class="masthead-brand"><i class="fa fa-music fa-1x" (click)="search()"></i> Music</h3>
+              <h1 class="masthead-brand"><i class="fa fa-music fa-1x" (click)="search()"></i> Music</h1>
               <nav>
                 <div class="media-body">
                   <ul class="nav masthead-nav">
@@ -18,15 +21,16 @@ import { PlayerComponent } from '../modules/player/player.component';
                         Home
                       </a> 
                     </li>
+                    <li [routerLinkActive]="['active']" ><a [routerLink]="['/playlist/list']" > Play List</a> </li>
                   </ul>
                 </div>
               </nav>
             </div>
-          </div>
+          </div -->
           <div class="inner cover">
             <router-outlet></router-outlet>
           </div>
-          <div class="mastfoot">
+          <div class="col-xs-12 mastfoot">
             <div class="inner">
               <p>by @los tigueres.</p>
             </div>
@@ -35,18 +39,24 @@ import { PlayerComponent } from '../modules/player/player.component';
         </div>
       </div>
     </div>`,
-    styles: [
-      `
-      .navItem{
-        display: block;
-        text-align: center;
-      }
+    styles: [`
+        sidebar{
+            position: absolute;
+            z-index: 100;
+        }
       `
       ]
 })
-export class TemplateComponent{
+export class TemplateComponent implements OnInit{
     @ViewChild(PlayerComponent) playerComponent: PlayerComponent;
-    constructor(){
+    @ViewChild(SideBarComponent) sideBarComponent: SideBarComponent;
+    constructor(private elementRef:ElementRef, private renderer: Renderer){
         
+    }
+    
+    ngOnInit(){
+         this.renderer.listen( this.elementRef.nativeElement.children[2], 'click', (event) => {
+             this.sideBarComponent.hide();
+        })
     }
 }

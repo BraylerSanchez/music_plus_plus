@@ -1,7 +1,11 @@
-import { Component, NgZone, Input, Output, EventEmitter } from '@angular/core';
+import { Component, NgZone, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
 import { PlayerService, onPlayMusic, onStopMusic } from '../../../services/player/player.service';
 import { Sound } from '../../../interfaces/player/sound.interface';
+import { IPlayList } from '../../../interfaces/playlist/playlist.interface';
+
+import { ToasterService} from 'angular2-toaster/angular2-toaster';
+import { PlaylistService} from '../../../services/playlist/playlist.service';
 
 @Component({
     selector: 'search',
@@ -14,8 +18,9 @@ import { Sound } from '../../../interfaces/player/sound.interface';
       
       .playing{
         content:url("assest/images/equalizer.gif");
-        height: 10%;
+        height: 50%;
         width: 10%;
+        margin-top: -15px;
       }
       
       .video{
@@ -31,11 +36,12 @@ import { Sound } from '../../../interfaces/player/sound.interface';
       .media-heading .title small{
         display: none;
       }
-      .media-heading:hover .title small{
+      .media-heading .title span:hover + small{
         display: inline-block;
       }
     `],
     template: `
+      <toaster-container></toaster-container>
       <div class="inner cover">
         <form class="home">
           <div class="input-group input-group-lg">
@@ -55,14 +61,12 @@ import { Sound } from '../../../interfaces/player/sound.interface';
             </div>
             <div class="media-body text-left">
               <div class="media-heading">
-                <h4 class="title" (click)="play(video)" >
-                {{ video.title }} 
+                <h4 class="title" >
+                <span  (click)="play(video)" title="{{ video.title }}">{{ video.title }}</span>
                 <small >
                   click to play <i class="fa fa-play"></i>
                 </small>
-                <i *ngIf="!isAdded(video)" class="fa fa-plus pull-right" (click)="addFromPlaylist($event, video)"></i>
-                <i *ngIf="isAdded(video)" class="fa fa-minus pull-right" (click)="removeFromPlaylist($event, video)"></i>
-                <img class="glyphicon pull-right" *ngIf="video.id == currentSound.id" [ngClass]="{ 'playing': video.id == currentSound.id }">
+                <i class="fa fa-plus pull-right" (click)="addToPlaylist($event, video)"></i>
                 </h4>
               </div>
               <span  id="channel">{{ video.channel }}</span>
@@ -71,18 +75,15 @@ import { Sound } from '../../../interfaces/player/sound.interface';
             </div>
           </div>
         </div>
-        <div *ngFor="let cancion of canciones; let i = index">
-        <ul>
-          <li>{{ i }} - {{ cancion.isOnList }} - {{cancion.title}}</li>
-        </ul>
-        </div>
       </div>`,
-      providers: [PlayerService]
+      providers: [PlayerService, ToasterService, PlaylistService]
 })
 export class SearchComponent{
+    @Input()
+    playlist: IPlayList;
+    
     private queryString:string;
     private videos: Array<Sound>;
-    private sounds: Array<Sound> =[];
     private currentSound: any = {
       id: ''
     };
@@ -90,14 +91,19 @@ export class SearchComponent{
     constructor(
       private playerService: PlayerService,
       private router: ActivatedRoute,
-      private ngZone: NgZone
+      private ngZone: NgZone,
+      private toasterService: ToasterService,
+      private playlistService: PlaylistService
     ){
+      this.playlist = this.playlist || { name:'default', description:'', sounds: [], createAt: new Date(), userAt: '', updateAt: new Date()}
       this.queryString = '';
       this.videos = [];
       this.router.params.subscribe( (params) =>{
         if( params['query'] != '0'){
-          this.queryString = params['query'];
-          this.search();
+          this.queryString = params['query'] || '';
+          if(this.queryString != ''){
+            this.search();
+          }
         }
       })
       
@@ -112,20 +118,15 @@ export class SearchComponent{
       });
     }
     
-    addFromPlaylist(e, sound: Sound){
-      this.sounds.push(sound);
+    addToPlaylist(e, sound: Sound){
+      this.playlistService.addSoundToPlaylist({
+        playlist: this.playlist.name,
+        sound: sound
+      });
+      this.toasterService.pop('success', 'Added music to playlist', sound.title);
       e.stopPropagation();
     }
     
-    removeFromPlaylist(e,  sound: Sound){
-      for( var i=this.sounds.length-1; i>=0; i--) {
-        if( this.sounds[i].id == sound.id){
-          this.sounds.splice(i,1);
-        }
-      }
-      e.stopPropagation();
-    }
-      
     handleKeyup(e){
         if( e.keyCode == 13){
           this.search();
@@ -139,17 +140,16 @@ export class SearchComponent{
       }
       this.playerService.search(this.queryString)
       .subscribe( (videos) =>{
-        this.videos = videos;
+        this.videos = videos.map((video)=>{
+          video.title = video.title.length > 40 ? video.title.substring(0,37)+'...': video.title;
+          return video;
+        });
       })
     }
     
-    play(video){
-      this.playerService.getMusic(video);
-    }
-    
-    isAdded(video){
-      return this.sounds.some( (sound)=>{
-        return sound.id == video.id
-      })
+    play(sound){
+      this.playlistService.addSoundToPlaylist(sound);
+      this.playerService.getMusic(sound);
+      this.toasterService.pop('success', 'Playing Music', sound.title);
     }
 }
