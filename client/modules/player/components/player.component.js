@@ -66,6 +66,7 @@ var PlayerComponent = (function () {
             _this.duration = buffer.duration;
             _this.currentSound.loop = false;
             _this.currentSound.start(0, _this.currentTime);
+            _this.isLoading = false;
             _this.currentSound.connect(_this.audioNode);
             _this.currentSound.connect(_this.audioContext.destination);
             _this.playingEvent = window.setInterval(function () {
@@ -78,7 +79,6 @@ var PlayerComponent = (function () {
                 _this.ngZone.run(function () { });
             }, 1000);
         });
-        this.isLoading = false;
         this.ngZone.run(function () { });
     };
     PlayerComponent.prototype.stop = function () {
