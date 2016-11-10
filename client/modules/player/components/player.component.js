@@ -56,6 +56,18 @@ var PlayerComponent = (function () {
             _this.currentSoundDetails = sound;
             _this.isLoading = true;
         });
+        playlist_service_1.onAddSound.subscribe(function (result) {
+            if (result.soundLength <= 0) {
+                _this.currentSoundIndex = 0;
+            }
+            _this.currentSoundIndex = result.soundLength;
+        });
+        playlist_service_1.onRemoveSound.subscribe(function (result) {
+            if (result.soundLength <= 0) {
+                _this.currentSoundIndex = 0;
+            }
+            _this.currentSoundIndex = result.soundLength;
+        });
     };
     PlayerComponent.prototype.play = function () {
         var _this = this;

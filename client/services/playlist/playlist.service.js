@@ -79,20 +79,18 @@ var PlaylistService = (function () {
         this.setCurrentPlaylist(playlist);
         addSoundTrigger.next({
             sound: result.sound,
-            playlist: result.playlist
+            playlist: result.playlist,
+            soundLength: playlist.sounds.length
         });
     };
-    PlaylistService.prototype.removeSoundToPlaylist = function (sound) {
+    PlaylistService.prototype.removeSoundToPlaylist = function (index) {
         var playlist = this.getCurrentPlaylist();
-        for (var i = playlist.sounds.length - 1; i >= 0; i--) {
-            if (playlist.sounds[i].id == sound.id) {
-                playlist.sounds.splice(i, 1);
-            }
-        }
+        playlist.sounds.splice(index, 1);
         this.setCurrentPlaylist(playlist);
         removeSoundTrigger.next({
-            sound: sound,
-            playlist: playlist.name
+            index: index,
+            playlist: playlist.name,
+            soundLength: playlist.sounds.length
         });
     };
     PlaylistService = __decorate([

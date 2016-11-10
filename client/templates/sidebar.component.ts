@@ -223,8 +223,8 @@ declare var window: any;
                         <span title="{{sound.title}}">
                             {{sound.title}}
                         </span>
-                        <i *ngIf="currentSound.id == sound.id" class="fa fa-volume-up"></i>
-                        <i *ngIf="currentSound.id != sound.id" class="fa fa-minus pull-right" (click)="removeFromPlaylist($event, i, sound)"></i>
+                        <i *ngIf="currentIndex == i" class="fa fa-volume-up"></i>
+                        <i *ngIf="currentIndex != i" class="fa fa-minus pull-right" (click)="removeFromPlaylist($event, i, sound)"></i>
                     </li>
                 </ul>
             </div>
@@ -234,7 +234,7 @@ declare var window: any;
 })
 export class SideBarComponent implements OnInit{
     private active:string;
-    private currentSound = { id:''};
+    private currentIndex = -1;
     private isPlaying = false;
     private playlist = { name:'default', description: '', sounds: [], createAt: new Date(), userAt: '', updateAt: new Date()};
     private windowHeight:number = 512;
@@ -257,12 +257,17 @@ export class SideBarComponent implements OnInit{
             }
         })
         
+        onRemoveSound.subscribe( (result) =>{
+            if( result.playlist == this.playlist.name){
+                this.playlist.sounds.splice(result.index,1);
+            }
+        })
         onPlayMusic
          .subscribe( (response) => {
             this.windowHeight = window.document.body.clientHeight - 48;
             this.isPlaying = true;
             this.active = 'nowplay';
-            this.currentSound = response['details'];
+            this.currentIndex = response['index'];
         });
         onStopMusic
             .subscribe( (response) => {
@@ -294,10 +299,8 @@ export class SideBarComponent implements OnInit{
         }
     }
     
-    removeFromPlaylist(e, index, sound) {
-        this.playlistService.removeSoundToPlaylist(sound);
-        
-        this.playlist.sounds.splice(index,1);
+    removeFromPlaylist(e, index) {
+        this.playlistService.removeSoundToPlaylist(index);
         e.stopPropagation();
     }
         

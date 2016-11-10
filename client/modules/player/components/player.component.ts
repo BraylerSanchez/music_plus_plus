@@ -1,6 +1,6 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { PlayerService, onPlayMusic, onStopMusic, onGettingMusic } from '../../../services/player/player.service';
-import { PlaylistService, onPlaylistChange } from '../../../services/playlist/playlist.service';
+import { PlaylistService, onPlaylistChange, onAddSound, onRemoveSound } from '../../../services/playlist/playlist.service';
 
 import { Sound } from '../../../interfaces/player/sound.interface';
 import { IPlayList } from '../../../interfaces/playlist/playlist.interface';
@@ -132,6 +132,18 @@ export class PlayerComponent{
         onGettingMusic.subscribe( (sound) =>{
             this.currentSoundDetails = sound;
             this.isLoading = true;
+        })
+        onAddSound.subscribe( (result)=>{
+            if(result.soundLength <= 0){
+                this.currentSoundIndex = 0;
+            }
+            this.currentSoundIndex = result.soundLength;
+        })
+        onRemoveSound.subscribe( (result)=>{
+            if(result.soundLength <= 0){
+                this.currentSoundIndex = 0;
+            }
+            this.currentSoundIndex = result.soundLength;
         })
     }
     play(){

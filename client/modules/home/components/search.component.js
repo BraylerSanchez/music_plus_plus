@@ -74,9 +74,13 @@ var SearchComponent = (function () {
             }
         });
     };
-    SearchComponent.prototype.play = function (index, sound) {
-        this.playlistService.addSoundToPlaylist(sound);
-        this.playerService.getMusic(index, sound);
+    SearchComponent.prototype.play = function (sound) {
+        var playlist = this.playlistService.getCurrentPlaylist();
+        this.playlistService.addSoundToPlaylist({
+            sound: sound,
+            playlist: playlist.name
+        });
+        this.playerService.getMusic(playlist.sounds.length, sound);
         this.toasterService.pop('success', 'Playing Music', sound.title);
     };
     __decorate([
