@@ -160,6 +160,13 @@ playlist, playlistcreate{
   }
 }
 
+div img.mini-loading{
+  height: 32px;
+  width: 32px;
+  left: 50%;
+  margin-top: -10px;
+}
+
 @media (min-width: 992px) {
   .masthead,
   .mastfoot,

@@ -52,7 +52,7 @@ import { PlaylistService} from '../../../services/playlist/playlist.service';
           </div>
         </form>
         <div class="list-group">
-          <div class="video list-group-item" *ngFor="let video of videos">
+          <div class="video list-group-item" *ngFor="let video of videos; let i = index">
             <div class="media-left">
               <span>
                 <img id="
@@ -149,9 +149,9 @@ export class SearchComponent{
       })
     }
     
-    play(sound){
+    play(index, sound){
       this.playlistService.addSoundToPlaylist(sound);
-      this.playerService.getMusic(sound);
+      this.playerService.getMusic(index, sound);
       this.toasterService.pop('success', 'Playing Music', sound.title);
     }
 }

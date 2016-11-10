@@ -23,6 +23,11 @@ exports.onPlayMusic = new Observable_1.Observable(function (observable) {
     playSoundObserbable = observable;
     return function () { };
 }).share();
+var gettingMusicObserbable;
+exports.onGettingMusic = new Observable_1.Observable(function (observable) {
+    gettingMusicObserbable = observable;
+    return function () { };
+}).share();
 var stopSoundObserbable;
 exports.onStopMusic = new Observable_1.Observable(function (observable) {
     stopSoundObserbable = observable;
@@ -45,9 +50,10 @@ var PlayerService = (function () {
     PlayerService.prototype.stopMusic = function (video) {
         stopSoundObserbable.next(video);
     };
-    PlayerService.prototype.getMusic = function (video) {
+    PlayerService.prototype.getMusic = function (i, sound) {
+        gettingMusicObserbable.next(sound);
         var request = new XMLHttpRequest();
-        request.open("GET", "/api/v1/youtube/convert/" + video.id, true);
+        request.open("GET", "/api/v1/youtube/convert/" + sound.id, true);
         request.responseType = "arraybuffer";
         request.onload = function () {
             if (request.response.status) {
@@ -55,7 +61,8 @@ var PlayerService = (function () {
             }
             else {
                 playSoundObserbable.next({
-                    details: video,
+                    index: i,
+                    details: sound,
                     buffer: request.response
                 });
             }

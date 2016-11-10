@@ -219,7 +219,7 @@ declare var window: any;
                         <h5>{{playlist.name}}</h5>
                         <a *ngIf="playlist.name == 'default'" [routerLink]="['/playlist/create/default']" class="btn btn-xs btn-success">Save <i class="fa fa-floppy-o"></i></a>
                     </li>
-                    <li class="item" *ngFor="let sound of playlist.sounds; let i = index" (click)="play(sound)">
+                    <li class="item" *ngFor="let sound of playlist.sounds; let i = index" (click)="play(i, sound)">
                         <span title="{{sound.title}}">
                             {{sound.title}}
                         </span>
@@ -317,8 +317,8 @@ export class SideBarComponent implements OnInit{
         }
         this.active = menu;
     }
-    play(sound:Sound){
-        this.playerService.getMusic(sound);
+    play(index:number, sound:Sound):void {
+        this.playerService.getMusic(index, sound);
     }
     
     hide(){

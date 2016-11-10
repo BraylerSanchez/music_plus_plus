@@ -18,6 +18,12 @@ export const onPlayMusic: Observable<Sound> = new Observable( (observable) =>{
     return () => {}
 }).share();
 
+var gettingMusicObserbable: any;
+export const onGettingMusic: Observable<Sound> = new Observable( (observable) =>{
+    gettingMusicObserbable = observable;
+    return () => {}
+}).share();
+
 var stopSoundObserbable: any;
 export const onStopMusic: Observable<Sound> = new Observable( (observable) =>{
     stopSoundObserbable = observable; 
@@ -50,9 +56,10 @@ export class PlayerService{
         stopSoundObserbable.next(video);
     }
     
-    getMusic(video: Sound ){
+    getMusic(i: number, sound:Sound ){
+        gettingMusicObserbable.next(sound);
         var request = new XMLHttpRequest();
-        request.open("GET", `/api/v1/youtube/convert/${video.id}`, true); 
+        request.open("GET", `/api/v1/youtube/convert/${sound.id}`, true); 
         request.responseType = "arraybuffer"; 
         
         request.onload = () => {
@@ -60,7 +67,8 @@ export class PlayerService{
                 alert(request.response.message);
             }else{
                 playSoundObserbable.next( {
-                    details: video,
+                    index: i,
+                    details: sound,
                     buffer: request.response
                 });
             }
