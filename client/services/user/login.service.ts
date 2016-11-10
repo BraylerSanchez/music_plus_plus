@@ -59,14 +59,16 @@ export class LoginService{
     login(){
         this.auth2.grantOfflineAccess().then( (authResult)=>{
             if (authResult['code']) {
-                var profile = this.auth2.currentUser.get().getBasicProfile();
-                var user = {
-                    _id: profile.getId(),
-                    name: profile.getGivenName(),
-                    thumbnail: profile.getImageUrl()
-                }
-                this.setUser(user)
-                loginUserObserbable.next(user)
+                this.auth2.currentUser.listen( (userResponse) =>{
+                    var profile = userResponse.getBasicProfile();
+                    var user = {
+                        _id: profile.getId(),
+                        name: profile.getGivenName(),
+                        thumbnail: profile.getImageUrl()
+                    }
+                    this.setUser(user)
+                    loginUserObserbable.next(user)
+                })
               } else {
                   console.log('Error authenticating user.')
               }

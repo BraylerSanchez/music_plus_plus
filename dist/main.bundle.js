@@ -705,14 +705,16 @@ webpackJsonp([0],[
 	        var _this = this;
 	        this.auth2.grantOfflineAccess().then(function (authResult) {
 	            if (authResult['code']) {
-	                var profile = _this.auth2.currentUser.get().getBasicProfile();
-	                var user = {
-	                    _id: profile.getId(),
-	                    name: profile.getGivenName(),
-	                    thumbnail: profile.getImageUrl()
-	                };
-	                _this.setUser(user);
-	                loginUserObserbable.next(user);
+	                _this.auth2.currentUser.listen(function (userResponse) {
+	                    var profile = userResponse.getBasicProfile();
+	                    var user = {
+	                        _id: profile.getId(),
+	                        name: profile.getGivenName(),
+	                        thumbnail: profile.getImageUrl()
+	                    };
+	                    _this.setUser(user);
+	                    loginUserObserbable.next(user);
+	                });
 	            }
 	            else {
 	                console.log('Error authenticating user.');
