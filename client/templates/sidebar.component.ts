@@ -231,8 +231,8 @@ declare var window: any;
                         <span title="{{sound.title}}">
                             {{sound.title}}
                         </span>
-                        <i *ngIf="currentIndex == i" class="fa fa-volume-up"></i>
-                        <i *ngIf="currentIndex != i" class="fa fa-minus pull-right" (click)="removeFromPlaylist($event, i, sound)"></i>
+                        <i *ngIf="currentIndex == i && isPlaying" class="fa fa-volume-up"></i>
+                        <i *ngIf="currentIndex != i || !isPlaying" class="fa fa-minus pull-right" (click)="removeFromPlaylist($event, i, sound)"></i>
                     </li>
                 </ul>
             </div>
