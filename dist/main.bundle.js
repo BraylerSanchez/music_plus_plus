@@ -185,7 +185,8 @@ webpackJsonp([0],[
 	            _this.currentSoundIndex = response['index'];
 	            _this.soundBuffer = response['buffer'];
 	            if (_this.currentSound) {
-	                _this.stop();
+	                window.clearInterval(_this.playingEvent);
+	                _this.currentSound.stop();
 	                _this.currentTime = 0;
 	            }
 	            _this.play();
@@ -566,6 +567,7 @@ webpackJsonp([0],[
 	            _this.isPlaying = true;
 	            _this.active = 'nowplay';
 	            _this.currentIndex = response['index'];
+	            _this.ngZone.run(function () { });
 	        });
 	        player_service_1.onStopMusic
 	            .subscribe(function (response) {
@@ -5381,7 +5383,7 @@ webpackJsonp([0],[
 	        this.currentSound = {
 	            id: ''
 	        };
-	        this.playlist = this.playlist || { name: 'default', description: '', sounds: [], createAt: new Date(), userAt: '', updateAt: new Date() };
+	        this.playlist = this.playlist || this.playlistService.getCurrentPlaylist();
 	        this.queryString = '';
 	        this.videos = [];
 	        this.router.params.subscribe(function (params) {
@@ -5400,6 +5402,9 @@ webpackJsonp([0],[
 	            .subscribe(function (sound) {
 	            _this.currentSound = sound;
 	            _this.ngZone.run(function () { });
+	        });
+	        playlist_service_1.onPlaylistChange.subscribe(function (playlist) {
+	            _this.playlist = playlist;
 	        });
 	    }
 	    SearchComponent.prototype.addToPlaylist = function (e, sound) {

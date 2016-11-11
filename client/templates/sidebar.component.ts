@@ -284,6 +284,7 @@ export class SideBarComponent implements OnInit{
             this.isPlaying = true;
             this.active = 'nowplay';
             this.currentIndex = response['index'];
+            this.ngZone.run(()=>{});
         });
         onStopMusic
             .subscribe( (response) => {

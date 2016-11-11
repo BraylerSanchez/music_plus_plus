@@ -222,7 +222,8 @@ export class PlayerComponent{
             this.currentSoundIndex = response['index'];
             this.soundBuffer = response['buffer'];
             if(this.currentSound){
-                this.stop();
+                window.clearInterval(this.playingEvent);
+                this.currentSound.stop();
                 this.currentTime = 0;
             }
             this.play();

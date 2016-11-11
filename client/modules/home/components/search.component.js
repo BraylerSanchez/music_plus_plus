@@ -24,7 +24,7 @@ var SearchComponent = (function () {
         this.currentSound = {
             id: ''
         };
-        this.playlist = this.playlist || { name: 'default', description: '', sounds: [], createAt: new Date(), userAt: '', updateAt: new Date() };
+        this.playlist = this.playlist || this.playlistService.getCurrentPlaylist();
         this.queryString = '';
         this.videos = [];
         this.router.params.subscribe(function (params) {
@@ -43,6 +43,9 @@ var SearchComponent = (function () {
             .subscribe(function (sound) {
             _this.currentSound = sound;
             _this.ngZone.run(function () { });
+        });
+        playlist_service_1.onPlaylistChange.subscribe(function (playlist) {
+            _this.playlist = playlist;
         });
     }
     SearchComponent.prototype.addToPlaylist = function (e, sound) {

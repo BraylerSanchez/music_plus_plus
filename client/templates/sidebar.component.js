@@ -52,6 +52,7 @@ var SideBarComponent = (function () {
             _this.isPlaying = true;
             _this.active = 'nowplay';
             _this.currentIndex = response['index'];
+            _this.ngZone.run(function () { });
         });
         player_service_1.onStopMusic
             .subscribe(function (response) {

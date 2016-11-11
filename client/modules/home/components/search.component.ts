@@ -5,7 +5,7 @@ import { Sound } from '../../../interfaces/player/sound.interface';
 import { IPlayList } from '../../../interfaces/playlist/playlist.interface';
 
 import { ToasterService} from 'angular2-toaster/angular2-toaster';
-import { PlaylistService} from '../../../services/playlist/playlist.service';
+import { PlaylistService, onPlaylistChange} from '../../../services/playlist/playlist.service';
 
 @Component({
     selector: 'search',
@@ -95,7 +95,7 @@ export class SearchComponent{
       private toasterService: ToasterService,
       private playlistService: PlaylistService
     ){
-      this.playlist = this.playlist || { name:'default', description:'', sounds: [], createAt: new Date(), userAt: '', updateAt: new Date()}
+      this.playlist = this.playlist || this.playlistService.getCurrentPlaylist();
       this.queryString = '';
       this.videos = [];
       this.router.params.subscribe( (params) =>{
@@ -116,6 +116,9 @@ export class SearchComponent{
             this.currentSound = sound;
             this.ngZone.run(()=>{});
       });
+      onPlaylistChange.subscribe( (playlist) =>{
+        this.playlist = playlist;
+      })
     }
     
     addToPlaylist(e, sound: Sound){

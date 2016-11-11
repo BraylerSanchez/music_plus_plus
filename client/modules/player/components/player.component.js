@@ -37,7 +37,8 @@ var PlayerComponent = (function () {
             _this.currentSoundIndex = response['index'];
             _this.soundBuffer = response['buffer'];
             if (_this.currentSound) {
-                _this.stop();
+                window.clearInterval(_this.playingEvent);
+                _this.currentSound.stop();
                 _this.currentTime = 0;
             }
             _this.play();
