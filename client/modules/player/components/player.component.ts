@@ -1,5 +1,5 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { PlayerService, onPlayMusic, onStopMusic, onGettingMusic } from '../../../services/player/player.service';
+import { PlayerService, onPlayMusic, onStopMusic, onGettingMusic, onSuspendMusic } from '../../../services/player/player.service';
 import { PlaylistService, onPlaylistChange, onAddSound, onRemoveSound } from '../../../services/playlist/playlist.service';
 
 import { Sound } from '../../../interfaces/player/sound.interface';
@@ -145,6 +145,11 @@ export class PlayerComponent{
             }
             this.currentSoundIndex = result.soundLength;
         })
+        
+        onSuspendMusic.subscribe( () => {
+            this.stop();
+            this.currentSoundDetails = undefined;
+        })
     }
     play(){
         this.isPlaying = true;
@@ -207,8 +212,6 @@ export class PlayerComponent{
         this.audioNode.gain.value = this.soundVolume;
     }
     suspend(){
-        this.stop();
-        this.currentSoundDetails = undefined;
         this.playerService.suspendMusic();
     }
 }

@@ -14,7 +14,7 @@ const headers = new ResponseOptions({
 var onPlaylistChangeTrigger: any;
 export const onPlaylistChange: Observable<IPlayList> = new Observable( (observable) =>{
     onPlaylistChangeTrigger = observable;
-})
+}).share();
 
 var addSoundTrigger: any;
 export const onAddSound: Observable<any> = new Observable( (observable) =>{
