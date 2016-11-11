@@ -68,6 +68,10 @@ var PlayerComponent = (function () {
             }
             _this.currentSoundIndex = result.soundLength;
         });
+        player_service_1.onSuspendMusic.subscribe(function () {
+            _this.stop();
+            _this.currentSoundDetails = undefined;
+        });
     };
     PlayerComponent.prototype.play = function () {
         var _this = this;
@@ -125,8 +129,6 @@ var PlayerComponent = (function () {
         this.audioNode.gain.value = this.soundVolume;
     };
     PlayerComponent.prototype.suspend = function () {
-        this.stop();
-        this.currentSoundDetails = undefined;
         this.playerService.suspendMusic();
     };
     PlayerComponent = __decorate([

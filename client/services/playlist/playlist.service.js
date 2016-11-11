@@ -20,7 +20,7 @@ var headers = new http_1.ResponseOptions({
 var onPlaylistChangeTrigger;
 exports.onPlaylistChange = new Observable_1.Observable(function (observable) {
     onPlaylistChangeTrigger = observable;
-});
+}).share();
 var addSoundTrigger;
 exports.onAddSound = new Observable_1.Observable(function (observable) {
     addSoundTrigger = observable;

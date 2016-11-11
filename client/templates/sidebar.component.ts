@@ -5,7 +5,7 @@ import { Sound } from '../interfaces/player/sound.interface';
 import { PlayerService, onPlayMusic, onStopMusic, onSuspendMusic} from '../services/player/player.service';
 import { LoginService, onLoginUser, onLogoutUser } from '../services/user/login.service';
 
-import { PlaylistService, onAddSound, onRemoveSound } from '../services/playlist/playlist.service';
+import { PlaylistService, onAddSound, onRemoveSound, onPlaylistChange } from '../services/playlist/playlist.service';
 
 declare var window: any;
 
@@ -154,6 +154,9 @@ declare var window: any;
             top: 0;
             color: #green;
         }
+        .sidebar a{
+            margin-right: 3px;
+        }
     `],
     template: `
     <div class="sidebar">
@@ -217,7 +220,12 @@ declare var window: any;
                 <ul>
                     <li class="title">
                         <h5>{{playlist.name}}</h5>
-                        <a *ngIf="playlist.name == 'default'" [routerLink]="['/playlist/create/default']" class="btn btn-xs btn-success">Save <i class="fa fa-floppy-o"></i></a>
+                        <a *ngIf="playlist.name == 'default'" [routerLink]="['/playlist/create/default']" class="btn btn-xs btn-success">
+                            Save <i class="fa fa-floppy-o"></i>
+                        </a>
+                        <a class="btn btn-xs btn-default" (click)="toClearPlayList()">
+                            Clear <i class="fa fa-trash"></i>
+                        </a>
                     </li>
                     <li class="item" *ngFor="let sound of playlist.sounds; let i = index" (click)="play(i, sound)">
                         <span title="{{sound.title}}">
@@ -255,6 +263,14 @@ export class SideBarComponent implements OnInit{
                 this.playlist.sounds.push(result.sound)
                 this.active = 'nowplay';
             }
+        })
+        
+        onPlaylistChange.subscribe( (result) => {
+            this.playlist = result;
+            if(this.playlist.sounds.length <= 0){
+                this.playerService.suspendMusic();
+            }
+            this.ngZone.run(()=>{});
         })
         
         onRemoveSound.subscribe( (result) =>{
@@ -336,6 +352,11 @@ export class SideBarComponent implements OnInit{
     }
     
     change(playlist){
+        this.playlistService.changePlaylist(playlist);
+    }
+    
+    toClearPlayList(){
+        let playlist = { name:'default', description: '', sounds: [], createAt: new Date(), userAt: '', updateAt: new Date()};
         this.playlistService.changePlaylist(playlist);
     }
 }
