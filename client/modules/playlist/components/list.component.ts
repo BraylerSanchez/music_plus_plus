@@ -8,7 +8,7 @@ import { LoginService } from '../../../services/user/login.service';
     styles: [`
     `],
     template: `
-        <div class="inner cover">
+        <div>
         <h1>Playlists</h1>
         <div class="col-lg-12 no-padding-l-r">
             <div class="col-lg-12 text-right margin-bottom-xs">
