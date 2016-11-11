@@ -24,7 +24,7 @@ import { LoginService } from '../../../services/user/login.service';
     ],
     styleUrls: ['modules/playlist/components/wizardtemplate.css'],
     template: ` 
-        <div class="inner cover">
+        <div class="">
             <h3>Playlist create wizard</h3>
             <div class="container col-xs-12">
             	<div class="row">
