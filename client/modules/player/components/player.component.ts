@@ -30,49 +30,158 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
         .player .progress .progress-bar{
             background-color: #333;
         }
+        .player .controls.playing a.common{
+            top: -12px !important;
+        }
+        
         .player .controls a{
-            font-size: 20pt;
+            font-size: 15pt;
             color: #333;
             cursor: pointer;
+            position: relative;
+            transition: 0.4s;
         }
-        .player .progress .progress-counter{
-            color: black;
-            z-index: 1108;
+        .player .controls a:hover{
+            color: #b3b2b2;
+        }
+        .player .controls a.play{
+            font-size: 30pt;
+            top: -6px;
+        }
+        .player .controls img{
+            height: 40px;
+            width: 40px;
+            left: 50%;
+            margin-top: -6px;
+        }
+        
+        .player .progress span{
             position: absolute;
-            left: 45%;
-            text-shadow: 0px 0px 2px white;
-            bottom: 0;
         }
+        
+        .player .progress span.left{
+            left: 5;
+        }
+        
+        .player .progress span.right{
+            right: 5;
+            top: 0;
+        }
+        
         .player .controls a.disabled{
             color: gray;
             cursor: no-drop;
+        }
+        
+        input[type=range] {
+          -webkit-appearance: none;
+          width: 100%;
+          margin: 0.7px 0;
+        }
+        input[type=range]:focus {
+          outline: none;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+          width: 100%;
+          height: 25.6px;
+          cursor: pointer;
+          box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+          background: #484d4d;
+          border-radius: 0px;
+          border: 0px solid #010101;
+        }
+        input[type=range]::-webkit-slider-thumb {
+          box-shadow: 0px 0px 1px #670000, 0px 0px 0px #810000;
+          border: 0px solid #ff1e00;
+          height: 27px;
+          width: 18px;
+          border-radius: 0px;
+          background: rgba(255, 67, 95, 0.93);
+          cursor: pointer;
+          -webkit-appearance: none;
+          margin-top: -0.7px;
+        }
+        input[type=range]:focus::-webkit-slider-runnable-track {
+          background: #545a5a;
+        }
+        input[type=range]::-moz-range-track {
+          width: 100%;
+          height: 25.6px;
+          cursor: pointer;
+          box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+          background: #484d4d;
+          border-radius: 0px;
+          border: 0px solid #010101;
+        }
+        input[type=range]::-moz-range-thumb {
+          box-shadow: 0px 0px 1px #670000, 0px 0px 0px #810000;
+          border: 0px solid #ff1e00;
+          height: 27px;
+          width: 18px;
+          border-radius: 0px;
+          background: rgba(255, 67, 95, 0.93);
+          cursor: pointer;
+        }
+        input[type=range]::-ms-track {
+          width: 100%;
+          height: 25.6px;
+          cursor: pointer;
+          background: transparent;
+          border-color: transparent;
+          color: transparent;
+        }
+        input[type=range]::-ms-fill-lower {
+          background: #3c4040;
+          border: 0px solid #010101;
+          border-radius: 0px;
+          box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+        }
+        input[type=range]::-ms-fill-upper {
+          background: #484d4d;
+          border: 0px solid #010101;
+          border-radius: 0px;
+          box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+        }
+        input[type=range]::-ms-thumb {
+          box-shadow: 0px 0px 1px #670000, 0px 0px 0px #810000;
+          border: 0px solid #ff1e00;
+          height: 27px;
+          width: 18px;
+          border-radius: 0px;
+          background: rgba(255, 67, 95, 0.93);
+          cursor: pointer;
+          height: 25.6px;
+        }
+        input[type=range]:focus::-ms-fill-lower {
+          background: #484d4d;
+        }
+        input[type=range]:focus::-ms-fill-upper {
+          background: #545a5a;
         }
     `],
     template: `
     <div class="col-lg-12 no-padding-l-r player" *ngIf="currentSoundDetails" >
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding-l-r">
-            <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs no-padding-l-r"></div>
-            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-padding-l-r controls">
-                    <a (click)="previou()" [ngClass]="{'disabled': currentSoundIndex <= 0 }"><i class="fa fa-backward padding-right-xs"></i></a>
-                    <a *ngIf="!isPlaying && !isLoading" (click)="play()" ><i class="fa fa-play"></i></a>
+            <div class="col-lg-2 col-md-2 hidden-sm hidden-xs no-padding-l-r"></div>
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 no-padding-l-r controls" [ngClass]="{'playing': !isLoading}">
+                    <a class="common" (click)="previou()" [ngClass]="{'disabled': currentSoundIndex <= 0 || isLoading }"><i class="fa fa-backward padding-right-xs"></i></a>
+                    <a class="play" *ngIf="!isPlaying && !isLoading" (click)="play()" ><i class="fa fa-play"></i></a>
                     <img *ngIf="isLoading" class="mini-loading" src="assest/images/loading-xs.gif" />
-                    <a *ngIf="isPlaying && !isLoading" (click)="stop()" ><i class="fa fa-pause"></i></a>
-                    <a (click)="next()" [ngClass]="{'disabled': currentSoundIndex +1 >= soundsLength  }" ><i class="fa fa-forward padding-left-xs"></i></a>
-                    <a (click)="suspend()" ><i class="fa fa-stop "></i></a>
+                    <a class="play" *ngIf="isPlaying && !isLoading" (click)="stop()" ><i class="fa fa-pause"></i></a>
+                    <a class="common" (click)="next()" [ngClass]="{'disabled': currentSoundIndex +1 >= soundsLength || isLoading  }" ><i class="fa fa-forward padding-left-xs"></i></a>
+                    <a class="common" (click)="suspend()"  [ngClass]="{'disabled': isLoading}"><i class="fa fa-stop"></i></a>
                 </div>
-                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                    <div class="progress text-center">
-                      <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width': (currentTime / duration * 100) + '%'}">
-                      </div>
-                      <span class="progress-counter">{{toMinute(currentTime)}}:{{toSecound(currentTime)}} of {{toMinute(duration)}}:{{toSecound(duration)}}</span>
-                    </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6 no-padding-l-r progress">
+                    <span class="left">{{toMinute(currentTime)}}:{{toSecound(currentTime)}}</span>
+                    <input class="" type="range"  min="0" max="100" (change)="changeSound($event)" value="{{(currentTime / duration * 100)}}" />
+                    <span class="right">{{toMinute(duration)}}:{{toSecound(duration)}}</span>
                 </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 no-padding-l-r controls">
+                <div class="col-lg-1 col-md-1 col-sm-1 hidden-xs no-padding-l-r controls">
                     <a (click)="mute()" class="hide"><i class="fa" [ngClass]="{'fa-volume-up': soundVolume ==1, 'fa-volume-off': soundVolume ==0}"></i></a>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs no-padding-l-r"></div>
+            <div class="col-lg-2 col-md-2 hidden-sm hidden-xs no-padding-l-r"></div>
         </div>
     </div>`,
     providers: [PlayerService, PlaylistService]
@@ -178,23 +287,27 @@ export class PlayerComponent{
     
     stop(){
         window.clearInterval(this.playingEvent);
-        this.currentSound.stop(this.currentTime);
-        this.playerService.stopMusic(this.currentSound);
+        this.currentSound.stop();
+        this.playerService.stopMusic(this.currentSoundDetails);
     }
     
     next(){
-        var playlist = this.playlistService.getCurrentPlaylist();
-        var index = this.currentSoundIndex + 1;
-        if( index < playlist.sounds.length){
-            this.playerService.getMusic(index, playlist.sounds[index]);
+        if(!this.isLoading){
+            var playlist = this.playlistService.getCurrentPlaylist();
+            var index = this.currentSoundIndex + 1;
+            if( index < playlist.sounds.length){
+                this.playerService.getMusic(index, playlist.sounds[index]);
+            }
         }
     }
     
     previou(){
-        var playlist = this.playlistService.getCurrentPlaylist();
-        var index = this.currentSoundIndex - 1;
-        if( index >=0){
-            this.playerService.getMusic(index, playlist.sounds[index]);
+        if(!this.isLoading){
+            var playlist = this.playlistService.getCurrentPlaylist();
+            var index = this.currentSoundIndex - 1;
+            if( index >=0){
+                this.playerService.getMusic(index, playlist.sounds[index]);
+            }
         }
     }
     
@@ -211,7 +324,17 @@ export class PlayerComponent{
         this.soundVolume = this.soundVolume == 1? 0: 1;
         this.audioNode.gain.value = this.soundVolume;
     }
+    
+    changeSound(e){
+        this.stop();
+        this.currentTime = e.currentTarget.value * this.duration / 100;
+        this.play();
+    }
+    
     suspend(){
-        this.playerService.suspendMusic();
+        if(!this.isLoading){
+            this.stop();
+            this.playerService.suspendMusic();
+        }
     }
 }
