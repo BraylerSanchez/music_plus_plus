@@ -176,7 +176,7 @@ declare var window: any;
             <div class="home" *ngIf="active == 'menu'">
                 <ul>
                     <li class="title">
-                    <h3><i class="fa fa-music fa-1x"></i> MUSIC </h3></li>
+                    <h3><i class="fa fa-music fa-1x"></i> MUSIC++ </h3></li>
                     <li  [routerLinkActive]="['active']" >
                         <a [routerLink]="['/home']" >
                             <i class="fa fa-home fa-1x"></i> Home
