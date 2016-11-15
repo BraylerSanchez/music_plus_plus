@@ -287,9 +287,11 @@ export class PlayerComponent{
     }
     
     stop(){
-        window.clearInterval(this.playingEvent);
-        this.currentSound.stop();
-        this.playerService.stopMusic(this.currentSoundDetails);
+        if(this.currentSound){
+            window.clearInterval(this.playingEvent);
+            this.currentSound.stop();
+            this.playerService.stopMusic(this.currentSoundDetails);
+        }
     }
     
     next(){

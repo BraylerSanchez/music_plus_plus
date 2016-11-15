@@ -99,9 +99,11 @@ var PlayerComponent = (function () {
         this.ngZone.run(function () { });
     };
     PlayerComponent.prototype.stop = function () {
-        window.clearInterval(this.playingEvent);
-        this.currentSound.stop();
-        this.playerService.stopMusic(this.currentSoundDetails);
+        if (this.currentSound) {
+            window.clearInterval(this.playingEvent);
+            this.currentSound.stop();
+            this.playerService.stopMusic(this.currentSoundDetails);
+        }
     };
     PlayerComponent.prototype.next = function () {
         if (!this.isLoading) {

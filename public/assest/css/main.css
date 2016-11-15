@@ -213,6 +213,12 @@ div.cover{
   padding-left: 0px !important;
   padding-right: 0px !important;
 }
+.no-padding-l{
+  padding-left: 0px !important;
+}
+.no-padding-r{
+  padding-right: 0px !important;
+}
 
 .padding-right-xs{
     padding-right: 10px;

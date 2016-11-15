@@ -32,12 +32,11 @@ import { PlaylistService, onPlaylistChange} from '../../../services/playlist/pla
       }
       .media-heading .title{
         cursor: pointer;
-      }
-      .media-heading .title small{
-        display: none;
-      }
-      .media-heading .title span:hover + small{
+        width: 70%;
         display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     `],
     template: `
@@ -61,17 +60,18 @@ import { PlaylistService, onPlaylistChange} from '../../../services/playlist/pla
             </div>
             <div class="media-body text-left">
               <div class="media-heading">
-                <h4 class="title" >
-                <span  (click)="play(video)" title="{{ video.title }}">{{ video.title }}</span>
-                <small >
-                  click to play <i class="fa fa-play"></i>
-                </small>
-                <i class="fa fa-plus pull-right" (click)="addToPlaylist($event, video)"></i>
-                </h4>
+                <div class="col-xs-10 col-sm-11 col-md-11 col-lg-11 no-padding-r">
+                  <h4 (click)="play(video)" title="{{ video.title }}" class="title no-padding-r" >
+                    {{ video.title }}
+                  </h4>
+                </div>
+                <div class="col-xs-2 col-sm-1 col-md-1 col-lg-1 text-right no-padding-l">
+                  <a class=" btn btn-success btn-sm" (click)="addToPlaylist($event, video)">
+                    <i class="fa fa-plus"></i>
+                  </a>
+                </div>
               </div>
-              <span  id="channel">{{ video.channel }}</span>
               <span class="pull-right">{{ video.dateAt | date }}</span>
-              
             </div>
           </div>
         </div>
@@ -144,10 +144,7 @@ export class SearchComponent{
       this.playerService.search(this.queryString)
       .subscribe( (result) =>{
         if(result.status == true){
-          this.videos = result.sounds.map((video)=>{
-            video.title = video.title.length > 40 ? video.title.substring(0,37)+'...': video.title;
-            return video;
-          });
+          this.videos = result.sounds;
         }
       })
     }

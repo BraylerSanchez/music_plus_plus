@@ -11,14 +11,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var common_1 = require('@angular/common');
 var platform_browser_1 = require('@angular/platform-browser');
-var template_component_1 = require('./templates/template.component');
-var sidebar_component_1 = require('./templates/sidebar.component');
 var app_routes_1 = require('./app.routes');
 var angular2_toaster_1 = require('angular2-toaster/angular2-toaster');
 var home_module_1 = require('./modules/home/home.module');
 var player_module_1 = require('./modules/player/player.module');
 var playlist_module_1 = require('./modules/playlist/playlist.module');
-//import { CanActivateViaAuthGuard } from './services/user/login.service';
+var template_component_1 = require('./templates/template.component');
+var sidebar_component_1 = require('./templates/sidebar.component');
+var playing_widget_component_1 = require('./templates/components/playing.widget.component');
+var playlist_widget_component_1 = require('./templates/components/playlist.widget.component');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -33,7 +34,11 @@ var AppModule = (function () {
                 playlist_module_1.PlaylistModule,
                 angular2_toaster_1.ToasterModule
             ],
-            declarations: [template_component_1.TemplateComponent, sidebar_component_1.SideBarComponent],
+            declarations: [
+                template_component_1.TemplateComponent,
+                sidebar_component_1.SideBarComponent,
+                playing_widget_component_1.PlayingWidgetComponent,
+                playlist_widget_component_1.PlaylistWidgetComponent],
             bootstrap: [template_component_1.TemplateComponent],
             providers: [
                 {

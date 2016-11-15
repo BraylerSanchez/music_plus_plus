@@ -1,8 +1,6 @@
 import { NgModule }      from '@angular/core';
 import { LocationStrategy, HashLocationStrategy, CommonModule} from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { TemplateComponent }   from './templates/template.component';
-import { SideBarComponent }   from './templates/sidebar.component';
 import { routing } from './app.routes';
 import {ToasterModule} from 'angular2-toaster/angular2-toaster';
 
@@ -10,7 +8,10 @@ import { HomeModule } from './modules/home/home.module';
 import { PlayerModule } from './modules/player/player.module';
 import { PlaylistModule } from './modules/playlist/playlist.module';
 
-//import { CanActivateViaAuthGuard } from './services/user/login.service';
+import { TemplateComponent }   from './templates/template.component';
+import { SideBarComponent }   from './templates/sidebar.component';
+import { PlayingWidgetComponent }   from './templates/components/playing.widget.component';
+import { PlaylistWidgetComponent }   from './templates/components/playlist.widget.component';
 
 @NgModule({
     imports:      [
@@ -22,7 +23,11 @@ import { PlaylistModule } from './modules/playlist/playlist.module';
         PlaylistModule,
         ToasterModule
     ],
-    declarations: [ TemplateComponent, SideBarComponent ],
+    declarations: [
+        TemplateComponent,
+        SideBarComponent,
+        PlayingWidgetComponent,
+        PlaylistWidgetComponent ],
     bootstrap:    [ TemplateComponent ],
     providers: [
         {

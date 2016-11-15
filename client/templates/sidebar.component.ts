@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IPlayList } from '../interfaces/playlist/playlist.interface';
 import { Sound } from '../interfaces/player/sound.interface';
@@ -6,6 +6,9 @@ import { PlayerService, onPlayMusic, onStopMusic, onSuspendMusic} from '../servi
 import { LoginService, onLoginUser, onLogoutUser } from '../services/user/login.service';
 
 import { PlaylistService, onAddSound, onRemoveSound, onPlaylistChange } from '../services/playlist/playlist.service';
+
+import { PlayingWidgetComponent }   from './components/playing.widget.component';
+import { PlaylistWidgetComponent }   from './components/playlist.widget.component';
 
 declare var window: any;
 
@@ -93,23 +96,23 @@ declare var window: any;
             border-radius: 10px;
         }
         
-        .sidebar div.menu .nowplay ul, .sidebar div.menu .home ul{
+        .sidebar div.menu .home ul{
             padding: 0px;
         }
-        .sidebar div.menu .nowplay ul li.title, .sidebar div.menu .home ul li.title{
+        .sidebar div.menu .home ul li.title{
             background-color: #333333;
             padding: 5px;
             font-size: 11pt;
             color: white;
         }
-        .sidebar div.menu .nowplay ul li, .sidebar div.menu .home ul li{
+        .sidebar div.menu .home ul li{
             padding: 5px;
             font-size: 9pt;
             border-bottom: 1px solid #d0d0d0;
             color: #333333;
             cursor: pointer;
         }
-        .sidebar div.menu .nowplay ul li.active, .sidebar div.menu .home ul li.active{
+        .sidebar div.menu .home ul li.active{
             background-color: #5bc0de;
         }
         .sidebar div.menu .home ul li{
@@ -120,39 +123,15 @@ declare var window: any;
         .sidebar div.menu .home ul li a{
             color: #333333;
         }
-        .sidebar div.menu .nowplay ul li:hover, .sidebar div.menu .home ul li:hover{
+        .sidebar div.menu .home ul li:hover{
             background-color: #e4e4e4;
         }
-        .sidebar div.menu .nowplay ul li{
-            text-align: left;
-        }
-        .sidebar div.menu .nowplay ul li span, .sidebar div.menu .nowplay ul li h5{
+        .sidebar div.menu .nowplay ul li h5{
             width: 90%;
             display: block;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-        }
-        .sidebar div.menu .nowplay ul li h5{
-            width: 75%;
-        }
-        .sidebar div.menu .nowplay ul li.title a{
-            float: right;
-            position: relative;
-            top: -30px;
-        }
-        .sidebar div.menu .nowplay ul li i{
-            float: right;
-            top: -15px;
-            position: relative;
-        }
-        .sidebar div.menu .nowplay ul li.item i{
-            color: #5bc0de;
-        }
-        .sidebar div.menu .nowplay ul li.title i{
-            float: none;
-            top: 0;
-            color: #green;
         }
         .sidebar a{
             margin-right: 3px;
@@ -204,130 +183,55 @@ declare var window: any;
                 </ul>
             </div>
             <div class="nowplay" *ngIf="active == 'playlist'">
-                <ul>
-                    <li class="title">
-                        <h5>Playlist</h5>
-                        <a [routerLink]="['/playlist/create/0']" class="btn btn-xs btn-success">Create <i class="fa fa-plus"></i></a>
-                    </li>
-                    <li class="item" *ngFor="let playlist of playlists" (click)="change(playlist)">
-                        <span title="{{playlist.name}}">
-                            {{playlist.name}}
-                        </span>
-                    </li>
-                </ul>
+                <playlist></playlist>
             </div>
             <div class="nowplay" *ngIf="active == 'nowplay'">
-                <ul>
-                    <li class="title">
-                        <h5>{{playlist.name}}</h5>
-                        <a *ngIf="playlist.name == 'default'" [routerLink]="['/playlist/create/default']" class="btn btn-xs btn-success">
-                            Save <i class="fa fa-floppy-o"></i>
-                        </a>
-                        <a class="btn btn-xs btn-default" (click)="toClearPlayList()">
-                            Clear <i class="fa fa-trash"></i>
-                        </a>
-                    </li>
-                    <li class="item" *ngFor="let sound of playlist.sounds; let i = index" (click)="play(i, sound)">
-                        <span title="{{sound.title}}">
-                            {{sound.title}}
-                        </span>
-                        <i *ngIf="currentIndex == i && isPlaying" class="fa fa-volume-up"></i>
-                        <i *ngIf="currentIndex != i || !isPlaying" class="fa fa-minus pull-right" (click)="removeFromPlaylist($event, i, sound)"></i>
-                    </li>
-                </ul>
+                <playingList (onMusicAdd)="musicAdd($event)"></playingList>
             </div>
         </div>
     </div>`,
     providers: [PlayerService, LoginService, PlaylistService]
 })
 export class SideBarComponent implements OnInit{
+    @ViewChild(PlayingWidgetComponent) playingWidgetComponent: PlayingWidgetComponent;
+    @ViewChild(PlaylistWidgetComponent) playlistWidgetComponent: PlaylistWidgetComponent;
+    
     private active:string;
-    private currentIndex = -1;
     private isPlaying = false;
-    private playlist = { name:'default', description: '', sounds: [], createAt: new Date(), userAt: '', updateAt: new Date()};
     private windowHeight:number = 512;
     private menuLeft: number = 250;
     private user: any;
-    private playlists= [];
     constructor(
-        private playerService: PlayerService,
         private loginService: LoginService,
         private ngZone: NgZone,
-        private playlistService:PlaylistService,
         private router: Router
     ){
         this.active = '';
-        
-        onAddSound.subscribe((result) => {
-            if( result.playlist == this.playlist.name){
-                this.playlist.sounds.push(result.sound)
-                this.active = 'nowplay';
-            }
-        })
-        
-        onPlaylistChange.subscribe( (result) => {
-            this.playlist = result;
-            if(this.playlist.sounds.length <= 0){
-                this.playerService.suspendMusic();
-            }
-            this.ngZone.run(()=>{});
-        })
-        
-        onRemoveSound.subscribe( (result) =>{
-            if( result.playlist == this.playlist.name){
-                this.playlist.sounds.splice(result.index,1);
-            }
-        })
-        onPlayMusic
-         .subscribe( (response) => {
-            this.windowHeight = window.document.body.clientHeight - 48;
-            this.isPlaying = true;
-            this.active = 'nowplay';
-            this.currentIndex = response['index'];
-            this.ngZone.run(()=>{});
-        });
         onStopMusic
             .subscribe( (response) => {
                 this.isPlaying = false;
             })
-        onSuspendMusic
-        .subscribe( ()=>{
-               this.windowHeight = window.document.body.clientHeight;
-        })
         onLoginUser.subscribe( (user) =>{
             this.user = user;
-            this.playlistService.list(this.user._id).subscribe( (result)=>{
-                if( result.status == true)
-                    this.playlists = result.playlists;
             this.ngZone.run(()=>{});
-            })
         })
         onLogoutUser.subscribe( ()=>{
             this.user = undefined;
-            this.play
             this.ngZone.run(()=>{});
         })
-        this.user = this.loginService.getUser();
-        if(this.user){
-            this.playlistService.list(this.user._id).subscribe( (result)=>{
-                if( result.status == true)
-                    this.playlists = result.playlists;
-            })
-        }
     }
     
-    removeFromPlaylist(e, index) {
-        this.playlistService.removeSoundToPlaylist(index);
-        e.stopPropagation();
+    musicAdd(result){
+        if(result.result){
+            this.windowHeight = window.document.body.clientHeight - 48;
+            this.isPlaying = true;
+        }
+        this.active = 'nowplay';
     }
-        
+    
     ngOnInit(){
         this.windowHeight = window.document.body.clientHeight;
         this.user = this.loginService.getUser();
-        var playlist = this.playlistService.getCurrentPlaylist();
-        if( playlist ){
-            this.playlist = playlist;
-        }
     }
     
     setActive(menu){
@@ -336,9 +240,6 @@ export class SideBarComponent implements OnInit{
             return;
         }
         this.active = menu;
-    }
-    play(index:number, sound:Sound):void {
-        this.playerService.getMusic(index, sound);
     }
     
     hide(){
@@ -350,14 +251,5 @@ export class SideBarComponent implements OnInit{
     logout(){
         this.loginService.singOut();
         this.router.navigate(['/home']);
-    }
-    
-    change(playlist){
-        this.playlistService.changePlaylist(playlist);
-    }
-    
-    toClearPlayList(){
-        let playlist = { name:'default', description: '', sounds: [], createAt: new Date(), userAt: '', updateAt: new Date()};
-        this.playlistService.changePlaylist(playlist);
     }
 }
