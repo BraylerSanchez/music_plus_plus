@@ -209,6 +209,7 @@ export class SideBarComponent implements OnInit{
         this.active = '';
         onStopMusic
             .subscribe( (response) => {
+                this.resizeSideBar();
                 this.isPlaying = false;
             })
         onLoginUser.subscribe( (user) =>{
@@ -223,14 +224,25 @@ export class SideBarComponent implements OnInit{
     
     musicAdd(result){
         if(result.result){
-            this.windowHeight = window.document.body.clientHeight - 48;
+            this.resizeSideBar();
             this.isPlaying = true;
         }
         this.active = 'nowplay';
     }
     
+    resizeSideBar(){
+        if( this.isPlaying == true){
+            this.windowHeight = window.document.body.clientHeight - 48;
+        }else{
+            this.windowHeight = window.document.body.clientHeight;
+        }
+    }
+
     ngOnInit(){
-        this.windowHeight = window.document.body.clientHeight;
+        window.addEventListener('resize', (event) => {
+            this.resizeSideBar();
+        });
+        this.resizeSideBar();
         this.user = this.loginService.getUser();
     }
     
