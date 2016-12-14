@@ -3,7 +3,7 @@ import {Http, Headers, Response, ResponseOptions} from '@angular/http'
 import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/operator/map'
 
-import { IPlayList } from '../../interfaces/playlist/playlist.interface'
+import { IPlayList, ISharedPlayList } from '../../interfaces/playlist/playlist.interface'
 
 const headers = new ResponseOptions({
     headers: new Headers({
@@ -99,5 +99,15 @@ export class PlaylistService{
             playlist: playlist.name,
             soundLength: playlist.sounds.length
         });
+    }
+    
+    share(_sharedPlaylist){
+        return this.http.post('api/v1/playlist/share', _sharedPlaylist, headers )
+            .map( res => res.json())
+    }
+    
+    searchShared(){
+        return this.http.get('api/v1/shared/search', headers)
+        .map(res => res.json());
     }
 }

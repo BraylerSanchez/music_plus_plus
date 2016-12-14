@@ -84,6 +84,34 @@ var PlaylistController = (function () {
             });
         });
     };
+    PlaylistController.prototype.share = function (req, res) {
+        var sharedPlaylist = req.body;
+        sharedPlaylist.createAt = new Date();
+        this.playlistModel.share(sharedPlaylist).then(function (message) {
+            res.json({
+                status: true,
+                message: message
+            });
+        }).catch(function (error) {
+            res.send({
+                status: false,
+                message: error
+            });
+        });
+    };
+    PlaylistController.prototype.search = function (req, res) {
+        this.playlistModel.search().then(function (docs) {
+            res.json({
+                status: true,
+                playlist: docs
+            });
+        }).catch(function (error) {
+            res.send({
+                status: false,
+                message: error
+            });
+        });
+    };
     return PlaylistController;
 }());
 exports.PlaylistController = PlaylistController;

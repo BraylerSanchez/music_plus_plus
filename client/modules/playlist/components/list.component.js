@@ -56,11 +56,29 @@ var PlayListComponent = (function () {
             }
         });
     };
+    PlayListComponent.prototype.share = function (_playlist) {
+        var sharedPlaylist = {
+            origin: _playlist,
+            sharedPlaylists: new Array(),
+            userAt: this.loginService.getUser()._id,
+            userName: this.loginService.getUser().name,
+            userPictureUrl: this.loginService.getUser().thumbnail,
+            createAt: new Date()
+        };
+        this.playlistService.share(sharedPlaylist).subscribe(function (response) {
+            if (response.status == true) {
+                alert(response.message);
+            }
+            else {
+                alert(response.message);
+            }
+        });
+    };
     PlayListComponent = __decorate([
         core_1.Component({
             selector: 'playList',
             styles: ["\n    "],
-            template: "\n        <div>\n        <h1>Playlists</h1>\n        <div class=\"col-lg-12 no-padding-l-r\">\n            <div class=\"col-lg-12 text-right margin-bottom-xs\">\n                <a class=\"btn btn-success\" (click)=\"toCreate()\">\n                    <i class=\"glyphicon glyphicon-plus-sign\"></i> Create New\n                </a>\n            </div>\n            <table class=\"table table-striped\" *ngIf=\"playLists.length > 0\">\n                <thead>\n                    <tr>\n                        <th>Name</th>\n                        <th>Description</th>\n                        <th>Sound Length</th>\n                        <th>Play</th>\n                        <th>Action</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr *ngFor=\"let playlist of playLists\">\n                        <td>{{playlist.name}}</td>\n                        <td>{{playlist.description}}</td>\n                        <td>{{playlist.sounds.length}}</td>\n                        <td>\n                            <a class=\"btn btn-xs btn-primary\" (click)=\"play(playlist)\">\n                                Listen <i class=\"fa fa-play-circle-o\"></i>\n                            </a>\n                        </td>\n                        <td>\n                            <a class=\"btn btn-xs btn-warning\" [routerLink]=\"['/playlist/create', playlist._id]\">\n                                Edit <i class=\"fa fa-pencil\"></i>\n                            </a>\n                            <a class=\"btn btn-xs btn-danger\" (click)=\"delete(playlist['_id'])\">\n                                Remove <i class=\"fa fa-times\"></i>\n                            </a>\n                        </td>\n                    </tr>\n                </tbody>\n            </table>\n            <div class=\"col-lg-12\" *ngIf=\"playLists.length <= 0\">\n                <div class=\"alert alert-warning\">\n                    Click on <a class=\"btn btn-success\" (click)=\"toCreate()\"><i class=\"glyphicon glyphicon-plus-sign\"></i> Create New</a>\n                    to start create playlist.\n                </div>\n            </div>\n        </div>\n        </div>\n    ",
+            template: "\n        <div>\n        <h1>Playlists</h1>\n        <div class=\"col-lg-12 no-padding-l-r\">\n            <div class=\"col-lg-12 text-right margin-bottom-xs\">\n                <a class=\"btn btn-success\" (click)=\"toCreate()\">\n                    <i class=\"glyphicon glyphicon-plus-sign\"></i> Create New\n                </a>\n            </div>\n            <table class=\"table table-striped\" *ngIf=\"playLists.length > 0\">\n                <thead>\n                    <tr>\n                        <th>Name</th>\n                        <th>Description</th>\n                        <th>Sound Length</th>\n                        <th>Share</th>\n                        <th>Play</th>\n                        <th>Action</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr *ngFor=\"let playlist of playLists\">\n                        <td>{{playlist.name}}</td>\n                        <td>{{playlist.description}}</td>\n                        <td>{{playlist.sounds.length}}</td>\n                        <td>\n                            <a class=\"btn btn-xs btn-primary\" (click)=\"share(playlist)\">\n                                Share <i class=\"fa fa-share-alt\"></i>\n                            </a>\n                        </td>\n                        <td>\n                            <a class=\"btn btn-xs btn-primary\" (click)=\"play(playlist)\">\n                                Listen <i class=\"fa fa-play-circle-o\"></i>\n                            </a>\n                        </td>\n                        <td>\n                            <a class=\"btn btn-xs btn-warning\" [routerLink]=\"['/playlist/create', playlist._id]\">\n                                Edit <i class=\"fa fa-pencil\"></i>\n                            </a>\n                            <a class=\"btn btn-xs btn-danger\" (click)=\"delete(playlist['_id'])\">\n                                Remove <i class=\"fa fa-times\"></i>\n                            </a>\n                        </td>\n                    </tr>\n                </tbody>\n            </table>\n            <div class=\"col-lg-12\" *ngIf=\"playLists.length <= 0\">\n                <div class=\"alert alert-warning\">\n                    Click on <a class=\"btn btn-success\" (click)=\"toCreate()\"><i class=\"glyphicon glyphicon-plus-sign\"></i> Create New</a>\n                    to start create playlist.\n                </div>\n            </div>\n        </div>\n        </div>\n    ",
             providers: [playlist_service_1.PlaylistService, login_service_1.LoginService]
         }), 
         __metadata('design:paramtypes', [router_1.Router, playlist_service_1.PlaylistService, login_service_1.LoginService])

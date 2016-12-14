@@ -38,6 +38,15 @@ import { PlaylistService, onPlaylistChange} from '../../../services/playlist/pla
         overflow: hidden;
         text-overflow: ellipsis;
       }
+      .addButton{
+        position: absolute;
+        width: 80%;
+      }
+      .dateText{
+        position:absolute;
+        bottom:30;
+        right:10;
+      }
     `],
     template: `
       <toaster-container></toaster-container>
@@ -65,13 +74,13 @@ import { PlaylistService, onPlaylistChange} from '../../../services/playlist/pla
                     {{ video.title }}
                   </h4>
                 </div>
-                <div class="col-xs-2 col-sm-1 col-md-1 col-lg-1 text-right no-padding-l">
+                <div class="col-xs-2 col-sm-1 col-md-1 col-lg-1 text-right no-padding-l addButton">
                   <a class=" btn btn-success btn-sm" (click)="addToPlaylist($event, video)">
                     <i class="fa fa-plus"></i>
                   </a>
                 </div>
               </div>
-              <span class="pull-right">{{ video.dateAt | date }}</span>
+              <span class="pull-right dateText">{{ video.dateAt | date }}</span>
             </div>
           </div>
         </div>

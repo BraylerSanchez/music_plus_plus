@@ -1,12 +1,14 @@
 import * as mongoose from 'mongoose';
 import { defer } from 'q';
-import { PlayListSchema } from '../../schemas/playlist/playlist.schema'
+import { PlayListSchema,  SharedPlaylistSchema} from '../../schemas/playlist/playlist.schema';
 
 export class PlaylistModel{
     public playlistModelMG: any;
+    public sharedPlaylistModel: any;
     
     constructor( ){
         this.playlistModelMG = mongoose.model('playlist', PlayListSchema)
+        this.sharedPlaylistModel = mongoose.model('sharedPlaylist', SharedPlaylistSchema);
     }
     
     list( _userId ){
@@ -65,6 +67,32 @@ export class PlaylistModel{
                 def.reject(error)
             } else {
                 def.resolve( "Playlist update success." );
+            }
+        });
+        return def.promise;
+    }
+    
+    share(_sharedPlaylist){
+        var sharedPlaylist = new this.sharedPlaylistModel(_sharedPlaylist);
+        
+        var def = defer();
+        sharedPlaylist.save( (error, doc) =>{
+            if (error) {
+                def.reject(error)
+            } else {
+                def.resolve( "Playlist successfully shared." );
+            }
+        });
+        return def.promise;
+    }
+    
+    search(){
+        var def = defer();
+        this.sharedPlaylistModel.find({}, (error, docs) =>{
+            if( error ){
+                def.reject( error );
+            }else{
+                def.resolve( docs )
             }
         });
         return def.promise;

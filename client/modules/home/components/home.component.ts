@@ -1,12 +1,22 @@
-import { Component, ChangeDetectorRef} from '@angular/core';
-import { Router } from '@angular/router'
+import { Component, ChangeDetectorRef, NgZone} from '@angular/core';
+import { Router } from '@angular/router';
+import { PlaylistService } from '../../../services/playlist/playlist.service'
 
 @Component({
     styles: [`
       .home .search-button{
         background-color: #333333 !important;
         color: white !important;
-      }`
+      }
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+img{
+  width: 100%;
+}
+      `
     ],
     template: `
       <div class="inner cover">
@@ -18,21 +28,46 @@ import { Router } from '@angular/router'
             </span>
           </div>
         </form>
-        <div class="list-group">
-          <a *ngFor="let video of videos" class="list-group-item" >{{video.title}}
-            <i *ngIf="currentSound.id != video.id" (click)="play(video)" class="glyphicon glyphicon-play pull-right"></i>
-            <i *ngIf="currentSound.id == video.id" (click)="stop(video)" class="glyphicon glyphicon-pause pull-right"></i>
-          </a>
-        </div>
-      </div>`
+          <div class="col-xs-12 no-padding-l-r margin-top-md" >
+              <div class="col-xs-12 col-xs-6 col-md-4 col-lg-3 margin-top-md" *ngFor="let playlist of playLists">
+                  <div class="col-xs-12 no-padding-l-r" style="background-color: #fff;border: #969696 solid 1px;">
+                    <div class="col-xs-12 no-padding-l-r">
+                      <img class="img-responsive" src={{playlist.userPictureUrl}} />
+                    </div>
+                    <div class="col-xs-12">
+                      <div class="text-left col-xs-12 no-padding-l-r">
+                        <h6>{{playlist.origin.name}}<br/><small>{{playlist.origin.description}}</small></h6>
+                      </div>
+                      
+                      <div class="vcenter col-xs-12 no-padding-l-r">
+                        <div class="col-xs-6 no-padding-l-r text-left">
+                          <span>{{playlist.userName}}</span> 
+                        </div>
+                        <div class="col-xs-6 no-padding-l-r text-right">
+                          <span>{{playlist.origin.sounds.length}} Song(s)</span>
+                        </div>
+                      </div>
+                    </div>
+                    <button type="button" class="btn-primary fa fa-play" (click)="play(playlist.origin)"></button>
+                    <input type="hidden" value="Rating">
+                  </div>
+              </div>
+          </div>
+      </div>`,
+      providers: [PlaylistService]
 })
 export class HomeComponent{
     private queryString:string;
+    private playLists = [];
+    private profile: any;
+    
     
     constructor(
-      private router: Router
+      private router: Router,
+      private playlistService: PlaylistService
     ){
       this.queryString = '';
+      this.searchSharedPlaylist();
     }
     handleKeyup(e){
       if( e.keyCode == 13){
@@ -47,4 +82,21 @@ export class HomeComponent{
       }
       this.router.navigate(['/search', this.queryString])
     }
+    
+    searchSharedPlaylist():void{
+      this.playlistService.searchShared().subscribe((response) => {
+        if(response.status == true){
+          this.playLists = response.playlist;
+          
+        }else{
+          alert(response.message);
+        }
+        
+      });
+    }
+    
+    play(playlist){ //Este metodo reproduce listas locales, averiguar como reproducir las compartidas.
+        this.playlistService.changePlaylist(playlist);
+    }
+   
  }
