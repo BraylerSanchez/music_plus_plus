@@ -8,8 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var login_service_1 = require('./login.service');
+var core_1 = require("@angular/core");
+var login_service_1 = require("./login.service");
 var CanActivateViaAuthGuard = (function () {
     function CanActivateViaAuthGuard(loginService) {
         this.loginService = loginService;
@@ -17,11 +17,11 @@ var CanActivateViaAuthGuard = (function () {
     CanActivateViaAuthGuard.prototype.canActivate = function () {
         return this.loginService.getUser()._id != undefined;
     };
-    CanActivateViaAuthGuard = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [login_service_1.LoginService])
-    ], CanActivateViaAuthGuard);
     return CanActivateViaAuthGuard;
 }());
+CanActivateViaAuthGuard = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [login_service_1.LoginService])
+], CanActivateViaAuthGuard);
 exports.CanActivateViaAuthGuard = CanActivateViaAuthGuard;
 //# sourceMappingURL=can.active.service.js.map

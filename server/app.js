@@ -1,12 +1,12 @@
 "use strict";
-var express = require('express');
-var body_parser_1 = require('body-parser');
-var path_1 = require('path');
-var config = require('config');
-var mongoose = require('mongoose');
-var playlist_routes_1 = require('./routes/playlist/playlist.routes');
-var convert_routes_1 = require('./routes/youtube/convert.routes');
-var search_routes_1 = require('./routes/youtube/search.routes');
+var express = require("express");
+var body_parser_1 = require("body-parser");
+var path_1 = require("path");
+var config = require("config");
+var mongoose = require("mongoose");
+var playlist_routes_1 = require("./routes/playlist/playlist.routes");
+var convert_routes_1 = require("./routes/youtube/convert.routes");
+var search_routes_1 = require("./routes/youtube/search.routes");
 var AppServer = (function () {
     function AppServer() {
         this.app = express();

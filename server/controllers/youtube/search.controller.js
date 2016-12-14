@@ -1,5 +1,5 @@
 "use strict";
-var search_model_1 = require('../../models/youtube/search.model');
+var search_model_1 = require("../../models/youtube/search.model");
 var SearchController = (function () {
     function SearchController() {
         this.searchModel = new search_model_1.SearchModel();

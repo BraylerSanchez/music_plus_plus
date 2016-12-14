@@ -1,5 +1,5 @@
 "use strict";
-var playlist_controller_1 = require('../../controllers/playlist/playlist.controller');
+var playlist_controller_1 = require("../../controllers/playlist/playlist.controller");
 var PlaylistRoutes = (function () {
     function PlaylistRoutes(app) {
         var _this = this;

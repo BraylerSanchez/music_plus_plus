@@ -8,14 +8,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
-var search_component_1 = require('../../home/components/search.component');
-var playlistdetail_component_1 = require('./playlistdetail.component');
-var songlist_component_1 = require('./songlist.component');
-var summary_component_1 = require('./summary.component');
-var playlist_service_1 = require('../../../services/playlist/playlist.service');
-var login_service_1 = require('../../../services/user/login.service');
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+var search_component_1 = require("../../home/components/search.component");
+var playlistdetail_component_1 = require("./playlistdetail.component");
+var songlist_component_1 = require("./songlist.component");
+var summary_component_1 = require("./summary.component");
+var playlist_service_1 = require("../../../services/playlist/playlist.service");
+var login_service_1 = require("../../../services/user/login.service");
 var CreateListComponent = (function () {
     function CreateListComponent(router, routerParams, playlistService, loginService) {
         var _this = this;
@@ -95,34 +95,37 @@ var CreateListComponent = (function () {
             }
         });
     };
-    __decorate([
-        core_1.ViewChild(search_component_1.SearchComponent), 
-        __metadata('design:type', search_component_1.SearchComponent)
-    ], CreateListComponent.prototype, "searchComponent", void 0);
-    __decorate([
-        core_1.ViewChild(playlistdetail_component_1.PlayListDetailComponent), 
-        __metadata('design:type', playlistdetail_component_1.PlayListDetailComponent)
-    ], CreateListComponent.prototype, "playlistdetailComponent", void 0);
-    __decorate([
-        core_1.ViewChild(songlist_component_1.SongListComponent), 
-        __metadata('design:type', songlist_component_1.SongListComponent)
-    ], CreateListComponent.prototype, "songlistComponent", void 0);
-    __decorate([
-        core_1.ViewChild(summary_component_1.SummaryComponent), 
-        __metadata('design:type', summary_component_1.SummaryComponent)
-    ], CreateListComponent.prototype, "summaryComponent", void 0);
-    CreateListComponent = __decorate([
-        core_1.Component({
-            selector: 'playlistcreate',
-            styles: ["\n        search div.cover {\n            margin-top: 0px !important;\n        }\n        .buttons {\n            margin-top: 5px;\n        }\n        \n    "
-            ],
-            styleUrls: ['modules/playlist/components/wizardtemplate.css'],
-            template: " \n        <div class=\"\">\n            <h3>Playlist create wizard</h3>\n            <div class=\"container col-xs-12\">\n            \t<div class=\"row\">\n                    <div class=\"wizard\">\n                        <div class=\"wizard-inner\">\n                            <div class=\"connecting-line\"></div>\n                            <ul class=\"nav nav-tabs\" role=\"tablist\">\n                                <li role=\"presentation\" [ngClass]=\"{'active': step == 1}\">\n                                    <a role=\"tab\" title=\"Creat list detail\">\n                                        <span class=\"round-tab\">\n                                            <i class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></i> \n                                        </span>\n                                    </a>\n                                </li>\n                                <li role=\"presentation\" class=\"\" [ngClass]=\"{'active': step == 2}\">\n                                    <a data-toogle=\"tab\" title=\"Select songs\">\n                                        <span class=\"round-tab\">\n                                            <i class=\"glyphicon glyphicon-th-list\" aria-hidden=\"true\"></i>\n                                        </span>\n                                    </a>\n                                </li>\n                                <li role=\"presentation\" [ngClass]=\"{'active': step=='3'}\">\n                                    <a  title=\"Complete\">\n                                        <span class=\"round-tab\">\n                                            <i class=\"glyphicon glyphicon-ok\" aria-hidden=\"true\"></i>\n                                        </span>\n                                    </a>\n                                </li>\n                            </ul>\n                        </div>\n                    </div>\n                    <div class=\"margin-bottom-xs margin-top-xs col-xs-12 no-padding-l-r\">\n                        <a class=\"btn btn-warning pull-left\" (click)=\"toCancel()\">\n                            <i class=\"fa fa-times\" ></i> Cancel\n                        </a>\n                        <a *ngIf=\"step === 1 || step === 2\" class=\"btn btn-primary pull-right\" (click)=\"toNext()\">\n                            Next <i class=\"fa fa-arrow-right \" aria-hidden=\"true\" ></i> \n                        </a>\n                        <a *ngIf=\"step === 3\" class=\"btn btn-success pull-right\" (click)=\"toSavePlayList()\">\n                            Save <i class=\"fa fa-floppy-o\" aria-hidden=\"true\" ></i> \n                        </a>\n                        <a *ngIf=\"step === 2 || step === 3\" class=\"btn btn-primary pull-right margin-right-xs\" (click)=\"toPrevious()\">\n                            <i class=\"fa fa-arrow-left \" aria-hidden=\"true\" ></i> Previous\n                        </a>\n                    </div>\n                   \n                    <div class=\"tab-content no-padding-l-r\">\n                        <div class=\"tab-pane active\" role=\"tabpanel\" [ngClass]=\"{'active': step==1}\">\n                            <playlistdetail \n                                (onSave)=\"step1Save($event)\"\n                                [playlist]=\"playlist\">\n                            </playlistdetail>\n                        </div>\n                        <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step==2}\">\n                            <div class=\"col-sm-6\">\n                                <songlist\n                                    [playlist]=\"playlist\"\n                                ></songlist>\n                            </div>\n                            <div class=\"col-sm-6\">\n                                <h3>Search songs:</h3>\n                                <search\n                                    [playlist]=\"playlist\"\n                                ></search>\n                            </div>\n                        </div>\n                        <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step==3}\">\n                            <div class=\"col-lg-12\">\n                                <summary\n                                    [playlist]=\"playlist\">\n                                </summary>\n                            </div>\n                        </div>\n                        <div class=\"clearfix\"></div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    ",
-            providers: [playlist_service_1.PlaylistService, login_service_1.LoginService]
-        }), 
-        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, playlist_service_1.PlaylistService, login_service_1.LoginService])
-    ], CreateListComponent);
     return CreateListComponent;
 }());
+__decorate([
+    core_1.ViewChild(search_component_1.SearchComponent),
+    __metadata("design:type", search_component_1.SearchComponent)
+], CreateListComponent.prototype, "searchComponent", void 0);
+__decorate([
+    core_1.ViewChild(playlistdetail_component_1.PlayListDetailComponent),
+    __metadata("design:type", playlistdetail_component_1.PlayListDetailComponent)
+], CreateListComponent.prototype, "playlistdetailComponent", void 0);
+__decorate([
+    core_1.ViewChild(songlist_component_1.SongListComponent),
+    __metadata("design:type", songlist_component_1.SongListComponent)
+], CreateListComponent.prototype, "songlistComponent", void 0);
+__decorate([
+    core_1.ViewChild(summary_component_1.SummaryComponent),
+    __metadata("design:type", summary_component_1.SummaryComponent)
+], CreateListComponent.prototype, "summaryComponent", void 0);
+CreateListComponent = __decorate([
+    core_1.Component({
+        selector: 'playlistcreate',
+        styles: ["\n        search div.cover {\n            margin-top: 0px !important;\n        }\n        .buttons {\n            margin-top: 5px;\n        }\n        \n    "
+        ],
+        styleUrls: ['modules/playlist/components/wizardtemplate.css'],
+        template: " \n        <div class=\"\">\n            <h3>Playlist create wizard</h3>\n            <div class=\"container col-xs-12\">\n            \t<div class=\"row\">\n                    <div class=\"wizard\">\n                        <div class=\"wizard-inner\">\n                            <div class=\"connecting-line\"></div>\n                            <ul class=\"nav nav-tabs\" role=\"tablist\">\n                                <li role=\"presentation\" [ngClass]=\"{'active': step == 1}\">\n                                    <a role=\"tab\" title=\"Creat list detail\">\n                                        <span class=\"round-tab\">\n                                            <i class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></i> \n                                        </span>\n                                    </a>\n                                </li>\n                                <li role=\"presentation\" class=\"\" [ngClass]=\"{'active': step == 2}\">\n                                    <a data-toogle=\"tab\" title=\"Select songs\">\n                                        <span class=\"round-tab\">\n                                            <i class=\"glyphicon glyphicon-th-list\" aria-hidden=\"true\"></i>\n                                        </span>\n                                    </a>\n                                </li>\n                                <li role=\"presentation\" [ngClass]=\"{'active': step=='3'}\">\n                                    <a  title=\"Complete\">\n                                        <span class=\"round-tab\">\n                                            <i class=\"glyphicon glyphicon-ok\" aria-hidden=\"true\"></i>\n                                        </span>\n                                    </a>\n                                </li>\n                            </ul>\n                        </div>\n                    </div>\n                    <div class=\"margin-bottom-xs margin-top-xs col-xs-12 no-padding-l-r\">\n                        <a class=\"btn btn-warning pull-left\" (click)=\"toCancel()\">\n                            <i class=\"fa fa-times\" ></i> Cancel\n                        </a>\n                        <a *ngIf=\"step === 1 || step === 2\" class=\"btn btn-primary pull-right\" (click)=\"toNext()\">\n                            Next <i class=\"fa fa-arrow-right \" aria-hidden=\"true\" ></i> \n                        </a>\n                        <a *ngIf=\"step === 3\" class=\"btn btn-success pull-right\" (click)=\"toSavePlayList()\">\n                            Save <i class=\"fa fa-floppy-o\" aria-hidden=\"true\" ></i> \n                        </a>\n                        <a *ngIf=\"step === 2 || step === 3\" class=\"btn btn-primary pull-right margin-right-xs\" (click)=\"toPrevious()\">\n                            <i class=\"fa fa-arrow-left \" aria-hidden=\"true\" ></i> Previous\n                        </a>\n                    </div>\n                   \n                    <div class=\"tab-content no-padding-l-r\">\n                        <div class=\"tab-pane active\" role=\"tabpanel\" [ngClass]=\"{'active': step==1}\">\n                            <playlistdetail \n                                (onSave)=\"step1Save($event)\"\n                                [playlist]=\"playlist\">\n                            </playlistdetail>\n                        </div>\n                        <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step==2}\">\n                            <div class=\"col-sm-6\">\n                                <songlist\n                                    [playlist]=\"playlist\"\n                                ></songlist>\n                            </div>\n                            <div class=\"col-sm-6\">\n                                <h3>Search songs:</h3>\n                                <search\n                                    [playlist]=\"playlist\"\n                                ></search>\n                            </div>\n                        </div>\n                        <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step==3}\">\n                            <div class=\"col-lg-12\">\n                                <summary\n                                    [playlist]=\"playlist\">\n                                </summary>\n                            </div>\n                        </div>\n                        <div class=\"clearfix\"></div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    ",
+        providers: [playlist_service_1.PlaylistService, login_service_1.LoginService]
+    }),
+    __metadata("design:paramtypes", [router_1.Router,
+        router_1.ActivatedRoute,
+        playlist_service_1.PlaylistService,
+        login_service_1.LoginService])
+], CreateListComponent);
 exports.CreateListComponent = CreateListComponent;
 //# sourceMappingURL=create.component.js.map

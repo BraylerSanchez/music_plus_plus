@@ -1,5 +1,5 @@
 "use strict";
-var playlist_model_1 = require('../../models/playlist/playlist.model');
+var playlist_model_1 = require("../../models/playlist/playlist.model");
 var PlaylistController = (function () {
     function PlaylistController() {
         this.playlistModel = new playlist_model_1.PlaylistModel();

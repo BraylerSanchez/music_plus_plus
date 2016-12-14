@@ -8,11 +8,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var Observable_1 = require('rxjs/Observable');
-require('rxjs/add/operator/map');
-require('rxjs/add/operator/share');
-var http_1 = require('@angular/http');
+var core_1 = require("@angular/core");
+var Observable_1 = require("rxjs/Observable");
+require("rxjs/add/operator/map");
+require("rxjs/add/operator/share");
+var http_1 = require("@angular/http");
 var loginUserObserbable;
 exports.onLoginUser = new Observable_1.Observable(function (observable) {
     loginUserObserbable = observable;
@@ -84,11 +84,11 @@ var LoginService = (function () {
     LoginService.prototype.getUserProfile = function (id) {
         return this.http.get("https://www.googleapis.com/gmail/v1/users/" + id + "/profile", headers).map(function (res) { return res.json(); });
     };
-    LoginService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http])
-    ], LoginService);
     return LoginService;
 }());
+LoginService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [http_1.Http])
+], LoginService);
 exports.LoginService = LoginService;
 //# sourceMappingURL=login.service.js.map

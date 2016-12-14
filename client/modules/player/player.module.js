@@ -8,26 +8,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var common_1 = require('@angular/common');
-var platform_browser_1 = require('@angular/platform-browser');
-var player_component_1 = require('./components/player.component');
+var core_1 = require("@angular/core");
+var common_1 = require("@angular/common");
+var platform_browser_1 = require("@angular/platform-browser");
+var player_component_1 = require("./components/player.component");
 var PlayerModule = (function () {
     function PlayerModule() {
     }
-    PlayerModule = __decorate([
-        core_1.NgModule({
-            imports: [
-                platform_browser_1.BrowserModule,
-                common_1.CommonModule
-            ],
-            exports: [player_component_1.PlayerComponent],
-            declarations: [player_component_1.PlayerComponent],
-            bootstrap: [player_component_1.PlayerComponent]
-        }), 
-        __metadata('design:paramtypes', [])
-    ], PlayerModule);
     return PlayerModule;
 }());
+PlayerModule = __decorate([
+    core_1.NgModule({
+        imports: [
+            platform_browser_1.BrowserModule,
+            common_1.CommonModule
+        ],
+        exports: [player_component_1.PlayerComponent],
+        declarations: [player_component_1.PlayerComponent],
+        bootstrap: [player_component_1.PlayerComponent]
+    }),
+    __metadata("design:paramtypes", [])
+], PlayerModule);
 exports.PlayerModule = PlayerModule;
 //# sourceMappingURL=player.module.js.map

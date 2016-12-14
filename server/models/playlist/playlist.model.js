@@ -1,7 +1,7 @@
 "use strict";
-var mongoose = require('mongoose');
-var q_1 = require('q');
-var playlist_schema_1 = require('../../schemas/playlist/playlist.schema');
+var mongoose = require("mongoose");
+var q_1 = require("q");
+var playlist_schema_1 = require("../../schemas/playlist/playlist.schema");
 var PlaylistModel = (function () {
     function PlaylistModel() {
         this.playlistModelMG = mongoose.model('playlist', playlist_schema_1.PlayListSchema);

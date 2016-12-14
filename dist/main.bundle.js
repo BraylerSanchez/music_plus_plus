@@ -66,34 +66,35 @@ webpackJsonp([0],[
 	var AppModule = (function () {
 	    function AppModule() {
 	    }
-	    AppModule = __decorate([
-	        core_1.NgModule({
-	            imports: [
-	                app_routes_1.routing,
-	                platform_browser_1.BrowserModule,
-	                common_1.CommonModule,
-	                home_module_1.HomeModule,
-	                player_module_1.PlayerModule,
-	                playlist_module_1.PlaylistModule,
-	                angular2_toaster_1.ToasterModule
-	            ],
-	            declarations: [
-	                template_component_1.TemplateComponent,
-	                sidebar_component_1.SideBarComponent,
-	                playing_widget_component_1.PlayingWidgetComponent,
-	                playlist_widget_component_1.PlaylistWidgetComponent],
-	            bootstrap: [template_component_1.TemplateComponent],
-	            providers: [
-	                {
-	                    provide: common_1.LocationStrategy,
-	                    useClass: common_1.HashLocationStrategy
-	                }
-	            ]
-	        }), 
-	        __metadata('design:paramtypes', [])
-	    ], AppModule);
 	    return AppModule;
 	}());
+	AppModule = __decorate([
+	    core_1.NgModule({
+	        imports: [
+	            app_routes_1.routing,
+	            platform_browser_1.BrowserModule,
+	            common_1.CommonModule,
+	            home_module_1.HomeModule,
+	            player_module_1.PlayerModule,
+	            playlist_module_1.PlaylistModule,
+	            angular2_toaster_1.ToasterModule
+	        ],
+	        declarations: [
+	            template_component_1.TemplateComponent,
+	            sidebar_component_1.SideBarComponent,
+	            playing_widget_component_1.PlayingWidgetComponent,
+	            playlist_widget_component_1.PlaylistWidgetComponent
+	        ],
+	        bootstrap: [template_component_1.TemplateComponent],
+	        providers: [
+	            {
+	                provide: common_1.LocationStrategy,
+	                useClass: common_1.HashLocationStrategy
+	            }
+	        ]
+	    }),
+	    __metadata("design:paramtypes", [])
+	], AppModule);
 	exports.AppModule = AppModule;
 
 
@@ -183,26 +184,27 @@ webpackJsonp([0],[
 	var HomeModule = (function () {
 	    function HomeModule() {
 	    }
-	    HomeModule = __decorate([
-	        core_1.NgModule({
-	            imports: [
-	                http_1.HttpModule,
-	                platform_browser_1.BrowserModule,
-	                forms_1.FormsModule,
-	                common_1.CommonModule,
-	                angular2_toaster_1.ToasterModule,
-	                home_routes_1.routing],
-	            exports: [
-	                search_component_1.SearchComponent
-	            ],
-	            declarations: [home_component_1.HomeComponent, search_component_1.SearchComponent],
-	            bootstrap: [home_component_1.HomeComponent],
-	            schemas: [core_1.CUSTOM_ELEMENTS_SCHEMA]
-	        }), 
-	        __metadata('design:paramtypes', [])
-	    ], HomeModule);
 	    return HomeModule;
 	}());
+	HomeModule = __decorate([
+	    core_1.NgModule({
+	        imports: [
+	            http_1.HttpModule,
+	            platform_browser_1.BrowserModule,
+	            forms_1.FormsModule,
+	            common_1.CommonModule,
+	            angular2_toaster_1.ToasterModule,
+	            home_routes_1.routing
+	        ],
+	        exports: [
+	            search_component_1.SearchComponent
+	        ],
+	        declarations: [home_component_1.HomeComponent, search_component_1.SearchComponent],
+	        bootstrap: [home_component_1.HomeComponent],
+	        schemas: [core_1.CUSTOM_ELEMENTS_SCHEMA]
+	    }),
+	    __metadata("design:paramtypes", [])
+	], HomeModule);
 	exports.HomeModule = HomeModule;
 
 
@@ -4722,17 +4724,18 @@ webpackJsonp([0],[
 	    HomeComponent.prototype.play = function (playlist) {
 	        this.playlistService.changePlaylist(playlist);
 	    };
-	    HomeComponent = __decorate([
-	        core_1.Component({
-	            styles: ["\n      .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n.vcenter {\n    display: inline-block;\n    vertical-align: middle;\n    float: none;\n}\nimg{\n  width: 100%;\n}\n      "
-	            ],
-	            template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <i class=\"btn btn-default fa fa-search search-button\" type=\"button\" (click)=\"search()\"></i>\n            </span>\n          </div>\n        </form>\n          <div class=\"col-xs-12 no-padding-l-r margin-top-md\" >\n              <div class=\"col-xs-12 col-xs-6 col-md-4 col-lg-3 margin-top-md\" *ngFor=\"let playlist of playLists\">\n                  <div class=\"col-xs-12 no-padding-l-r\" style=\"background-color: #fff;border: #969696 solid 1px;\">\n                    <div class=\"col-xs-12 no-padding-l-r\">\n                      <img class=\"img-responsive\" src={{playlist.userPictureUrl}} />\n                    </div>\n                    <div class=\"col-xs-12\">\n                      <div class=\"text-left col-xs-12 no-padding-l-r\">\n                        <h6>{{playlist.origin.name}}<br/><small>{{playlist.origin.description}}</small></h6>\n                      </div>\n                      \n                      <div class=\"vcenter col-xs-12 no-padding-l-r\">\n                        <div class=\"col-xs-6 no-padding-l-r text-left\">\n                          <span>{{playlist.userName}}</span> \n                        </div>\n                        <div class=\"col-xs-6 no-padding-l-r text-right\">\n                          <span>{{playlist.origin.sounds.length}} Song(s)</span>\n                        </div>\n                      </div>\n                    </div>\n                    <button type=\"button\" class=\"btn-primary fa fa-play\" (click)=\"play(playlist.origin)\"></button>\n                    <input type=\"hidden\" value=\"Rating\">\n                  </div>\n              </div>\n          </div>\n      </div>",
-	            providers: [playlist_service_1.PlaylistService]
-	        }), 
-	        __metadata('design:paramtypes', [router_1.Router, playlist_service_1.PlaylistService])
-	    ], HomeComponent);
 	    return HomeComponent;
 	}());
+	HomeComponent = __decorate([
+	    core_1.Component({
+	        styles: ["\n      .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n.vcenter {\n  margin-top: 30px;\n}\n  .vcenter span{\n    font-size: 8pt;\n  }\nimg{\n  width: 100%;\n}\n.shared-container{\n      padding: 5px !important;\n}\n      "
+	        ],
+	        template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <i class=\"btn btn-default fa fa-search search-button\" type=\"button\" (click)=\"search()\"></i>\n            </span>\n          </div>\n        </form>\n          <div class=\"col-xs-12 no-padding-l-r margin-top-md\" >\n              <div class=\"col-xs-12 col-xs-6 col-md-4 col-lg-3 margin-top-md\" *ngFor=\"let playlist of playLists\">\n                  <div class=\"col-xs-12 no-padding-l-r\" style=\"background-color: #fff;border: #969696 solid 1px;\">\n                    <div class=\"col-xs-12 no-padding-l-r\">\n                      <img class=\"img-responsive\" src={{playlist.userPictureUrl}} />\n                    </div>\n                    <div class=\"col-xs-12 shared-container\">\n                      <div class=\"text-left col-xs-12 no-padding-l-r\">\n                        <h6>{{playlist.origin.name}}<br/><small>{{playlist.origin.description}}</small></h6>\n                      </div>\n                      \n                      <div class=\"col-xs-12 no-padding-l-r\">\n                          <button type=\"button\" class=\"btn btn-xs btn-primary pull-right btn-block\" (click)=\"play(playlist.origin)\">\n                            <i class=\" fa fa-play\"></i> Listen\n                          </button>\n                      </div>\n                      <div class=\"vcenter col-xs-12 no-padding-l-r\">\n                        <div class=\"col-xs-6 no-padding-l-r text-left\">\n                          <span>{{playlist.userName}}</span> \n                        </div>\n                        <div class=\"col-xs-6 no-padding-l-r text-right\">\n                          <span>{{playlist.origin.sounds.length}} Song(s)</span>\n                        </div>\n                      </div>\n                    </div>\n                  </div>\n              </div>\n          </div>\n      </div>",
+	        providers: [playlist_service_1.PlaylistService]
+	    }),
+	    __metadata("design:paramtypes", [router_1.Router,
+	        playlist_service_1.PlaylistService])
+	], HomeComponent);
 	exports.HomeComponent = HomeComponent;
 
 
@@ -4843,12 +4846,12 @@ webpackJsonp([0],[
 	        return this.http.get('api/v1/shared/search', headers)
 	            .map(function (res) { return res.json(); });
 	    };
-	    PlaylistService = __decorate([
-	        core_1.Injectable(), 
-	        __metadata('design:paramtypes', [http_1.Http])
-	    ], PlaylistService);
 	    return PlaylistService;
 	}());
+	PlaylistService = __decorate([
+	    core_1.Injectable(),
+	    __metadata("design:paramtypes", [http_1.Http])
+	], PlaylistService);
 	exports.PlaylistService = PlaylistService;
 
 
@@ -4942,21 +4945,25 @@ webpackJsonp([0],[
 	        this.playerService.getMusic(playlist.sounds.length, sound);
 	        this.toasterService.pop('success', 'Playing Music', sound.title);
 	    };
-	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', Object)
-	    ], SearchComponent.prototype, "playlist", void 0);
-	    SearchComponent = __decorate([
-	        core_1.Component({
-	            selector: 'search',
-	            styles: ["\n      .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n      \n      .playing{\n        content:url(\"assest/images/equalizer.gif\");\n        height: 50%;\n        width: 10%;\n        margin-top: -15px;\n      }\n      \n      .video{\n        color: #333333;\n      }\n\n      .media-object{\n          border-radius: 5px !important;\n      }\n      .media-heading .title{\n        cursor: pointer;\n        width: 70%;\n        display: inline-block;\n        white-space: nowrap;\n        overflow: hidden;\n        text-overflow: ellipsis;\n      }\n      .addButton{\n        position: absolute;\n        width: 80%;\n      }\n      .dateText{\n        position:absolute;\n        bottom:30;\n        right:10;\n      }\n    "],
-	            template: "\n      <toaster-container></toaster-container>\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <i class=\"fa fa-search btn btn-default search-button\" type=\"button\" (click)=\"search()\"></i>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <div class=\"video list-group-item\" *ngFor=\"let video of videos; let i = index\">\n            <div class=\"media-left\">\n              <span>\n                <img id=\"\n                \" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n              </span>\n            </div>\n            <div class=\"media-body text-left\">\n              <div class=\"media-heading\">\n                <div class=\"col-xs-10 col-sm-11 col-md-11 col-lg-11 no-padding-r\">\n                  <h4 (click)=\"play(video)\" title=\"{{ video.title }}\" class=\"title no-padding-r\" >\n                    {{ video.title }}\n                  </h4>\n                </div>\n                <div class=\"col-xs-2 col-sm-1 col-md-1 col-lg-1 text-right no-padding-l addButton\">\n                  <a class=\" btn btn-success btn-sm\" (click)=\"addToPlaylist($event, video)\">\n                    <i class=\"fa fa-plus\"></i>\n                  </a>\n                </div>\n              </div>\n              <span class=\"pull-right dateText\">{{ video.dateAt | date }}</span>\n            </div>\n          </div>\n        </div>\n      </div>",
-	            providers: [player_service_1.PlayerService, angular2_toaster_1.ToasterService, playlist_service_1.PlaylistService]
-	        }), 
-	        __metadata('design:paramtypes', [player_service_1.PlayerService, router_1.ActivatedRoute, core_1.NgZone, angular2_toaster_1.ToasterService, playlist_service_1.PlaylistService])
-	    ], SearchComponent);
 	    return SearchComponent;
 	}());
+	__decorate([
+	    core_1.Input(),
+	    __metadata("design:type", Object)
+	], SearchComponent.prototype, "playlist", void 0);
+	SearchComponent = __decorate([
+	    core_1.Component({
+	        selector: 'search',
+	        styles: ["\n      .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n      \n      .playing{\n        content:url(\"assest/images/equalizer.gif\");\n        height: 50%;\n        width: 10%;\n        margin-top: -15px;\n      }\n      \n      .video{\n        color: #333333;\n      }\n\n      .media-object{\n          border-radius: 5px !important;\n      }\n      .media-heading .title{\n        cursor: pointer;\n        width: 70%;\n        display: inline-block;\n        white-space: nowrap;\n        overflow: hidden;\n        text-overflow: ellipsis;\n      }\n      .addButton{\n        position: absolute;\n        width: 80%;\n      }\n      .dateText{\n        position:absolute;\n        bottom:30;\n        right:10;\n      }\n    "],
+	        template: "\n      <toaster-container></toaster-container>\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <i class=\"fa fa-search btn btn-default search-button\" type=\"button\" (click)=\"search()\"></i>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <div class=\"video list-group-item\" *ngFor=\"let video of videos; let i = index\">\n            <div class=\"media-left\">\n              <span>\n                <img id=\"\n                \" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n              </span>\n            </div>\n            <div class=\"media-body text-left\">\n              <div class=\"media-heading\">\n                <div class=\"col-xs-10 col-sm-11 col-md-11 col-lg-11 no-padding-r\">\n                  <h4 (click)=\"play(video)\" title=\"{{ video.title }}\" class=\"title no-padding-r\" >\n                    {{ video.title }}\n                  </h4>\n                </div>\n                <div class=\"col-xs-2 col-sm-1 col-md-1 col-lg-1 text-right no-padding-l addButton\">\n                  <a class=\" btn btn-success btn-sm\" (click)=\"addToPlaylist($event, video)\">\n                    <i class=\"fa fa-plus\"></i>\n                  </a>\n                </div>\n              </div>\n              <span class=\"pull-right dateText\">{{ video.dateAt | date }}</span>\n            </div>\n          </div>\n        </div>\n      </div>",
+	        providers: [player_service_1.PlayerService, angular2_toaster_1.ToasterService, playlist_service_1.PlaylistService]
+	    }),
+	    __metadata("design:paramtypes", [player_service_1.PlayerService,
+	        router_1.ActivatedRoute,
+	        core_1.NgZone,
+	        angular2_toaster_1.ToasterService,
+	        playlist_service_1.PlaylistService])
+	], SearchComponent);
 	exports.SearchComponent = SearchComponent;
 
 
@@ -5038,12 +5045,12 @@ webpackJsonp([0],[
 	    PlayerService.prototype.suspendMusic = function () {
 	        onSuspendMusicTrigger.next();
 	    };
-	    PlayerService = __decorate([
-	        core_1.Injectable(), 
-	        __metadata('design:paramtypes', [http_1.Http])
-	    ], PlayerService);
 	    return PlayerService;
 	}());
+	PlayerService = __decorate([
+	    core_1.Injectable(),
+	    __metadata("design:paramtypes", [http_1.Http])
+	], PlayerService);
 	exports.PlayerService = PlayerService;
 
 
@@ -5068,20 +5075,20 @@ webpackJsonp([0],[
 	var PlayerModule = (function () {
 	    function PlayerModule() {
 	    }
-	    PlayerModule = __decorate([
-	        core_1.NgModule({
-	            imports: [
-	                platform_browser_1.BrowserModule,
-	                common_1.CommonModule
-	            ],
-	            exports: [player_component_1.PlayerComponent],
-	            declarations: [player_component_1.PlayerComponent],
-	            bootstrap: [player_component_1.PlayerComponent]
-	        }), 
-	        __metadata('design:paramtypes', [])
-	    ], PlayerModule);
 	    return PlayerModule;
 	}());
+	PlayerModule = __decorate([
+	    core_1.NgModule({
+	        imports: [
+	            platform_browser_1.BrowserModule,
+	            common_1.CommonModule
+	        ],
+	        exports: [player_component_1.PlayerComponent],
+	        declarations: [player_component_1.PlayerComponent],
+	        bootstrap: [player_component_1.PlayerComponent]
+	    }),
+	    __metadata("design:paramtypes", [])
+	], PlayerModule);
 	exports.PlayerModule = PlayerModule;
 
 
@@ -5237,17 +5244,19 @@ webpackJsonp([0],[
 	            this.playerService.suspendMusic();
 	        }
 	    };
-	    PlayerComponent = __decorate([
-	        core_1.Component({
-	            selector: 'player',
-	            styles: ["\n        .player{\n            position: fixed;\n            z-index: 1000;\n            bottom: 0;\n            left: 0;\n            width: 100%;\n            background-color: #fff;\n            border-top: solid 1px #c7c7c7;\n            box-shadow: 0px 0px 4px 1px;\n            height: 48px;\n            padding-top: 10px;\n        }\n        .player .progress{\n            margin-top: 5px;\n            position: relative;\n        }\n        .player .progress .progress-bar{\n            background-color: #333;\n        }\n        .player .controls.playing a.common{\n            top: -12px !important;\n        }\n        \n        .player .controls a{\n            font-size: 15pt;\n            color: #333;\n            cursor: pointer;\n            position: relative;\n            transition: 0.4s;\n        }\n        .player .controls a:hover{\n            color: #b3b2b2;\n        }\n        .player .controls a.play{\n            font-size: 30pt;\n            top: -6px;\n        }\n        .player .controls img{\n            height: 40px;\n            width: 40px;\n            left: 50%;\n            margin-top: -6px;\n        }\n        \n        .player .progress span{\n            position: absolute;\n        }\n        \n        .player .progress span.left{\n            left: 5;\n        }\n        \n        .player .progress span.right{\n            right: 5;\n            top: 0;\n        }\n        \n        .player .controls a.disabled{\n            color: gray;\n            cursor: no-drop;\n        }\n        \n        input[type=range] {\n          -webkit-appearance: none;\n          width: 100%;\n          margin: 0.7px 0;\n        }\n        input[type=range]:focus {\n          outline: none;\n        }\n        input[type=range]::-webkit-slider-runnable-track {\n          width: 100%;\n          height: 25.6px;\n          cursor: pointer;\n          box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;\n          background: #484d4d;\n          border-radius: 0px;\n          border: 0px solid #010101;\n        }\n        input[type=range]::-webkit-slider-thumb {\n          box-shadow: 0px 0px 1px #670000, 0px 0px 0px #810000;\n          border: 0px solid #ff1e00;\n          height: 27px;\n          width: 18px;\n          border-radius: 0px;\n          background: rgba(255, 67, 95, 0.93);\n          cursor: pointer;\n          -webkit-appearance: none;\n          margin-top: -0.7px;\n        }\n        input[type=range]:focus::-webkit-slider-runnable-track {\n          background: #545a5a;\n        }\n        input[type=range]::-moz-range-track {\n          width: 100%;\n          height: 25.6px;\n          cursor: pointer;\n          box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;\n          background: #484d4d;\n          border-radius: 0px;\n          border: 0px solid #010101;\n        }\n        input[type=range]::-moz-range-thumb {\n          box-shadow: 0px 0px 1px #670000, 0px 0px 0px #810000;\n          border: 0px solid #ff1e00;\n          height: 27px;\n          width: 18px;\n          border-radius: 0px;\n          background: rgba(255, 67, 95, 0.93);\n          cursor: pointer;\n        }\n        input[type=range]::-ms-track {\n          width: 100%;\n          height: 25.6px;\n          cursor: pointer;\n          background: transparent;\n          border-color: transparent;\n          color: transparent;\n        }\n        input[type=range]::-ms-fill-lower {\n          background: #3c4040;\n          border: 0px solid #010101;\n          border-radius: 0px;\n          box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;\n        }\n        input[type=range]::-ms-fill-upper {\n          background: #484d4d;\n          border: 0px solid #010101;\n          border-radius: 0px;\n          box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;\n        }\n        input[type=range]::-ms-thumb {\n          box-shadow: 0px 0px 1px #670000, 0px 0px 0px #810000;\n          border: 0px solid #ff1e00;\n          height: 27px;\n          width: 18px;\n          border-radius: 0px;\n          background: rgba(255, 67, 95, 0.93);\n          cursor: pointer;\n          height: 25.6px;\n        }\n        input[type=range]:focus::-ms-fill-lower {\n          background: #484d4d;\n        }\n        input[type=range]:focus::-ms-fill-upper {\n          background: #545a5a;\n        }\n    "],
-	            template: "\n    <div class=\"col-lg-12 no-padding-l-r player\" *ngIf=\"currentSoundDetails\" >\n        <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding-l-r\">\n            <div class=\"col-lg-2 col-md-2 hidden-sm hidden-xs no-padding-l-r\"></div>\n            <div class=\"col-lg-8 col-md-8 col-sm-12 col-xs-12\">\n                <div class=\"col-lg-3 col-md-3 col-sm-3 col-xs-6 no-padding-l-r controls\" [ngClass]=\"{'playing': !isLoading}\">\n                    <a class=\"common\" (click)=\"previou()\" [ngClass]=\"{'disabled': currentSoundIndex <= 0 || isLoading }\"><i class=\"fa fa-backward padding-right-xs\"></i></a>\n                    <a class=\"play\" *ngIf=\"!isPlaying && !isLoading\" (click)=\"play()\" ><i class=\"fa fa-play\"></i></a>\n                    <img *ngIf=\"isLoading\" class=\"mini-loading\" src=\"assest/images/loading-xs.gif\" />\n                    <a class=\"play\" *ngIf=\"isPlaying && !isLoading\" (click)=\"stop()\" ><i class=\"fa fa-pause\"></i></a>\n                    <a class=\"common\" (click)=\"next()\" [ngClass]=\"{'disabled': currentSoundIndex +1 >= soundsLength || isLoading  }\" ><i class=\"fa fa-forward padding-left-xs\"></i></a>\n                    <a class=\"common\" (click)=\"suspend()\"  [ngClass]=\"{'disabled': isLoading}\"><i class=\"fa fa-stop\"></i></a>\n                </div>\n                <div class=\"col-lg-8 col-md-8 col-sm-8 col-xs-6 no-padding-l-r progress\">\n                    <span class=\"left\">{{toMinute(currentTime)}}:{{toSecound(currentTime)}}</span>\n                    <input class=\"\" type=\"range\"  min=\"0\" max=\"100\" (change)=\"changeSound($event)\" value=\"{{(currentTime / duration * 100)}}\" />\n                    <span class=\"right\">{{toMinute(duration)}}:{{toSecound(duration)}}</span>\n                </div>\n                <div class=\"col-lg-1 col-md-1 col-sm-1 hidden-xs no-padding-l-r controls\">\n                    <a (click)=\"mute()\" class=\"hide\"><i class=\"fa\" [ngClass]=\"{'fa-volume-up': soundVolume ==1, 'fa-volume-off': soundVolume ==0}\"></i></a>\n                </div>\n            </div>\n            <div class=\"col-lg-2 col-md-2 hidden-sm hidden-xs no-padding-l-r\"></div>\n        </div>\n    </div>",
-	            providers: [player_service_1.PlayerService, playlist_service_1.PlaylistService]
-	        }), 
-	        __metadata('design:paramtypes', [player_service_1.PlayerService, core_1.NgZone, playlist_service_1.PlaylistService])
-	    ], PlayerComponent);
 	    return PlayerComponent;
 	}());
+	PlayerComponent = __decorate([
+	    core_1.Component({
+	        selector: 'player',
+	        styles: ["\n        .player{\n            position: fixed;\n            z-index: 1000;\n            bottom: 0;\n            left: 0;\n            width: 100%;\n            background-color: #fff;\n            border-top: solid 1px #c7c7c7;\n            box-shadow: 0px 0px 4px 1px;\n            height: 48px;\n            padding-top: 10px;\n        }\n        .player .progress{\n            margin-top: 5px;\n            position: relative;\n        }\n        .player .progress .progress-bar{\n            background-color: #333;\n        }\n        .player .controls.playing a.common{\n            top: -12px !important;\n        }\n        \n        .player .controls a{\n            font-size: 15pt;\n            color: #333;\n            cursor: pointer;\n            position: relative;\n            transition: 0.4s;\n        }\n        .player .controls a:hover{\n            color: #b3b2b2;\n        }\n        .player .controls a.play{\n            font-size: 30pt;\n            top: -6px;\n        }\n        .player .controls img{\n            height: 40px;\n            width: 40px;\n            left: 50%;\n            margin-top: -6px;\n        }\n        \n        .player .progress span{\n            position: absolute;\n        }\n        \n        .player .progress span.left{\n            left: 5;\n        }\n        \n        .player .progress span.right{\n            right: 5;\n            top: 0;\n        }\n        \n        .player .controls a.disabled{\n            color: gray;\n            cursor: no-drop;\n        }\n        \n        input[type=range] {\n          -webkit-appearance: none;\n          width: 100%;\n          margin: 0.7px 0;\n        }\n        input[type=range]:focus {\n          outline: none;\n        }\n        input[type=range]::-webkit-slider-runnable-track {\n          width: 100%;\n          height: 25.6px;\n          cursor: pointer;\n          box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;\n          background: #484d4d;\n          border-radius: 0px;\n          border: 0px solid #010101;\n        }\n        input[type=range]::-webkit-slider-thumb {\n          box-shadow: 0px 0px 1px #670000, 0px 0px 0px #810000;\n          border: 0px solid #ff1e00;\n          height: 27px;\n          width: 18px;\n          border-radius: 0px;\n          background: rgba(255, 67, 95, 0.93);\n          cursor: pointer;\n          -webkit-appearance: none;\n          margin-top: -0.7px;\n        }\n        input[type=range]:focus::-webkit-slider-runnable-track {\n          background: #545a5a;\n        }\n        input[type=range]::-moz-range-track {\n          width: 100%;\n          height: 25.6px;\n          cursor: pointer;\n          box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;\n          background: #484d4d;\n          border-radius: 0px;\n          border: 0px solid #010101;\n        }\n        input[type=range]::-moz-range-thumb {\n          box-shadow: 0px 0px 1px #670000, 0px 0px 0px #810000;\n          border: 0px solid #ff1e00;\n          height: 27px;\n          width: 18px;\n          border-radius: 0px;\n          background: rgba(255, 67, 95, 0.93);\n          cursor: pointer;\n        }\n        input[type=range]::-ms-track {\n          width: 100%;\n          height: 25.6px;\n          cursor: pointer;\n          background: transparent;\n          border-color: transparent;\n          color: transparent;\n        }\n        input[type=range]::-ms-fill-lower {\n          background: #3c4040;\n          border: 0px solid #010101;\n          border-radius: 0px;\n          box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;\n        }\n        input[type=range]::-ms-fill-upper {\n          background: #484d4d;\n          border: 0px solid #010101;\n          border-radius: 0px;\n          box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;\n        }\n        input[type=range]::-ms-thumb {\n          box-shadow: 0px 0px 1px #670000, 0px 0px 0px #810000;\n          border: 0px solid #ff1e00;\n          height: 27px;\n          width: 18px;\n          border-radius: 0px;\n          background: rgba(255, 67, 95, 0.93);\n          cursor: pointer;\n          height: 25.6px;\n        }\n        input[type=range]:focus::-ms-fill-lower {\n          background: #484d4d;\n        }\n        input[type=range]:focus::-ms-fill-upper {\n          background: #545a5a;\n        }\n    "],
+	        template: "\n    <div class=\"col-lg-12 no-padding-l-r player\" *ngIf=\"currentSoundDetails\" >\n        <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding-l-r\">\n            <div class=\"col-lg-2 col-md-2 hidden-sm hidden-xs no-padding-l-r\"></div>\n            <div class=\"col-lg-8 col-md-8 col-sm-12 col-xs-12\">\n                <div class=\"col-lg-3 col-md-3 col-sm-3 col-xs-6 no-padding-l-r controls\" [ngClass]=\"{'playing': !isLoading}\">\n                    <a class=\"common\" (click)=\"previou()\" [ngClass]=\"{'disabled': currentSoundIndex <= 0 || isLoading }\"><i class=\"fa fa-backward padding-right-xs\"></i></a>\n                    <a class=\"play\" *ngIf=\"!isPlaying && !isLoading\" (click)=\"play()\" ><i class=\"fa fa-play\"></i></a>\n                    <img *ngIf=\"isLoading\" class=\"mini-loading\" src=\"assest/images/loading-xs.gif\" />\n                    <a class=\"play\" *ngIf=\"isPlaying && !isLoading\" (click)=\"stop()\" ><i class=\"fa fa-pause\"></i></a>\n                    <a class=\"common\" (click)=\"next()\" [ngClass]=\"{'disabled': currentSoundIndex +1 >= soundsLength || isLoading  }\" ><i class=\"fa fa-forward padding-left-xs\"></i></a>\n                    <a class=\"common\" (click)=\"suspend()\"  [ngClass]=\"{'disabled': isLoading}\"><i class=\"fa fa-stop\"></i></a>\n                </div>\n                <div class=\"col-lg-8 col-md-8 col-sm-8 col-xs-6 no-padding-l-r progress\">\n                    <span class=\"left\">{{toMinute(currentTime)}}:{{toSecound(currentTime)}}</span>\n                    <input class=\"\" type=\"range\"  min=\"0\" max=\"100\" (change)=\"changeSound($event)\" value=\"{{(currentTime / duration * 100)}}\" />\n                    <span class=\"right\">{{toMinute(duration)}}:{{toSecound(duration)}}</span>\n                </div>\n                <div class=\"col-lg-1 col-md-1 col-sm-1 hidden-xs no-padding-l-r controls\">\n                    <a (click)=\"mute()\" class=\"hide\"><i class=\"fa\" [ngClass]=\"{'fa-volume-up': soundVolume ==1, 'fa-volume-off': soundVolume ==0}\"></i></a>\n                </div>\n            </div>\n            <div class=\"col-lg-2 col-md-2 hidden-sm hidden-xs no-padding-l-r\"></div>\n        </div>\n    </div>",
+	        providers: [player_service_1.PlayerService, playlist_service_1.PlaylistService]
+	    }),
+	    __metadata("design:paramtypes", [player_service_1.PlayerService,
+	        core_1.NgZone,
+	        playlist_service_1.PlaylistService])
+	], PlayerComponent);
 	exports.PlayerComponent = PlayerComponent;
 
 
@@ -5282,42 +5291,42 @@ webpackJsonp([0],[
 	var PlaylistModule = (function () {
 	    function PlaylistModule() {
 	    }
-	    PlaylistModule = __decorate([
-	        core_1.NgModule({
-	            imports: [
-	                http_1.HttpModule,
-	                platform_browser_1.BrowserModule,
-	                forms_1.FormsModule,
-	                common_1.CommonModule,
-	                forms_1.ReactiveFormsModule,
-	                home_module_1.HomeModule,
-	                playlist_routes_1.routing
-	            ],
-	            declarations: [
-	                list_component_1.PlayListComponent,
-	                create_component_1.CreateListComponent,
-	                playlistdetail_component_1.PlayListDetailComponent,
-	                songlist_component_1.SongListComponent,
-	                summary_component_1.SummaryComponent
-	            ],
-	            providers: [
-	                {
-	                    provide: 'CanAlwaysActivateGuard',
-	                    useValue: function () {
-	                        return true;
-	                    }
-	                },
-	                login_service_1.LoginService,
-	                can_active_service_1.CanActivateViaAuthGuard
-	            ],
-	            bootstrap: [
-	                list_component_1.PlayListComponent
-	            ]
-	        }), 
-	        __metadata('design:paramtypes', [])
-	    ], PlaylistModule);
 	    return PlaylistModule;
 	}());
+	PlaylistModule = __decorate([
+	    core_1.NgModule({
+	        imports: [
+	            http_1.HttpModule,
+	            platform_browser_1.BrowserModule,
+	            forms_1.FormsModule,
+	            common_1.CommonModule,
+	            forms_1.ReactiveFormsModule,
+	            home_module_1.HomeModule,
+	            playlist_routes_1.routing
+	        ],
+	        declarations: [
+	            list_component_1.PlayListComponent,
+	            create_component_1.CreateListComponent,
+	            playlistdetail_component_1.PlayListDetailComponent,
+	            songlist_component_1.SongListComponent,
+	            summary_component_1.SummaryComponent
+	        ],
+	        providers: [
+	            {
+	                provide: 'CanAlwaysActivateGuard',
+	                useValue: function () {
+	                    return true;
+	                }
+	            },
+	            login_service_1.LoginService,
+	            can_active_service_1.CanActivateViaAuthGuard
+	        ],
+	        bootstrap: [
+	            list_component_1.PlayListComponent
+	        ]
+	    }),
+	    __metadata("design:paramtypes", [])
+	], PlaylistModule);
 	exports.PlaylistModule = PlaylistModule;
 
 
@@ -5431,17 +5440,19 @@ webpackJsonp([0],[
 	            }
 	        });
 	    };
-	    PlayListComponent = __decorate([
-	        core_1.Component({
-	            selector: 'playList',
-	            styles: ["\n    "],
-	            template: "\n        <div>\n        <h1>Playlists</h1>\n        <div class=\"col-lg-12 no-padding-l-r\">\n            <div class=\"col-lg-12 text-right margin-bottom-xs\">\n                <a class=\"btn btn-success\" (click)=\"toCreate()\">\n                    <i class=\"glyphicon glyphicon-plus-sign\"></i> Create New\n                </a>\n            </div>\n            <table class=\"table table-striped\" *ngIf=\"playLists.length > 0\">\n                <thead>\n                    <tr>\n                        <th>Name</th>\n                        <th>Description</th>\n                        <th>Sound Length</th>\n                        <th>Share</th>\n                        <th>Play</th>\n                        <th>Action</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr *ngFor=\"let playlist of playLists\">\n                        <td>{{playlist.name}}</td>\n                        <td>{{playlist.description}}</td>\n                        <td>{{playlist.sounds.length}}</td>\n                        <td>\n                            <a class=\"btn btn-xs btn-primary\" (click)=\"share(playlist)\">\n                                Share <i class=\"fa fa-share-alt\"></i>\n                            </a>\n                        </td>\n                        <td>\n                            <a class=\"btn btn-xs btn-primary\" (click)=\"play(playlist)\">\n                                Listen <i class=\"fa fa-play-circle-o\"></i>\n                            </a>\n                        </td>\n                        <td>\n                            <a class=\"btn btn-xs btn-warning\" [routerLink]=\"['/playlist/create', playlist._id]\">\n                                Edit <i class=\"fa fa-pencil\"></i>\n                            </a>\n                            <a class=\"btn btn-xs btn-danger\" (click)=\"delete(playlist['_id'])\">\n                                Remove <i class=\"fa fa-times\"></i>\n                            </a>\n                        </td>\n                    </tr>\n                </tbody>\n            </table>\n            <div class=\"col-lg-12\" *ngIf=\"playLists.length <= 0\">\n                <div class=\"alert alert-warning\">\n                    Click on <a class=\"btn btn-success\" (click)=\"toCreate()\"><i class=\"glyphicon glyphicon-plus-sign\"></i> Create New</a>\n                    to start create playlist.\n                </div>\n            </div>\n        </div>\n        </div>\n    ",
-	            providers: [playlist_service_1.PlaylistService, login_service_1.LoginService]
-	        }), 
-	        __metadata('design:paramtypes', [router_1.Router, playlist_service_1.PlaylistService, login_service_1.LoginService])
-	    ], PlayListComponent);
 	    return PlayListComponent;
 	}());
+	PlayListComponent = __decorate([
+	    core_1.Component({
+	        selector: 'playList',
+	        styles: ["\n    "],
+	        template: "\n        <div>\n        <h1>Playlists</h1>\n        <div class=\"col-lg-12 no-padding-l-r\">\n            <div class=\"col-lg-12 text-right margin-bottom-xs\">\n                <a class=\"btn btn-success\" (click)=\"toCreate()\">\n                    <i class=\"glyphicon glyphicon-plus-sign\"></i> Create New\n                </a>\n            </div>\n            <table class=\"table table-striped\" *ngIf=\"playLists.length > 0\">\n                <thead>\n                    <tr>\n                        <th>Name</th>\n                        <th>Description</th>\n                        <th>Sound Length</th>\n                        <th>Share</th>\n                        <th>Play</th>\n                        <th>Action</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr *ngFor=\"let playlist of playLists\">\n                        <td>{{playlist.name}}</td>\n                        <td>{{playlist.description}}</td>\n                        <td>{{playlist.sounds.length}}</td>\n                        <td>\n                            <a class=\"btn btn-xs btn-primary\" (click)=\"share(playlist)\">\n                                Share <i class=\"fa fa-share-alt\"></i>\n                            </a>\n                        </td>\n                        <td>\n                            <a class=\"btn btn-xs btn-primary\" (click)=\"play(playlist)\">\n                                Listen <i class=\"fa fa-play-circle-o\"></i>\n                            </a>\n                        </td>\n                        <td>\n                            <a class=\"btn btn-xs btn-warning\" [routerLink]=\"['/playlist/create', playlist._id]\">\n                                Edit <i class=\"fa fa-pencil\"></i>\n                            </a>\n                            <a class=\"btn btn-xs btn-danger\" (click)=\"delete(playlist['_id'])\">\n                                Remove <i class=\"fa fa-times\"></i>\n                            </a>\n                        </td>\n                    </tr>\n                </tbody>\n            </table>\n            <div class=\"col-lg-12\" *ngIf=\"playLists.length <= 0\">\n                <div class=\"alert alert-warning\">\n                    Click on <a class=\"btn btn-success\" (click)=\"toCreate()\"><i class=\"glyphicon glyphicon-plus-sign\"></i> Create New</a>\n                    to start create playlist.\n                </div>\n            </div>\n        </div>\n        </div>\n    ",
+	        providers: [playlist_service_1.PlaylistService, login_service_1.LoginService]
+	    }),
+	    __metadata("design:paramtypes", [router_1.Router,
+	        playlist_service_1.PlaylistService,
+	        login_service_1.LoginService])
+	], PlayListComponent);
 	exports.PlayListComponent = PlayListComponent;
 
 
@@ -5535,12 +5546,12 @@ webpackJsonp([0],[
 	    LoginService.prototype.getUserProfile = function (id) {
 	        return this.http.get("https://www.googleapis.com/gmail/v1/users/" + id + "/profile", headers).map(function (res) { return res.json(); });
 	    };
-	    LoginService = __decorate([
-	        core_1.Injectable(), 
-	        __metadata('design:paramtypes', [http_1.Http])
-	    ], LoginService);
 	    return LoginService;
 	}());
+	LoginService = __decorate([
+	    core_1.Injectable(),
+	    __metadata("design:paramtypes", [http_1.Http])
+	], LoginService);
 	exports.LoginService = LoginService;
 
 
@@ -5645,35 +5656,38 @@ webpackJsonp([0],[
 	            }
 	        });
 	    };
-	    __decorate([
-	        core_1.ViewChild(search_component_1.SearchComponent), 
-	        __metadata('design:type', search_component_1.SearchComponent)
-	    ], CreateListComponent.prototype, "searchComponent", void 0);
-	    __decorate([
-	        core_1.ViewChild(playlistdetail_component_1.PlayListDetailComponent), 
-	        __metadata('design:type', playlistdetail_component_1.PlayListDetailComponent)
-	    ], CreateListComponent.prototype, "playlistdetailComponent", void 0);
-	    __decorate([
-	        core_1.ViewChild(songlist_component_1.SongListComponent), 
-	        __metadata('design:type', songlist_component_1.SongListComponent)
-	    ], CreateListComponent.prototype, "songlistComponent", void 0);
-	    __decorate([
-	        core_1.ViewChild(summary_component_1.SummaryComponent), 
-	        __metadata('design:type', summary_component_1.SummaryComponent)
-	    ], CreateListComponent.prototype, "summaryComponent", void 0);
-	    CreateListComponent = __decorate([
-	        core_1.Component({
-	            selector: 'playlistcreate',
-	            styles: ["\n        search div.cover {\n            margin-top: 0px !important;\n        }\n        .buttons {\n            margin-top: 5px;\n        }\n        \n    "
-	            ],
-	            styleUrls: ['modules/playlist/components/wizardtemplate.css'],
-	            template: " \n        <div class=\"\">\n            <h3>Playlist create wizard</h3>\n            <div class=\"container col-xs-12\">\n            \t<div class=\"row\">\n                    <div class=\"wizard\">\n                        <div class=\"wizard-inner\">\n                            <div class=\"connecting-line\"></div>\n                            <ul class=\"nav nav-tabs\" role=\"tablist\">\n                                <li role=\"presentation\" [ngClass]=\"{'active': step == 1}\">\n                                    <a role=\"tab\" title=\"Creat list detail\">\n                                        <span class=\"round-tab\">\n                                            <i class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></i> \n                                        </span>\n                                    </a>\n                                </li>\n                                <li role=\"presentation\" class=\"\" [ngClass]=\"{'active': step == 2}\">\n                                    <a data-toogle=\"tab\" title=\"Select songs\">\n                                        <span class=\"round-tab\">\n                                            <i class=\"glyphicon glyphicon-th-list\" aria-hidden=\"true\"></i>\n                                        </span>\n                                    </a>\n                                </li>\n                                <li role=\"presentation\" [ngClass]=\"{'active': step=='3'}\">\n                                    <a  title=\"Complete\">\n                                        <span class=\"round-tab\">\n                                            <i class=\"glyphicon glyphicon-ok\" aria-hidden=\"true\"></i>\n                                        </span>\n                                    </a>\n                                </li>\n                            </ul>\n                        </div>\n                    </div>\n                    <div class=\"margin-bottom-xs margin-top-xs col-xs-12 no-padding-l-r\">\n                        <a class=\"btn btn-warning pull-left\" (click)=\"toCancel()\">\n                            <i class=\"fa fa-times\" ></i> Cancel\n                        </a>\n                        <a *ngIf=\"step === 1 || step === 2\" class=\"btn btn-primary pull-right\" (click)=\"toNext()\">\n                            Next <i class=\"fa fa-arrow-right \" aria-hidden=\"true\" ></i> \n                        </a>\n                        <a *ngIf=\"step === 3\" class=\"btn btn-success pull-right\" (click)=\"toSavePlayList()\">\n                            Save <i class=\"fa fa-floppy-o\" aria-hidden=\"true\" ></i> \n                        </a>\n                        <a *ngIf=\"step === 2 || step === 3\" class=\"btn btn-primary pull-right margin-right-xs\" (click)=\"toPrevious()\">\n                            <i class=\"fa fa-arrow-left \" aria-hidden=\"true\" ></i> Previous\n                        </a>\n                    </div>\n                   \n                    <div class=\"tab-content no-padding-l-r\">\n                        <div class=\"tab-pane active\" role=\"tabpanel\" [ngClass]=\"{'active': step==1}\">\n                            <playlistdetail \n                                (onSave)=\"step1Save($event)\"\n                                [playlist]=\"playlist\">\n                            </playlistdetail>\n                        </div>\n                        <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step==2}\">\n                            <div class=\"col-sm-6\">\n                                <songlist\n                                    [playlist]=\"playlist\"\n                                ></songlist>\n                            </div>\n                            <div class=\"col-sm-6\">\n                                <h3>Search songs:</h3>\n                                <search\n                                    [playlist]=\"playlist\"\n                                ></search>\n                            </div>\n                        </div>\n                        <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step==3}\">\n                            <div class=\"col-lg-12\">\n                                <summary\n                                    [playlist]=\"playlist\">\n                                </summary>\n                            </div>\n                        </div>\n                        <div class=\"clearfix\"></div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    ",
-	            providers: [playlist_service_1.PlaylistService, login_service_1.LoginService]
-	        }), 
-	        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, playlist_service_1.PlaylistService, login_service_1.LoginService])
-	    ], CreateListComponent);
 	    return CreateListComponent;
 	}());
+	__decorate([
+	    core_1.ViewChild(search_component_1.SearchComponent),
+	    __metadata("design:type", search_component_1.SearchComponent)
+	], CreateListComponent.prototype, "searchComponent", void 0);
+	__decorate([
+	    core_1.ViewChild(playlistdetail_component_1.PlayListDetailComponent),
+	    __metadata("design:type", playlistdetail_component_1.PlayListDetailComponent)
+	], CreateListComponent.prototype, "playlistdetailComponent", void 0);
+	__decorate([
+	    core_1.ViewChild(songlist_component_1.SongListComponent),
+	    __metadata("design:type", songlist_component_1.SongListComponent)
+	], CreateListComponent.prototype, "songlistComponent", void 0);
+	__decorate([
+	    core_1.ViewChild(summary_component_1.SummaryComponent),
+	    __metadata("design:type", summary_component_1.SummaryComponent)
+	], CreateListComponent.prototype, "summaryComponent", void 0);
+	CreateListComponent = __decorate([
+	    core_1.Component({
+	        selector: 'playlistcreate',
+	        styles: ["\n        search div.cover {\n            margin-top: 0px !important;\n        }\n        .buttons {\n            margin-top: 5px;\n        }\n        \n    "
+	        ],
+	        styleUrls: ['modules/playlist/components/wizardtemplate.css'],
+	        template: " \n        <div class=\"\">\n            <h3>Playlist create wizard</h3>\n            <div class=\"container col-xs-12\">\n            \t<div class=\"row\">\n                    <div class=\"wizard\">\n                        <div class=\"wizard-inner\">\n                            <div class=\"connecting-line\"></div>\n                            <ul class=\"nav nav-tabs\" role=\"tablist\">\n                                <li role=\"presentation\" [ngClass]=\"{'active': step == 1}\">\n                                    <a role=\"tab\" title=\"Creat list detail\">\n                                        <span class=\"round-tab\">\n                                            <i class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></i> \n                                        </span>\n                                    </a>\n                                </li>\n                                <li role=\"presentation\" class=\"\" [ngClass]=\"{'active': step == 2}\">\n                                    <a data-toogle=\"tab\" title=\"Select songs\">\n                                        <span class=\"round-tab\">\n                                            <i class=\"glyphicon glyphicon-th-list\" aria-hidden=\"true\"></i>\n                                        </span>\n                                    </a>\n                                </li>\n                                <li role=\"presentation\" [ngClass]=\"{'active': step=='3'}\">\n                                    <a  title=\"Complete\">\n                                        <span class=\"round-tab\">\n                                            <i class=\"glyphicon glyphicon-ok\" aria-hidden=\"true\"></i>\n                                        </span>\n                                    </a>\n                                </li>\n                            </ul>\n                        </div>\n                    </div>\n                    <div class=\"margin-bottom-xs margin-top-xs col-xs-12 no-padding-l-r\">\n                        <a class=\"btn btn-warning pull-left\" (click)=\"toCancel()\">\n                            <i class=\"fa fa-times\" ></i> Cancel\n                        </a>\n                        <a *ngIf=\"step === 1 || step === 2\" class=\"btn btn-primary pull-right\" (click)=\"toNext()\">\n                            Next <i class=\"fa fa-arrow-right \" aria-hidden=\"true\" ></i> \n                        </a>\n                        <a *ngIf=\"step === 3\" class=\"btn btn-success pull-right\" (click)=\"toSavePlayList()\">\n                            Save <i class=\"fa fa-floppy-o\" aria-hidden=\"true\" ></i> \n                        </a>\n                        <a *ngIf=\"step === 2 || step === 3\" class=\"btn btn-primary pull-right margin-right-xs\" (click)=\"toPrevious()\">\n                            <i class=\"fa fa-arrow-left \" aria-hidden=\"true\" ></i> Previous\n                        </a>\n                    </div>\n                   \n                    <div class=\"tab-content no-padding-l-r\">\n                        <div class=\"tab-pane active\" role=\"tabpanel\" [ngClass]=\"{'active': step==1}\">\n                            <playlistdetail \n                                (onSave)=\"step1Save($event)\"\n                                [playlist]=\"playlist\">\n                            </playlistdetail>\n                        </div>\n                        <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step==2}\">\n                            <div class=\"col-sm-6\">\n                                <songlist\n                                    [playlist]=\"playlist\"\n                                ></songlist>\n                            </div>\n                            <div class=\"col-sm-6\">\n                                <h3>Search songs:</h3>\n                                <search\n                                    [playlist]=\"playlist\"\n                                ></search>\n                            </div>\n                        </div>\n                        <div class=\"tab-pane\" role=\"tabpanel\" [ngClass]=\"{'active': step==3}\">\n                            <div class=\"col-lg-12\">\n                                <summary\n                                    [playlist]=\"playlist\">\n                                </summary>\n                            </div>\n                        </div>\n                        <div class=\"clearfix\"></div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    ",
+	        providers: [playlist_service_1.PlaylistService, login_service_1.LoginService]
+	    }),
+	    __metadata("design:paramtypes", [router_1.Router,
+	        router_1.ActivatedRoute,
+	        playlist_service_1.PlaylistService,
+	        login_service_1.LoginService])
+	], CreateListComponent);
 	exports.CreateListComponent = CreateListComponent;
 
 
@@ -5719,24 +5733,25 @@ webpackJsonp([0],[
 	        this.playlist.description = this.createListForm.value.description;
 	        this.onSave.next(this.playlist);
 	    };
-	    __decorate([
-	        core_1.Output(), 
-	        __metadata('design:type', Object)
-	    ], PlayListDetailComponent.prototype, "onSave", void 0);
-	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', Object)
-	    ], PlayListDetailComponent.prototype, "playlist", void 0);
-	    PlayListDetailComponent = __decorate([
-	        core_1.Component({
-	            selector: 'playlistdetail',
-	            styles: [""],
-	            template: " \n        <div class=\"container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2\">\n          <form [formGroup]=\"createListForm\" (submit)=\"toSaveDetails()\">\n            <div class=\"form-group text-left\">\n                <label class=\"control-label col-sm-12 no-padding-l-r\">Name:</label>\n                <input class=\"form-control\" autofocus formControlName=\"name\" id=\"name\" type=\"text\" placeholder=\"Enter name\" required/>\n                <label class=\"control-label col-sm-12 no-padding-l-r\">Description:</label>\n                <input class=\"form-control\" formControlName=\"description\" id=\"description\" type=\"text\" placeholder=\"Enter description\" />\n            </div>\n          </form>\n        </div>\n    "
-	        }), 
-	        __metadata('design:paramtypes', [forms_1.FormBuilder, router_1.Router])
-	    ], PlayListDetailComponent);
 	    return PlayListDetailComponent;
 	}());
+	__decorate([
+	    core_1.Output(),
+	    __metadata("design:type", Object)
+	], PlayListDetailComponent.prototype, "onSave", void 0);
+	__decorate([
+	    core_1.Input(),
+	    __metadata("design:type", Object)
+	], PlayListDetailComponent.prototype, "playlist", void 0);
+	PlayListDetailComponent = __decorate([
+	    core_1.Component({
+	        selector: 'playlistdetail',
+	        styles: [""],
+	        template: " \n        <div class=\"container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2\">\n          <form [formGroup]=\"createListForm\" (submit)=\"toSaveDetails()\">\n            <div class=\"form-group text-left\">\n                <label class=\"control-label col-sm-12 no-padding-l-r\">Name:</label>\n                <input class=\"form-control\" autofocus formControlName=\"name\" id=\"name\" type=\"text\" placeholder=\"Enter name\" required/>\n                <label class=\"control-label col-sm-12 no-padding-l-r\">Description:</label>\n                <input class=\"form-control\" formControlName=\"description\" id=\"description\" type=\"text\" placeholder=\"Enter description\" />\n            </div>\n          </form>\n        </div>\n    "
+	    }),
+	    __metadata("design:paramtypes", [forms_1.FormBuilder,
+	        router_1.Router])
+	], PlayListDetailComponent);
 	exports.PlayListDetailComponent = PlayListDetailComponent;
 
 
@@ -5775,21 +5790,21 @@ webpackJsonp([0],[
 	            return sound.id == video.id;
 	        });
 	    };
-	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', Object)
-	    ], SongListComponent.prototype, "playlist", void 0);
-	    SongListComponent = __decorate([
-	        core_1.Component({
-	            selector: 'songlist',
-	            styles: ["\n        .video{\n            color: #333333;\n        }\n    "],
-	            template: "\n        <h3>Play list:</h3>\n        <div class=\"list-group\">\n            <div *ngIf=\"playlist.sounds.length == 0\">\n                <div class=\"alert alert-info\">\n                    <h4>Not songs added</h4>\n                </div>\n            </div>\n            <div class=\"video list-group-item\" *ngFor=\"let video of playlist.sounds; let i = index\">\n                <div class=\"media-left\">\n                    <span>\n                        <img id=\"\" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n                    </span>\n                </div>\n                <div class=\"media-body text-left\">\n                    <div class=\"media-heading\">\n                        <h4 class=\"title\">\n                            {{ video.title }} \n                            <i *ngIf=\"!isAdded(video)\" class=\"fa fa-plus pull-right\" (click)=\"addFromPlaylist($event, video)\"></i>\n                            <i *ngIf=\"isAdded(video)\" class=\"fa fa-minus pull-right\" (click)=\"removeFromPlaylist($event, i)\"></i>\n                        </h4>\n                    </div>\n                    <span  id=\"channel\">{{ video.channel }}</span>\n                    <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n                </div>\n            </div>\n        </div>",
-	            providers: []
-	        }), 
-	        __metadata('design:paramtypes', [])
-	    ], SongListComponent);
 	    return SongListComponent;
 	}());
+	__decorate([
+	    core_1.Input(),
+	    __metadata("design:type", Object)
+	], SongListComponent.prototype, "playlist", void 0);
+	SongListComponent = __decorate([
+	    core_1.Component({
+	        selector: 'songlist',
+	        styles: ["\n        .video{\n            color: #333333;\n        }\n    "],
+	        template: "\n        <h3>Play list:</h3>\n        <div class=\"list-group\">\n            <div *ngIf=\"playlist.sounds.length == 0\">\n                <div class=\"alert alert-info\">\n                    <h4>Not songs added</h4>\n                </div>\n            </div>\n            <div class=\"video list-group-item\" *ngFor=\"let video of playlist.sounds; let i = index\">\n                <div class=\"media-left\">\n                    <span>\n                        <img id=\"\" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n                    </span>\n                </div>\n                <div class=\"media-body text-left\">\n                    <div class=\"media-heading\">\n                        <h4 class=\"title\">\n                            {{ video.title }} \n                            <i *ngIf=\"!isAdded(video)\" class=\"fa fa-plus pull-right\" (click)=\"addFromPlaylist($event, video)\"></i>\n                            <i *ngIf=\"isAdded(video)\" class=\"fa fa-minus pull-right\" (click)=\"removeFromPlaylist($event, i)\"></i>\n                        </h4>\n                    </div>\n                    <span  id=\"channel\">{{ video.channel }}</span>\n                    <span class=\"pull-right\">{{ video.dateAt | date }}</span>\n                </div>\n            </div>\n        </div>",
+	        providers: []
+	    }),
+	    __metadata("design:paramtypes", [])
+	], SongListComponent);
 	exports.SongListComponent = SongListComponent;
 
 
@@ -5811,21 +5826,21 @@ webpackJsonp([0],[
 	var SummaryComponent = (function () {
 	    function SummaryComponent() {
 	    }
-	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', Object)
-	    ], SummaryComponent.prototype, "playlist", void 0);
-	    SummaryComponent = __decorate([
-	        core_1.Component({
-	            selector: 'summary',
-	            styles: [],
-	            template: "\n        <div class=\"container col-xs-12\">\n            <h3>Summary</h3>\n            <div class=\"col-lg-6\">\n                <h4>Name: </h4>\n                <span>{{playlist.name}}</span>\n            </div>\n            <div class=\"col-lg-6\">\n                <h4>Description: </h4>\n                <span>{{playlist.description}}</span>\n            </div>\n            <div class=\"col-lg-12 margin-top-xs\"> \n                <ul class=\"list-group\">\n                    <li *ngFor=\"let sound of playlist.sounds\" class=\"list-group-item\">{{sound.title}}</li>\n                </ul>\n            </div>\n        </div>\n    ",
-	            providers: []
-	        }), 
-	        __metadata('design:paramtypes', [])
-	    ], SummaryComponent);
 	    return SummaryComponent;
 	}());
+	__decorate([
+	    core_1.Input(),
+	    __metadata("design:type", Object)
+	], SummaryComponent.prototype, "playlist", void 0);
+	SummaryComponent = __decorate([
+	    core_1.Component({
+	        selector: 'summary',
+	        styles: [],
+	        template: "\n        <div class=\"container col-xs-12\">\n            <h3>Summary</h3>\n            <div class=\"col-lg-6\">\n                <h4>Name: </h4>\n                <span>{{playlist.name}}</span>\n            </div>\n            <div class=\"col-lg-6\">\n                <h4>Description: </h4>\n                <span>{{playlist.description}}</span>\n            </div>\n            <div class=\"col-lg-12 margin-top-xs\"> \n                <ul class=\"list-group\">\n                    <li *ngFor=\"let sound of playlist.sounds\" class=\"list-group-item\">{{sound.title}}</li>\n                </ul>\n            </div>\n        </div>\n    ",
+	        providers: []
+	    }),
+	    __metadata("design:paramtypes", [])
+	], SummaryComponent);
 	exports.SummaryComponent = SummaryComponent;
 
 
@@ -5852,12 +5867,12 @@ webpackJsonp([0],[
 	    CanActivateViaAuthGuard.prototype.canActivate = function () {
 	        return this.loginService.getUser()._id != undefined;
 	    };
-	    CanActivateViaAuthGuard = __decorate([
-	        core_1.Injectable(), 
-	        __metadata('design:paramtypes', [login_service_1.LoginService])
-	    ], CanActivateViaAuthGuard);
 	    return CanActivateViaAuthGuard;
 	}());
+	CanActivateViaAuthGuard = __decorate([
+	    core_1.Injectable(),
+	    __metadata("design:paramtypes", [login_service_1.LoginService])
+	], CanActivateViaAuthGuard);
 	exports.CanActivateViaAuthGuard = CanActivateViaAuthGuard;
 
 
@@ -5889,25 +5904,25 @@ webpackJsonp([0],[
 	            _this.sideBarComponent.hide();
 	        });
 	    };
-	    __decorate([
-	        core_1.ViewChild(player_component_1.PlayerComponent), 
-	        __metadata('design:type', player_component_1.PlayerComponent)
-	    ], TemplateComponent.prototype, "playerComponent", void 0);
-	    __decorate([
-	        core_1.ViewChild(sidebar_component_1.SideBarComponent), 
-	        __metadata('design:type', sidebar_component_1.SideBarComponent)
-	    ], TemplateComponent.prototype, "sideBarComponent", void 0);
-	    TemplateComponent = __decorate([
-	        core_1.Component({
-	            selector: 'app',
-	            template: "\n    <toaster-container></toaster-container>\n    <sidebar></sidebar>\n    <div class=\"site-wrapper\">\n      <div class=\"site-wrapper-inner\">\n        <div class=\"cover-container\">\n          <!--div class=\"masthead clearfix\">\n            <div class=\"inner\">\n              <h1 class=\"masthead-brand\"><i class=\"fa fa-music fa-1x\" (click)=\"search()\"></i> Music</h1>\n              <nav>\n                <div class=\"media-body\">\n                  <ul class=\"nav masthead-nav\">\n                    <li [routerLinkActive]=\"['active']\" >\n                      <a [routerLink]=\"['/home']\" >\n                        Home\n                      </a> \n                    </li>\n                    <li [routerLinkActive]=\"['active']\" ><a [routerLink]=\"['/playlist/list']\" > Play List</a> </li>\n                  </ul>\n                </div>\n              </nav>\n            </div>\n          </div -->\n          <div class=\"inner cover\">\n            <router-outlet></router-outlet>\n          </div>\n          <div class=\"col-xs-12 mastfoot\">\n            <div class=\"inner\">\n              <p>by @los tigueres.</p>\n            </div>\n          </div>\n          <player></player>\n        </div>\n      </div>\n    </div>",
-	            styles: ["\n        sidebar{\n            position: absolute;\n            z-index: 100;\n        }\n      "
-	            ]
-	        }), 
-	        __metadata('design:paramtypes', [core_1.ElementRef, core_1.Renderer])
-	    ], TemplateComponent);
 	    return TemplateComponent;
 	}());
+	__decorate([
+	    core_1.ViewChild(player_component_1.PlayerComponent),
+	    __metadata("design:type", player_component_1.PlayerComponent)
+	], TemplateComponent.prototype, "playerComponent", void 0);
+	__decorate([
+	    core_1.ViewChild(sidebar_component_1.SideBarComponent),
+	    __metadata("design:type", sidebar_component_1.SideBarComponent)
+	], TemplateComponent.prototype, "sideBarComponent", void 0);
+	TemplateComponent = __decorate([
+	    core_1.Component({
+	        selector: 'app',
+	        template: "\n    <toaster-container></toaster-container>\n    <sidebar></sidebar>\n    <div class=\"site-wrapper\">\n      <div class=\"site-wrapper-inner\">\n        <div class=\"cover-container\">\n          <!--div class=\"masthead clearfix\">\n            <div class=\"inner\">\n              <h1 class=\"masthead-brand\"><i class=\"fa fa-music fa-1x\" (click)=\"search()\"></i> Music</h1>\n              <nav>\n                <div class=\"media-body\">\n                  <ul class=\"nav masthead-nav\">\n                    <li [routerLinkActive]=\"['active']\" >\n                      <a [routerLink]=\"['/home']\" >\n                        Home\n                      </a> \n                    </li>\n                    <li [routerLinkActive]=\"['active']\" ><a [routerLink]=\"['/playlist/list']\" > Play List</a> </li>\n                  </ul>\n                </div>\n              </nav>\n            </div>\n          </div -->\n          <div class=\"inner cover\">\n            <router-outlet></router-outlet>\n          </div>\n          <div class=\"col-xs-12 mastfoot\">\n            <div class=\"inner\">\n              <p>by @los tigueres.</p>\n            </div>\n          </div>\n          <player></player>\n        </div>\n      </div>\n    </div>",
+	        styles: ["\n        sidebar{\n            position: absolute;\n            z-index: 100;\n        }\n      "
+	        ]
+	    }),
+	    __metadata("design:paramtypes", [core_1.ElementRef, core_1.Renderer])
+	], TemplateComponent);
 	exports.TemplateComponent = TemplateComponent;
 
 
@@ -5996,25 +6011,27 @@ webpackJsonp([0],[
 	        this.loginService.singOut();
 	        this.router.navigate(['/home']);
 	    };
-	    __decorate([
-	        core_1.ViewChild(playing_widget_component_1.PlayingWidgetComponent), 
-	        __metadata('design:type', playing_widget_component_1.PlayingWidgetComponent)
-	    ], SideBarComponent.prototype, "playingWidgetComponent", void 0);
-	    __decorate([
-	        core_1.ViewChild(playlist_widget_component_1.PlaylistWidgetComponent), 
-	        __metadata('design:type', playlist_widget_component_1.PlaylistWidgetComponent)
-	    ], SideBarComponent.prototype, "playlistWidgetComponent", void 0);
-	    SideBarComponent = __decorate([
-	        core_1.Component({
-	            selector: 'sidebar',
-	            styles: ["\n        .sidebar{\n            position: fixed;\n            left: 0;\n            top: 0;\n        }\n        .sidebar ul.sidebar-menu{\n            transition: 1s;\n            position: relative;\n            margin: 0;\n            padding: 0;\n            text-align: left;\n        }\n        .sidebar ul.sidebar-menu li:first-of-type{\n            margin-top: 0px;\n        }\n        .sidebar ul.sidebar-menu li{\n            border-top: #333333 solid 1px;\n            border-right: #333333 solid 1px;\n            border-left: #333333 solid 1px;\n            font-size: 12pt;\n            display: block;\n            width: 128px;\n            text-transform: uppercase;\n            margin-right: 10px;\n            margin-top: 109px;\n            -webkit-transform: rotate(45deg);\n            -moz-transform: rotate(45deg);\n            -o-transform: rotate(45deg);\n            transform: rotate(90deg);\n            -webkit-transform-origin: 0 100%;\n            -moz-transform-origin: 0 100%;\n            -o-transform-origin: 0 100%;\n            transform-origin: 0 100%;\n            background-color: white;\n            border-top-left-radius: 24px;\n            border-top-right-radius: 24px;\n            text-align: center;\n            padding-top: 5px;\n            color: black;\n            cursor: pointer;\n            transition: 1s;\n        }\n        \n        .sidebar ul.sidebar-menu li:hover{\n            box-shadow: 0px 0px 5px white;\n            color: white;\n            background-color: #333333;\n        }\n        \n        .sidebar ul.sidebar-menu li.active{\n            box-shadow: 0px 0px 5px white;\n            color: white;\n            background-color: #5bc0de;\n        }\n        \n        .sidebar div.menu{  \n            background-color: white; \n            width: 213px;\n            box-shadow: 0px 0px 5px;\n            left: 0;\n            top: 0;\n            position: absolute;\n            transition: 1s;\n            overflow-x: auto;\n            border-right: solid #333333 1px;\n        }\n        \n        .sidebar div.menu::-webkit-scrollbar {\n            width: 7px;\n        }\n         \n        .sidebar div.menu::-webkit-scrollbar-track {\n            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);\n        }\n         \n        .sidebar div.menu::-webkit-scrollbar-thumb {\n            background-color: rgb(84, 189, 220);\n            outline: 1px solid #999;\n            border-radius: 10px;\n        }\n        \n        .sidebar div.menu .home ul{\n            padding: 0px;\n        }\n        .sidebar div.menu .home ul li.title{\n            background-color: #333333;\n            padding: 5px;\n            font-size: 11pt;\n            color: white;\n        }\n        .sidebar div.menu .home ul li{\n            padding: 5px;\n            font-size: 9pt;\n            border-bottom: 1px solid #d0d0d0;\n            color: #333333;\n            cursor: pointer;\n        }\n        .sidebar div.menu .home ul li.active{\n            background-color: #5bc0de;\n        }\n        .sidebar div.menu .home ul li{\n            font-size: 12pt;\n            text-align: left;\n            padding-left: 30px;\n        }\n        .sidebar div.menu .home ul li a{\n            color: #333333;\n        }\n        .sidebar div.menu .home ul li:hover{\n            background-color: #e4e4e4;\n        }\n        .sidebar div.menu .nowplay ul li h5{\n            width: 90%;\n            display: block;\n            white-space: nowrap;\n            overflow: hidden;\n            text-overflow: ellipsis;\n        }\n        .sidebar a{\n            margin-right: 3px;\n        }\n    "],
-	            template: "\n    <div class=\"sidebar\">\n        <ul class=\"sidebar-menu\" [ngStyle]=\"{'left': active != ''? menuLeft : '0px'}\">\n            <li [ngClass]=\"{'active': active == 'menu'}\" (click)=\"setActive('menu')\" >\n                MENU\n            </li>\n            <li [ngClass]=\"{'active': active == 'playlist'}\" (click)=\"setActive('playlist')\" *ngIf=\"user\">\n                PLAYLIST\n            </li>\n            <li [ngClass]=\"{'active': active == 'nowplay'}\" (click)=\"setActive('nowplay')\">\n                PLAYING\n                <i *ngIf=\"isPlaying\" class=\"fa fa-volume-up\"></i>\n            </li>\n        </ul>\n        <div class=\"menu\" [ngStyle]=\"{'width': active != ''? menuLeft : '0px', 'opacity': active != ''? '1':'0', 'height': windowHeight}\">\n            <div class=\"home\" *ngIf=\"active == 'menu'\">\n                <ul>\n                    <li class=\"title\">\n                    <h3><i class=\"fa fa-music fa-1x\"></i> MUSIC++ </h3></li>\n                    <li  [routerLinkActive]=\"['active']\" >\n                        <a [routerLink]=\"['/home']\" >\n                            <i class=\"fa fa-home fa-1x\"></i> Home\n                        </a>\n                    </li>\n                    <li  [routerLinkActive]=\"['active']\" *ngIf=\"user\" >\n                        <a [routerLink]=\"['/playlist/list']\" >\n                            <i class=\"fa fa-list  fa-1x\"></i> Playlist\n                        </a>\n                    </li>\n                    <li  [routerLinkActive]=\"['active']\" >\n                        <a [routerLink]=\"['/search/0']\" >\n                            <i class=\"fa fa-search fa-1x\"></i> search\n                        </a>\n                    </li>\n                    <li>\n                        <span *ngIf=\"user\">{{user.name}}</span>\n                        <a *ngIf=\"user\" class=\"btn btn-warning btn-xs\" (click)=\"logout()\">\n                            <i class=\"fa fa-sign-out \"></i> Sing-Out\n                        </a>\n                        <a *ngIf=\"!user\" class=\"btn btn-primary btn-xs\" (click)=\"login()\">\n                            <i class=\"fa fa-google\"></i> Sing-In\n                        </a>\n                    </li>\n                </ul>\n            </div>\n            <div class=\"nowplay\" *ngIf=\"active == 'playlist'\">\n                <playlist></playlist>\n            </div>\n            <div class=\"nowplay\" *ngIf=\"active == 'nowplay'\">\n                <playingList (onMusicAdd)=\"musicAdd($event)\"></playingList>\n            </div>\n        </div>\n    </div>",
-	            providers: [player_service_1.PlayerService, login_service_1.LoginService, playlist_service_1.PlaylistService]
-	        }), 
-	        __metadata('design:paramtypes', [login_service_1.LoginService, core_1.NgZone, router_1.Router])
-	    ], SideBarComponent);
 	    return SideBarComponent;
 	}());
+	__decorate([
+	    core_1.ViewChild(playing_widget_component_1.PlayingWidgetComponent),
+	    __metadata("design:type", playing_widget_component_1.PlayingWidgetComponent)
+	], SideBarComponent.prototype, "playingWidgetComponent", void 0);
+	__decorate([
+	    core_1.ViewChild(playlist_widget_component_1.PlaylistWidgetComponent),
+	    __metadata("design:type", playlist_widget_component_1.PlaylistWidgetComponent)
+	], SideBarComponent.prototype, "playlistWidgetComponent", void 0);
+	SideBarComponent = __decorate([
+	    core_1.Component({
+	        selector: 'sidebar',
+	        styles: ["\n        .sidebar{\n            position: fixed;\n            left: 0;\n            top: 0;\n        }\n        .sidebar ul.sidebar-menu{\n            transition: 1s;\n            position: relative;\n            margin: 0;\n            padding: 0;\n            text-align: left;\n        }\n        .sidebar ul.sidebar-menu li:first-of-type{\n            margin-top: 0px;\n        }\n        .sidebar ul.sidebar-menu li{\n            border-top: #333333 solid 1px;\n            border-right: #333333 solid 1px;\n            border-left: #333333 solid 1px;\n            font-size: 12pt;\n            display: block;\n            width: 128px;\n            text-transform: uppercase;\n            margin-right: 10px;\n            margin-top: 109px;\n            -webkit-transform: rotate(45deg);\n            -moz-transform: rotate(45deg);\n            -o-transform: rotate(45deg);\n            transform: rotate(90deg);\n            -webkit-transform-origin: 0 100%;\n            -moz-transform-origin: 0 100%;\n            -o-transform-origin: 0 100%;\n            transform-origin: 0 100%;\n            background-color: white;\n            border-top-left-radius: 24px;\n            border-top-right-radius: 24px;\n            text-align: center;\n            padding-top: 5px;\n            color: black;\n            cursor: pointer;\n            transition: 1s;\n        }\n        \n        .sidebar ul.sidebar-menu li:hover{\n            box-shadow: 0px 0px 5px white;\n            color: white;\n            background-color: #333333;\n        }\n        \n        .sidebar ul.sidebar-menu li.active{\n            box-shadow: 0px 0px 5px white;\n            color: white;\n            background-color: #5bc0de;\n        }\n        \n        .sidebar div.menu{  \n            background-color: white; \n            width: 213px;\n            box-shadow: 0px 0px 5px;\n            left: 0;\n            top: 0;\n            position: absolute;\n            transition: 1s;\n            overflow-x: auto;\n            border-right: solid #333333 1px;\n        }\n        \n        .sidebar div.menu::-webkit-scrollbar {\n            width: 7px;\n        }\n         \n        .sidebar div.menu::-webkit-scrollbar-track {\n            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);\n        }\n         \n        .sidebar div.menu::-webkit-scrollbar-thumb {\n            background-color: rgb(84, 189, 220);\n            outline: 1px solid #999;\n            border-radius: 10px;\n        }\n        \n        .sidebar div.menu .home ul{\n            padding: 0px;\n        }\n        .sidebar div.menu .home ul li.title{\n            background-color: #333333;\n            padding: 5px;\n            font-size: 11pt;\n            color: white;\n        }\n        .sidebar div.menu .home ul li{\n            padding: 5px;\n            font-size: 9pt;\n            border-bottom: 1px solid #d0d0d0;\n            color: #333333;\n            cursor: pointer;\n        }\n        .sidebar div.menu .home ul li.active{\n            background-color: #5bc0de;\n        }\n        .sidebar div.menu .home ul li{\n            font-size: 12pt;\n            text-align: left;\n            padding-left: 30px;\n        }\n        .sidebar div.menu .home ul li a{\n            color: #333333;\n        }\n        .sidebar div.menu .home ul li:hover{\n            background-color: #e4e4e4;\n        }\n        .sidebar div.menu .nowplay ul li h5{\n            width: 90%;\n            display: block;\n            white-space: nowrap;\n            overflow: hidden;\n            text-overflow: ellipsis;\n        }\n        .sidebar a{\n            margin-right: 3px;\n        }\n    "],
+	        template: "\n    <div class=\"sidebar\">\n        <ul class=\"sidebar-menu\" [ngStyle]=\"{'left': active != ''? menuLeft : '0px'}\">\n            <li [ngClass]=\"{'active': active == 'menu'}\" (click)=\"setActive('menu')\" >\n                MENU\n            </li>\n            <li [ngClass]=\"{'active': active == 'playlist'}\" (click)=\"setActive('playlist')\" *ngIf=\"user\">\n                PLAYLIST\n            </li>\n            <li [ngClass]=\"{'active': active == 'nowplay'}\" (click)=\"setActive('nowplay')\">\n                PLAYING\n                <i *ngIf=\"isPlaying\" class=\"fa fa-volume-up\"></i>\n            </li>\n        </ul>\n        <div class=\"menu\" [ngStyle]=\"{'width': active != ''? menuLeft : '0px', 'opacity': active != ''? '1':'0', 'height': windowHeight}\">\n            <div class=\"home\" *ngIf=\"active == 'menu'\">\n                <ul>\n                    <li class=\"title\">\n                    <h3><i class=\"fa fa-music fa-1x\"></i> MUSIC++ </h3></li>\n                    <li  [routerLinkActive]=\"['active']\" >\n                        <a [routerLink]=\"['/home']\" >\n                            <i class=\"fa fa-home fa-1x\"></i> Home\n                        </a>\n                    </li>\n                    <li  [routerLinkActive]=\"['active']\" *ngIf=\"user\" >\n                        <a [routerLink]=\"['/playlist/list']\" >\n                            <i class=\"fa fa-list  fa-1x\"></i> Playlist\n                        </a>\n                    </li>\n                    <li  [routerLinkActive]=\"['active']\" >\n                        <a [routerLink]=\"['/search/0']\" >\n                            <i class=\"fa fa-search fa-1x\"></i> search\n                        </a>\n                    </li>\n                    <li>\n                        <span *ngIf=\"user\">{{user.name}}</span>\n                        <a *ngIf=\"user\" class=\"btn btn-warning btn-xs\" (click)=\"logout()\">\n                            <i class=\"fa fa-sign-out \"></i> Sing-Out\n                        </a>\n                        <a *ngIf=\"!user\" class=\"btn btn-primary btn-xs\" (click)=\"login()\">\n                            <i class=\"fa fa-google\"></i> Sing-In\n                        </a>\n                    </li>\n                </ul>\n            </div>\n            <div class=\"nowplay\" *ngIf=\"active == 'playlist'\">\n                <playlist></playlist>\n            </div>\n            <div class=\"nowplay\" *ngIf=\"active == 'nowplay'\">\n                <playingList (onMusicAdd)=\"musicAdd($event)\"></playingList>\n            </div>\n        </div>\n    </div>",
+	        providers: [player_service_1.PlayerService, login_service_1.LoginService, playlist_service_1.PlaylistService]
+	    }),
+	    __metadata("design:paramtypes", [login_service_1.LoginService,
+	        core_1.NgZone,
+	        router_1.Router])
+	], SideBarComponent);
 	exports.SideBarComponent = SideBarComponent;
 
 
@@ -6099,21 +6116,25 @@ webpackJsonp([0],[
 	        var playlist = { name: 'default', description: '', sounds: [], createAt: new Date(), userAt: '', updateAt: new Date() };
 	        this.playlistService.changePlaylist(playlist);
 	    };
-	    __decorate([
-	        core_1.Output(), 
-	        __metadata('design:type', Object)
-	    ], PlayingWidgetComponent.prototype, "onMusicAdd", void 0);
-	    PlayingWidgetComponent = __decorate([
-	        core_1.Component({
-	            styles: ["\n        \n        ul{\n            padding: 0px;\n        }\n        ul li.title{\n            background-color: #333333;\n            padding: 5px;\n            font-size: 11pt;\n            color: white;\n        }\n        ul li{\n            padding: 5px;\n            font-size: 9pt;\n            border-bottom: 1px solid #d0d0d0;\n            color: #333333;\n            cursor: pointer;\n        }\n        ul li.active{\n            background-color: #5bc0de;\n        }\n        ul li:hover{\n            background-color: #e4e4e4;\n        }\n        ul li.active i{\n            color: #d9edf7;\n        }\n        ul li{\n            text-align: left;\n        }\n        ul li span{\n            width: 90%;\n            display: block;\n            white-space: nowrap;\n            overflow: hidden;\n            text-overflow: ellipsis;\n        }\n        ul li h5{\n            width: 75%;\n        }\n        ul li.title a{\n            float: right;\n            position: relative;\n            top: -30px;\n        }\n        ul li i{\n            float: right;\n            top: -15px;\n            position: relative;\n        }\n        ul li.item i{\n            color: #5bc0de;\n        }\n        ul li.title i{\n            float: none;\n            top: 0;\n            color: #green;\n        }\n        a{\n            margin-right: 3px;\n        }\n    "],
-	            selector: 'playingList',
-	            template: "\n    <ul>\n        <li class=\"title\">\n            <h5>{{playlist.name}}</h5>\n            <a *ngIf=\"playlist.name == 'default'\" [routerLink]=\"['/playlist/create/default']\" class=\"btn btn-xs btn-success\">\n                Save <i class=\"fa fa-floppy-o\"></i>\n            </a>\n            <a class=\"btn btn-xs btn-default\" (click)=\"toClearPlayList()\">\n                Clear <i class=\"fa fa-trash\"></i>\n            </a>\n        </li>\n        <li class=\"item\" *ngFor=\"let sound of playlist.sounds; let i = index\" (click)=\"play(i, sound)\" [ngClass]=\"{'active': currentIndex == i}\" >\n            <span title=\"{{sound.title}}\">\n                {{sound.title}}\n            </span>\n            <i *ngIf=\"currentIndex == i && isPlaying\" class=\"fa fa-volume-up\"></i>\n            <i *ngIf=\"currentIndex != i || !isPlaying\" class=\"fa fa-minus pull-right\" (click)=\"removeFromPlaylist($event, i, sound)\"></i>\n        </li>\n    </ul>",
-	            providers: [player_service_1.PlayerService, playlist_service_1.PlaylistService]
-	        }), 
-	        __metadata('design:paramtypes', [player_service_1.PlayerService, core_1.NgZone, login_service_1.LoginService, playlist_service_1.PlaylistService, router_1.Router])
-	    ], PlayingWidgetComponent);
 	    return PlayingWidgetComponent;
 	}());
+	__decorate([
+	    core_1.Output(),
+	    __metadata("design:type", Object)
+	], PlayingWidgetComponent.prototype, "onMusicAdd", void 0);
+	PlayingWidgetComponent = __decorate([
+	    core_1.Component({
+	        styles: ["\n        \n        ul{\n            padding: 0px;\n        }\n        ul li.title{\n            background-color: #333333;\n            padding: 5px;\n            font-size: 11pt;\n            color: white;\n        }\n        ul li{\n            padding: 5px;\n            font-size: 9pt;\n            border-bottom: 1px solid #d0d0d0;\n            color: #333333;\n            cursor: pointer;\n        }\n        ul li.active{\n            background-color: #5bc0de;\n        }\n        ul li:hover{\n            background-color: #e4e4e4;\n        }\n        ul li.active i{\n            color: #d9edf7;\n        }\n        ul li{\n            text-align: left;\n        }\n        ul li span{\n            width: 90%;\n            display: block;\n            white-space: nowrap;\n            overflow: hidden;\n            text-overflow: ellipsis;\n        }\n        ul li h5{\n            width: 75%;\n        }\n        ul li.title a{\n            float: right;\n            position: relative;\n            top: -30px;\n        }\n        ul li i{\n            float: right;\n            top: -15px;\n            position: relative;\n        }\n        ul li.item i{\n            color: #5bc0de;\n        }\n        ul li.title i{\n            float: none;\n            top: 0;\n            color: #green;\n        }\n        a{\n            margin-right: 3px;\n        }\n    "],
+	        selector: 'playingList',
+	        template: "\n    <ul>\n        <li class=\"title\">\n            <h5>{{playlist.name}}</h5>\n            <a *ngIf=\"playlist.name == 'default'\" [routerLink]=\"['/playlist/create/default']\" class=\"btn btn-xs btn-success\">\n                Save <i class=\"fa fa-floppy-o\"></i>\n            </a>\n            <a class=\"btn btn-xs btn-default\" (click)=\"toClearPlayList()\">\n                Clear <i class=\"fa fa-trash\"></i>\n            </a>\n        </li>\n        <li class=\"item\" *ngFor=\"let sound of playlist.sounds; let i = index\" (click)=\"play(i, sound)\" [ngClass]=\"{'active': currentIndex == i}\" >\n            <span title=\"{{sound.title}}\">\n                {{sound.title}}\n            </span>\n            <i *ngIf=\"currentIndex == i && isPlaying\" class=\"fa fa-volume-up\"></i>\n            <i *ngIf=\"currentIndex != i || !isPlaying\" class=\"fa fa-minus pull-right\" (click)=\"removeFromPlaylist($event, i, sound)\"></i>\n        </li>\n    </ul>",
+	        providers: [player_service_1.PlayerService, playlist_service_1.PlaylistService]
+	    }),
+	    __metadata("design:paramtypes", [player_service_1.PlayerService,
+	        core_1.NgZone,
+	        login_service_1.LoginService,
+	        playlist_service_1.PlaylistService,
+	        router_1.Router])
+	], PlayingWidgetComponent);
 	exports.PlayingWidgetComponent = PlayingWidgetComponent;
 
 
@@ -6167,17 +6188,20 @@ webpackJsonp([0],[
 	    PlaylistWidgetComponent.prototype.change = function (playlist) {
 	        this.playlistService.changePlaylist(playlist);
 	    };
-	    PlaylistWidgetComponent = __decorate([
-	        core_1.Component({
-	            styles: ["\n        \n        ul{\n            padding: 0px;\n        }\n        ul li.title{\n            background-color: #333333;\n            padding: 5px;\n            font-size: 11pt;\n            color: white;\n        }\n        ul li{\n            padding: 5px;\n            font-size: 9pt;\n            border-bottom: 1px solid #d0d0d0;\n            color: #333333;\n            cursor: pointer;\n        }\n        ul li.active{\n            background-color: #5bc0de;\n        }\n        ul li:hover{\n            background-color: #e4e4e4;\n        }\n        ul li{\n            text-align: left;\n        }\n        ul li span{\n            width: 90%;\n            display: block;\n            white-space: nowrap;\n            overflow: hidden;\n            text-overflow: ellipsis;\n        }\n        ul li h5{\n            width: 75%;\n        }\n        ul li.title a{\n            float: right;\n            position: relative;\n            top: -30px;\n        }\n        ul li i{\n            float: right;\n            top: -15px;\n            position: relative;\n        }\n        ul li.item i{\n            color: #5bc0de;\n        }\n        ul li.title i{\n            float: none;\n            top: 0;\n            color: #green;\n        }\n        a{\n            margin-right: 3px;\n        }\n    "],
-	            selector: 'playlist',
-	            template: "\n    <ul>\n        <li class=\"title\">\n            <h5>Playlist</h5>\n            <a [routerLink]=\"['/playlist/create/0']\" class=\"btn btn-xs btn-success\">Create <i class=\"fa fa-plus\"></i></a>\n        </li>\n        <li class=\"item\" *ngFor=\"let playlist of playlists\" (click)=\"change(playlist)\">\n            <span title=\"{{playlist.name}}\">\n                {{playlist.name}}\n            </span>\n        </li>\n    </ul>",
-	            providers: [playlist_service_1.PlaylistService, login_service_1.LoginService]
-	        }), 
-	        __metadata('design:paramtypes', [core_1.NgZone, login_service_1.LoginService, playlist_service_1.PlaylistService, router_1.Router])
-	    ], PlaylistWidgetComponent);
 	    return PlaylistWidgetComponent;
 	}());
+	PlaylistWidgetComponent = __decorate([
+	    core_1.Component({
+	        styles: ["\n        \n        ul{\n            padding: 0px;\n        }\n        ul li.title{\n            background-color: #333333;\n            padding: 5px;\n            font-size: 11pt;\n            color: white;\n        }\n        ul li{\n            padding: 5px;\n            font-size: 9pt;\n            border-bottom: 1px solid #d0d0d0;\n            color: #333333;\n            cursor: pointer;\n        }\n        ul li.active{\n            background-color: #5bc0de;\n        }\n        ul li:hover{\n            background-color: #e4e4e4;\n        }\n        ul li{\n            text-align: left;\n        }\n        ul li span{\n            width: 90%;\n            display: block;\n            white-space: nowrap;\n            overflow: hidden;\n            text-overflow: ellipsis;\n        }\n        ul li h5{\n            width: 75%;\n        }\n        ul li.title a{\n            float: right;\n            position: relative;\n            top: -30px;\n        }\n        ul li i{\n            float: right;\n            top: -15px;\n            position: relative;\n        }\n        ul li.item i{\n            color: #5bc0de;\n        }\n        ul li.title i{\n            float: none;\n            top: 0;\n            color: #green;\n        }\n        a{\n            margin-right: 3px;\n        }\n    "],
+	        selector: 'playlist',
+	        template: "\n    <ul>\n        <li class=\"title\">\n            <h5>Playlist</h5>\n            <a [routerLink]=\"['/playlist/create/0']\" class=\"btn btn-xs btn-success\">Create <i class=\"fa fa-plus\"></i></a>\n        </li>\n        <li class=\"item\" *ngFor=\"let playlist of playlists\" (click)=\"change(playlist)\">\n            <span title=\"{{playlist.name}}\">\n                {{playlist.name}}\n            </span>\n        </li>\n    </ul>",
+	        providers: [playlist_service_1.PlaylistService, login_service_1.LoginService]
+	    }),
+	    __metadata("design:paramtypes", [core_1.NgZone,
+	        login_service_1.LoginService,
+	        playlist_service_1.PlaylistService,
+	        router_1.Router])
+	], PlaylistWidgetComponent);
 	exports.PlaylistWidgetComponent = PlaylistWidgetComponent;
 
 

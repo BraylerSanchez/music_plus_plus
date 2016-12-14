@@ -1,5 +1,5 @@
 "use strict";
-var search_controller_1 = require('../../controllers/youtube/search.controller');
+var search_controller_1 = require("../../controllers/youtube/search.controller");
 var SearchRoutes = (function () {
     function SearchRoutes(app) {
         var _this = this;

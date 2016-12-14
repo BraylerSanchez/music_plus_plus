@@ -9,12 +9,16 @@ import { PlaylistService } from '../../../services/playlist/playlist.service'
         color: white !important;
       }
 .vcenter {
-    display: inline-block;
-    vertical-align: middle;
-    float: none;
+  margin-top: 30px;
 }
+  .vcenter span{
+    font-size: 8pt;
+  }
 img{
   width: 100%;
+}
+.shared-container{
+      padding: 5px !important;
 }
       `
     ],
@@ -34,11 +38,16 @@ img{
                     <div class="col-xs-12 no-padding-l-r">
                       <img class="img-responsive" src={{playlist.userPictureUrl}} />
                     </div>
-                    <div class="col-xs-12">
+                    <div class="col-xs-12 shared-container">
                       <div class="text-left col-xs-12 no-padding-l-r">
                         <h6>{{playlist.origin.name}}<br/><small>{{playlist.origin.description}}</small></h6>
                       </div>
                       
+                      <div class="col-xs-12 no-padding-l-r">
+                          <button type="button" class="btn btn-xs btn-primary pull-right btn-block" (click)="play(playlist.origin)">
+                            <i class=" fa fa-play"></i> Listen
+                          </button>
+                      </div>
                       <div class="vcenter col-xs-12 no-padding-l-r">
                         <div class="col-xs-6 no-padding-l-r text-left">
                           <span>{{playlist.userName}}</span> 
@@ -48,8 +57,6 @@ img{
                         </div>
                       </div>
                     </div>
-                    <button type="button" class="btn-primary fa fa-play" (click)="play(playlist.origin)"></button>
-                    <input type="hidden" value="Rating">
                   </div>
               </div>
           </div>

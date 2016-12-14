@@ -1,6 +1,6 @@
 "use strict";
-var mongoose_1 = require('mongoose');
-var sound_schema_1 = require('./sound.schema');
+var mongoose_1 = require("mongoose");
+var sound_schema_1 = require("./sound.schema");
 exports.PlayListSchema = new mongoose_1.Schema({
     name: {
         type: String,

@@ -1,8 +1,8 @@
 "use strict";
-var router_1 = require('@angular/router');
-var list_component_1 = require('./components/list.component');
-var create_component_1 = require('./components/create.component');
-var can_active_service_1 = require('../../services/user/can.active.service');
+var router_1 = require("@angular/router");
+var list_component_1 = require("./components/list.component");
+var create_component_1 = require("./components/create.component");
+var can_active_service_1 = require("../../services/user/can.active.service");
 exports.routes = [
     {
         path: 'playlist/list',

@@ -1,7 +1,7 @@
 "use strict";
-var q_1 = require('q');
-var request = require('request');
-var config = require('config');
+var q_1 = require("q");
+var request = require("request");
+var config = require("config");
 var SearchModel = (function () {
     function SearchModel() {
         this.apiPart = 'snippet';
