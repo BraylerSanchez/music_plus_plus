@@ -53,15 +53,16 @@
     "express": "^4.14.0",
     "font-awesome": "^4.7.0",
     "json-loader": "^0.5.4",
+    "mongod": "^1.3.0",
     "mongoose": "^4.6.5",
     "q": "^1.4.1",
     "reflect-metadata": "^0.1.8",
+    "request": "^2.78.0",
     "rxjs": "5.0.0-beta.12",
     "systemjs": "0.19.40",
     "ts-loader": "^0.9.5",
     "ytdl-core": "^0.7.19",
-    "zone.js": "^0.6.26",
-    "request": "^2.78.0"
+    "zone.js": "^0.6.26"
   },
   "devDependencies": {
     "concurrently": "^3.1.0",

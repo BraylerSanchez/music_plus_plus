@@ -5889,6 +5889,7 @@ webpackJsonp([0],[
 	        this.active = '';
 	        player_service_1.onStopMusic
 	            .subscribe(function (response) {
+	            _this.resizeSideBar();
 	            _this.isPlaying = false;
 	        });
 	        login_service_1.onLoginUser.subscribe(function (user) {
@@ -5902,13 +5903,25 @@ webpackJsonp([0],[
 	    }
 	    SideBarComponent.prototype.musicAdd = function (result) {
 	        if (result.result) {
-	            this.windowHeight = window.document.body.clientHeight - 48;
+	            this.resizeSideBar();
 	            this.isPlaying = true;
 	        }
 	        this.active = 'nowplay';
 	    };
+	    SideBarComponent.prototype.resizeSideBar = function () {
+	        if (this.isPlaying == true) {
+	            this.windowHeight = window.document.body.clientHeight - 48;
+	        }
+	        else {
+	            this.windowHeight = window.document.body.clientHeight;
+	        }
+	    };
 	    SideBarComponent.prototype.ngOnInit = function () {
-	        this.windowHeight = window.document.body.clientHeight;
+	        var _this = this;
+	        window.addEventListener('resize', function (event) {
+	            _this.resizeSideBar();
+	        });
+	        this.resizeSideBar();
 	        this.user = this.loginService.getUser();
 	    };
 	    SideBarComponent.prototype.setActive = function (menu) {
