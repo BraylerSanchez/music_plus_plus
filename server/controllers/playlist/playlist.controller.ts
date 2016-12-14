@@ -93,4 +93,35 @@ export class PlaylistController{
             })
         })
     }
+    
+    share(req, res){
+        var sharedPlaylist = req.body;
+        sharedPlaylist.createAt = new Date();
+        
+        this.playlistModel.share(sharedPlaylist).then( (message) =>{
+            res.json({
+                status: true,
+                message: message
+            })
+        }).catch( (error) =>{
+            res.send({
+                status: false,
+                message: error
+            })
+        })
+    }
+    
+    search(req, res){
+        this.playlistModel.search().then( (docs) =>{
+            res.json({
+                status: true,
+                playlist: docs
+            })
+        }).catch( (error) => {
+            res.send({
+                status: false,
+                message: error
+            })
+        })
+    }
 }

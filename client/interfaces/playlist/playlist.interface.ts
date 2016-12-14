@@ -8,3 +8,12 @@ export interface IPlayList{
     createAt: Date,
     updateAt: Date
 }
+
+export interface ISharedPlayList{
+    origin: IPlayList,
+    sharedPlaylists: Array<IPlayList>,
+    userAt: string,
+    userName: string,
+    userPictureUrl: string,
+    createAt: Date
+}

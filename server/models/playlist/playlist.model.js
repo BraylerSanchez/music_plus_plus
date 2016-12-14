@@ -5,6 +5,7 @@ var playlist_schema_1 = require('../../schemas/playlist/playlist.schema');
 var PlaylistModel = (function () {
     function PlaylistModel() {
         this.playlistModelMG = mongoose.model('playlist', playlist_schema_1.PlayListSchema);
+        this.sharedPlaylistModel = mongoose.model('sharedPlaylist', playlist_schema_1.SharedPlaylistSchema);
     }
     PlaylistModel.prototype.list = function (_userId) {
         var def = q_1.defer();
@@ -63,6 +64,31 @@ var PlaylistModel = (function () {
             }
             else {
                 def.resolve("Playlist update success.");
+            }
+        });
+        return def.promise;
+    };
+    PlaylistModel.prototype.share = function (_sharedPlaylist) {
+        var sharedPlaylist = new this.sharedPlaylistModel(_sharedPlaylist);
+        var def = q_1.defer();
+        sharedPlaylist.save(function (error, doc) {
+            if (error) {
+                def.reject(error);
+            }
+            else {
+                def.resolve("Playlist successfully shared.");
+            }
+        });
+        return def.promise;
+    };
+    PlaylistModel.prototype.search = function () {
+        var def = q_1.defer();
+        this.sharedPlaylistModel.find({}, function (error, docs) {
+            if (error) {
+                def.reject(error);
+            }
+            else {
+                def.resolve(docs);
             }
         });
         return def.promise;

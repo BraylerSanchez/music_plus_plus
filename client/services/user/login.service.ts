@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/share';
+import {Http, Headers, Response, ResponseOptions} from '@angular/http'
 
 import { IUser } from '../../interfaces/user/user.interface';
 
@@ -16,14 +17,19 @@ var logoutUserObserbable: any;
 export const onLogoutUser = new Observable( (observable) =>{
     logoutUserObserbable = observable; 
 }).share();
+const headers = new ResponseOptions({
+    headers: new Headers({
+        'Content-Type': 'application/json'
+    })
+})
 
 @Injectable()
 export class LoginService{
     private client_id: string = '347784008330-m2u9l7c3hp2stho4bc8bvf38cmi1tr2p.apps.googleusercontent.com';
     private auth2: any;
     private user: IUser;
-    
     constructor(
+        private http: Http
     ){
         gapi.load('auth2', () => {
           this.auth2 = gapi.auth2.init({
@@ -73,5 +79,9 @@ export class LoginService{
                   console.log('Error authenticating user.')
               }
         });
+    }
+    
+    getUserProfile(id: string){
+        return this.http.get(`https://www.googleapis.com/gmail/v1/users/${id}/profile`, headers).map( res => res.json());
     }
 }

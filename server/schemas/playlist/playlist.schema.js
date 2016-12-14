@@ -23,4 +23,29 @@ exports.PlayListSchema = new mongoose_1.Schema({
         default: Date()
     }
 });
+exports.SharedPlaylistSchema = new mongoose_1.Schema({
+    origin: {
+        type: exports.PlayListSchema,
+        required: true
+    },
+    sharedPlaylists: {
+        type: [exports.PlayListSchema]
+    },
+    userAt: {
+        type: String,
+        required: true
+    },
+    userName: {
+        type: String,
+        required: true
+    },
+    userPictureUrl: {
+        type: String,
+        required: true
+    },
+    createAt: {
+        type: Date,
+        default: Date()
+    }
+});
 //# sourceMappingURL=playlist.schema.js.map

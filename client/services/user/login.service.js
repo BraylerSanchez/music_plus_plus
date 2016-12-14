@@ -12,6 +12,7 @@ var core_1 = require('@angular/core');
 var Observable_1 = require('rxjs/Observable');
 require('rxjs/add/operator/map');
 require('rxjs/add/operator/share');
+var http_1 = require('@angular/http');
 var loginUserObserbable;
 exports.onLoginUser = new Observable_1.Observable(function (observable) {
     loginUserObserbable = observable;
@@ -20,9 +21,15 @@ var logoutUserObserbable;
 exports.onLogoutUser = new Observable_1.Observable(function (observable) {
     logoutUserObserbable = observable;
 }).share();
+var headers = new http_1.ResponseOptions({
+    headers: new http_1.Headers({
+        'Content-Type': 'application/json'
+    })
+});
 var LoginService = (function () {
-    function LoginService() {
+    function LoginService(http) {
         var _this = this;
+        this.http = http;
         this.client_id = '347784008330-m2u9l7c3hp2stho4bc8bvf38cmi1tr2p.apps.googleusercontent.com';
         gapi.load('auth2', function () {
             _this.auth2 = gapi.auth2.init({
@@ -74,9 +81,12 @@ var LoginService = (function () {
             }
         });
     };
+    LoginService.prototype.getUserProfile = function (id) {
+        return this.http.get("https://www.googleapis.com/gmail/v1/users/" + id + "/profile", headers).map(function (res) { return res.json(); });
+    };
     LoginService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [http_1.Http])
     ], LoginService);
     return LoginService;
 }());

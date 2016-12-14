@@ -93,6 +93,14 @@ var PlaylistService = (function () {
             soundLength: playlist.sounds.length
         });
     };
+    PlaylistService.prototype.share = function (_sharedPlaylist) {
+        return this.http.post('api/v1/playlist/share', _sharedPlaylist, headers)
+            .map(function (res) { return res.json(); });
+    };
+    PlaylistService.prototype.searchShared = function () {
+        return this.http.get('api/v1/shared/search', headers)
+            .map(function (res) { return res.json(); });
+    };
     PlaylistService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http])
