@@ -22,7 +22,7 @@ import { LoginService } from '../../../services/user/login.service';
         
     `
     ],
-    styleUrls: ['modules/playlist/components/wizardtemplate.css'],
+    styleUrls: ['client/modules/playlist/components/wizardtemplate.css'],
     template: ` 
         <div class="">
             <h3>Playlist create wizard</h3>

@@ -21,12 +21,13 @@ class AppServer{
     }
     
     config(){
+        var path = process.cwd()
         this.app.use(json());
         this.app.use(json({ type: 'application/vnd.api+json' }))
-        this.app.use( express.static( join( __dirname, '../public' ) ) )
-        this.app.use( express.static( join( __dirname, '../client' ) ) )
-        this.app.use( express.static( join( __dirname, '../dist' ) ) )
-        this.app.use( express.static( join( __dirname, '../node_modules' ) ) )
+        this.app.use( express.static( join( path ) ) )
+        this.app.use( express.static( join( path, '/public' ) ) )
+        this.app.use( express.static( join( path, '/dist' ) ) )
+        this.app.use( express.static( join( path, '/node_modules' ) ) )
         
         var dbConfig = config.get("dbConfig");
         mongoose.connect( `mongodb://${dbConfig['host']}:${dbConfig['port']}/${dbConfig['dbName']}` )

@@ -46,7 +46,6 @@
     "core-js": "^2.4.1",
     "rxjs": "5.0.1",
     "zone.js": "^0.8.4",
-    "angular2-toaster": "^1.0.2",
     "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",
     "config": "^1.21.0",

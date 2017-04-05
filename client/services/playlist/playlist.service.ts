@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core'
 import {Http, Headers, Response, ResponseOptions} from '@angular/http'
 import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/share';
 
 import { IPlayList, ISharedPlayList } from '../../interfaces/playlist/playlist.interface'
 

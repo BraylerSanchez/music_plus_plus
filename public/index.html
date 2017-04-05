@@ -7,11 +7,22 @@
         <link href="assest/css/main.css" rel="stylesheet" />
         <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="angular2-toaster/lib/toaster.css" />
         <script src="https://apis.google.com/js/platform.js" async defer></script>
         
         <link rel="icon" href="favicon.ico" type="image/x-icon"/>
         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+
+        
+        <!-- 2. Load libraries comment for production -->
+        <script src="core-js/client/shim.min.js"></script>
+        <script src="zone.js/dist/zone.js"></script>
+        <script src="reflect-metadata/Reflect.js"></script>
+        <script src="systemjs/dist/system.src.js"></script>
+
+        <script src="systemjs.config.js"></script>
+        <script>
+            System.import('app').catch(function(err){ console.error(err); });
+        </script>
     </head>
     <body>
         <app>
@@ -20,7 +31,8 @@
             </div>
         </app>
         
-        <script type="text/javascript" src="vendor.bundle.js"></script>
-        <script type="text/javascript" src="main.bundle.js"></script>
+        <!-- 2. Load libraries comment for production -->
+        <!--script type="text/javascript" src="vendor.bundle.js"></script>
+        <script type="text/javascript" src="main.bundle.js"></script-->
     </body>
 </html>

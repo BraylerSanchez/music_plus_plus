@@ -2,7 +2,6 @@ import { NgModule }      from '@angular/core';
 import { LocationStrategy, HashLocationStrategy, CommonModule} from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { routing } from './app.routes';
-import {ToasterModule} from 'angular2-toaster/angular2-toaster';
 
 import { HomeModule } from './modules/home/home.module';
 import { PlayerModule } from './modules/player/player.module';
@@ -20,8 +19,7 @@ import { PlaylistWidgetComponent }   from './templates/components/playlist.widge
         CommonModule,
         HomeModule,
         PlayerModule,
-        PlaylistModule,
-        ToasterModule
+        PlaylistModule
     ],
     declarations: [
         TemplateComponent,

@@ -5,7 +5,6 @@ import { SideBarComponent } from './sidebar.component';
 @Component({
   selector: 'app',
     template: `
-    <toaster-container></toaster-container>
     <sidebar></sidebar>
     <div class="site-wrapper">
       <div class="site-wrapper-inner">
