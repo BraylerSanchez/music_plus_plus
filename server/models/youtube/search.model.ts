@@ -1,4 +1,4 @@
-var defer = require('q')
+var defer = require('q').defer
 import * as request from 'request';
 var config = require('config')
 

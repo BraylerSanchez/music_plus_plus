@@ -8,24 +8,24 @@ export class ConvertController{
         this.convertModel = new ConvertModel();
     }
     
-    toStream(req:Request, res:Response){
-        res.set({'Content-Type': 'audio/mpeg'});
+    toStream(req:Request, res:Response){   
         var videoId = req.params['videoId'];
         try{
             var stream = this.convertModel.toStream(videoId);
-            stream.pipe(res);
-            stream.on('response', function(streamRes:any) {
-              var totalSize = streamRes.headers['content-length'];
-              var dataRead = 0;
-              res.on('data', function(data:any) {
-                dataRead += data.length;
-                var percent = dataRead / totalSize;
-                
-                process.stdout.write((percent * 100).toFixed(2) + '% ');
-              });
-              res.on('end', function() {
-                process.stdout.write('\n');
-              });
+            stream.on('response', function (streamRes) {
+                var totalSize = streamRes.headers['content-length'];
+                res.setHeader('Content-Type', 'audio/mpeg');
+                res.setHeader('Accept-Ranges', `bytes 0-${totalSize}`);
+                stream.pipe(res);
+                var dataRead = 0;
+                streamRes.on('data', function (data) {
+                    dataRead += data.length;
+                    var percent = dataRead / totalSize;
+                    //process.stdout.write((percent * 100).toFixed(2) + '% ');
+                });
+                streamRes.on('end', function () {
+                    process.stdout.write('\n');
+                });
             });
         }catch(error){
             res.send({

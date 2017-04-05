@@ -58,7 +58,7 @@ export class PlayerService{
     
     getMusic(i: number, sound:Sound ){
         gettingMusicObserbable.next(sound);
-        var request = new XMLHttpRequest();
+        /*var request = new XMLHttpRequest();
         request.open("GET", `/api/v1/youtube/convert/${sound.id}`, true); 
         request.responseType = "arraybuffer"; 
         
@@ -73,7 +73,7 @@ export class PlayerService{
                 });
             }
         };
-        request.send();
+        request.send();*/
     }
     suspendMusic(){
         onSuspendMusicTrigger.next();

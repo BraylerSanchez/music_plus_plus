@@ -1,5 +1,5 @@
 import * as express from 'express'
-import { Request, Response, Server } from 'express'
+import { Request, Response } from 'express'
 var json = require('body-parser').json
 var join = require('path').join
 var config = require('config')
@@ -12,7 +12,7 @@ import { SearchRoutes } from './routes/youtube/search.routes'
 declare var process:any
 
 class AppServer{
-    public app:Server
+    public app:any
 
     constructor(){
         this.app = express()

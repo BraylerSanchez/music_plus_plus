@@ -1,9 +1,9 @@
 import { PlaylistController } from '../../controllers/playlist/playlist.controller';
-import { Server, Request, Response } from 'express'
+import {  Request, Response } from 'express'
 
 export class PlaylistRoutes{
     private playlistController: PlaylistController;
-    constructor(app:Server){
+    constructor(app:any){
         this.playlistController = new PlaylistController();
         app.get('/api/v1/:_userId/playlist', (req:Request, res:Response) => this.playlistController.list(req, res));
         app.get('/api/v1/playlist/:_id',  (req:Request, res:Response) => this.playlistController.get(req, res) );

@@ -161,8 +161,11 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
     `],
     template: `
     <div class="col-lg-12 no-padding-l-r player" *ngIf="currentSoundDetails" >
-        <audio [src]="'/api/v1/youtube/convert/' + currentSoundDetails.id" id="audio">
-    </audio>
+        <audio controls autoplay style="width:100%">
+            <source [src]="'/api/v1/youtube/convert/' + currentSoundDetails.id" type="audio/ogg">
+            <source [src]="'/api/v1/youtube/convert/' + currentSoundDetails.id" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
     </div>`,
     providers: [PlayerService, PlaylistService]
 })
@@ -222,6 +225,7 @@ export class PlayerComponent{
         onGettingMusic.subscribe( (sound) =>{
             this.currentSoundDetails = sound;
             this.isLoading = true;
+            this.ngZone.run(()=>{})
         })
         onAddSound.subscribe( (result)=>{
             if(result.soundLength <= 0){

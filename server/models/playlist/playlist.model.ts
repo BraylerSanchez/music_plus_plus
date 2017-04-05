@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-var defer = require('q')
+var defer = require('q').defer
 import { PlayListSchema,  SharedPlaylistSchema} from '../../schemas/playlist/playlist.schema';
 
 export class PlaylistModel{
