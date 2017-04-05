@@ -13,24 +13,24 @@ const headers = new ResponseOptions({
 })
 
 var playSoundObserbable: any;
-export const onPlayMusic: Observable<Sound> = new Observable( (observable) =>{
+export const onPlayMusic: Observable<Sound> = new Observable( (observable:any) =>{
     playSoundObserbable = observable;
     return () => {}
 }).share();
 
 var gettingMusicObserbable: any;
-export const onGettingMusic: Observable<Sound> = new Observable( (observable) =>{
+export const onGettingMusic: Observable<Sound> = new Observable( (observable:any) =>{
     gettingMusicObserbable = observable;
     return () => {}
 }).share();
 
 var stopSoundObserbable: any;
-export const onStopMusic: Observable<Sound> = new Observable( (observable) =>{
+export const onStopMusic: Observable<Sound> = new Observable( (observable:any) =>{
     stopSoundObserbable = observable; 
 }).share();
 
 var onSuspendMusicTrigger: any;
-export const onSuspendMusic: Observable<Sound> = new Observable( (observable) =>{
+export const onSuspendMusic: Observable<Sound> = new Observable( (observable:any) =>{
     onSuspendMusicTrigger = observable; 
 }).share();
 
@@ -52,7 +52,7 @@ export class PlayerService{
             .map( res => res.json() )
     }
     
-    stopMusic(video){
+    stopMusic(video:any){
         stopSoundObserbable.next(video);
     }
     

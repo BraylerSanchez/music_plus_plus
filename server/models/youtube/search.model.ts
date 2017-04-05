@@ -1,6 +1,6 @@
-import { defer } from 'q';
+var defer = require('q')
 import * as request from 'request';
-import * as config from 'config';
+var config = require('config')
 
 export class SearchModel{
     private apiPart: string;
@@ -14,7 +14,7 @@ export class SearchModel{
         this.resultLength = youtubeParams['resultLength'];
     }
     
-    search(query){
+    search(query:any){
         var def = defer();
         request({
             method: 'GET',
@@ -22,11 +22,11 @@ export class SearchModel{
             headers: {
                'Content-Type': 'application/json'
             }
-        }, (error, res, data) =>{
+        }, (error:any, res:any, data:any) =>{
             if(error){
                 def.reject( error )
             }else{
-                var shortSongs = JSON.parse( data).items.map( (video) => {
+                var shortSongs = JSON.parse( data).items.map( (video:any) => {
                     return {
                         title: video.snippet.title,
                         description: video.snippet.description,
@@ -42,11 +42,11 @@ export class SearchModel{
                     headers: {
                        'Content-Type': 'application/json'
                     }
-                }, (error, res, data) =>{
+                }, (error:any, res:any, data:any) =>{
                     if(error){
                         def.reject( error )
                     }else{
-                        let longSongs = JSON.parse( data).items.map( (video) => {
+                        let longSongs = JSON.parse( data).items.map( (video:any) => {
                             return {
                                 title: video.snippet.title,
                                 description: video.snippet.description,

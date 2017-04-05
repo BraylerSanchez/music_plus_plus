@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { defer } from 'q';
+var defer = require('q')
 import { PlayListSchema,  SharedPlaylistSchema} from '../../schemas/playlist/playlist.schema';
 
 export class PlaylistModel{
@@ -11,9 +11,9 @@ export class PlaylistModel{
         this.sharedPlaylistModel = mongoose.model('sharedPlaylist', SharedPlaylistSchema);
     }
     
-    list( _userId ){
+    list( _userId:any ){
         var def = defer();
-        this.playlistModelMG.find( {userAt: _userId}, (error, docs) =>{
+        this.playlistModelMG.find( {userAt: _userId}, (error:any, docs:any) =>{
             if( error ){
                 def.reject( error );
             }else{
@@ -25,7 +25,7 @@ export class PlaylistModel{
     
     get( _id:string ){
         var def = defer();
-        this.playlistModelMG.find( {_id: _id}, (error, docs) =>{
+        this.playlistModelMG.find( {_id: _id}, (error:any, docs:any) =>{
             if( error ){
                 def.reject( error );
             }else{
@@ -37,7 +37,7 @@ export class PlaylistModel{
     
     delete( _id:string ){
         var def = defer();
-        this.playlistModelMG.remove( {_id: _id}, (error) =>{
+        this.playlistModelMG.remove( {_id: _id}, (error:any) =>{
             if( error ){
                 def.reject( error );
             }else{
@@ -47,10 +47,10 @@ export class PlaylistModel{
         return def.promise;
     }
     
-    save( _playlist){
+    save( _playlist:any){
         var def = defer();
         var playlist = new this.playlistModelMG( _playlist );
-        playlist.save( (error, doc) =>{
+        playlist.save( (error:any, doc:any) =>{
             if (error) {
                 def.reject(error)
             } else {
@@ -62,7 +62,7 @@ export class PlaylistModel{
     
     update( _id:string, _playlist:any){
         var def = defer();
-        this.playlistModelMG.update( {_id: _id}, _playlist, {}, (error, doc) =>{
+        this.playlistModelMG.update( {_id: _id}, _playlist, {}, (error:any, doc:any) =>{
             if (error) {
                 def.reject(error)
             } else {
@@ -72,11 +72,11 @@ export class PlaylistModel{
         return def.promise;
     }
     
-    share(_sharedPlaylist){
+    share(_sharedPlaylist:any){
         var sharedPlaylist = new this.sharedPlaylistModel(_sharedPlaylist);
         
         var def = defer();
-        sharedPlaylist.save( (error, doc) =>{
+        sharedPlaylist.save( (error:any, doc:any) =>{
             if (error) {
                 def.reject(error)
             } else {
@@ -88,7 +88,7 @@ export class PlaylistModel{
     
     search(){
         var def = defer();
-        this.sharedPlaylistModel.find({}, (error, docs) =>{
+        this.sharedPlaylistModel.find({}, (error:any, docs:any) =>{
             if( error ){
                 def.reject( error );
             }else{

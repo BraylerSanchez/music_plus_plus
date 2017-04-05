@@ -12,17 +12,17 @@ const headers = new ResponseOptions({
 })
 
 var onPlaylistChangeTrigger: any;
-export const onPlaylistChange: Observable<IPlayList> = new Observable( (observable) =>{
+export const onPlaylistChange: Observable<IPlayList> = new Observable( (observable:any) =>{
     onPlaylistChangeTrigger = observable;
 }).share();
 
 var addSoundTrigger: any;
-export const onAddSound: Observable<any> = new Observable( (observable) =>{
+export const onAddSound: Observable<any> = new Observable( (observable:any) =>{
   addSoundTrigger = observable;
 }).share();
 
 var removeSoundTrigger: any;
-export const onRemoveSound: Observable<any> = new Observable( (observable) =>{
+export const onRemoveSound: Observable<any> = new Observable( (observable:any) =>{
   removeSoundTrigger = observable;
 }).share();
 
@@ -33,7 +33,7 @@ export class PlaylistService{
     ){
     }
     
-    list(_userId){
+    list(_userId:number){
         return this.http.get(`api/v1/${_userId}/playlist`, headers )
             .map( res => res.json())
     }
@@ -43,12 +43,12 @@ export class PlaylistService{
         .map( res => res.json())
     }
     
-    save(_playlist){
+    save(_playlist:any){
         return this.http.post('api/v1/playlist', _playlist, headers )
             .map( res => res.json())
     }
     
-    update(_id:string, _playlist){
+    update(_id:string, _playlist:any){
         return this.http.put(`api/v1/playlist/${_id}`, _playlist, headers )
             .map( res => res.json())
     }
@@ -75,11 +75,11 @@ export class PlaylistService{
             return playlist; 
         }
     }
-    setCurrentPlaylist(playlist){
+    setCurrentPlaylist(playlist:any){
         localStorage.setItem('ms_currentPlaylist', JSON.stringify(playlist));
     }
     
-    addSoundToPlaylist(result){
+    addSoundToPlaylist(result:any){
         var playlist = this.getCurrentPlaylist();
         playlist.sounds.push(result.sound);
         this.setCurrentPlaylist(playlist);
@@ -101,7 +101,7 @@ export class PlaylistService{
         });
     }
     
-    share(_sharedPlaylist){
+    share(_sharedPlaylist:any){
         return this.http.post('api/v1/playlist/share', _sharedPlaylist, headers )
             .map( res => res.json())
     }

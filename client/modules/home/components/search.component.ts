@@ -130,7 +130,7 @@ export class SearchComponent{
       })
     }
     
-    addToPlaylist(e, sound: Sound){
+    addToPlaylist(e:any, sound: Sound){
       this.playlistService.addSoundToPlaylist({
         playlist: this.playlist.name,
         sound: sound
@@ -139,7 +139,7 @@ export class SearchComponent{
       e.stopPropagation();
     }
     
-    handleKeyup(e){
+    handleKeyup(e:any){
         if( e.keyCode == 13){
           this.search();
         }  
@@ -158,7 +158,7 @@ export class SearchComponent{
       })
     }
     
-    play(sound){
+    play(sound:Sound){
       let playlist = this.playlistService.getCurrentPlaylist();
       this.playlistService.addSoundToPlaylist({
         sound: sound,

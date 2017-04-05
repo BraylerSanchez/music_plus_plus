@@ -55,7 +55,7 @@ export class TemplateComponent implements OnInit{
     }
     
     ngOnInit(){
-         this.renderer.listen( this.elementRef.nativeElement.children[2], 'click', (event) => {
+         this.renderer.listen( this.elementRef.nativeElement.children[2], 'click', (event:any) => {
              this.sideBarComponent.hide();
         })
     }

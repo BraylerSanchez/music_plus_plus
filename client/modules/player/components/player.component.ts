@@ -264,7 +264,7 @@ export class PlayerComponent{
     play(){
         this.isPlaying = true;
         this.currentSound = this.audioContext.createBufferSource();
-        this.audioContext.decodeAudioData( this.soundBuffer, (buffer) => {
+        this.audioContext.decodeAudioData( this.soundBuffer, (buffer:any) => {
             this.currentSound.buffer = buffer;
             this.duration = buffer.duration;
             this.currentSound.loop = false;
@@ -314,11 +314,11 @@ export class PlayerComponent{
         }
     }
     
-    toMinute(value){
+    toMinute(value:number){
         let minute = Math.round((value / 60) % 60);
         return minute < 10? '0' + minute: minute;
     }
-    toSecound(value){
+    toSecound(value:number){
         let secound = Math.round(value % 60);
         return secound < 10? '0' + secound : secound;
     }
@@ -328,7 +328,7 @@ export class PlayerComponent{
         this.audioNode.gain.value = this.soundVolume;
     }
     
-    changeSound(e){
+    changeSound(e:any){
         this.stop();
         this.currentTime = e.currentTarget.value * this.duration / 100;
         this.play();

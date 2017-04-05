@@ -1,4 +1,5 @@
 import { ConvertModel } from '../../models/youtube/convert.model';
+import { Request, Response} from 'express'
 
 export class ConvertController{
     convertModel: ConvertModel;
@@ -7,7 +8,7 @@ export class ConvertController{
         this.convertModel = new ConvertModel();
     }
     
-    toStream(req, res){
+    toStream(req:Request, res:Response){
         res.set({'Content-Type': 'audio/mpeg'});
         var videoId = req.params['videoId'];
         try{

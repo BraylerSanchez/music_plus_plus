@@ -1,4 +1,5 @@
 import { PlaylistModel } from '../../models/playlist/playlist.model';
+import { Request, Response} from 'express'
 
 export class PlaylistController{
     playlistModel: PlaylistModel;
@@ -7,17 +8,17 @@ export class PlaylistController{
         this.playlistModel = new PlaylistModel();
     }
     
-    save(req, res){
-        var playlist = req.body;
+    save(req:Request, res:Response){
+        var playlist = req['body'];
         playlist.createAt = new Date();
         playlist.updateAt = new Date();
         
-        this.playlistModel.save(playlist).then( (message) =>{
+        this.playlistModel.save(playlist).then( (message:any) =>{
             res.json({
                 status: true,
                 message: message
             })
-        }).catch( (error) =>{
+        }).catch( (error:any) =>{
             res.send({
                 status: false,
                 message: error
@@ -25,16 +26,16 @@ export class PlaylistController{
         })
     }
     
-    update(req, res){
-        var playlist = req.body,
+    update(req:Request, res:Response){
+        var playlist = req['body'],
             _id = req.params['_id'];
         playlist.updateAt = new Date();
-        this.playlistModel.update(_id, playlist).then( (message) =>{
+        this.playlistModel.update(_id, playlist).then( (message:any) =>{
             res.json({
                 status: true,
                 message: message
             })
-        }).catch( (error) =>{
+        }).catch( (error:any) =>{
             res.send({
                 status: false,
                 message: error
@@ -42,7 +43,7 @@ export class PlaylistController{
         })
     }
     
-    get(req, res){
+    get(req:Request, res:Response){
         var id = req.params['_id'];
         if( id == '0'){
             res.send({
@@ -51,12 +52,12 @@ export class PlaylistController{
                 message: 'object no found'
             })
         }
-        this.playlistModel.get(id).then( (docs) =>{
+        this.playlistModel.get(id).then( (docs:any) =>{
             res.json({
                 status: true,
                 playlist: docs['length'] > 0? docs[0] : {}
             })
-        }).catch( (error) => {
+        }).catch( (error:any) => {
             res.send({
                 status: false,
                 message: error
@@ -64,14 +65,14 @@ export class PlaylistController{
         })
     }
     
-    list(req, res){
+    list(req:Request, res:Response){
         let userId = req.params['_userId'];
-        this.playlistModel.list( userId ).then( (docs) =>{
+        this.playlistModel.list( userId ).then( (docs:any) =>{
             res.json({
                 status: true,
                 playlists: docs
             })
-        }).catch( (error) => {
+        }).catch( (error:any) => {
             res.send({
                 status: false,
                 message: error
@@ -79,14 +80,14 @@ export class PlaylistController{
         })
     }
     
-    delete(req, res){
+    delete(req:Request, res:Response){
         var id = req.params['_id'];
-        this.playlistModel.delete( id ).then( (result) =>{
+        this.playlistModel.delete( id ).then( (result:any) =>{
             res.json({
                 status: true,
                 message: result
             })
-        }).catch( (error) => {
+        }).catch( (error:any) => {
             res.send({
                 status: false,
                 message: error
@@ -94,16 +95,16 @@ export class PlaylistController{
         })
     }
     
-    share(req, res){
-        var sharedPlaylist = req.body;
+    share(req:Request, res:Response){
+        var sharedPlaylist = req['body'];
         sharedPlaylist.createAt = new Date();
         
-        this.playlistModel.share(sharedPlaylist).then( (message) =>{
+        this.playlistModel.share(sharedPlaylist).then( (message:any) =>{
             res.json({
                 status: true,
                 message: message
             })
-        }).catch( (error) =>{
+        }).catch( (error:any) =>{
             res.send({
                 status: false,
                 message: error
@@ -111,13 +112,13 @@ export class PlaylistController{
         })
     }
     
-    search(req, res){
-        this.playlistModel.search().then( (docs) =>{
+    search(req:Request, res:Response){
+        this.playlistModel.search().then( (docs:any) =>{
             res.json({
                 status: true,
                 playlist: docs
             })
-        }).catch( (error) => {
+        }).catch( (error:any) => {
             res.send({
                 status: false,
                 message: error

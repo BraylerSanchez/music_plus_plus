@@ -99,7 +99,7 @@ export class PlayingWidgetComponent implements OnInit{
     private currentIndex = -1;
     private isPlaying = false;
     private playlists:any;
-    private playlist = { name:'default', description: '', sounds: [], createAt: new Date(), userAt: '', updateAt: new Date()};
+    private playlist:any = { name:'default', description: '', sounds: [], createAt: new Date(), userAt: '', updateAt: new Date()};
     constructor(
         private playerService: PlayerService,
         private ngZone: NgZone,
@@ -142,7 +142,7 @@ export class PlayingWidgetComponent implements OnInit{
             })
     }
     
-    removeFromPlaylist(e, index) {
+    removeFromPlaylist(e:any, index:number) {
         this.playlistService.removeSoundToPlaylist(index);
         e.stopPropagation();
     }
@@ -160,7 +160,7 @@ export class PlayingWidgetComponent implements OnInit{
     }
     
     toClearPlayList(){
-        let playlist = { name:'default', description: '', sounds: [], createAt: new Date(), userAt: '', updateAt: new Date()};
+        let playlist:any = { name:'default', description: '', sounds: [], createAt: new Date(), userAt: '', updateAt: new Date()};
         this.playlistService.changePlaylist(playlist);
     }
  }

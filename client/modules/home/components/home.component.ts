@@ -1,5 +1,6 @@
 import { Component, ChangeDetectorRef, NgZone} from '@angular/core';
 import { Router } from '@angular/router';
+import { IPlayList } from '../../../interfaces/playlist/playlist.interface';
 import { PlaylistService } from '../../../services/playlist/playlist.service'
 
 @Component({
@@ -65,7 +66,7 @@ img{
 })
 export class HomeComponent{
     private queryString:string;
-    private playLists = [];
+    private playLists:any[] = [];
     private profile: any;
     
     
@@ -76,7 +77,7 @@ export class HomeComponent{
       this.queryString = '';
       this.searchSharedPlaylist();
     }
-    handleKeyup(e){
+    handleKeyup(e:any){
       if( e.keyCode == 13){
         this.search();
       }  
@@ -102,7 +103,7 @@ export class HomeComponent{
       });
     }
     
-    play(playlist){ //Este metodo reproduce listas locales, averiguar como reproducir las compartidas.
+    play(playlist:IPlayList){ //Este metodo reproduce listas locales, averiguar como reproducir las compartidas.
         this.playlistService.changePlaylist(playlist);
     }
    

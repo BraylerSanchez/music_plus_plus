@@ -9,12 +9,12 @@ import { IUser } from '../../interfaces/user/user.interface';
 declare var gapi: any;
 
 var loginUserObserbable: any;
-export const onLoginUser: Observable<IUser> = new Observable( (observable) =>{
+export const onLoginUser: Observable<IUser> = new Observable( (observable:any) =>{
     loginUserObserbable = observable; 
 }).share();
 
 var logoutUserObserbable: any;
-export const onLogoutUser = new Observable( (observable) =>{
+export const onLogoutUser = new Observable( (observable:any) =>{
     logoutUserObserbable = observable; 
 }).share();
 const headers = new ResponseOptions({
@@ -63,9 +63,9 @@ export class LoginService{
         });
     }
     login(){
-        this.auth2.grantOfflineAccess().then( (authResult)=>{
+        this.auth2.grantOfflineAccess().then( (authResult:any)=>{
             if (authResult['code']) {
-                this.auth2.currentUser.listen( (userResponse) =>{
+                this.auth2.currentUser.listen( (userResponse:any) =>{
                     var profile = userResponse.getBasicProfile();
                     var user = {
                         _id: profile.getId(),
