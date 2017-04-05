@@ -12,7 +12,21 @@ export class ConvertController{
         res.set({'Content-Type': 'audio/mpeg'});
         var videoId = req.params['videoId'];
         try{
-            this.convertModel.toStream(videoId).pipe(res)
+            var stream = this.convertModel.toStream(videoId);
+            stream.pipe(res);
+            stream.on('response', function(streamRes:any) {
+              var totalSize = streamRes.headers['content-length'];
+              var dataRead = 0;
+              res.on('data', function(data:any) {
+                dataRead += data.length;
+                var percent = dataRead / totalSize;
+                
+                process.stdout.write((percent * 100).toFixed(2) + '% ');
+              });
+              res.on('end', function() {
+                process.stdout.write('\n');
+              });
+            });
         }catch(error){
             res.send({
                 status: false,

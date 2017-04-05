@@ -21,7 +21,7 @@ class AppServer{
     }
     
     config(){
-        var path = process.cwd()
+        let path:string = process.cwd()
         this.app.use(json());
         this.app.use(json({ type: 'application/vnd.api+json' }))
         this.app.use( express.static( join( path ) ) )

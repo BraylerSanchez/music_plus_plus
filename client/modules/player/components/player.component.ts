@@ -161,28 +161,8 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
     `],
     template: `
     <div class="col-lg-12 no-padding-l-r player" *ngIf="currentSoundDetails" >
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding-l-r">
-            <div class="col-lg-2 col-md-2 hidden-sm hidden-xs no-padding-l-r"></div>
-            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 no-padding-l-r controls" [ngClass]="{'playing': !isLoading}">
-                    <a class="common" (click)="previou()" [ngClass]="{'disabled': currentSoundIndex <= 0 || isLoading }"><i class="fa fa-backward padding-right-xs"></i></a>
-                    <a class="play" *ngIf="!isPlaying && !isLoading" (click)="play()" ><i class="fa fa-play"></i></a>
-                    <img *ngIf="isLoading" class="mini-loading" src="assest/images/loading-xs.gif" />
-                    <a class="play" *ngIf="isPlaying && !isLoading" (click)="stop()" ><i class="fa fa-pause"></i></a>
-                    <a class="common" (click)="next()" [ngClass]="{'disabled': currentSoundIndex +1 >= soundsLength || isLoading  }" ><i class="fa fa-forward padding-left-xs"></i></a>
-                    <a class="common" (click)="suspend()"  [ngClass]="{'disabled': isLoading}"><i class="fa fa-stop"></i></a>
-                </div>
-                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6 no-padding-l-r progress">
-                    <span class="left">{{toMinute(currentTime)}}:{{toSecound(currentTime)}}</span>
-                    <input class="" type="range"  min="0" max="100" (change)="changeSound($event)" value="{{(currentTime / duration * 100)}}" />
-                    <span class="right">{{toMinute(duration)}}:{{toSecound(duration)}}</span>
-                </div>
-                <div class="col-lg-1 col-md-1 col-sm-1 hidden-xs no-padding-l-r controls">
-                    <a (click)="mute()" class="hide"><i class="fa" [ngClass]="{'fa-volume-up': soundVolume ==1, 'fa-volume-off': soundVolume ==0}"></i></a>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-2 hidden-sm hidden-xs no-padding-l-r"></div>
-        </div>
+        <audio [src]="'/api/v1/youtube/convert/' + currentSoundDetails.id" id="audio">
+    </audio>
     </div>`,
     providers: [PlayerService, PlaylistService]
 })
