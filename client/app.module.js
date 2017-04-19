@@ -9,7 +9,6 @@ var core_1 = require("@angular/core");
 var common_1 = require("@angular/common");
 var platform_browser_1 = require("@angular/platform-browser");
 var app_routes_1 = require("./app.routes");
-var angular2_toaster_1 = require("angular2-toaster/angular2-toaster");
 var home_module_1 = require("./modules/home/home.module");
 var player_module_1 = require("./modules/player/player.module");
 var playlist_module_1 = require("./modules/playlist/playlist.module");
@@ -30,8 +29,7 @@ AppModule = __decorate([
             common_1.CommonModule,
             home_module_1.HomeModule,
             player_module_1.PlayerModule,
-            playlist_module_1.PlaylistModule,
-            angular2_toaster_1.ToasterModule
+            playlist_module_1.PlaylistModule
         ],
         declarations: [
             template_component_1.TemplateComponent,

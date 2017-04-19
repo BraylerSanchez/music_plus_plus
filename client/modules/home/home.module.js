@@ -13,7 +13,6 @@ var platform_browser_1 = require("@angular/platform-browser");
 var home_routes_1 = require("./home.routes");
 var home_component_1 = require("./components/home.component");
 var search_component_1 = require("./components/search.component");
-var angular2_toaster_1 = require("angular2-toaster/angular2-toaster");
 var HomeModule = (function () {
     function HomeModule() {
     }
@@ -26,7 +25,6 @@ HomeModule = __decorate([
             platform_browser_1.BrowserModule,
             forms_1.FormsModule,
             common_1.CommonModule,
-            angular2_toaster_1.ToasterModule,
             home_routes_1.routing
         ],
         exports: [
