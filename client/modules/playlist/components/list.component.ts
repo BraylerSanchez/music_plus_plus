@@ -68,7 +68,7 @@ import { IPlayList, ISharedPlayList } from '../../../interfaces/playlist/playlis
 })
 export class PlayListComponent implements OnInit{
     private queryString:string;
-    private playLists = [];
+    private playLists:any[] = [];
     constructor(
         private router:Router,
         private playlistService: PlaylistService,
@@ -85,14 +85,14 @@ export class PlayListComponent implements OnInit{
         this.router.navigate(['/playlist/create/0'])
     }
     
-    play(playlist){
+    play(playlist:any){
         this.playlistService.changePlaylist(playlist);
     }
     
-    delete(_id){
+    delete(_id:string){
         let result = confirm('Do you want delete this playList?');
         if(result == true){
-            this.playlistService.delete(_id).subscribe( (result)=>{
+            this.playlistService.delete(_id).subscribe( (result:any)=>{
                 if( result.status == true){
                     alert('Playlist delete success')
                     this.load();
@@ -104,8 +104,8 @@ export class PlayListComponent implements OnInit{
     }
     
     load(){
-        let userId = this.loginService.getUser()._id;
-        this.playlistService.list(userId).subscribe( (result) =>{
+        let userId:number = Number(this.loginService.getUser()._id);
+        this.playlistService.list(userId).subscribe( (result:any) =>{
             if( result.status == true){
                 this.playLists = result.playlists;
             }else{
@@ -114,7 +114,7 @@ export class PlayListComponent implements OnInit{
         })
     }
     
-    share(_playlist){
+    share(_playlist:any){
         var sharedPlaylist: ISharedPlayList ={
             origin: _playlist,
             sharedPlaylists: new Array<IPlayList>(),

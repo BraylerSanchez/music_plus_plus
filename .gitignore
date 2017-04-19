@@ -1,4 +1,8 @@
 node_modules/
 db/**
+client/**/*.js
+client/**/*.js.map
+server/**/*.js
+server/**/*.js.map
 typings/
 .vscode/

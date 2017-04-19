@@ -1,8 +1,9 @@
 import * as express from 'express'
-import { json } from 'body-parser'
-import { join } from 'path'
-import * as config from 'config'
-import * as mongoose from 'mongoose'
+import { Request, Response } from 'express'
+var json = require('body-parser').json
+var join = require('path').join
+var config = require('config')
+var mongoose = require('mongoose')
 
 import { PlaylistRoutes } from './routes/playlist/playlist.routes'
 import { ConvertRoutes } from './routes/youtube/convert.routes'
@@ -11,7 +12,7 @@ import { SearchRoutes } from './routes/youtube/search.routes'
 declare var process:any
 
 class AppServer{
-    public app: any
+    public app:any
 
     constructor(){
         this.app = express()
@@ -20,12 +21,13 @@ class AppServer{
     }
     
     config(){
+        let path:string = process.cwd()
         this.app.use(json());
         this.app.use(json({ type: 'application/vnd.api+json' }))
-        this.app.use( express.static( join( __dirname, '../public' ) ) )
-        this.app.use( express.static( join( __dirname, '../client' ) ) )
-        this.app.use( express.static( join( __dirname, '../dist' ) ) )
-        this.app.use( express.static( join( __dirname, '../node_modules' ) ) )
+        this.app.use( express.static( join( path ) ) )
+        this.app.use( express.static( join( path, '/public' ) ) )
+        this.app.use( express.static( join( path, '/dist' ) ) )
+        this.app.use( express.static( join( path, '/node_modules' ) ) )
         
         var dbConfig = config.get("dbConfig");
         mongoose.connect( `mongodb://${dbConfig['host']}:${dbConfig['port']}/${dbConfig['dbName']}` )
@@ -35,7 +37,7 @@ class AppServer{
         new PlaylistRoutes(this.app);
         new ConvertRoutes(this.app);
         new SearchRoutes(this.app);
-        this.app.get('/', function(req, res){
+        this.app.get('/', function(req:Request, res:Response){
            res.sendFile(__dirname + '../pulic/index.html')
         });
     }

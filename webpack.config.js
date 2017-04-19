@@ -17,8 +17,7 @@ module.exports = [ {
             "@angular/http",
             "@angular/platform-browser",
             "@angular/platform-browser-dynamic",
-            "@angular/router",
-            "angular2-toaster"
+            "@angular/router"
         ]
     },
     output: {

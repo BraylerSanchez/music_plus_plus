@@ -13,24 +13,24 @@ const headers = new ResponseOptions({
 })
 
 var playSoundObserbable: any;
-export const onPlayMusic: Observable<Sound> = new Observable( (observable) =>{
+export const onPlayMusic: Observable<Sound> = new Observable( (observable:any) =>{
     playSoundObserbable = observable;
     return () => {}
 }).share();
 
 var gettingMusicObserbable: any;
-export const onGettingMusic: Observable<Sound> = new Observable( (observable) =>{
+export const onGettingMusic: Observable<Sound> = new Observable( (observable:any) =>{
     gettingMusicObserbable = observable;
     return () => {}
 }).share();
 
 var stopSoundObserbable: any;
-export const onStopMusic: Observable<Sound> = new Observable( (observable) =>{
+export const onStopMusic: Observable<Sound> = new Observable( (observable:any) =>{
     stopSoundObserbable = observable; 
 }).share();
 
 var onSuspendMusicTrigger: any;
-export const onSuspendMusic: Observable<Sound> = new Observable( (observable) =>{
+export const onSuspendMusic: Observable<Sound> = new Observable( (observable:any) =>{
     onSuspendMusicTrigger = observable; 
 }).share();
 
@@ -52,28 +52,12 @@ export class PlayerService{
             .map( res => res.json() )
     }
     
-    stopMusic(video){
+    stopMusic(video:any){
         stopSoundObserbable.next(video);
     }
     
     getMusic(i: number, sound:Sound ){
-        gettingMusicObserbable.next(sound);
-        var request = new XMLHttpRequest();
-        request.open("GET", `/api/v1/youtube/convert/${sound.id}`, true); 
-        request.responseType = "arraybuffer"; 
-        
-        request.onload = () => {
-            if( request.response.status){
-                alert(request.response.message);
-            }else{
-                playSoundObserbable.next( {
-                    index: i,
-                    details: sound,
-                    buffer: request.response
-                });
-            }
-        };
-        request.send();
+        playSoundObserbable.next({ details: sound, index: i});
     }
     suspendMusic(){
         onSuspendMusicTrigger.next();

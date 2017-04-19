@@ -222,7 +222,7 @@ export class SideBarComponent implements OnInit{
         })
     }
     
-    musicAdd(result){
+    musicAdd(result:any){
         if(result.result){
             this.resizeSideBar();
             this.isPlaying = true;
@@ -239,14 +239,14 @@ export class SideBarComponent implements OnInit{
     }
 
     ngOnInit(){
-        window.addEventListener('resize', (event) => {
+        window.addEventListener('resize', (event:any) => {
             this.resizeSideBar();
         });
         this.resizeSideBar();
         this.user = this.loginService.getUser();
     }
     
-    setActive(menu){
+    setActive(menu:any){
         if( menu == this.active){
             this.active ='';
             return;

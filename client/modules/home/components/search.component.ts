@@ -4,7 +4,6 @@ import { PlayerService, onPlayMusic, onStopMusic } from '../../../services/playe
 import { Sound } from '../../../interfaces/player/sound.interface';
 import { IPlayList } from '../../../interfaces/playlist/playlist.interface';
 
-import { ToasterService} from 'angular2-toaster/angular2-toaster';
 import { PlaylistService, onPlaylistChange} from '../../../services/playlist/playlist.service';
 
 @Component({
@@ -49,7 +48,6 @@ import { PlaylistService, onPlaylistChange} from '../../../services/playlist/pla
       }
     `],
     template: `
-      <toaster-container></toaster-container>
       <div class="inner cover">
         <form class="home">
           <div class="input-group input-group-lg">
@@ -85,7 +83,7 @@ import { PlaylistService, onPlaylistChange} from '../../../services/playlist/pla
           </div>
         </div>
       </div>`,
-      providers: [PlayerService, ToasterService, PlaylistService]
+      providers: [PlayerService, PlaylistService]
 })
 export class SearchComponent{
     @Input()
@@ -101,7 +99,6 @@ export class SearchComponent{
       private playerService: PlayerService,
       private router: ActivatedRoute,
       private ngZone: NgZone,
-      private toasterService: ToasterService,
       private playlistService: PlaylistService
     ){
       this.playlist = this.playlist || this.playlistService.getCurrentPlaylist();
@@ -130,16 +127,16 @@ export class SearchComponent{
       })
     }
     
-    addToPlaylist(e, sound: Sound){
+    addToPlaylist(e:any, sound: Sound){
       this.playlistService.addSoundToPlaylist({
         playlist: this.playlist.name,
         sound: sound
       });
-      this.toasterService.pop('success', 'Added music to playlist', sound.title);
+      //this.toasterService.pop('success', 'Added music to playlist', sound.title);
       e.stopPropagation();
     }
     
-    handleKeyup(e){
+    handleKeyup(e:any){
         if( e.keyCode == 13){
           this.search();
         }  
@@ -158,13 +155,13 @@ export class SearchComponent{
       })
     }
     
-    play(sound){
+    play(sound:Sound){
       let playlist = this.playlistService.getCurrentPlaylist();
       this.playlistService.addSoundToPlaylist({
         sound: sound,
         playlist: playlist.name
       });
       this.playerService.getMusic(playlist.sounds.length, sound);
-      this.toasterService.pop('success', 'Playing Music', sound.title);
+      //this.toasterService.pop('success', 'Playing Music', sound.title);
     }
 }
