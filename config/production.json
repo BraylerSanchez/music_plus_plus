@@ -5,7 +5,9 @@
         "dbName": "heroku_4t7c4b61"
     },
     "youtubeParams": {
-        "resultLength": 20,
-        "apiKey": "AIzaSyDsnjiL2Wexp-DgCKMMQF7VyL2xzZLMFaY"
+        "length": 40,
+        "part": "snippet",
+        "type": "type",
+        "key": "AIzaSyDsnjiL2Wexp-DgCKMMQF7VyL2xzZLMFaY"
     }
 }

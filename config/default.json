@@ -5,7 +5,9 @@
         "dbName": "music_stream"
     },
     "youtubeParams": {
-        "resultLength": 20,
-        "apiKey": "AIzaSyDsnjiL2Wexp-DgCKMMQF7VyL2xzZLMFaY"
+        "length": 40,
+        "part": "snippet",
+        "type": "type",
+        "key": "AIzaSyDsnjiL2Wexp-DgCKMMQF7VyL2xzZLMFaY"
     }
 }

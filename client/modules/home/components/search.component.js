@@ -98,9 +98,8 @@ SearchComponent = __decorate([
     }),
     __metadata("design:paramtypes", [player_service_1.PlayerService,
         router_1.ActivatedRoute,
-        core_1.NgZone,
-        angular2_toaster_1.ToasterService,
-        playlist_service_1.PlaylistService])
+        core_1.NgZone, typeof (_a = typeof angular2_toaster_1.ToasterService !== "undefined" && angular2_toaster_1.ToasterService) === "function" && _a || Object, playlist_service_1.PlaylistService])
 ], SearchComponent);
 exports.SearchComponent = SearchComponent;
+var _a;
 //# sourceMappingURL=search.component.js.map
