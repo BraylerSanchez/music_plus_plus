@@ -57,23 +57,7 @@ export class PlayerService{
     }
     
     getMusic(i: number, sound:Sound ){
-        gettingMusicObserbable.next(sound);
-        /*var request = new XMLHttpRequest();
-        request.open("GET", `/api/v1/youtube/convert/${sound.id}`, true); 
-        request.responseType = "arraybuffer"; 
-        
-        request.onload = () => {
-            if( request.response.status){
-                alert(request.response.message);
-            }else{
-                playSoundObserbable.next( {
-                    index: i,
-                    details: sound,
-                    buffer: request.response
-                });
-            }
-        };
-        request.send();*/
+        gettingMusicObserbable.next({ sound: sound, index: i});
     }
     suspendMusic(){
         onSuspendMusicTrigger.next();

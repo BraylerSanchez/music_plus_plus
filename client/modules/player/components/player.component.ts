@@ -160,24 +160,36 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
         }
     `],
     template: `
-    <div class="col-lg-12 no-padding-l-r player" *ngIf="currentSoundDetails" >
-        <audio controls autoplay style="width:100%">
-            <source [src]="'/api/v1/youtube/convert/' + currentSoundDetails.id" type="audio/ogg">
-            <source [src]="'/api/v1/youtube/convert/' + currentSoundDetails.id" type="audio/mpeg">
-            Your browser does not support the audio element.
+    <div class="col-lg-12 no-padding-l-r player" [hidden]="!currentSoundDetails" >
+        <audio id="audioElement">
+          <source src="" type="audio/mpeg">
         </audio>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding-l-r">
+            <div class="col-lg-2 col-md-2 hidden-sm hidden-xs no-padding-l-r"></div>
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 no-padding-l-r controls" [ngClass]="{'playing': isPlaying == true}" >
+                    <a class="common" (click)="previou()" [ngClass]="{'disabled': currentSoundIndex <= 0 }"><i class="fa fa-backward padding-right-xs"></i></a>
+                    <a class="play" *ngIf="!isPlaying" (click)="play()" ><i class="fa fa-play"></i></a>
+                    <a class="play" *ngIf="isPlaying" (click)="stop()" ><i class="fa fa-pause"></i></a>
+                    <a class="common" (click)="next()" [ngClass]="{'disabled': currentSoundIndex + 1 >= soundsLength }" ><i class="fa fa-forward padding-left-xs"></i></a>
+                    <a class="common" (click)="suspend()" ><i class="fa fa-stop"></i></a>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6 no-padding-l-r progress">
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-1 hidden-xs no-padding-l-r controls">
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 hidden-sm hidden-xs no-padding-l-r"></div>
+        </div>
     </div>`,
     providers: [PlayerService, PlaylistService]
 })
-export class PlayerComponent{
+export class PlayerComponent implements OnInit{
     private isPlaying= false;
-    private isLoading = false;
     private currentSoundDetails: Sound;
     private currentSoundIndex: number = 0;
     private soundsLength: number = 0;
     
-    private audioContext: any;
-    private soundBuffer:any;
     private currentSound: any;
     
     private currentTime: number = 0;
@@ -185,16 +197,18 @@ export class PlayerComponent{
     
     private playingEvent:any;
     
-    private audioNode:any;
-    private soundVolume: number = 1;
+    private player:any;
+    
     constructor(
         private playerService: PlayerService,
         private ngZone: NgZone,
         private playlistService: PlaylistService
     ){
-        this.audioContext = new AudioContext();
-        this.audioNode = this.audioContext.createGain();
         this.eventSubscribe();
+    }
+    
+    ngOnInit(){
+        this.player = document.getElementById('audioElement')
     }
     
     eventSubscribe(){
@@ -203,29 +217,28 @@ export class PlayerComponent{
             this.soundsLength = this.playlistService.getCurrentPlaylist().sounds.length;
             this.currentSoundDetails = response['details'];
             this.currentSoundIndex = response['index'];
-            this.soundBuffer = response['buffer'];
-            if(this.currentSound){
-                window.clearInterval(this.playingEvent);
-                this.currentSound.stop();
-                this.currentTime = 0;
-            }
             this.play();
+            this.ngZone.run(()=>{});
         });
         onStopMusic
         .subscribe( () => {
             this.isPlaying = false;
+            this.player.stop();
             this.ngZone.run(()=>{});
         });
         
         onPlaylistChange.subscribe( (playlist) =>{
             if( playlist.sounds[0] ){
                 this.playerService.getMusic(0, playlist.sounds[0]);
+                this.soundsLength = playlist.sounds.length;
             }
         })
-        onGettingMusic.subscribe( (sound) =>{
-            this.currentSoundDetails = sound;
-            this.isLoading = true;
-            this.ngZone.run(()=>{})
+        onGettingMusic.subscribe( (response) =>{
+            this.soundsLength = this.playlistService.getCurrentPlaylist().sounds.length;
+            this.currentSoundDetails = response['sound'];
+            this.currentSoundIndex = response['index'];
+            this.play();
+            this.ngZone.run(()=>{});
         })
         onAddSound.subscribe( (result)=>{
             if(result.soundLength <= 0){
@@ -246,82 +259,38 @@ export class PlayerComponent{
         })
     }
     play(){
+        this.player.setAttribute("src",`/api/v1/youtube/convert/${this.currentSoundDetails.id}`);
         this.isPlaying = true;
-        this.currentSound = this.audioContext.createBufferSource();
-        this.audioContext.decodeAudioData( this.soundBuffer, (buffer:any) => {
-            this.currentSound.buffer = buffer;
-            this.duration = buffer.duration;
-            this.currentSound.loop = false;
-            this.currentSound.start(0, this.currentTime);
-            
-            this.isLoading = false;
-            this.currentSound.connect(this.audioNode);
-            this.currentSound.connect(this.audioContext.destination);
-            this.playingEvent = window.setInterval(() =>{
-                this.currentTime += 1;
-                if( this.currentTime > this.duration){
-                    this.currentTime = 0;
-                    this.stop();
-                    this.next();
-                }
-                this.ngZone.run(()=>{});
-            }, 1000)
-        })
+        this.player.play();
+        this.player.onended = function(){
+            this.next();
+        }
         this.ngZone.run(()=>{});
     }
     
     stop(){
-        if(this.currentSound){
-            window.clearInterval(this.playingEvent);
-            this.currentSound.stop();
-            this.playerService.stopMusic(this.currentSoundDetails);
-        }
+        this.player.stop();
+        this.playerService.stopMusic(this.currentSoundDetails);
     }
     
     next(){
-        if(!this.isLoading){
-            var playlist = this.playlistService.getCurrentPlaylist();
-            var index = this.currentSoundIndex + 1;
-            if( index < playlist.sounds.length){
-                this.playerService.getMusic(index, playlist.sounds[index]);
-            }
+        var playlist = this.playlistService.getCurrentPlaylist();
+        var index = this.currentSoundIndex + 1;
+        if( index < playlist.sounds.length){
+            this.playerService.getMusic(index, playlist.sounds[index]);
         }
     }
     
     previou(){
-        if(!this.isLoading){
-            var playlist = this.playlistService.getCurrentPlaylist();
-            var index = this.currentSoundIndex - 1;
-            if( index >=0){
-                this.playerService.getMusic(index, playlist.sounds[index]);
-            }
+        var playlist = this.playlistService.getCurrentPlaylist();
+        var index = this.currentSoundIndex - 1;
+        if( index >=0){
+            this.playerService.getMusic(index, playlist.sounds[index]);
         }
-    }
-    
-    toMinute(value:number){
-        let minute = Math.round((value / 60) % 60);
-        return minute < 10? '0' + minute: minute;
-    }
-    toSecound(value:number){
-        let secound = Math.round(value % 60);
-        return secound < 10? '0' + secound : secound;
-    }
-    
-    mute(){
-        this.soundVolume = this.soundVolume == 1? 0: 1;
-        this.audioNode.gain.value = this.soundVolume;
-    }
-    
-    changeSound(e:any){
-        this.stop();
-        this.currentTime = e.currentTarget.value * this.duration / 100;
-        this.play();
     }
     
     suspend(){
-        if(!this.isLoading){
-            this.stop();
-            this.playerService.suspendMusic();
-        }
+        this.stop();
+        this.playerService.suspendMusic();
     }
 }
