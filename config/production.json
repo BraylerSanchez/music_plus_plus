@@ -1,8 +1,8 @@
 {
     "dbConfig":{
-        "host": "heroku_4t7c4b61:k2o50ld8a4293l7q9asqimm8jc@ds149437.mlab.com",
-        "port": "49437",
-        "dbName": "heroku_4t7c4b61"
+        "host": "heroku_3q26vjgc:nu9cfef8t3gtvc6fm5sem46bg4@ds035026.mlab.com",
+        "port": "35026",
+        "dbName": "heroku_3q26vjgc"
     },
     "youtubeParams": {
         "resultLength": 20,
