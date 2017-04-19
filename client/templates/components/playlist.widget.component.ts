@@ -93,7 +93,7 @@ export class PlaylistWidgetComponent implements OnInit{
     events(){
         onLoginUser.subscribe( (user) =>{
             this.user = user;
-            this.playlistService.list(this.user._id).subscribe( (result)=>{
+            this.playlistService.list(this.user._id).subscribe( (result:any)=>{
                 if( result.status == true)
                     this.playlists = result.playlists;
             this.ngZone.run(()=>{});
@@ -105,14 +105,14 @@ export class PlaylistWidgetComponent implements OnInit{
         this.events();
         this.user = this.loginService.getUser();
         if(this.user){
-            this.playlistService.list(this.user._id).subscribe( (result)=>{
+            this.playlistService.list(this.user._id).subscribe( (result:any)=>{
                 if( result.status == true)
                     this.playlists = result.playlists;
             })
         }
     }
     
-    change(playlist){
+    change(playlist:any){
         this.playlistService.changePlaylist(playlist);
     }
  }

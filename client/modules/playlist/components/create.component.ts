@@ -6,7 +6,7 @@ import { SongListComponent } from './songlist.component';
 import { SummaryComponent } from './summary.component';
 
 import { IPlayList } from '../../../interfaces/playlist/playlist.interface';
-
+import { Sound } from '../../../interfaces/player/sound.interface'
 import { PlaylistService } from '../../../services/playlist/playlist.service';
 import { LoginService } from '../../../services/user/login.service';
 
@@ -22,7 +22,7 @@ import { LoginService } from '../../../services/user/login.service';
         
     `
     ],
-    styleUrls: ['modules/playlist/components/wizardtemplate.css'],
+    styleUrls: ['client/modules/playlist/components/wizardtemplate.css'],
     template: ` 
         <div class="">
             <h3>Playlist create wizard</h3>
@@ -113,7 +113,7 @@ export class CreateListComponent{
     @ViewChild(PlayListDetailComponent) playlistdetailComponent: PlayListDetailComponent;
     @ViewChild(SongListComponent) songlistComponent : SongListComponent;
     @ViewChild(SummaryComponent) summaryComponent: SummaryComponent;
-    private playlist = { name: '', description: '', sounds: [], userAt: "" };
+    private playlist:any = { name: '', description: '', sounds: [], userAt: "" };
     
     constructor(
         private router:Router, 
@@ -168,7 +168,7 @@ export class CreateListComponent{
             this.step = 2;
         }
     }
-    step1Save(playlist){
+    step1Save(playlist:any){
         this.step = 2;
         this.playlist.name = playlist;
         this.playlist.description = playlist;

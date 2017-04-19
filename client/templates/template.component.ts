@@ -5,7 +5,6 @@ import { SideBarComponent } from './sidebar.component';
 @Component({
   selector: 'app',
     template: `
-    <toaster-container></toaster-container>
     <sidebar></sidebar>
     <div class="site-wrapper">
       <div class="site-wrapper-inner">
@@ -50,13 +49,14 @@ import { SideBarComponent } from './sidebar.component';
 export class TemplateComponent implements OnInit{
     @ViewChild(PlayerComponent) playerComponent: PlayerComponent;
     @ViewChild(SideBarComponent) sideBarComponent: SideBarComponent;
-    constructor(private elementRef:ElementRef, private renderer: Renderer){
+    
+    constructor(/*private elementRef:ElementRef, private renderer: Renderer*/){
         
     }
     
     ngOnInit(){
-         this.renderer.listen( this.elementRef.nativeElement.children[2], 'click', (event) => {
+         /*this.renderer.listen( this.elementRef.nativeElement.children[2], 'click', (event:any) => {
              this.sideBarComponent.hide();
-        })
+        })*/
     }
 }

@@ -39,7 +39,7 @@ export class PlayListDetailComponent{
         });
     }
     
-    public setPlaylist(playlist):void{
+    public setPlaylist(playlist:any):void{
         this.playlist = playlist;
         if( playlist['_id']){
             this.createListForm.controls['name'].setValue( playlist.name );

@@ -56,11 +56,11 @@ export class SongListComponent implements OnInit{
             }
         })
     }
-    removeFromPlaylist(e,  index){
+    removeFromPlaylist(e:any,  index:number){
         this.playlist.sounds.splice(index, 1);
     }
     
-    isAdded(video){
+    isAdded(video:any){
       return this.playlist.sounds.some( (sound)=>{
         return sound.id == video.id
       })
