@@ -235,7 +235,7 @@ export class PlayerComponent implements OnInit{
         })
         onGettingMusic.subscribe( (response) =>{
             this.soundsLength = this.playlistService.getCurrentPlaylist().sounds.length;
-            this.currentSoundDetails = response['sound'];
+            this.currentSoundDetails = response['details'];
             this.currentSoundIndex = response['index'];
             this.play();
             this.ngZone.run(()=>{});
@@ -262,7 +262,7 @@ export class PlayerComponent implements OnInit{
         this.player.setAttribute("src",`/api/v1/youtube/convert/${this.currentSoundDetails.id}`);
         this.isPlaying = true;
         this.player.play();
-        this.player.onended = function(){
+        this.player.addEventListener("ended", () => {
             this.next();
         }
         this.ngZone.run(()=>{});

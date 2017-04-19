@@ -57,7 +57,7 @@ export class PlayerService{
     }
     
     getMusic(i: number, sound:Sound ){
-        gettingMusicObserbable.next({ sound: sound, index: i});
+        playSoundObserbable.next({ details: sound, index: i});
     }
     suspendMusic(){
         onSuspendMusicTrigger.next();
