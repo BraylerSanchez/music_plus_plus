@@ -264,7 +264,7 @@ export class PlayerComponent implements OnInit{
         this.player.play();
         this.player.addEventListener("ended", () => {
             this.next();
-        }
+        })
         this.ngZone.run(()=>{});
     }
     

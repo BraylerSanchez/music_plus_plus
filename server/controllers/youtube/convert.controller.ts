@@ -12,13 +12,13 @@ export class ConvertController{
         var videoId = req.params['videoId'];
         try{
             var stream = this.convertModel.toStream(videoId);
-            stream.on('response', function (streamRes) {
+            stream.on('response', function (streamRes: any) {
                 var totalSize = streamRes.headers['content-length'];
                 res.setHeader('Content-Type', 'audio/mp3');
                 res.setHeader('Accept-Ranges', `bytes 0-0/${totalSize}`);
                 stream.pipe(res);
                 var dataRead = 0;
-                streamRes.on('data', function (data) {
+                streamRes.on('data', function (data: any) {
                     dataRead += data.length;
                     var percent = dataRead / totalSize;
                 });
