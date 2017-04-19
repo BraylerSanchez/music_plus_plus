@@ -25,7 +25,7 @@ const headers = new ResponseOptions({
 
 @Injectable()
 export class LoginService{
-    private client_id: string = '347784008330-m2u9l7c3hp2stho4bc8bvf38cmi1tr2p.apps.googleusercontent.com';
+    private client_id: string = '347784008330-s9lnglrku00gchuh39bor6td9rsvm95u.apps.googleusercontent.com';
     private auth2: any;
     private user: IUser;
     constructor(

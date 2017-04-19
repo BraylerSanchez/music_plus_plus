@@ -7399,7 +7399,7 @@ var LoginService = (function () {
     function LoginService(http) {
         var _this = this;
         this.http = http;
-        this.client_id = '347784008330-m2u9l7c3hp2stho4bc8bvf38cmi1tr2p.apps.googleusercontent.com';
+        this.client_id = '347784008330-s9lnglrku00gchuh39bor6td9rsvm95u.apps.googleusercontent.com';
         gapi.load('auth2', function () {
             _this.auth2 = gapi.auth2.init({
                 client_id: _this.client_id
