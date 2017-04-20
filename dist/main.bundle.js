@@ -6420,7 +6420,11 @@ var PlayerComponent = (function () {
         this.eventSubscribe();
     }
     PlayerComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this.player = document.getElementById('audioElement');
+        this.player.addEventListener("ended", function () {
+            _this.next();
+        });
     };
     PlayerComponent.prototype.eventSubscribe = function () {
         var _this = this;
@@ -6430,7 +6434,6 @@ var PlayerComponent = (function () {
             _this.currentSoundDetails = response['details'];
             _this.currentSoundIndex = response['index'];
             _this.play();
-            _this.ngZone.run(function () { });
         });
         player_service_1.onStopMusic
             .subscribe(function () {
@@ -6469,13 +6472,9 @@ var PlayerComponent = (function () {
         });
     };
     PlayerComponent.prototype.play = function () {
-        var _this = this;
         this.player.setAttribute("src", "/api/v1/youtube/convert/" + this.currentSoundDetails.id);
         this.isPlaying = true;
         this.player.play();
-        this.player.addEventListener("ended", function () {
-            _this.next();
-        });
         this.ngZone.run(function () { });
     };
     PlayerComponent.prototype.stop = function () {
