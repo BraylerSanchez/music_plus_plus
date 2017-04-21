@@ -1,14 +1,14 @@
 import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { IPlayList } from '../interfaces/playlist/playlist.interface';
-import { Sound } from '../interfaces/player/sound.interface';
-import { PlayerService, onPlayMusic, onStopMusic, onSuspendMusic} from '../services/player/player.service';
-import { LoginService, onLoginUser, onLogoutUser } from '../services/user/login.service';
+import { IPlayList } from '../../interfaces/playlist/playlist.interface';
+import { Sound } from '../../interfaces/player/sound.interface';
+import { PlayerService, onPlayMusic, onStopMusic, onSuspendMusic} from '../../services/player/player.service';
+import { LoginService, onLoginUser, onLogoutUser } from '../../services/user/login.service';
 
-import { PlaylistService, onAddSound, onRemoveSound, onPlaylistChange } from '../services/playlist/playlist.service';
+import { PlaylistService, onAddSound, onRemoveSound, onPlaylistChange } from '../../services/playlist/playlist.service';
 
-import { PlayingWidgetComponent }   from './components/playing.widget.component';
-import { PlaylistWidgetComponent }   from './components/playlist.widget.component';
+import { PlayingWidgetComponent }   from './playing.widget.component';
+import { PlaylistWidgetComponent }   from './playlist.widget.component';
 
 declare var window: any;
 

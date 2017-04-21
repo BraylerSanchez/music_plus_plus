@@ -31,7 +31,7 @@ export class LoginService{
     constructor(
         private http: Http
     ){
-        gapi.load('auth2', () => {
+        /*gapi.load('auth2', () => {
           this.auth2 = gapi.auth2.init({
               client_id: this.client_id
             });
@@ -39,7 +39,7 @@ export class LoginService{
         var user = localStorage.getItem('ms_user');
         if( user ){
             this.user = JSON.parse(user);
-        }
+        }*/
     }
     
     setUser(user: IUser){

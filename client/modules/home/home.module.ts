@@ -8,7 +8,7 @@ import { routing } from './home.routes';
 
 import { HomeComponent } from './components/home.component';
 import { SearchComponent } from './components/search.component';
-
+import { MdInputModule, MdCardModule, MdButtonModule, MdIconModule } from '@angular/material';
 
 @NgModule({
     imports: [
@@ -16,6 +16,10 @@ import { SearchComponent } from './components/search.component';
         BrowserModule,
         FormsModule,
         CommonModule,
+        MdInputModule,
+        MdButtonModule,
+        MdCardModule,
+        MdIconModule,
         routing],
       exports: [
           SearchComponent

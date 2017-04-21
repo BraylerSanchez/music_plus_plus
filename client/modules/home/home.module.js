@@ -13,6 +13,7 @@ var platform_browser_1 = require("@angular/platform-browser");
 var home_routes_1 = require("./home.routes");
 var home_component_1 = require("./components/home.component");
 var search_component_1 = require("./components/search.component");
+var material_1 = require("@angular/material");
 var HomeModule = (function () {
     function HomeModule() {
     }
@@ -25,6 +26,10 @@ HomeModule = __decorate([
             platform_browser_1.BrowserModule,
             forms_1.FormsModule,
             common_1.CommonModule,
+            material_1.MdInputModule,
+            material_1.MdButtonModule,
+            material_1.MdCardModule,
+            material_1.MdIconModule,
             home_routes_1.routing
         ],
         exports: [

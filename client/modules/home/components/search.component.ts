@@ -8,80 +8,46 @@ import { PlaylistService, onPlaylistChange} from '../../../services/playlist/pla
 
 @Component({
     selector: 'search',
-    styles: 
-    [`
-      .home .search-button{
-        background-color: #333333 !important;
-        color: white !important;
-      }
-      
-      .playing{
-        content:url("assest/images/equalizer.gif");
-        height: 50%;
-        width: 10%;
-        margin-top: -15px;
-      }
-      
-      .video{
-        color: #333333;
-      }
-
-      .media-object{
-          border-radius: 5px !important;
-      }
-      .media-heading .title{
-        cursor: pointer;
-        width: 70%;
-        display: inline-block;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .addButton{
-        position: absolute;
+    styles: [`
+      .search-input{
+        margin-top: 15px;
         width: 80%;
       }
-      .dateText{
-        position:absolute;
-        bottom:30;
-        right:10;
+      .music-container{
+        overflow-y: auto;
       }
-    `],
+      .music-card{
+          width: 256px;
+          margin: 10px;
+          display: inline-block;
+          max-height: 256px;
+          height: 256px;
+      }`],
     template: `
-      <div class="inner cover">
-        <form class="home">
-          <div class="input-group input-group-lg">
-            <input class="form-control" (keyup)="handleKeyup($event)" placeholder="Search music on youtube" name="queryString" [(ngModel)]="queryString" aria-describedby="sizing-addon1"> 
-            <span class="input-group-btn">
-              <i class="fa fa-search btn btn-default search-button" type="button" (click)="search()"></i>
-            </span>
-          </div>
-        </form>
-        <div class="list-group">
-          <div class="video list-group-item" *ngFor="let video of videos; let i = index">
-            <div class="media-left">
-              <span>
-                <img id="
-                " class="media-object" src="{{ video.thumbnail }}" alt="...">
-              </span>
-            </div>
-            <div class="media-body text-left">
-              <div class="media-heading">
-                <div class="col-xs-10 col-sm-11 col-md-11 col-lg-11 no-padding-r">
-                  <h4 (click)="play(video)" title="{{ video.title }}" class="title no-padding-r" >
-                    {{ video.title }}
-                  </h4>
-                </div>
-                <div class="col-xs-2 col-sm-1 col-md-1 col-lg-1 text-right no-padding-l addButton">
-                  <a class=" btn btn-success btn-sm" (click)="addToPlaylist($event, video)">
-                    <i class="fa fa-plus"></i>
-                  </a>
-                </div>
-              </div>
-              <span class="pull-right dateText">{{ video.dateAt | date }}</span>
-            </div>
-          </div>
-        </div>
+    
+      <md-input-container class="search-input">
+        <input mdInput
+         (keyup)="handleKeyup($event)" 
+         name="queryString" [(ngModel)]="queryString"
+          #searchInput placeholder="Search music and press ENTER" />
+      </md-input-container>
+      
+      <div class="music-container">
+        <h3 md-subheader>Search results</h3>
+        <md-card class="music-card" *ngFor="let video of videos; let i = index">
+          <md-card-header>
+            <md-card-title title="{{ video.title }}">{{ video.title }}</md-card-title>
+            <md-card-subtitle>{{ video.dateAt | date }}</md-card-subtitle>
+          </md-card-header>
+          <img md-card-image [src]="video.thumbnail">
+          <md-card-content>
+            <p>{{ video.description}}</p>
+          </md-card-content>
+          <md-card-actions>
+            <button md-button (click)="play(video)">Play now</button>
+            <button md-button (click)="addToPlaylist()">Add to playlist</button>
+          </md-card-actions>
+        </md-card>
       </div>`,
       providers: [PlayerService, PlaylistService]
 })
