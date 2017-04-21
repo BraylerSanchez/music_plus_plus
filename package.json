@@ -1,7 +1,7 @@
 {
   "name": "music_plus_plus",
-  "version": "1.2.4",
-  "description": "Free music stream services",
+  "version": "1.4.0",
+  "description": "Online music streaming services",
   "main": "./server/index.js",
   "engine": "node 6.7.0",
   "scripts": {
@@ -19,11 +19,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wilsonhamiltond/music-streaming.git"
+    "url": "git+https://github.com/wilsonhamiltond/music_plus_plus.git"
   },
   "keywords": [
     "stream",
-    "youtube",
     "live",
     "stream",
     "striming"
@@ -31,9 +30,9 @@
   "author": "Wilson Hamilton",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/wilsonhamiltond/music-streaming/issues"
+    "url": "https://github.com/wilsonhamiltond/music_plus_plus/issues"
   },
-  "homepage": "https://github.com/wilsonhamiltond/music-streaming#readme",
+  "homepage": "https://github.com/wilsonhamiltond/music_plus_plus#readme",
   "dependencies": {
     "@angular/common": "~4.0.0",
     "@angular/compiler": "~4.0.0",
