@@ -3,14 +3,6 @@ import { LoginService, onLoginUser, onLogoutUser } from '../../services/user/log
 import { Router } from '@angular/router';
 @Component({
     selector: 'menu',
-    styles: [`
-    .header{
-        background: #333;
-        color: white;
-        font-size: 15pt;
-        text-align: center;
-    }
-    `],
     template: `
     <md-list>
         <h1 md-subheader class="header">MUSIC++</h1>

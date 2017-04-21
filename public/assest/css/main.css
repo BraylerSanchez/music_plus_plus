@@ -136,6 +136,12 @@ app .mat-figure{
   align-items: flex-start !important;
   
 }
+.pull-right{
+  float: right;
+}
+.pull-left{
+  float: left;
+}
 
 .p-m-zero{
   padding: 0;
@@ -146,7 +152,22 @@ app .mat-figure{
   cursor: pointer;
 }
 
-.active{
+sidebar md-list-item.active{
     background-color: #5bc0de;
     color: white;
+}
+
+sidebar md-list .header{
+    background: #333;
+    color: white !important;
+    font-size: 15pt !important;
+    text-align: left;
+}
+
+playingList md-list-item .mat-list-item-content{
+  padding: 0 !important;
+}
+
+playingList md-list-item .mat-list-item-content .mat-list-text{
+  padding-right: 0 !important;
 }
