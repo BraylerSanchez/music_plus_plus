@@ -13,9 +13,13 @@ var home_module_1 = require("./modules/home/home.module");
 var player_module_1 = require("./modules/player/player.module");
 var playlist_module_1 = require("./modules/playlist/playlist.module");
 var template_component_1 = require("./templates/template.component");
-var sidebar_component_1 = require("./templates/sidebar.component");
+var sidebar_component_1 = require("./templates/components/sidebar.component");
 var playing_widget_component_1 = require("./templates/components/playing.widget.component");
 var playlist_widget_component_1 = require("./templates/components/playlist.widget.component");
+var menu_widget_component_1 = require("./templates/components/menu.widget.component");
+require("hammerjs");
+var animations_1 = require("@angular/platform-browser/animations");
+var material_1 = require("@angular/material");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -27,15 +31,20 @@ AppModule = __decorate([
             app_routes_1.routing,
             platform_browser_1.BrowserModule,
             common_1.CommonModule,
+            animations_1.BrowserAnimationsModule,
+            material_1.MdSidenavModule,
+            material_1.MdListModule,
+            material_1.MaterialModule,
             home_module_1.HomeModule,
             player_module_1.PlayerModule,
-            playlist_module_1.PlaylistModule
+            playlist_module_1.PlaylistModule,
         ],
         declarations: [
             template_component_1.TemplateComponent,
             sidebar_component_1.SideBarComponent,
             playing_widget_component_1.PlayingWidgetComponent,
-            playlist_widget_component_1.PlaylistWidgetComponent
+            playlist_widget_component_1.PlaylistWidgetComponent,
+            menu_widget_component_1.MenuWidgetComponent
         ],
         bootstrap: [template_component_1.TemplateComponent],
         providers: [

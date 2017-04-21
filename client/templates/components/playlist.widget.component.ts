@@ -6,78 +6,15 @@ import { PlaylistService} from '../../services/playlist/playlist.service';
 import { LoginService, onLoginUser, onLogoutUser } from '../../services/user/login.service';
 
 @Component({
-    styles: [`
-        
-        ul{
-            padding: 0px;
-        }
-        ul li.title{
-            background-color: #333333;
-            padding: 5px;
-            font-size: 11pt;
-            color: white;
-        }
-        ul li{
-            padding: 5px;
-            font-size: 9pt;
-            border-bottom: 1px solid #d0d0d0;
-            color: #333333;
-            cursor: pointer;
-        }
-        ul li.active{
-            background-color: #5bc0de;
-        }
-        ul li:hover{
-            background-color: #e4e4e4;
-        }
-        ul li{
-            text-align: left;
-        }
-        ul li span{
-            width: 90%;
-            display: block;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        ul li h5{
-            width: 75%;
-        }
-        ul li.title a{
-            float: right;
-            position: relative;
-            top: -30px;
-        }
-        ul li i{
-            float: right;
-            top: -15px;
-            position: relative;
-        }
-        ul li.item i{
-            color: #5bc0de;
-        }
-        ul li.title i{
-            float: none;
-            top: 0;
-            color: #green;
-        }
-        a{
-            margin-right: 3px;
-        }
-    `],
     selector: 'playlist',
     template: `
-    <ul>
-        <li class="title">
-            <h5>Playlist</h5>
-            <a [routerLink]="['/playlist/create/0']" class="btn btn-xs btn-success">Create <i class="fa fa-plus"></i></a>
-        </li>
-        <li class="item" *ngFor="let playlist of playlists" (click)="change(playlist)">
-            <span title="{{playlist.name}}">
-                {{playlist.name}}
-            </span>
-        </li>
-    </ul>`,
+    <md-list>
+        <h1 md-subheader class="header">Playlist
+            <a [routerLink]="['/playlist/create/0']" class="btn btn-xs btn-success">Create <i class="fa fa-plus"></i></a></h1>
+        <md-list-item [routerLinkActive]="['active']" *ngFor="let playlist of playlists" class="pointer" (click)="change(playlist)">
+            <h3 md-line title="{{playlist.name}}" class="text-ellipsis">{{playlist.name}}</h3>
+        </md-list-item>
+    </md-list>`,
     providers: [PlaylistService, LoginService]
 })
 export class PlaylistWidgetComponent implements OnInit{

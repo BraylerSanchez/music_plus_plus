@@ -22,9 +22,13 @@
       '@angular/router': 'npm:@angular/router/bundles/router.umd.js',
       '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
       '@angular/upgrade': 'npm:@angular/upgrade/bundles/upgrade.umd.js',
+      'hammerjs':         'npm:hammerjs',
       '@angular/material': 'npm:@angular/material/bundles/material.umd.js',
+      '@angular/animations': 'npm:@angular/animations/bundles/animations.umd.min.js',
+      '@angular/animations/browser':'npm:@angular/animations/bundles/animations-browser.umd.js',
+      '@angular/platform-browser/animations': 'npm:@angular/platform-browser/bundles/platform-browser-animations.umd.js',
       // other libraries
-      'rxjs':                      'npm:rxjs'
+      'rxjs':                      'npm:rxjs',
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -33,6 +37,10 @@
         defaultExtension: 'js'
       },
       rxjs: {
+        defaultExtension: 'js'
+      },
+      hammerjs: {
+        main: './hammer.js',
         defaultExtension: 'js'
       }
     }

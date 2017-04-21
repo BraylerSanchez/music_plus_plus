@@ -8,88 +8,20 @@ import { LoginService } from '../../services/user/login.service';
 import { PlaylistService, onAddSound, onRemoveSound, onPlaylistChange } from '../../services/playlist/playlist.service';
 
 @Component({
-    styles: [`
-        
-        ul{
-            padding: 0px;
-        }
-        ul li.title{
-            background-color: #333333;
-            padding: 5px;
-            font-size: 11pt;
-            color: white;
-        }
-        ul li{
-            padding: 5px;
-            font-size: 9pt;
-            border-bottom: 1px solid #d0d0d0;
-            color: #333333;
-            cursor: pointer;
-        }
-        ul li.active{
-            background-color: #5bc0de;
-        }
-        ul li:hover{
-            background-color: #e4e4e4;
-        }
-        ul li.active i{
-            color: #d9edf7;
-        }
-        ul li{
-            text-align: left;
-        }
-        ul li span{
-            width: 90%;
-            display: block;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        ul li h5{
-            width: 75%;
-        }
-        ul li.title a{
-            float: right;
-            position: relative;
-            top: -30px;
-        }
-        ul li i{
-            float: right;
-            top: -15px;
-            position: relative;
-        }
-        ul li.item i{
-            color: #5bc0de;
-        }
-        ul li.title i{
-            float: none;
-            top: 0;
-            color: #green;
-        }
-        a{
-            margin-right: 3px;
-        }
-    `],
     selector: 'playingList',
     template: `
-    <ul>
-        <li class="title">
-            <h5>{{playlist.name}}</h5>
-            <a *ngIf="playlist.name == 'default'" [routerLink]="['/playlist/create/default']" class="btn btn-xs btn-success">
-                Save <i class="fa fa-floppy-o"></i>
-            </a>
-            <a class="btn btn-xs btn-default" (click)="toClearPlayList()">
-                Clear <i class="fa fa-trash"></i>
-            </a>
-        </li>
-        <li class="item" *ngFor="let sound of playlist.sounds; let i = index" (click)="play(i, sound)" [ngClass]="{'active': currentIndex == i}" >
-            <span title="{{sound.title}}">
-                {{sound.title}}
-            </span>
-            <i *ngIf="currentIndex == i && isPlaying" class="fa fa-volume-up"></i>
-            <i *ngIf="currentIndex != i || !isPlaying" class="fa fa-minus pull-right" (click)="removeFromPlaylist($event, i, sound)"></i>
-        </li>
-    </ul>`,
+    <md-list>
+        <h1 md-subheader class="header">
+            <span class="text-ellipsis" mdTooltip="{{playlist.name}}" style="width: 75%;display: inline-block;" >{{playlist.name}}</span>
+            <md-icon mdTooltip="Clear play list" (click)="toClearPlayList()"  class="pull-right pointer">clear</md-icon>
+            <md-icon *ngIf="playlist.name == 'default'" mdTooltip="Save play list" [routerLink]="['/playlist/create/default']" class="pull-right pointer">save</md-icon>
+        </h1>
+        <md-list-item *ngFor="let sound of playlist.sounds; let i = index" [ngClass]="{'active': currentIndex == i}">
+            <md-icon md-list-icon *ngIf="currentIndex == i && isPlaying">surround_sound</md-icon>
+            <md-icon class="pointer" md-list-icon *ngIf="currentIndex != i || !isPlaying" (click)="removeFromPlaylist($event, i, sound)" >remove</md-icon>
+            <h5 md-line mdTooltip="{{sound.title}}" class="text-ellipsis" (click)="play(i, sound)"  class="pointer"> {{sound.title}}</h5>
+        </md-list-item>
+    </md-list>`,
     providers: [PlayerService, PlaylistService]
 })
 export class PlayingWidgetComponent implements OnInit{

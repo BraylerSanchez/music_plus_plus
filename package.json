@@ -1,7 +1,7 @@
 {
   "name": "music_plus_plus",
-  "version": "1.3.0",
-  "description": "Free music stream services",
+  "version": "1.4.0",
+  "description": "Online music streaming services",
   "main": "./server/index.js",
   "engine": "node 6.7.0",
   "scripts": {
@@ -19,11 +19,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wilsonhamiltond/music-streaming.git"
+    "url": "git+https://github.com/wilsonhamiltond/music_plus_plus.git"
   },
   "keywords": [
     "stream",
-    "youtube",
     "live",
     "stream",
     "striming"
@@ -31,37 +30,38 @@
   "author": "Wilson Hamilton",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/wilsonhamiltond/music-streaming/issues"
+    "url": "https://github.com/wilsonhamiltond/music_plus_plus/issues"
   },
-  "homepage": "https://github.com/wilsonhamiltond/music-streaming#readme",
+  "homepage": "https://github.com/wilsonhamiltond/music_plus_plus#readme",
   "dependencies": {
+    "@angular/animations": "^4.0.3",
     "@angular/common": "~4.0.0",
     "@angular/compiler": "~4.0.0",
-    "@angular/core": "~4.0.0",
+    "@angular/core": "^4.0.3",
     "@angular/forms": "~4.0.0",
     "@angular/http": "~4.0.0",
+    "@angular/material": "^2.0.0-beta.3",
     "@angular/platform-browser": "~4.0.0",
     "@angular/platform-browser-dynamic": "~4.0.0",
     "@angular/router": "~4.0.0",
     "angular-in-memory-web-api": "~0.3.0",
-    "systemjs": "0.19.40",
-    "core-js": "^2.4.1",
-    "rxjs": "5.0.1",
-    "zone.js": "^0.8.4",
     "body-parser": "^1.15.2",
-    "bootstrap": "^3.3.7",
     "config": "^1.21.0",
+    "core-js": "^2.4.1",
     "express": "^4.15.2",
-    "font-awesome": "^4.7.0",
+    "hammerjs": "^2.0.8",
     "json-loader": "^0.5.4",
     "mongod": "^1.3.0",
     "mongoose": "^4.6.5",
     "q": "^1.4.1",
     "reflect-metadata": "^0.1.8",
     "request": "^2.78.0",
+    "rxjs": "5.0.1",
     "sortablejs": "^1.5.0-rc1",
+    "systemjs": "0.19.40",
     "ts-loader": "^0.9.5",
-    "ytdl-core": "^0.9.0"
+    "ytdl-core": "^0.9.0",
+    "zone.js": "^0.8.4"
   },
   "devDependencies": {
     "@types/core-js": "^0.9.41",
@@ -74,6 +74,6 @@
     "rimraf": "^2.5.4",
     "tslint": "^3.15.1",
     "typescript": "~2.1.0",
-    "webpack": "2.1.0-beta.21" 
+    "webpack": "2.1.0-beta.21"
   }
 }

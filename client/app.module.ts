@@ -8,24 +8,36 @@ import { PlayerModule } from './modules/player/player.module';
 import { PlaylistModule } from './modules/playlist/playlist.module';
 
 import { TemplateComponent }   from './templates/template.component';
-import { SideBarComponent }   from './templates/sidebar.component';
+import { SideBarComponent }   from './templates/components/sidebar.component';
 import { PlayingWidgetComponent }   from './templates/components/playing.widget.component';
 import { PlaylistWidgetComponent }   from './templates/components/playlist.widget.component';
+import { MenuWidgetComponent }   from './templates/components/menu.widget.component';
+
+import 'hammerjs';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MaterialModule, MdSidenavModule, MdListModule } from '@angular/material'
 
 @NgModule({
     imports:      [
         routing,
         BrowserModule,
         CommonModule,
+        BrowserAnimationsModule,
+        MdSidenavModule,
+        MdListModule,
+        MaterialModule,
         HomeModule,
         PlayerModule,
-        PlaylistModule
+        PlaylistModule,
     ],
     declarations: [
         TemplateComponent,
         SideBarComponent,
         PlayingWidgetComponent,
-        PlaylistWidgetComponent ],
+        PlaylistWidgetComponent,
+        MenuWidgetComponent ],
     bootstrap:    [ TemplateComponent ],
     providers: [
         {

@@ -11,14 +11,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var player_service_1 = require("../../../services/player/player.service");
+var material_1 = require("@angular/material");
 var playlist_service_1 = require("../../../services/playlist/playlist.service");
 var SearchComponent = (function () {
-    function SearchComponent(playerService, router, ngZone, playlistService) {
+    function SearchComponent(playerService, router, ngZone, playlistService, snackBar) {
         var _this = this;
         this.playerService = playerService;
         this.router = router;
         this.ngZone = ngZone;
         this.playlistService = playlistService;
+        this.snackBar = snackBar;
         this.currentSound = {
             id: ''
         };
@@ -51,7 +53,9 @@ var SearchComponent = (function () {
             playlist: this.playlist.name,
             sound: sound
         });
-        //this.toasterService.pop('success', 'Added music to playlist', sound.title);
+        this.snackBar.open(sound.title + " added to play list", 'Cerrar', {
+            duration: 1500,
+        });
         e.stopPropagation();
     };
     SearchComponent.prototype.handleKeyup = function (e) {
@@ -62,7 +66,9 @@ var SearchComponent = (function () {
     SearchComponent.prototype.search = function () {
         var _this = this;
         if (this.queryString.length <= 0) {
-            alert('Insert text to search.');
+            this.snackBar.open("Insert text to search", 'Error', {
+                duration: 1500,
+            });
             return;
         }
         this.playerService.search(this.queryString)
@@ -79,7 +85,9 @@ var SearchComponent = (function () {
             playlist: playlist.name
         });
         this.playerService.getMusic(playlist.sounds.length, sound);
-        //this.toasterService.pop('success', 'Playing Music', sound.title);
+        this.snackBar.open(sound.title + " now playing", 'Music', {
+            duration: 1500,
+        });
     };
     return SearchComponent;
 }());
@@ -90,14 +98,15 @@ __decorate([
 SearchComponent = __decorate([
     core_1.Component({
         selector: 'search',
-        styles: ["\n      .home .search-button{\n        background-color: #333333 !important;\n        color: white !important;\n      }\n      \n      .playing{\n        content:url(\"assest/images/equalizer.gif\");\n        height: 50%;\n        width: 10%;\n        margin-top: -15px;\n      }\n      \n      .video{\n        color: #333333;\n      }\n\n      .media-object{\n          border-radius: 5px !important;\n      }\n      .media-heading .title{\n        cursor: pointer;\n        width: 70%;\n        display: inline-block;\n        white-space: nowrap;\n        overflow: hidden;\n        text-overflow: ellipsis;\n      }\n      .addButton{\n        position: absolute;\n        width: 80%;\n      }\n      .dateText{\n        position:absolute;\n        bottom:30;\n        right:10;\n      }\n    "],
-        template: "\n      <div class=\"inner cover\">\n        <form class=\"home\">\n          <div class=\"input-group input-group-lg\">\n            <input class=\"form-control\" (keyup)=\"handleKeyup($event)\" placeholder=\"Search music on youtube\" name=\"queryString\" [(ngModel)]=\"queryString\" aria-describedby=\"sizing-addon1\"> \n            <span class=\"input-group-btn\">\n              <i class=\"fa fa-search btn btn-default search-button\" type=\"button\" (click)=\"search()\"></i>\n            </span>\n          </div>\n        </form>\n        <div class=\"list-group\">\n          <div class=\"video list-group-item\" *ngFor=\"let video of videos; let i = index\">\n            <div class=\"media-left\">\n              <span>\n                <img id=\"\n                \" class=\"media-object\" src=\"{{ video.thumbnail }}\" alt=\"...\">\n              </span>\n            </div>\n            <div class=\"media-body text-left\">\n              <div class=\"media-heading\">\n                <div class=\"col-xs-10 col-sm-11 col-md-11 col-lg-11 no-padding-r\">\n                  <h4 (click)=\"play(video)\" title=\"{{ video.title }}\" class=\"title no-padding-r\" >\n                    {{ video.title }}\n                  </h4>\n                </div>\n                <div class=\"col-xs-2 col-sm-1 col-md-1 col-lg-1 text-right no-padding-l addButton\">\n                  <a class=\" btn btn-success btn-sm\" (click)=\"addToPlaylist($event, video)\">\n                    <i class=\"fa fa-plus\"></i>\n                  </a>\n                </div>\n              </div>\n              <span class=\"pull-right dateText\">{{ video.dateAt | date }}</span>\n            </div>\n          </div>\n        </div>\n      </div>",
+        styles: ["\n      .search-input{\n        margin-top: 15px;\n        width: 100%;\n      }\n      .music-container{\n        overflow-y: auto;\n        max-height: 450px;\n      }\n      .card-img{\n        margin: 0;\n        width: 100%;\n        height: 90px;\n      }\n      .music-card{    \n        width: 175px;\n        padding: 10px;\n        margin: 10px;\n        display: inline-block;\n        height: 200px;\n      }"],
+        template: "\n    \n      <md-input-container class=\"search-input\">\n        <input mdInput\n         (keyup)=\"handleKeyup($event)\" \n         name=\"queryString\" [(ngModel)]=\"queryString\"\n          #searchInput placeholder=\"Search music and press ENTER\" />\n      </md-input-container>\n      \n      <div class=\"music-container\">\n        <md-card class=\"music-card\" *ngFor=\"let video of videos; let i = index\">\n          <md-card-header>\n            <md-card-title class=\"text-ellipsis\" mdTooltip=\"{{video.channel}}\">{{ video.channel }}</md-card-title>\n          </md-card-header>\n          <img md-card-image class=\"card-img\" [src]=\"video.thumbnail\">\n          <md-card-content style=\"margin-bottom: 5px;\">\n            <p class=\"text-ellipsis\" mdTooltip=\"{{video.title}}\" >{{ video.title}}</p>\n            {{video.dateAt | date}}\n          </md-card-content>\n          <md-card-actions>\n            <button md-button color=\"primary\" (click)=\"play(video)\"> \n              <md-icon>play_arrow</md-icon>\n            </button>\n            <button md-button (click)=\"addToPlaylist($event, video)\">\n              <md-icon>playlist_add</md-icon>\n            </button>\n          </md-card-actions>\n        </md-card>\n      </div>",
         providers: [player_service_1.PlayerService, playlist_service_1.PlaylistService]
     }),
     __metadata("design:paramtypes", [player_service_1.PlayerService,
         router_1.ActivatedRoute,
         core_1.NgZone,
-        playlist_service_1.PlaylistService])
+        playlist_service_1.PlaylistService,
+        material_1.MdSnackBar])
 ], SearchComponent);
 exports.SearchComponent = SearchComponent;
 //# sourceMappingURL=search.component.js.map
