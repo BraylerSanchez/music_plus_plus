@@ -12,6 +12,7 @@ import { PlaylistService, onAddSound, onRemoveSound, onPlaylistChange } from '..
         
         ul{
             padding: 0px;
+            margin: 0px;
         }
         ul li.title{
             background-color: #333333;

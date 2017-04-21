@@ -11,12 +11,13 @@ import { TemplateComponent }   from './templates/template.component';
 import { SideBarComponent }   from './templates/components/sidebar.component';
 import { PlayingWidgetComponent }   from './templates/components/playing.widget.component';
 import { PlaylistWidgetComponent }   from './templates/components/playlist.widget.component';
+import { MenuWidgetComponent }   from './templates/components/menu.widget.component';
 
 import 'hammerjs';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MaterialModule } from '@angular/material'
+import { MaterialModule, MdSidenavModule, MdListModule } from '@angular/material'
 
 @NgModule({
     imports:      [
@@ -24,6 +25,8 @@ import { MaterialModule } from '@angular/material'
         BrowserModule,
         CommonModule,
         BrowserAnimationsModule,
+        MdSidenavModule,
+        MdListModule,
         MaterialModule,
         HomeModule,
         PlayerModule,
@@ -33,7 +36,8 @@ import { MaterialModule } from '@angular/material'
         TemplateComponent,
         SideBarComponent,
         PlayingWidgetComponent,
-        PlaylistWidgetComponent ],
+        PlaylistWidgetComponent,
+        MenuWidgetComponent ],
     bootstrap:    [ TemplateComponent ],
     providers: [
         {

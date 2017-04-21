@@ -6,7 +6,7 @@ import { PlayerService, onPlayMusic, onStopMusic, onSuspendMusic} from '../../se
 import { LoginService, onLoginUser, onLogoutUser } from '../../services/user/login.service';
 
 import { PlaylistService, onAddSound, onRemoveSound, onPlaylistChange } from '../../services/playlist/playlist.service';
-
+import { MdSidenav } from '@angular/material';
 import { PlayingWidgetComponent }   from './playing.widget.component';
 import { PlaylistWidgetComponent }   from './playlist.widget.component';
 
@@ -17,11 +17,12 @@ declare var window: any;
     styles: [`
         .sidebar{
             position: fixed;
+            width: 28px;
+            transition: 1s;
             left: 0;
             top: 0;
         }
         .sidebar ul.sidebar-menu{
-            transition: 1s;
             position: relative;
             margin: 0;
             padding: 0;
@@ -69,77 +70,38 @@ declare var window: any;
             color: white;
             background-color: #5bc0de;
         }
-        
-        .sidebar div.menu{  
-            background-color: white; 
-            width: 213px;
-            box-shadow: 0px 0px 5px;
-            left: 0;
-            top: 0;
-            position: absolute;
-            transition: 1s;
-            overflow-x: auto;
-            border-right: solid #333333 1px;
-        }
-        
-        .sidebar div.menu::-webkit-scrollbar {
-            width: 7px;
-        }
-         
-        .sidebar div.menu::-webkit-scrollbar-track {
-            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-        }
-         
-        .sidebar div.menu::-webkit-scrollbar-thumb {
-            background-color: rgb(84, 189, 220);
-            outline: 1px solid #999;
-            border-radius: 10px;
-        }
-        
-        .sidebar div.menu .home ul{
-            padding: 0px;
-        }
-        .sidebar div.menu .home ul li.title{
-            background-color: #333333;
-            padding: 5px;
-            font-size: 11pt;
-            color: white;
-        }
-        .sidebar div.menu .home ul li{
-            padding: 5px;
-            font-size: 9pt;
-            border-bottom: 1px solid #d0d0d0;
-            color: #333333;
-            cursor: pointer;
-        }
-        .sidebar div.menu .home ul li.active{
-            background-color: #5bc0de;
-        }
-        .sidebar div.menu .home ul li{
-            font-size: 12pt;
-            text-align: left;
-            padding-left: 30px;
-        }
-        .sidebar div.menu .home ul li a{
-            color: #333333;
-        }
-        .sidebar div.menu .home ul li:hover{
-            background-color: #e4e4e4;
-        }
-        .sidebar div.menu .nowplay ul li h5{
-            width: 90%;
-            display: block;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+
         .sidebar a{
             margin-right: 3px;
         }
+        .sidevar{
+            height: 100%;
+            transition: 1s;
+        }
+        .mat-sidenav{
+            width: 100%;
+        }
+        .fixed-sidenav{    
+            position: fixed;
+            border-right: solid 2px gray;
+        }
     `],
     template: `
-    <div class="sidebar">
-        <ul class="sidebar-menu" [ngStyle]="{'left': active != ''? menuLeft : '0px'}">
+    <md-sidenav-container class="sidevar fixed-sidenav"  [ngStyle]="{'width': active != ''? menuLeft + 'px' : '0px'}">
+        <md-sidenav #sidenav class="sidevar" mode="push">
+            <div class="home" *ngIf="active == 'menu'">
+                <menu class="p-m-zero"></menu>
+            </div>
+            <div class="nowplay" *ngIf="active == 'playlist'">
+                <playlist class="p-m-zero"></playlist>
+            </div>
+            <div class="nowplay" *ngIf="active == 'nowplay'">
+                <playingList class="p-m-zero" (onMusicAdd)="musicAdd($event)"></playingList>
+            </div>
+        </md-sidenav>
+    </md-sidenav-container>
+    <div class="sidebar" [ngStyle]="{'left': active != ''? menuLeft + 'px': '0px'}">
+        <ul class="sidebar-menu">
             <li [ngClass]="{'active': active == 'menu'}" (click)="setActive('menu')" >
                 MENU
             </li>
@@ -151,55 +113,19 @@ declare var window: any;
                 <i *ngIf="isPlaying" class="fa fa-volume-up"></i>
             </li>
         </ul>
-        <div class="menu" [ngStyle]="{'width': active != ''? menuLeft : '0px', 'opacity': active != ''? '1':'0', 'height': windowHeight}">
-            <div class="home" *ngIf="active == 'menu'">
-                <ul>
-                    <li class="title">
-                    <h3><i class="fa fa-music fa-1x"></i> MUSIC++ </h3></li>
-                    <li  [routerLinkActive]="['active']" >
-                        <a [routerLink]="['/home']" >
-                            <i class="fa fa-home fa-1x"></i> Home
-                        </a>
-                    </li>
-                    <li  [routerLinkActive]="['active']" *ngIf="user" >
-                        <a [routerLink]="['/playlist/list']" >
-                            <i class="fa fa-list  fa-1x"></i> Playlist
-                        </a>
-                    </li>
-                    <li  [routerLinkActive]="['active']" >
-                        <a [routerLink]="['/search/0']" >
-                            <i class="fa fa-search fa-1x"></i> search
-                        </a>
-                    </li>
-                    <li>
-                        <span *ngIf="user">{{user.name}}</span>
-                        <a *ngIf="user" class="btn btn-warning btn-xs" (click)="logout()">
-                            <i class="fa fa-sign-out "></i> Sing-Out
-                        </a>
-                        <a *ngIf="!user" class="btn btn-primary btn-xs" (click)="login()">
-                            <i class="fa fa-google"></i> Sing-In
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="nowplay" *ngIf="active == 'playlist'">
-                <playlist></playlist>
-            </div>
-            <div class="nowplay" *ngIf="active == 'nowplay'">
-                <playingList (onMusicAdd)="musicAdd($event)"></playingList>
-            </div>
-        </div>
     </div>`,
     providers: [PlayerService, LoginService, PlaylistService]
 })
 export class SideBarComponent implements OnInit{
+    @ViewChild('sidenav') sidenav:MdSidenav;
+
     @ViewChild(PlayingWidgetComponent) playingWidgetComponent: PlayingWidgetComponent;
     @ViewChild(PlaylistWidgetComponent) playlistWidgetComponent: PlaylistWidgetComponent;
     
     private active:string;
     private isPlaying = false;
     private windowHeight:number = 512;
-    private menuLeft: number = 250;
+    private menuLeft: number = 256;
     private user: any;
     constructor(
         private loginService: LoginService,
@@ -247,6 +173,10 @@ export class SideBarComponent implements OnInit{
     }
     
     setActive(menu:any){
+        if(menu == '')
+            this.sidenav.close();
+        else
+            this.sidenav.open();
         if( menu == this.active){
             this.active ='';
             return;

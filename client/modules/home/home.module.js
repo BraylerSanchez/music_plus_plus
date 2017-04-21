@@ -30,6 +30,8 @@ HomeModule = __decorate([
             material_1.MdButtonModule,
             material_1.MdCardModule,
             material_1.MdIconModule,
+            material_1.MdSnackBarModule,
+            material_1.MdTooltipModule,
             home_routes_1.routing
         ],
         exports: [

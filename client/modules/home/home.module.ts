@@ -8,7 +8,7 @@ import { routing } from './home.routes';
 
 import { HomeComponent } from './components/home.component';
 import { SearchComponent } from './components/search.component';
-import { MdInputModule, MdCardModule, MdButtonModule, MdIconModule } from '@angular/material';
+import { MdInputModule, MdCardModule, MdButtonModule, MdIconModule, MdSnackBarModule, MdTooltipModule } from '@angular/material';
 
 @NgModule({
     imports: [
@@ -20,6 +20,8 @@ import { MdInputModule, MdCardModule, MdButtonModule, MdIconModule } from '@angu
         MdButtonModule,
         MdCardModule,
         MdIconModule,
+        MdSnackBarModule,
+        MdTooltipModule,
         routing],
       exports: [
           SearchComponent

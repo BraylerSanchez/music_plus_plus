@@ -7,11 +7,11 @@ import { PlaylistService } from '../../../services/playlist/playlist.service'
   styles: [`
       .search-input{
         margin-top: 15px;
-        width: 80%;
+        width: 100%;
       }
       `],
   template: `
-      <md-input-container class="search-input">
+      <md-input-container class="search-input text-center">
         <input mdInput
          (keyup)="handleKeyup($event)" 
          name="queryString" [(ngModel)]="queryString"

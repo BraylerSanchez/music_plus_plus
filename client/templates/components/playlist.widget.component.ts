@@ -10,6 +10,7 @@ import { LoginService, onLoginUser, onLogoutUser } from '../../services/user/log
         
         ul{
             padding: 0px;
+            margin: 0px;
         }
         ul li.title{
             background-color: #333333;
