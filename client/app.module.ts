@@ -11,6 +11,7 @@ import { TemplateComponent }   from './templates/template.component';
 import { SideBarComponent }   from './templates/components/sidebar.component';
 import { PlayingWidgetComponent }   from './templates/components/playing.widget.component';
 import { PlaylistWidgetComponent }   from './templates/components/playlist.widget.component';
+import { LoginDialogComponent } from './templates/components/login.dialog.component';
 import { MenuWidgetComponent }   from './templates/components/menu.widget.component';
 
 import 'hammerjs';
@@ -37,7 +38,9 @@ import { MaterialModule, MdSidenavModule, MdListModule } from '@angular/material
         SideBarComponent,
         PlayingWidgetComponent,
         PlaylistWidgetComponent,
-        MenuWidgetComponent ],
+        MenuWidgetComponent,
+        LoginDialogComponent ],
+    entryComponents: [LoginDialogComponent],
     bootstrap:    [ TemplateComponent ],
     providers: [
         {

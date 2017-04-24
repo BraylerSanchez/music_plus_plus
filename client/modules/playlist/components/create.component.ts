@@ -1,126 +1,104 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SearchComponent } from '../../home/components/search.component';
-import { PlayListDetailComponent } from './playlistdetail.component';
-import { SongListComponent } from './songlist.component';
-import { SummaryComponent } from './summary.component';
-
 import { IPlayList } from '../../../interfaces/playlist/playlist.interface';
+import { PlayListModel } from '../../../models/playlist/playlist.model'
 import { Sound } from '../../../interfaces/player/sound.interface'
 import { PlaylistService } from '../../../services/playlist/playlist.service';
 import { LoginService } from '../../../services/user/login.service';
+import { PlayerService } from '../../../services/player/player.service';
 
 @Component({
-    selector: 'playlistcreate',
     styles: [ `
-        search div.cover {
-            margin-top: 0px !important;
-        }
-        .buttons {
-            margin-top: 5px;
-        }
-        
-    `
-    ],
-    styleUrls: ['client/modules/playlist/components/wizardtemplate.css'],
+    `],
     template: ` 
-        <div class="">
-            <h3>Playlist create wizard</h3>
-            <div class="container col-xs-12">
-            	<div class="row">
-                    <div class="wizard">
-                        <div class="wizard-inner">
-                            <div class="connecting-line"></div>
-                            <ul class="nav nav-tabs" role="tablist">
-                                <li role="presentation" [ngClass]="{'active': step == 1}">
-                                    <a role="tab" title="Creat list detail">
-                                        <span class="round-tab">
-                                            <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i> 
-                                        </span>
-                                    </a>
-                                </li>
-                                <li role="presentation" class="" [ngClass]="{'active': step == 2}">
-                                    <a data-toogle="tab" title="Select songs">
-                                        <span class="round-tab">
-                                            <i class="glyphicon glyphicon-th-list" aria-hidden="true"></i>
-                                        </span>
-                                    </a>
-                                </li>
-                                <li role="presentation" [ngClass]="{'active': step=='3'}">
-                                    <a  title="Complete">
-                                        <span class="round-tab">
-                                            <i class="glyphicon glyphicon-ok" aria-hidden="true"></i>
-                                        </span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="margin-bottom-xs margin-top-xs col-xs-12 no-padding-l-r">
-                        <a class="btn btn-warning pull-left" (click)="toCancel()">
-                            <i class="fa fa-times" ></i> Cancel
-                        </a>
-                        <a *ngIf="step === 1 || step === 2" class="btn btn-primary pull-right" (click)="toNext()">
-                            Next <i class="fa fa-arrow-right " aria-hidden="true" ></i> 
-                        </a>
-                        <a *ngIf="step === 3" class="btn btn-success pull-right" (click)="toSavePlayList()">
-                            Save <i class="fa fa-floppy-o" aria-hidden="true" ></i> 
-                        </a>
-                        <a *ngIf="step === 2 || step === 3" class="btn btn-primary pull-right margin-right-xs" (click)="toPrevious()">
-                            <i class="fa fa-arrow-left " aria-hidden="true" ></i> Previous
-                        </a>
-                    </div>
-                   
-                    <div class="tab-content no-padding-l-r">
-                        <div class="tab-pane active" role="tabpanel" [ngClass]="{'active': step==1}">
-                            <playlistdetail 
-                                (onSave)="step1Save($event)"
-                                [playlist]="playlist">
-                            </playlistdetail>
-                        </div>
-                        <div class="tab-pane" role="tabpanel" [ngClass]="{'active': step==2}">
-                            <div class="col-sm-6">
-                                <songlist
-                                    [playlist]="playlist"
-                                ></songlist>
-                            </div>
-                            <div class="col-sm-6">
-                                <h3>Search songs:</h3>
-                                <search
-                                    [playlist]="playlist"
-                                ></search>
-                            </div>
-                        </div>
-                        <div class="tab-pane" role="tabpanel" [ngClass]="{'active': step==3}">
-                            <div class="col-lg-12">
-                                <summary
-                                    [playlist]="playlist">
-                                </summary>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
+    <h3>Playlist create</h3>
+    <form (keydown.enter)="$event.preventDefault()">
+        <md-input-container class="md-block">
+            <input 
+                mdInput 
+                #name 
+                name="name" 
+                placeholder="Name" 
+                autofocus 
+                [(ngModel)]="playlist.name" 
+                required />
+            <md-hint align="end"></md-hint>
+        </md-input-container>
+        <md-input-container class="md-block">
+            <textarea 
+                    mdInput 
+                    placeholder="Description"
+                    name="description"
+                    [(ngModel)]="playlist.description"></textarea>
+        </md-input-container>
+        <md-grid-list cols="2" rowHeight="2:1">
+            <md-grid-tile>
+                <div class="md-block">
+                    <md-list  style="overflow-y: auto;height: 256px;">
+                        <h3 md-subheader>Selected sounds</h3>
+                        <md-list-item *ngFor="let sound of playlist.sounds; let i = index">
+                            <img md-list-avatar [src]="sound.thumbnail">
+                            <h3 md-line mdTooltip="{{sound.title}}" >{{ sound.title}}</h3>
+                            <p md-line>
+                                <span mdTooltip="{{sound.channel}}">{{ sound.channel }} </span>
+                                <md-icon class="pull-right pointer" (click)="remove(sound)" *ngIf="sound.added == true">delete</md-icon>
+                            </p>
+                            <md-divider></md-divider>
+                        </md-list-item>
+                    </md-list>
                 </div>
-            </div>
+            </md-grid-tile>
+            <md-grid-tile>
+                <div class="md-block">
+                    <md-list  style="overflow-y: auto;height: 256px;">
+                        <md-input-container  class="md-block">
+                            <input mdInput
+                            (keyup)="handleKeyup($event)" 
+                            name="queryString" [(ngModel)]="queryString"
+                            #searchInput placeholder="Search music and press ENTER" />
+                        </md-input-container>
+                        <md-list-item *ngFor="let sound of sounds; let i = index">
+                            <img md-list-avatar [src]="sound.thumbnail">
+                            <h3 md-line mdTooltip="{{sound.title}}" >{{ sound.title}}</h3>
+                            <p md-line>
+                                <span mdTooltip="{{sound.channel}}">{{ sound.channel }} </span>
+                                <md-icon class="pull-right pointer" (click)="add(sound)" *ngIf="!sound.added">add</md-icon>
+                                <md-icon class="pull-right pointer" (click)="remove(sound)" *ngIf="sound.added == true">delete</md-icon>
+                            </p>
+                            <md-divider></md-divider>
+                        </md-list-item>
+                    </md-list>
+                </div>
+            </md-grid-tile>
+        </md-grid-list>
+        <div class="md-block">
+            <button type="button" md-button color="warn" (click)="cancel()">
+                <md-icon>delete</md-icon> Cancel
+            </button>
+            <button type="button" md-raised-button color="primary" (click)="save()">
+                <md-icon>save</md-icon> Save playlist
+            </button>
         </div>
+    </form>
     `,
-    providers: [PlaylistService, LoginService]
+    providers: [PlaylistService, LoginService, PlayerService]
 })
 
 export class CreateListComponent{
-    private step:number = 1;
-    @ViewChild(SearchComponent) searchComponent: SearchComponent;
-    @ViewChild(PlayListDetailComponent) playlistdetailComponent: PlayListDetailComponent;
-    @ViewChild(SongListComponent) songlistComponent : SongListComponent;
-    @ViewChild(SummaryComponent) summaryComponent: SummaryComponent;
-    private playlist:any = { name: '', description: '', sounds: [], userAt: "" };
-    
+    private playlist:IPlayList;
+    private queryString:string = '';
+    private sounds:any;
+
     constructor(
         private router:Router, 
         private routerParams: ActivatedRoute,
         private playlistService: PlaylistService,
-        private loginService: LoginService
+        private loginService: LoginService,
+        private playerService: PlayerService,
+        private zone: NgZone
     ){
+        this. playlist = new PlayListModel();
+
         this.routerParams.params.subscribe((params) => {
            var id = params['_id'];
            if( id == 'default'){
@@ -128,53 +106,30 @@ export class CreateListComponent{
            }else{
                this.playlistService.get(id).subscribe((result) => {
                     this.playlist = result.playlist;
-                    this.playlistdetailComponent.setPlaylist(this.playlist);
                })
            }
         });
     }
     
-    toCancel(): void{
+    cancel(): void{
         this.router.navigate(['/playlist/list'])
     }
-    
-    toNext(): void{
-        if(this.playlistdetailComponent.createListForm.valid ){
-            if( this.playlistdetailComponent.createListForm.value.name == 'default' ){
-                alert('playlist name can\'n be "default"');
-                return;
-            }
-            if(this.step == 1){
-                this.playlist.name = this.playlistdetailComponent.createListForm.value.name;
-                this.playlist.description = this.playlistdetailComponent.createListForm.value.description;
-                this.step = 2;
-            }
-            else if(this.step == 2){
-                this.playlist.name = this.playlistdetailComponent.createListForm.value.name;
-                this.playlist.description = this.playlistdetailComponent.createListForm.value.description;
-                this.step = 3;
-            }
-        }
-        else{
-            alert('Information required.')
-        }
+    add(sound:Sound){
+        sound['added'] = true;
+        this.playlist.sounds.push(sound);
+        this.zone.run( ()=>{});
     }
-    
-    toPrevious(): void{
-        if(this.step == 2){
-            this.step = 1;
-        }
-        else if(this.step == 3){
-            this.step = 2;
-        }
+    remove(sound:Sound){
+        sound['added'] = false;
+        var index:number = 0;
+        this.playlist.sounds.forEach( (s:Sound, i:number) =>{
+            if( sound.id == s.id)
+                index = i;
+        })
+        this.playlist.sounds.splice( index, 1);
+        this.zone.run( ()=>{});
     }
-    step1Save(playlist:any){
-        this.step = 2;
-        this.playlist.name = playlist;
-        this.playlist.description = playlist;
-    }
-    
-    toSavePlayList(){
+    save(){
         this.playlist.userAt = this.loginService.getUser()._id;
         var response;
         if( this.playlist['_id']){
@@ -191,5 +146,23 @@ export class CreateListComponent{
                 alert(result.message);
             }
         });
+    }
+    
+    handleKeyup(e:any){
+        if( e.keyCode == 13){
+          this.search();
+        }  
+    }
+    
+    search(): void{
+      if( this.queryString.length <=0){
+        return;
+      }
+      this.playerService.search(this.queryString)
+      .subscribe( (result: any) =>{
+        if(result.status == true){
+          this.sounds = result.sounds;
+        }
+      })
     }
 }

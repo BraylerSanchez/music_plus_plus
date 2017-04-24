@@ -13,8 +13,8 @@ import { PlaylistService, onAddSound, onRemoveSound, onPlaylistChange } from '..
     <md-list>
         <h1 md-subheader class="header">
             <span class="text-ellipsis" mdTooltip="{{playlist.name}}" style="width: 75%;display: inline-block;" >{{playlist.name}}</span>
-            <md-icon mdTooltip="Clear play list" (click)="toClearPlayList()"  class="pull-right pointer">clear</md-icon>
-            <md-icon *ngIf="playlist.name == 'default'" mdTooltip="Save play list" [routerLink]="['/playlist/create/default']" class="pull-right pointer">save</md-icon>
+            <md-icon mdTooltip="Clear play list" (click)="toClearPlayList()"  class="pull-right pointer">delete</md-icon>
+            <md-icon mdTooltip="Save play list" [routerLink]="['/playlist/create/default']" class="pull-right pointer">save</md-icon>
         </h1>
         <md-list-item *ngFor="let sound of playlist.sounds; let i = index" [ngClass]="{'active': currentIndex == i}">
             <md-icon md-list-icon *ngIf="currentIndex == i && isPlaying">surround_sound</md-icon>

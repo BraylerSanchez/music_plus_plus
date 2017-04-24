@@ -10,7 +10,7 @@ import { LoginService, onLoginUser, onLogoutUser } from '../../services/user/log
     template: `
     <md-list>
         <h1 md-subheader class="header">Playlist
-            <a [routerLink]="['/playlist/create/0']" class="btn btn-xs btn-success">Create <i class="fa fa-plus"></i></a></h1>
+            <md-icon mdTooltip="Create new playlist" [routerLink]="['/playlist/create/0']" class="pull-right pointer">playlist_add</md-icon></h1>
         <md-list-item [routerLinkActive]="['active']" *ngFor="let playlist of playlists" class="pointer" (click)="change(playlist)">
             <h3 md-line title="{{playlist.name}}" class="text-ellipsis">{{playlist.name}}</h3>
         </md-list-item>

@@ -1,5 +1,9 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { LoginService, onLoginUser, onLogoutUser } from '../../services/user/login.service';
+
+import {MdDialog} from '@angular/material';
+import { LoginDialogComponent } from './login.dialog.component';
+
 import { Router } from '@angular/router';
 @Component({
     selector: 'menu',
@@ -21,7 +25,7 @@ import { Router } from '@angular/router';
             <h3 md-line > Play list</h3>
         </md-list-item>
         <md-divider></md-divider>
-        <md-list-item (click)="login()" class="pointer" *ngIf="!user" >
+        <md-list-item (click)="loginDialog()" class="pointer" *ngIf="!user" >
             <md-icon md-list-icon>person</md-icon>
             <h3 md-line>Login</h3>
         </md-list-item>
@@ -39,7 +43,8 @@ export class MenuWidgetComponent implements OnInit{
     constructor(
         private loginService: LoginService,
         private ngZone: NgZone,
-        private router: Router
+        private router: Router,
+        private dialog: MdDialog
     ){
         onLoginUser.subscribe( (user) =>{
             this.user = user;
@@ -55,9 +60,14 @@ export class MenuWidgetComponent implements OnInit{
         this.user = this.loginService.getUser();
     }
     
-    login(){
-        this.loginService.login();
+    loginDialog() {
+        this.dialog.open(LoginDialogComponent, {
+            disableClose: true,
+            width: '300px',
+            height: '400px'
+        });
     }
+    
 
     logout(){
         this.loginService.singOut();

@@ -6,63 +6,60 @@ import { LoginService } from '../../../services/user/login.service';
 import { IPlayList, ISharedPlayList } from '../../../interfaces/playlist/playlist.interface'
 
 @Component({
-    selector: 'playList',
     styles: [`
+
     `],
     template: `
-        <div>
         <h1>Playlists</h1>
-        <div class="col-lg-12 no-padding-l-r">
-            <div class="col-lg-12 text-right margin-bottom-xs">
-                <a class="btn btn-success" (click)="toCreate()">
-                    <i class="glyphicon glyphicon-plus-sign"></i> Create New
-                </a>
-            </div>
-            <table class="table table-striped" *ngIf="playLists.length > 0">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Sound Length</th>
-                        <th>Share</th>
-                        <th>Play</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let playlist of playLists">
-                        <td>{{playlist.name}}</td>
-                        <td>{{playlist.description}}</td>
-                        <td>{{playlist.sounds.length}}</td>
-                        <td>
-                            <a class="btn btn-xs btn-primary" (click)="share(playlist)">
-                                Share <i class="fa fa-share-alt"></i>
-                            </a>
-                        </td>
-                        <td>
-                            <a class="btn btn-xs btn-primary" (click)="play(playlist)">
-                                Listen <i class="fa fa-play-circle-o"></i>
-                            </a>
-                        </td>
-                        <td>
-                            <a class="btn btn-xs btn-warning" [routerLink]="['/playlist/create', playlist._id]">
-                                Edit <i class="fa fa-pencil"></i>
-                            </a>
-                            <a class="btn btn-xs btn-danger" (click)="delete(playlist['_id'])">
-                                Remove <i class="fa fa-times"></i>
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="col-lg-12" *ngIf="playLists.length <= 0">
-                <div class="alert alert-warning">
-                    Click on <a class="btn btn-success" (click)="toCreate()"><i class="glyphicon glyphicon-plus-sign"></i> Create New</a>
-                    to start create playlist.
-                </div>
-            </div>
+        <div class="text-right">
+            <button md-raised-button color="primary" (click)="create()">
+                <md-icon>playlist_add</md-icon> New playlist
+            </button>
         </div>
-        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Sound Length</th>
+                    <th>Share</th>
+                    <th>Play</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let playlist of playLists">
+                    <td>{{playlist.name}}</td>
+                    <td>{{playlist.description}}</td>
+                    <td>{{playlist.sounds.length}}</td>
+                    <td>
+                        <button md-button (click)="share(playlist)">
+                            Share <md-icon>share</md-icon>
+                        </button>
+                    </td>
+                    <td>
+                        <button md-button (click)="play(playlist)">
+                            Listen <md-icon>playlist_play</md-icon>
+                        </button>
+                    </td>
+                    <td>
+                        <button md-button [routerLink]="['/playlist/create', playlist._id]">
+                            Edit <md-icon>edit</md-icon>
+                        </button>
+                        <button md-button (click)="delete(playlist['_id'])">
+                            Remove <md-icon>clear</md-icon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr *ngIf="playLists.length <= 0">
+                    <td colspan="6" class="text-center">
+                        No playlist, press new playlist.
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
     `,
     providers: [PlaylistService, LoginService]
 })
@@ -81,7 +78,7 @@ export class PlayListComponent implements OnInit{
         this.load();
     }
     
-    toCreate(): void{
+    create(): void{
         this.router.navigate(['/playlist/create/0'])
     }
     
@@ -104,7 +101,7 @@ export class PlayListComponent implements OnInit{
     }
     
     load(){
-        let userId:number = Number(this.loginService.getUser()._id);
+        let userId:string = this.loginService.getUser()._id;
         this.playlistService.list(userId).subscribe( (result:any) =>{
             if( result.status == true){
                 this.playLists = result.playlists;
@@ -120,7 +117,7 @@ export class PlayListComponent implements OnInit{
             sharedPlaylists: new Array<IPlayList>(),
             userAt: this.loginService.getUser()._id,
             userName: this.loginService.getUser().name,
-            userPictureUrl: this.loginService.getUser().thumbnail,
+            userPictureUrl: this.loginService.getUser().avatar_url,
             createAt: new Date()
         };
         this.playlistService.share(sharedPlaylist).subscribe((response) => {

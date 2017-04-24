@@ -6,8 +6,6 @@ import {Http, Headers, Response, ResponseOptions} from '@angular/http'
 
 import { IUser } from '../../interfaces/user/user.interface';
 
-declare var gapi: any;
-
 var loginUserObserbable: any;
 export const onLoginUser: Observable<IUser> = new Observable( (observable:any) =>{
     loginUserObserbable = observable; 
@@ -23,27 +21,24 @@ const headers = new ResponseOptions({
     })
 })
 
+export const GoogleErrorReason = {
+    popup_closed_by_user: 'La ventana emergente de google api fue cerrado por el usuario o su dispositivo la está bloqueando.',
+    idpiframe_initialization_failed: 'Error en el api de google, este origen no esta registrado en las credenciales.'
+}
+
 @Injectable()
 export class LoginService{
-    private client_id: string = '347784008330-s9lnglrku00gchuh39bor6td9rsvm95u.apps.googleusercontent.com';
-    private auth2: any;
+
     private user: IUser;
     constructor(
         private http: Http
     ){
-        /*gapi.load('auth2', () => {
-          this.auth2 = gapi.auth2.init({
-              client_id: this.client_id
-            });
-        });
-        var user = localStorage.getItem('ms_user');
-        if( user ){
-            this.user = JSON.parse(user);
-        }*/
     }
     
+
     setUser(user: IUser){
         localStorage.setItem('ms_user', JSON.stringify(user));
+        loginUserObserbable.next(user);
         this.user = user;
     }
     
@@ -55,30 +50,13 @@ export class LoginService{
         return JSON.parse(user);
     }
     singOut(){
-        var auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then( () => {
-            localStorage.removeItem('ms_user');
-            this.user = undefined;
-            logoutUserObserbable.next();
-        });
+        localStorage.removeItem('ms_user');
+        this.user = undefined;
+        logoutUserObserbable.next();
     }
-    login(){
-        this.auth2.grantOfflineAccess().then( (authResult:any)=>{
-            if (authResult['code']) {
-                this.auth2.currentUser.listen( (userResponse:any) =>{
-                    var profile = userResponse.getBasicProfile();
-                    var user = {
-                        _id: profile.getId(),
-                        name: profile.getGivenName(),
-                        thumbnail: profile.getImageUrl()
-                    }
-                    this.setUser(user)
-                    loginUserObserbable.next(user)
-                })
-              } else {
-                  console.log('Error authenticating user.')
-              }
-        });
+
+    login(user:IUser){
+        return this.http.post(`api/v2/user/login`, user, headers).map( res => res.json());
     }
     
     getUserProfile(id: string){

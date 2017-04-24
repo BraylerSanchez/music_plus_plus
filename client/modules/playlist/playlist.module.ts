@@ -7,11 +7,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { routing } from './playlist.routes';
 import { PlayListComponent } from './components/list.component';
 import { CreateListComponent } from './components/create.component';
-import { PlayListDetailComponent } from './components/playlistdetail.component';
-import { SongListComponent } from './components/songlist.component';
-import { SummaryComponent } from './components/summary.component';
 
 import { HomeModule } from '../home/home.module';
+import { MaterialModule, MdIconModule, MdInputModule, MdGridListModule, MdListModule } from '@angular/material';
 
 import { CanActivateViaAuthGuard } from '../../services/user/can.active.service';
 import { LoginService } from '../../services/user/login.service';
@@ -22,16 +20,18 @@ import { LoginService } from '../../services/user/login.service';
         BrowserModule,
         FormsModule,
         CommonModule,
+        MaterialModule,
+        MdIconModule,
+        MdInputModule,
+        MdGridListModule,
+        MdListModule,
         ReactiveFormsModule,
         HomeModule,
         routing
     ],
     declarations: [
         PlayListComponent,
-        CreateListComponent,
-        PlayListDetailComponent,
-        SongListComponent,
-        SummaryComponent
+        CreateListComponent
     ],
     providers: [
         {
