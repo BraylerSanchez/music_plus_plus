@@ -34,7 +34,7 @@ export class PlaylistService{
     ){
     }
     
-    list(_userId:number){
+    list(_userId:string){
         return this.http.get(`api/v1/${_userId}/playlist`, headers )
             .map( res => res.json())
     }

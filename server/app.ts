@@ -8,6 +8,7 @@ var mongoose = require('mongoose')
 import { PlaylistRoutes } from './routes/playlist/playlist.routes'
 import { ConvertRoutes } from './routes/youtube/convert.routes'
 import { SearchRoutes } from './routes/youtube/search.routes'
+import { UserRoutes } from './routes/security/user.routes'
 
 declare var process:any
 
@@ -37,6 +38,7 @@ class AppServer{
         new PlaylistRoutes(this.app);
         new ConvertRoutes(this.app);
         new SearchRoutes(this.app);
+        new UserRoutes(this.app);
         this.app.get('/', function(req:Request, res:Response){
            res.sendFile(__dirname + '../pulic/index.html')
         });

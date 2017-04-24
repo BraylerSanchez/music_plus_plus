@@ -187,11 +187,4 @@ export class SideBarComponent implements OnInit{
     hide(){
         this.active = '';
     }
-    login(){
-        this.loginService.login();
-    }
-    logout(){
-        this.loginService.singOut();
-        this.router.navigate(['/home']);
-    }
 }

@@ -1,12 +1,13 @@
 import { Sound } from '../player/sound.interface';
 
 export interface IPlayList{
-    name: string,
-    description: string,
-    userAt: string,
-    sounds: Array<Sound>,
-    createAt: Date,
-    updateAt: Date
+    _id: string;
+    name: string;
+    description: string;
+    sounds: Array<Sound>;
+    userAt: string;
+    createAt: Date;
+    updateAt: Date;
 }
 
 export interface ISharedPlayList{

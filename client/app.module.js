@@ -16,6 +16,7 @@ var template_component_1 = require("./templates/template.component");
 var sidebar_component_1 = require("./templates/components/sidebar.component");
 var playing_widget_component_1 = require("./templates/components/playing.widget.component");
 var playlist_widget_component_1 = require("./templates/components/playlist.widget.component");
+var login_dialog_component_1 = require("./templates/components/login.dialog.component");
 var menu_widget_component_1 = require("./templates/components/menu.widget.component");
 require("hammerjs");
 var animations_1 = require("@angular/platform-browser/animations");
@@ -44,8 +45,10 @@ AppModule = __decorate([
             sidebar_component_1.SideBarComponent,
             playing_widget_component_1.PlayingWidgetComponent,
             playlist_widget_component_1.PlaylistWidgetComponent,
-            menu_widget_component_1.MenuWidgetComponent
+            menu_widget_component_1.MenuWidgetComponent,
+            login_dialog_component_1.LoginDialogComponent
         ],
+        entryComponents: [login_dialog_component_1.LoginDialogComponent],
         bootstrap: [template_component_1.TemplateComponent],
         providers: [
             {
