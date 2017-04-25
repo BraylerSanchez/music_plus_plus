@@ -9,6 +9,7 @@ var core_1 = require("@angular/core");
 var common_1 = require("@angular/common");
 var platform_browser_1 = require("@angular/platform-browser");
 var player_component_1 = require("./components/player.component");
+var material_1 = require("@angular/material");
 var PlayerModule = (function () {
     function PlayerModule() {
     }
@@ -18,7 +19,9 @@ PlayerModule = __decorate([
     core_1.NgModule({
         imports: [
             platform_browser_1.BrowserModule,
-            common_1.CommonModule
+            common_1.CommonModule,
+            material_1.MaterialModule,
+            material_1.MdIconModule
         ],
         exports: [player_component_1.PlayerComponent],
         declarations: [player_component_1.PlayerComponent],

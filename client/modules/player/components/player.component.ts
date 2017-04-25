@@ -169,7 +169,7 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
             <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 no-padding-l-r controls" [ngClass]="{'playing': isPlaying == true}" >
                     <a class="common" (click)="previou()" [ngClass]="{'disabled': currentSoundIndex <= 0 }"><i class="fa fa-backward padding-right-xs"></i></a>
-                    <a class="play" *ngIf="!isPlaying" (click)="play()" ><i class="fa fa-play"></i></a>
+                    <a class="play" *ngIf="!isPlaying" (click)="play()" ><md-icon>play_arrow</md-icon></a>
                     <a class="play" *ngIf="isPlaying" (click)="stop()" ><i class="fa fa-pause"></i></a>
                     <a class="common" (click)="next()" [ngClass]="{'disabled': currentSoundIndex + 1 >= soundsLength }" ><i class="fa fa-forward padding-left-xs"></i></a>
                     <a class="common" (click)="suspend()" ><i class="fa fa-stop"></i></a>

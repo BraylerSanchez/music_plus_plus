@@ -101,7 +101,7 @@ export class PlayListComponent implements OnInit{
     }
     
     load(){
-        let userId:string = this.loginService.getUser()._id;
+        let userId:string = this.loginService.getUser().user_name;
         this.playlistService.list(userId).subscribe( (result:any) =>{
             if( result.status == true){
                 this.playLists = result.playlists;
@@ -115,7 +115,7 @@ export class PlayListComponent implements OnInit{
         var sharedPlaylist: ISharedPlayList ={
             origin: _playlist,
             sharedPlaylists: new Array<IPlayList>(),
-            userAt: this.loginService.getUser()._id,
+            userAt: this.loginService.getUser().user_name,
             userName: this.loginService.getUser().name,
             userPictureUrl: this.loginService.getUser().avatar_url,
             createAt: new Date()

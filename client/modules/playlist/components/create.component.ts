@@ -130,7 +130,7 @@ export class CreateListComponent{
         this.zone.run( ()=>{});
     }
     save(){
-        this.playlist.userAt = this.loginService.getUser()._id;
+        this.playlist.userAt = this.loginService.getUser().user_name;
         var response;
         if( this.playlist['_id']){
             response = this.playlistService.update( this.playlist['_id'], this.playlist);

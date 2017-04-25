@@ -42,7 +42,7 @@ export class PlaylistWidgetComponent implements OnInit{
         this.events();
         this.user = this.loginService.getUser();
         if(this.user){
-            this.playlistService.list(this.user._id).subscribe( (result:any)=>{
+            this.playlistService.list(this.user.use_name).subscribe( (result:any)=>{
                 if( result.status == true)
                     this.playlists = result.playlists;
             })
