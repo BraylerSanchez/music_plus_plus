@@ -98,6 +98,7 @@ declare var window: any;
             <div class="nowplay" *ngIf="active == 'nowplay'">
                 <playingList class="p-m-zero" (onMusicAdd)="musicAdd($event)"></playingList>
             </div>
+            <player></player>
         </md-sidenav>
     </md-sidenav-container>
     <div class="sidebar" [ngStyle]="{'left': active != ''? menuLeft + 'px': '0px'}">

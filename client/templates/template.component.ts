@@ -10,8 +10,7 @@ import { SideBarComponent } from './components/sidebar.component';
       <md-grid-tile [style.background]="'#333'">
           <router-outlet></router-outlet>
       </md-grid-tile>
-    </md-grid-list>
-    <player></player>`
+    </md-grid-list>`
 })
 export class TemplateComponent{
     @ViewChild(PlayerComponent) playerComponent: PlayerComponent;

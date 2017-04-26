@@ -30,8 +30,11 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
         .player .progress .progress-bar{
             background-color: #333;
         }
-        .player .controls.playing a.common{
-            top: -12px !important;
+        .player .controls a.common{
+            top: -14px !important;
+        }
+        .player .controls a.common .mat-icon{
+            font-size: 24pt;
         }
         
         .player .controls a{
@@ -45,8 +48,12 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
             color: #b3b2b2;
         }
         .player .controls a.play{
-            font-size: 30pt;
             top: -6px;
+        }
+        .player .controls a.play .mat-icon{
+            font-size: 38pt;
+            height: 42px;
+            width: 48px;
         }
         .player .controls img{
             height: 40px;
@@ -75,7 +82,7 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
     `],
     template: `
     <div class="col-lg-12 no-padding-l-r player" [hidden]="!currentSoundDetails" >
-        <audio id="audioElement">
+        <audio id="audioElement" preload="auto">
           <source src="" type="audio/mpeg">
         </audio>
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding-l-r">
@@ -135,12 +142,13 @@ export class PlayerComponent implements OnInit{
             this.soundsLength = this.playlistService.getCurrentPlaylist().sounds.length;
             this.currentSoundDetails = response['details'];
             this.currentSoundIndex = response['index'];
+            this.player.setAttribute("src",`/api/v1/youtube/convert/${this.currentSoundDetails.id}`);
             this.play();
         });
         onStopMusic
         .subscribe( () => {
             this.isPlaying = false;
-            this.player.stop();
+            this.player.pause();
             this.ngZone.run(()=>{});
         });
         
@@ -154,6 +162,7 @@ export class PlayerComponent implements OnInit{
             this.soundsLength = this.playlistService.getCurrentPlaylist().sounds.length;
             this.currentSoundDetails = response['details'];
             this.currentSoundIndex = response['index'];
+            this.player.setAttribute("src",`/api/v1/youtube/convert/${this.currentSoundDetails.id}`);
             this.play();
             this.ngZone.run(()=>{});
         })
@@ -176,14 +185,23 @@ export class PlayerComponent implements OnInit{
         })
     }
     play(){
-        this.player.setAttribute("src",`/api/v1/youtube/convert/${this.currentSoundDetails.id}`);
-        this.isPlaying = true;
-        this.player.play();
-        this.ngZone.run(()=>{});
+        this.player.addEventListener('canplay', ()=>{
+            this.player.play();
+            this.player.addEventListener("playing", () => {
+                this.isPlaying = true;
+                this.ngZone.run(()=>{});
+            })
+        })/*
+        this.player.addEventListener('timeupdate', (event:any)=>{
+            //console.log(Math.floor(event.target.currentTime))
+        })
+        this.player.addEventListener("loadedmetadata", (_event:any) => {
+    		console.log( event.target.duration );
+    		//document.getElementsByTagName("body")[0].removeChild(audio);
+    	});*/
     }
     
     stop(){
-        this.player.stop();
         this.playerService.stopMusic(this.currentSoundDetails);
     }
     
@@ -204,7 +222,8 @@ export class PlayerComponent implements OnInit{
     }
     
     suspend(){
-        this.stop();
+        this.player.pause();
+        this.player.currentTime = 0;
         this.playerService.suspendMusic();
     }
 }
