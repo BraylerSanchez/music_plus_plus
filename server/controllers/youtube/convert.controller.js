@@ -22,6 +22,9 @@ var ConvertController = (function () {
                     process.stdout.write('\n');
                 });
             });
+            stream.on('error', function (error) {
+                res.send('Error al reproducir este mp3.');
+            });
         }
         catch (error) {
             res.send({

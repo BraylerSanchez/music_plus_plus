@@ -16,7 +16,7 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
             z-index: 1000;
             bottom: 0;
             left: 0;
-            width: 100%;
+            width: 245px;
             background-color: #fff;
             border-top: solid 1px #c7c7c7;
             box-shadow: 0px 0px 4px 1px;
@@ -59,7 +59,9 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
             height: 40px;
             width: 40px;
             left: 50%;
-            margin-top: -6px;
+            margin-top: 0px;
+            padding-bottom: 10px;
+            padding-left: 10px;
         }
         
         .player .progress span{
@@ -85,28 +87,31 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
         <audio id="audioElement" preload="auto">
           <source src="" type="audio/mpeg">
         </audio>
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding-l-r">
-            <div class="col-lg-2 col-md-2 hidden-sm hidden-xs no-padding-l-r"></div>
-            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 no-padding-l-r controls" [ngClass]="{'playing': isPlaying == true}" >
-                    <a class="common" (click)="previou()" [ngClass]="{'disabled': currentSoundIndex <= 0 }"><md-icon>skip_previous</md-icon></a>
-                    <a class="play" *ngIf="!isPlaying" (click)="play()" ><md-icon>play_circle_outline</md-icon></a>
-                    <a class="play" *ngIf="isPlaying" (click)="stop()" ><md-icon>pause_circle_outline</md-icon></a>
-                    <a class="common" (click)="next()" [ngClass]="{'disabled': currentSoundIndex + 1 >= soundsLength }" ><md-icon>skip_next</md-icon></a>
-                    <a class="common" (click)="suspend()" ><md-icon>stop</md-icon></a>
-                </div>
-                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6 no-padding-l-r progress">
-                </div>
-                <div class="col-lg-1 col-md-1 col-sm-1 hidden-xs no-padding-l-r controls">
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-2 hidden-sm hidden-xs no-padding-l-r"></div>
+        <div class="no-padding-l-r controls text-center" [ngClass]="{'playing': isPlaying == true}">
+            <a class="common" (click)="previou()" [ngClass]="{'disabled': currentSoundIndex <= 0 || loading }">
+                <md-icon>skip_previous</md-icon>
+            </a>
+            <a class="play" *ngIf="!isPlaying && !loading" (click)="play()">
+                <md-icon>play_circle_outline</md-icon>
+            </a>
+            <img [src]="'assest/images/loading-xs.gif'" *ngIf="loading"/>
+            <a class="play" *ngIf="isPlaying && !loading" (click)="stop()" [ngClass]="{'disabled': loading }">
+                <md-icon>pause_circle_outline</md-icon>
+            </a>
+            <a class="common" (click)="next()"
+            [ngClass]="{'disabled': currentSoundIndex + 1 >= soundsLength || loading }">
+                <md-icon>skip_next</md-icon>
+            </a>
+            <a class="common" (click)="suspend()" [ngClass]="{'disabled': loading }">
+                <md-icon>stop</md-icon>
+            </a>
         </div>
     </div>`,
     providers: [PlayerService, PlaylistService]
 })
 export class PlayerComponent implements OnInit{
-    private isPlaying= false;
+    private isPlaying:boolean = false;
+    private loading:boolean = false;
     private currentSoundDetails: Sound;
     private currentSoundIndex: number = 0;
     private soundsLength: number = 0;
@@ -134,13 +139,27 @@ export class PlayerComponent implements OnInit{
         this.player.addEventListener("ended", () => {
             this.next();
         })
+        this.player.addEventListener("error", () => {
+            this.loading = false;
+            alert(`No es posible reproducir ${this.currentSoundDetails.title}.`);
+            this.suspend();
+        })
+        
+        this.player.addEventListener('canplay', ()=>{
+            this.player.play();
+            this.player.addEventListener("playing", () => {
+                this.isPlaying = true;
+                this.loading = false;
+                this.ngZone.run(()=>{});
+            })
+        })
     }
     
     eventSubscribe(){
         onPlayMusic
          .subscribe( (response) => {
             this.soundsLength = this.playlistService.getCurrentPlaylist().sounds.length;
-            this.currentSoundDetails = response['details'];
+            this.currentSoundDetails = <Sound>response['details'];
             this.currentSoundIndex = response['index'];
             this.player.setAttribute("src",`/api/v1/youtube/convert/${this.currentSoundDetails.id}`);
             this.play();
@@ -185,13 +204,8 @@ export class PlayerComponent implements OnInit{
         })
     }
     play(){
-        this.player.addEventListener('canplay', ()=>{
-            this.player.play();
-            this.player.addEventListener("playing", () => {
-                this.isPlaying = true;
-                this.ngZone.run(()=>{});
-            })
-        })/*
+        this.isPlaying = false;
+        this.loading = true;/*
         this.player.addEventListener('timeupdate', (event:any)=>{
             //console.log(Math.floor(event.target.currentTime))
         })
