@@ -7,6 +7,11 @@ import { LoginService, onLoginUser, onLogoutUser } from '../../services/user/log
 
 @Component({
     selector: 'playlist',
+    styles:[`
+        .mat-list .mat-list-item:last-of-type{
+            margin-bottom: 64px;
+        }
+    `],
     template: `
     <md-list>
         <h1 md-subheader class="header">Playlist

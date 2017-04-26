@@ -26,6 +26,9 @@ export class ConvertController{
                     process.stdout.write('\n');
                 });
             });
+            stream.on('error', (error:any) =>{
+                res.send('Error al reproducir este mp3.')
+            })
         }catch(error){
             res.send({
                 status: false,
