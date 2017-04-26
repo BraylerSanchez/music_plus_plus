@@ -84,7 +84,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = __webpack_require__(7);
 var router_1 = __webpack_require__(30);
 var player_service_1 = __webpack_require__(81);
-var material_1 = __webpack_require__(47);
+var material_1 = __webpack_require__(41);
 var playlist_service_1 = __webpack_require__(53);
 var SearchComponent = (function () {
     function SearchComponent(playerService, router, ngZone, playlistService, snackBar) {
@@ -205,7 +205,7 @@ var platform_browser_1 = __webpack_require__(31);
 var home_routes_1 = __webpack_require__(685);
 var home_component_1 = __webpack_require__(228);
 var search_component_1 = __webpack_require__(229);
-var material_1 = __webpack_require__(47);
+var material_1 = __webpack_require__(41);
 var HomeModule = (function () {
     function HomeModule() {
     }
@@ -283,12 +283,13 @@ var PlayerComponent = (function () {
             _this.soundsLength = _this.playlistService.getCurrentPlaylist().sounds.length;
             _this.currentSoundDetails = response['details'];
             _this.currentSoundIndex = response['index'];
+            _this.player.setAttribute("src", "/api/v1/youtube/convert/" + _this.currentSoundDetails.id);
             _this.play();
         });
         player_service_1.onStopMusic
             .subscribe(function () {
             _this.isPlaying = false;
-            _this.player.stop();
+            _this.player.pause();
             _this.ngZone.run(function () { });
         });
         playlist_service_1.onPlaylistChange.subscribe(function (playlist) {
@@ -301,6 +302,7 @@ var PlayerComponent = (function () {
             _this.soundsLength = _this.playlistService.getCurrentPlaylist().sounds.length;
             _this.currentSoundDetails = response['details'];
             _this.currentSoundIndex = response['index'];
+            _this.player.setAttribute("src", "/api/v1/youtube/convert/" + _this.currentSoundDetails.id);
             _this.play();
             _this.ngZone.run(function () { });
         });
@@ -322,13 +324,23 @@ var PlayerComponent = (function () {
         });
     };
     PlayerComponent.prototype.play = function () {
-        this.player.setAttribute("src", "/api/v1/youtube/convert/" + this.currentSoundDetails.id);
-        this.isPlaying = true;
-        this.player.play();
-        this.ngZone.run(function () { });
+        var _this = this;
+        this.player.addEventListener('canplay', function () {
+            _this.player.play();
+            _this.player.addEventListener("playing", function () {
+                _this.isPlaying = true;
+                _this.ngZone.run(function () { });
+            });
+        }); /*
+        this.player.addEventListener('timeupdate', (event:any)=>{
+            //console.log(Math.floor(event.target.currentTime))
+        })
+        this.player.addEventListener("loadedmetadata", (_event:any) => {
+            console.log( event.target.duration );
+            //document.getElementsByTagName("body")[0].removeChild(audio);
+        });*/
     };
     PlayerComponent.prototype.stop = function () {
-        this.player.stop();
         this.playerService.stopMusic(this.currentSoundDetails);
     };
     PlayerComponent.prototype.next = function () {
@@ -346,7 +358,8 @@ var PlayerComponent = (function () {
         }
     };
     PlayerComponent.prototype.suspend = function () {
-        this.stop();
+        this.player.pause();
+        this.player.currentTime = 0;
         this.playerService.suspendMusic();
     };
     return PlayerComponent;
@@ -354,8 +367,8 @@ var PlayerComponent = (function () {
 PlayerComponent = __decorate([
     core_1.Component({
         selector: 'player',
-        styles: ["\n        .player{\n            position: fixed;\n            z-index: 1000;\n            bottom: 0;\n            left: 0;\n            width: 100%;\n            background-color: #fff;\n            border-top: solid 1px #c7c7c7;\n            box-shadow: 0px 0px 4px 1px;\n            height: 48px;\n            padding-top: 10px;\n        }\n        .player .progress{\n            margin-top: 5px;\n            position: relative;\n        }\n        .player .progress .progress-bar{\n            background-color: #333;\n        }\n        .player .controls.playing a.common{\n            top: -12px !important;\n        }\n        \n        .player .controls a{\n            font-size: 15pt;\n            color: #333;\n            cursor: pointer;\n            position: relative;\n            transition: 0.4s;\n        }\n        .player .controls a:hover{\n            color: #b3b2b2;\n        }\n        .player .controls a.play{\n            font-size: 30pt;\n            top: -6px;\n        }\n        .player .controls img{\n            height: 40px;\n            width: 40px;\n            left: 50%;\n            margin-top: -6px;\n        }\n        \n        .player .progress span{\n            position: absolute;\n        }\n        \n        .player .progress span.left{\n            left: 5;\n        }\n        \n        .player .progress span.right{\n            right: 5;\n            top: 0;\n        }\n        \n        .player .controls a.disabled{\n            color: gray;\n            cursor: no-drop;\n        }\n        \n        input[type=range] {\n          -webkit-appearance: none;\n          width: 100%;\n          margin: 0.7px 0;\n        }\n        input[type=range]:focus {\n          outline: none;\n        }\n        input[type=range]::-webkit-slider-runnable-track {\n          width: 100%;\n          height: 25.6px;\n          cursor: pointer;\n          box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;\n          background: #484d4d;\n          border-radius: 0px;\n          border: 0px solid #010101;\n        }\n        input[type=range]::-webkit-slider-thumb {\n          box-shadow: 0px 0px 1px #670000, 0px 0px 0px #810000;\n          border: 0px solid #ff1e00;\n          height: 27px;\n          width: 18px;\n          border-radius: 0px;\n          background: rgba(255, 67, 95, 0.93);\n          cursor: pointer;\n          -webkit-appearance: none;\n          margin-top: -0.7px;\n        }\n        input[type=range]:focus::-webkit-slider-runnable-track {\n          background: #545a5a;\n        }\n        input[type=range]::-moz-range-track {\n          width: 100%;\n          height: 25.6px;\n          cursor: pointer;\n          box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;\n          background: #484d4d;\n          border-radius: 0px;\n          border: 0px solid #010101;\n        }\n        input[type=range]::-moz-range-thumb {\n          box-shadow: 0px 0px 1px #670000, 0px 0px 0px #810000;\n          border: 0px solid #ff1e00;\n          height: 27px;\n          width: 18px;\n          border-radius: 0px;\n          background: rgba(255, 67, 95, 0.93);\n          cursor: pointer;\n        }\n        input[type=range]::-ms-track {\n          width: 100%;\n          height: 25.6px;\n          cursor: pointer;\n          background: transparent;\n          border-color: transparent;\n          color: transparent;\n        }\n        input[type=range]::-ms-fill-lower {\n          background: #3c4040;\n          border: 0px solid #010101;\n          border-radius: 0px;\n          box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;\n        }\n        input[type=range]::-ms-fill-upper {\n          background: #484d4d;\n          border: 0px solid #010101;\n          border-radius: 0px;\n          box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;\n        }\n        input[type=range]::-ms-thumb {\n          box-shadow: 0px 0px 1px #670000, 0px 0px 0px #810000;\n          border: 0px solid #ff1e00;\n          height: 27px;\n          width: 18px;\n          border-radius: 0px;\n          background: rgba(255, 67, 95, 0.93);\n          cursor: pointer;\n          height: 25.6px;\n        }\n        input[type=range]:focus::-ms-fill-lower {\n          background: #484d4d;\n        }\n        input[type=range]:focus::-ms-fill-upper {\n          background: #545a5a;\n        }\n    "],
-        template: "\n    <div class=\"col-lg-12 no-padding-l-r player\" [hidden]=\"!currentSoundDetails\" >\n        <audio id=\"audioElement\">\n          <source src=\"\" type=\"audio/mpeg\">\n        </audio>\n        <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding-l-r\">\n            <div class=\"col-lg-2 col-md-2 hidden-sm hidden-xs no-padding-l-r\"></div>\n            <div class=\"col-lg-8 col-md-8 col-sm-12 col-xs-12\">\n                <div class=\"col-lg-3 col-md-3 col-sm-3 col-xs-6 no-padding-l-r controls\" [ngClass]=\"{'playing': isPlaying == true}\" >\n                    <a class=\"common\" (click)=\"previou()\" [ngClass]=\"{'disabled': currentSoundIndex <= 0 }\"><i class=\"fa fa-backward padding-right-xs\"></i></a>\n                    <a class=\"play\" *ngIf=\"!isPlaying\" (click)=\"play()\" ><i class=\"fa fa-play\"></i></a>\n                    <a class=\"play\" *ngIf=\"isPlaying\" (click)=\"stop()\" ><i class=\"fa fa-pause\"></i></a>\n                    <a class=\"common\" (click)=\"next()\" [ngClass]=\"{'disabled': currentSoundIndex + 1 >= soundsLength }\" ><i class=\"fa fa-forward padding-left-xs\"></i></a>\n                    <a class=\"common\" (click)=\"suspend()\" ><i class=\"fa fa-stop\"></i></a>\n                </div>\n                <div class=\"col-lg-8 col-md-8 col-sm-8 col-xs-6 no-padding-l-r progress\">\n                </div>\n                <div class=\"col-lg-1 col-md-1 col-sm-1 hidden-xs no-padding-l-r controls\">\n                </div>\n            </div>\n            <div class=\"col-lg-2 col-md-2 hidden-sm hidden-xs no-padding-l-r\"></div>\n        </div>\n    </div>",
+        styles: ["\n        .player{\n            position: fixed;\n            z-index: 1000;\n            bottom: 0;\n            left: 0;\n            width: 100%;\n            background-color: #fff;\n            border-top: solid 1px #c7c7c7;\n            box-shadow: 0px 0px 4px 1px;\n            height: 48px;\n            padding-top: 10px;\n        }\n        .player .progress{\n            margin-top: 5px;\n            position: relative;\n        }\n        .player .progress .progress-bar{\n            background-color: #333;\n        }\n        .player .controls a.common{\n            top: -14px !important;\n        }\n        .player .controls a.common .mat-icon{\n            font-size: 24pt;\n        }\n        \n        .player .controls a{\n            font-size: 15pt;\n            color: #333;\n            cursor: pointer;\n            position: relative;\n            transition: 0.4s;\n        }\n        .player .controls a:hover{\n            color: #b3b2b2;\n        }\n        .player .controls a.play{\n            top: -6px;\n        }\n        .player .controls a.play .mat-icon{\n            font-size: 38pt;\n            height: 42px;\n            width: 48px;\n        }\n        .player .controls img{\n            height: 40px;\n            width: 40px;\n            left: 50%;\n            margin-top: -6px;\n        }\n        \n        .player .progress span{\n            position: absolute;\n        }\n        \n        .player .progress span.left{\n            left: 5;\n        }\n        \n        .player .progress span.right{\n            right: 5;\n            top: 0;\n        }\n        \n        .player .controls a.disabled{\n            color: gray;\n            cursor: no-drop;\n        }\n    "],
+        template: "\n    <div class=\"col-lg-12 no-padding-l-r player\" [hidden]=\"!currentSoundDetails\" >\n        <audio id=\"audioElement\" preload=\"auto\">\n          <source src=\"\" type=\"audio/mpeg\">\n        </audio>\n        <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding-l-r\">\n            <div class=\"col-lg-2 col-md-2 hidden-sm hidden-xs no-padding-l-r\"></div>\n            <div class=\"col-lg-8 col-md-8 col-sm-12 col-xs-12\">\n                <div class=\"col-lg-3 col-md-3 col-sm-3 col-xs-6 no-padding-l-r controls\" [ngClass]=\"{'playing': isPlaying == true}\" >\n                    <a class=\"common\" (click)=\"previou()\" [ngClass]=\"{'disabled': currentSoundIndex <= 0 }\"><md-icon>skip_previous</md-icon></a>\n                    <a class=\"play\" *ngIf=\"!isPlaying\" (click)=\"play()\" ><md-icon>play_circle_outline</md-icon></a>\n                    <a class=\"play\" *ngIf=\"isPlaying\" (click)=\"stop()\" ><md-icon>pause_circle_outline</md-icon></a>\n                    <a class=\"common\" (click)=\"next()\" [ngClass]=\"{'disabled': currentSoundIndex + 1 >= soundsLength }\" ><md-icon>skip_next</md-icon></a>\n                    <a class=\"common\" (click)=\"suspend()\" ><md-icon>stop</md-icon></a>\n                </div>\n                <div class=\"col-lg-8 col-md-8 col-sm-8 col-xs-6 no-padding-l-r progress\">\n                </div>\n                <div class=\"col-lg-1 col-md-1 col-sm-1 hidden-xs no-padding-l-r controls\">\n                </div>\n            </div>\n            <div class=\"col-lg-2 col-md-2 hidden-sm hidden-xs no-padding-l-r\"></div>\n        </div>\n    </div>",
         providers: [player_service_1.PlayerService, playlist_service_1.PlaylistService]
     }),
     __metadata("design:paramtypes", [player_service_1.PlayerService,
@@ -385,7 +398,7 @@ var core_1 = __webpack_require__(7);
 var router_1 = __webpack_require__(30);
 var playlist_model_1 = __webpack_require__(683);
 var playlist_service_1 = __webpack_require__(53);
-var login_service_1 = __webpack_require__(46);
+var login_service_1 = __webpack_require__(47);
 var player_service_1 = __webpack_require__(81);
 var CreateListComponent = (function () {
     function CreateListComponent(router, routerParams, playlistService, loginService, playerService, zone) {
@@ -430,7 +443,7 @@ var CreateListComponent = (function () {
     };
     CreateListComponent.prototype.save = function () {
         var _this = this;
-        this.playlist.userAt = this.loginService.getUser()._id;
+        this.playlist.userAt = this.loginService.getUser().user_name;
         var response;
         if (this.playlist['_id']) {
             response = this.playlistService.update(this.playlist['_id'], this.playlist);
@@ -502,7 +515,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = __webpack_require__(7);
 var router_1 = __webpack_require__(30);
 var playlist_service_1 = __webpack_require__(53);
-var login_service_1 = __webpack_require__(46);
+var login_service_1 = __webpack_require__(47);
 var PlayListComponent = (function () {
     function PlayListComponent(router, playlistService, loginService) {
         this.router = router;
@@ -537,7 +550,7 @@ var PlayListComponent = (function () {
     };
     PlayListComponent.prototype.load = function () {
         var _this = this;
-        var userId = this.loginService.getUser()._id;
+        var userId = this.loginService.getUser().user_name;
         this.playlistService.list(userId).subscribe(function (result) {
             if (result.status == true) {
                 _this.playLists = result.playlists;
@@ -551,7 +564,7 @@ var PlayListComponent = (function () {
         var sharedPlaylist = {
             origin: _playlist,
             sharedPlaylists: new Array(),
-            userAt: this.loginService.getUser()._id,
+            userAt: this.loginService.getUser().user_name,
             userName: this.loginService.getUser().name,
             userPictureUrl: this.loginService.getUser().avatar_url,
             createAt: new Date()
@@ -597,7 +610,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = __webpack_require__(7);
-var login_service_1 = __webpack_require__(46);
+var login_service_1 = __webpack_require__(47);
 var CanActivateViaAuthGuard = (function () {
     function CanActivateViaAuthGuard(loginService) {
         this.loginService = loginService;
@@ -631,8 +644,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = __webpack_require__(7);
-var material_1 = __webpack_require__(47);
-var login_service_1 = __webpack_require__(46);
+var material_1 = __webpack_require__(41);
+var login_service_1 = __webpack_require__(47);
 var user_model_1 = __webpack_require__(684);
 var LoginDialogComponent = (function () {
     function LoginDialogComponent(dialogRef, loginService) {
@@ -784,7 +797,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = __webpack_require__(7);
 var router_1 = __webpack_require__(30);
 var player_service_1 = __webpack_require__(81);
-var login_service_1 = __webpack_require__(46);
+var login_service_1 = __webpack_require__(47);
 var playlist_service_1 = __webpack_require__(53);
 var PlayingWidgetComponent = (function () {
     function PlayingWidgetComponent(playerService, ngZone, loginService, playlistService, router) {
@@ -888,7 +901,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = __webpack_require__(7);
 var router_1 = __webpack_require__(30);
 var playlist_service_1 = __webpack_require__(53);
-var login_service_1 = __webpack_require__(46);
+var login_service_1 = __webpack_require__(47);
 var PlaylistWidgetComponent = (function () {
     function PlaylistWidgetComponent(ngZone, loginService, playlistService, router) {
         this.ngZone = ngZone;
@@ -912,7 +925,7 @@ var PlaylistWidgetComponent = (function () {
         this.events();
         this.user = this.loginService.getUser();
         if (this.user) {
-            this.playlistService.list(this.user._id).subscribe(function (result) {
+            this.playlistService.list(this.user.use_name).subscribe(function (result) {
                 if (result.status == true)
                     _this.playlists = result.playlists;
             });
@@ -956,9 +969,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = __webpack_require__(7);
 var router_1 = __webpack_require__(30);
 var player_service_1 = __webpack_require__(81);
-var login_service_1 = __webpack_require__(46);
+var login_service_1 = __webpack_require__(47);
 var playlist_service_1 = __webpack_require__(53);
-var material_1 = __webpack_require__(47);
+var material_1 = __webpack_require__(41);
 var playing_widget_component_1 = __webpack_require__(236);
 var playlist_widget_component_1 = __webpack_require__(237);
 var SideBarComponent = (function () {
@@ -1040,7 +1053,7 @@ SideBarComponent = __decorate([
     core_1.Component({
         selector: 'sidebar',
         styles: ["\n        .sidebar{\n            position: fixed;\n            width: 28px;\n            transition: 1s;\n            left: 0;\n            top: 0;\n        }\n        .sidebar ul.sidebar-menu{\n            position: relative;\n            margin: 0;\n            padding: 0;\n            text-align: left;\n        }\n        .sidebar ul.sidebar-menu li:first-of-type{\n            margin-top: 0px;\n        }\n        .sidebar ul.sidebar-menu li{\n            border-top: #333333 solid 1px;\n            border-right: #333333 solid 1px;\n            border-left: #333333 solid 1px;\n            font-size: 12pt;\n            display: block;\n            width: 128px;\n            text-transform: uppercase;\n            margin-right: 10px;\n            margin-top: 109px;\n            -webkit-transform: rotate(45deg);\n            -moz-transform: rotate(45deg);\n            -o-transform: rotate(45deg);\n            transform: rotate(90deg);\n            -webkit-transform-origin: 0 100%;\n            -moz-transform-origin: 0 100%;\n            -o-transform-origin: 0 100%;\n            transform-origin: 0 100%;\n            background-color: white;\n            border-top-left-radius: 24px;\n            border-top-right-radius: 24px;\n            text-align: center;\n            padding-top: 5px;\n            color: black;\n            cursor: pointer;\n            transition: 1s;\n        }\n        \n        .sidebar ul.sidebar-menu li:hover{\n            box-shadow: 0px 0px 5px white;\n            color: white;\n            background-color: #333333;\n        }\n        \n        .sidebar ul.sidebar-menu li.active{\n            box-shadow: 0px 0px 5px white;\n            color: white;\n            background-color: #5bc0de;\n        }\n\n        .sidebar a{\n            margin-right: 3px;\n        }\n        .sidevar{\n            height: 100%;\n            transition: 1s;\n        }\n        .mat-sidenav{\n            width: 100%;\n        }\n        .fixed-sidenav{    \n            position: fixed;\n            border-right: solid 2px gray;\n        }\n    "],
-        template: "\n    <md-sidenav-container class=\"sidevar fixed-sidenav\"  [ngStyle]=\"{'width': active != ''? menuLeft + 'px' : '0px'}\">\n        <md-sidenav #sidenav class=\"sidevar\" mode=\"push\">\n            <div class=\"home\" *ngIf=\"active == 'menu'\">\n                <menu class=\"p-m-zero\"></menu>\n            </div>\n            <div class=\"nowplay\" *ngIf=\"active == 'playlist'\">\n                <playlist class=\"p-m-zero\"></playlist>\n            </div>\n            <div class=\"nowplay\" *ngIf=\"active == 'nowplay'\">\n                <playingList class=\"p-m-zero\" (onMusicAdd)=\"musicAdd($event)\"></playingList>\n            </div>\n        </md-sidenav>\n    </md-sidenav-container>\n    <div class=\"sidebar\" [ngStyle]=\"{'left': active != ''? menuLeft + 'px': '0px'}\">\n        <ul class=\"sidebar-menu\">\n            <li [ngClass]=\"{'active': active == 'menu'}\" (click)=\"setActive('menu')\" >\n                MENU\n            </li>\n            <li [ngClass]=\"{'active': active == 'playlist'}\" (click)=\"setActive('playlist')\" *ngIf=\"user\">\n                PLAYLIST\n            </li>\n            <li [ngClass]=\"{'active': active == 'nowplay'}\" (click)=\"setActive('nowplay')\">\n                PLAYING\n                <i *ngIf=\"isPlaying\" class=\"fa fa-volume-up\"></i>\n            </li>\n        </ul>\n    </div>",
+        template: "\n    <md-sidenav-container class=\"sidevar fixed-sidenav\"  [ngStyle]=\"{'width': active != ''? menuLeft + 'px' : '0px'}\">\n        <md-sidenav #sidenav class=\"sidevar\" mode=\"push\">\n            <div class=\"home\" *ngIf=\"active == 'menu'\">\n                <menu class=\"p-m-zero\"></menu>\n            </div>\n            <div class=\"nowplay\" *ngIf=\"active == 'playlist'\">\n                <playlist class=\"p-m-zero\"></playlist>\n            </div>\n            <div class=\"nowplay\" *ngIf=\"active == 'nowplay'\">\n                <playingList class=\"p-m-zero\" (onMusicAdd)=\"musicAdd($event)\"></playingList>\n            </div>\n            <player></player>\n        </md-sidenav>\n    </md-sidenav-container>\n    <div class=\"sidebar\" [ngStyle]=\"{'left': active != ''? menuLeft + 'px': '0px'}\">\n        <ul class=\"sidebar-menu\">\n            <li [ngClass]=\"{'active': active == 'menu'}\" (click)=\"setActive('menu')\" >\n                MENU\n            </li>\n            <li [ngClass]=\"{'active': active == 'playlist'}\" (click)=\"setActive('playlist')\" *ngIf=\"user\">\n                PLAYLIST\n            </li>\n            <li [ngClass]=\"{'active': active == 'nowplay'}\" (click)=\"setActive('nowplay')\">\n                PLAYING\n                <i *ngIf=\"isPlaying\" class=\"fa fa-volume-up\"></i>\n            </li>\n        </ul>\n    </div>",
         providers: [player_service_1.PlayerService, login_service_1.LoginService, playlist_service_1.PlaylistService]
     }),
     __metadata("design:paramtypes", [login_service_1.LoginService,
@@ -6743,7 +6756,7 @@ if (true) {
 
 /***/ },
 
-/***/ 46:
+/***/ 47:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6962,7 +6975,7 @@ var login_dialog_component_1 = __webpack_require__(235);
 var menu_widget_component_1 = __webpack_require__(689);
 __webpack_require__(433);
 var animations_1 = __webpack_require__(245);
-var material_1 = __webpack_require__(47);
+var material_1 = __webpack_require__(41);
 var AppModule = (function () {
     function AppModule() {
     }
@@ -7092,6 +7105,7 @@ var core_1 = __webpack_require__(7);
 var common_1 = __webpack_require__(40);
 var platform_browser_1 = __webpack_require__(31);
 var player_component_1 = __webpack_require__(231);
+var material_1 = __webpack_require__(41);
 var PlayerModule = (function () {
     function PlayerModule() {
     }
@@ -7101,7 +7115,9 @@ PlayerModule = __decorate([
     core_1.NgModule({
         imports: [
             platform_browser_1.BrowserModule,
-            common_1.CommonModule
+            common_1.CommonModule,
+            material_1.MaterialModule,
+            material_1.MdIconModule
         ],
         exports: [player_component_1.PlayerComponent],
         declarations: [player_component_1.PlayerComponent],
@@ -7136,9 +7152,9 @@ var playlist_routes_1 = __webpack_require__(688);
 var list_component_1 = __webpack_require__(233);
 var create_component_1 = __webpack_require__(232);
 var home_module_1 = __webpack_require__(230);
-var material_1 = __webpack_require__(47);
+var material_1 = __webpack_require__(41);
 var can_active_service_1 = __webpack_require__(234);
-var login_service_1 = __webpack_require__(46);
+var login_service_1 = __webpack_require__(47);
 var PlaylistModule = (function () {
     function PlaylistModule() {
     }
@@ -7232,8 +7248,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = __webpack_require__(7);
-var login_service_1 = __webpack_require__(46);
-var material_1 = __webpack_require__(47);
+var login_service_1 = __webpack_require__(47);
+var material_1 = __webpack_require__(41);
 var login_dialog_component_1 = __webpack_require__(235);
 var router_1 = __webpack_require__(30);
 var MenuWidgetComponent = (function () {
@@ -7317,7 +7333,7 @@ __decorate([
 TemplateComponent = __decorate([
     core_1.Component({
         selector: 'app',
-        template: "\n    <sidebar></sidebar>\n    <md-grid-list cols=\"1\" rowHeight=\"fit\" style=\"height: 100%\">\n      <md-grid-tile [style.background]=\"'#333'\">\n          <router-outlet></router-outlet>\n      </md-grid-tile>\n    </md-grid-list>\n    <player></player>"
+        template: "\n    <sidebar></sidebar>\n    <md-grid-list cols=\"1\" rowHeight=\"fit\" style=\"height: 100%\">\n      <md-grid-tile [style.background]=\"'#333'\">\n          <router-outlet></router-outlet>\n      </md-grid-tile>\n    </md-grid-list>"
     }),
     __metadata("design:paramtypes", [])
 ], TemplateComponent);
