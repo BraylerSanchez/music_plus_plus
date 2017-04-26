@@ -9,6 +9,11 @@ import { PlaylistService, onAddSound, onRemoveSound, onPlaylistChange } from '..
 
 @Component({
     selector: 'playingList',
+    styles:[`
+        .mat-list .mat-list-item:last-of-type{
+            margin-bottom: 64px;
+        }
+    `],
     template: `
     <md-list>
         <h1 md-subheader class="header">
