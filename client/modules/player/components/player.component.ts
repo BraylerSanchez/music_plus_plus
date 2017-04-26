@@ -72,92 +72,6 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
             color: gray;
             cursor: no-drop;
         }
-        
-        input[type=range] {
-          -webkit-appearance: none;
-          width: 100%;
-          margin: 0.7px 0;
-        }
-        input[type=range]:focus {
-          outline: none;
-        }
-        input[type=range]::-webkit-slider-runnable-track {
-          width: 100%;
-          height: 25.6px;
-          cursor: pointer;
-          box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-          background: #484d4d;
-          border-radius: 0px;
-          border: 0px solid #010101;
-        }
-        input[type=range]::-webkit-slider-thumb {
-          box-shadow: 0px 0px 1px #670000, 0px 0px 0px #810000;
-          border: 0px solid #ff1e00;
-          height: 27px;
-          width: 18px;
-          border-radius: 0px;
-          background: rgba(255, 67, 95, 0.93);
-          cursor: pointer;
-          -webkit-appearance: none;
-          margin-top: -0.7px;
-        }
-        input[type=range]:focus::-webkit-slider-runnable-track {
-          background: #545a5a;
-        }
-        input[type=range]::-moz-range-track {
-          width: 100%;
-          height: 25.6px;
-          cursor: pointer;
-          box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-          background: #484d4d;
-          border-radius: 0px;
-          border: 0px solid #010101;
-        }
-        input[type=range]::-moz-range-thumb {
-          box-shadow: 0px 0px 1px #670000, 0px 0px 0px #810000;
-          border: 0px solid #ff1e00;
-          height: 27px;
-          width: 18px;
-          border-radius: 0px;
-          background: rgba(255, 67, 95, 0.93);
-          cursor: pointer;
-        }
-        input[type=range]::-ms-track {
-          width: 100%;
-          height: 25.6px;
-          cursor: pointer;
-          background: transparent;
-          border-color: transparent;
-          color: transparent;
-        }
-        input[type=range]::-ms-fill-lower {
-          background: #3c4040;
-          border: 0px solid #010101;
-          border-radius: 0px;
-          box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-        }
-        input[type=range]::-ms-fill-upper {
-          background: #484d4d;
-          border: 0px solid #010101;
-          border-radius: 0px;
-          box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-        }
-        input[type=range]::-ms-thumb {
-          box-shadow: 0px 0px 1px #670000, 0px 0px 0px #810000;
-          border: 0px solid #ff1e00;
-          height: 27px;
-          width: 18px;
-          border-radius: 0px;
-          background: rgba(255, 67, 95, 0.93);
-          cursor: pointer;
-          height: 25.6px;
-        }
-        input[type=range]:focus::-ms-fill-lower {
-          background: #484d4d;
-        }
-        input[type=range]:focus::-ms-fill-upper {
-          background: #545a5a;
-        }
     `],
     template: `
     <div class="col-lg-12 no-padding-l-r player" [hidden]="!currentSoundDetails" >
@@ -168,11 +82,11 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
             <div class="col-lg-2 col-md-2 hidden-sm hidden-xs no-padding-l-r"></div>
             <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 no-padding-l-r controls" [ngClass]="{'playing': isPlaying == true}" >
-                    <a class="common" (click)="previou()" [ngClass]="{'disabled': currentSoundIndex <= 0 }"><i class="fa fa-backward padding-right-xs"></i></a>
-                    <a class="play" *ngIf="!isPlaying" (click)="play()" ><md-icon>play_arrow</md-icon></a>
-                    <a class="play" *ngIf="isPlaying" (click)="stop()" ><i class="fa fa-pause"></i></a>
-                    <a class="common" (click)="next()" [ngClass]="{'disabled': currentSoundIndex + 1 >= soundsLength }" ><i class="fa fa-forward padding-left-xs"></i></a>
-                    <a class="common" (click)="suspend()" ><i class="fa fa-stop"></i></a>
+                    <a class="common" (click)="previou()" [ngClass]="{'disabled': currentSoundIndex <= 0 }"><md-icon>skip_previous</md-icon></a>
+                    <a class="play" *ngIf="!isPlaying" (click)="play()" ><md-icon>play_circle_outline</md-icon></a>
+                    <a class="play" *ngIf="isPlaying" (click)="stop()" ><md-icon>pause_circle_outline</md-icon></a>
+                    <a class="common" (click)="next()" [ngClass]="{'disabled': currentSoundIndex + 1 >= soundsLength }" ><md-icon>skip_next</md-icon></a>
+                    <a class="common" (click)="suspend()" ><md-icon>stop</md-icon></a>
                 </div>
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6 no-padding-l-r progress">
                 </div>
