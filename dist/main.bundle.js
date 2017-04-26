@@ -281,14 +281,6 @@ var PlayerComponent = (function () {
             alert("No es posible reproducir " + _this.currentSoundDetails.title + ".");
             _this.suspend();
         });
-        this.player.addEventListener('canplay', function () {
-            _this.player.play();
-            _this.player.addEventListener("playing", function () {
-                _this.isPlaying = true;
-                _this.loading = false;
-                _this.ngZone.run(function () { });
-            });
-        });
     };
     PlayerComponent.prototype.eventSubscribe = function () {
         var _this = this;
@@ -338,8 +330,17 @@ var PlayerComponent = (function () {
         });
     };
     PlayerComponent.prototype.play = function () {
+        var _this = this;
         this.isPlaying = false;
-        this.loading = true; /*
+        this.loading = true;
+        this.player.addEventListener('canplay', function () {
+            _this.player.play();
+            _this.player.addEventListener("playing", function () {
+                _this.isPlaying = true;
+                _this.loading = false;
+                _this.ngZone.run(function () { });
+            });
+        }); /*
         this.player.addEventListener('timeupdate', (event:any)=>{
             //console.log(Math.floor(event.target.currentTime))
         })
@@ -376,7 +377,7 @@ PlayerComponent = __decorate([
     core_1.Component({
         selector: 'player',
         styles: ["\n        .player{\n            position: fixed;\n            z-index: 1000;\n            bottom: 0;\n            left: 0;\n            width: 245px;\n            background-color: #fff;\n            border-top: solid 1px #c7c7c7;\n            box-shadow: 0px 0px 4px 1px;\n            height: 48px;\n            padding-top: 10px;\n        }\n        .player .progress{\n            margin-top: 5px;\n            position: relative;\n        }\n        .player .progress .progress-bar{\n            background-color: #333;\n        }\n        .player .controls a.common{\n            top: -14px !important;\n        }\n        .player .controls a.common .mat-icon{\n            font-size: 24pt;\n        }\n        \n        .player .controls a{\n            font-size: 15pt;\n            color: #333;\n            cursor: pointer;\n            position: relative;\n            transition: 0.4s;\n        }\n        .player .controls a:hover{\n            color: #b3b2b2;\n        }\n        .player .controls a.play{\n            top: -6px;\n        }\n        .player .controls a.play .mat-icon{\n            font-size: 38pt;\n            height: 42px;\n            width: 48px;\n        }\n        .player .controls img{\n            height: 40px;\n            width: 40px;\n            left: 50%;\n            margin-top: 0px;\n            padding-bottom: 10px;\n            padding-left: 10px;\n        }\n        \n        .player .progress span{\n            position: absolute;\n        }\n        \n        .player .progress span.left{\n            left: 5;\n        }\n        \n        .player .progress span.right{\n            right: 5;\n            top: 0;\n        }\n        \n        .player .controls a.disabled{\n            color: gray;\n            cursor: no-drop;\n        }\n    "],
-        template: "\n    <div class=\"col-lg-12 no-padding-l-r player\" [hidden]=\"!currentSoundDetails\" >\n        <audio id=\"audioElement\" preload=\"auto\">\n          <source src=\"\" type=\"audio/mpeg\">\n        </audio>\n        <div class=\"no-padding-l-r controls text-center\" [ngClass]=\"{'playing': isPlaying == true}\">\n            <a class=\"common\" (click)=\"previou()\" [ngClass]=\"{'disabled': currentSoundIndex <= 0 || loading }\">\n                <md-icon>skip_previous</md-icon>\n            </a>\n            <a class=\"play\" *ngIf=\"!isPlaying && !loading\" (click)=\"play()\">\n                <md-icon>play_circle_outline</md-icon>\n            </a>\n            <img [src]=\"'assest/images/loading-xs.gif'\" *ngIf=\"loading\"/>\n            <a class=\"play\" *ngIf=\"isPlaying && !loading\" (click)=\"stop()\" [ngClass]=\"{'disabled': loading }\">\n                <md-icon>pause_circle_outline</md-icon>\n            </a>\n            <a class=\"common\" (click)=\"next()\"\n            [ngClass]=\"{'disabled': currentSoundIndex + 1 >= soundsLength || loading }\">\n                <md-icon>skip_next</md-icon>\n            </a>\n            <a class=\"common\" (click)=\"suspend()\" [ngClass]=\"{'disabled': loading }\">\n                <md-icon>stop</md-icon>\n            </a>\n        </div>\n    </div>",
+        template: "\n    <div class=\"col-lg-12 no-padding-l-r player\" [hidden]=\"!currentSoundDetails\">\n        <audio id=\"audioElement\" preload=\"auto\">\n          <source src=\"\" type=\"audio/mpeg\">\n        </audio>\n        <div class=\"no-padding-l-r controls text-center\" [ngClass]=\"{'playing': isPlaying == true}\">\n            <a class=\"common\" (click)=\"previou()\" [ngClass]=\"{'disabled': currentSoundIndex <= 0 || loading }\">\n                <md-icon>skip_previous</md-icon>\n            </a>\n            <a class=\"play\" *ngIf=\"!isPlaying && !loading\" (click)=\"play()\">\n                <md-icon>play_circle_outline</md-icon>\n            </a>\n            <img [src]=\"'assest/images/loading-xs.gif'\" *ngIf=\"loading\"/>\n            <a class=\"play\" *ngIf=\"isPlaying && !loading\" (click)=\"stop()\" [ngClass]=\"{'disabled': loading }\">\n                <md-icon>pause_circle_outline</md-icon>\n            </a>\n            <a class=\"common\" (click)=\"next()\"\n            [ngClass]=\"{'disabled': currentSoundIndex + 1 >= soundsLength || loading }\">\n                <md-icon>skip_next</md-icon>\n            </a>\n            <a class=\"common\" (click)=\"suspend()\" [ngClass]=\"{'disabled': loading }\">\n                <md-icon>stop</md-icon>\n            </a>\n        </div>\n    </div>",
         providers: [player_service_1.PlayerService, playlist_service_1.PlaylistService]
     }),
     __metadata("design:paramtypes", [player_service_1.PlayerService,

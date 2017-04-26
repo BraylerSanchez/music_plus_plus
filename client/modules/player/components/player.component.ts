@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit, Input } from '@angular/core';
 import { PlayerService, onPlayMusic, onStopMusic, onGettingMusic, onSuspendMusic } from '../../../services/player/player.service';
 import { PlaylistService, onPlaylistChange, onAddSound, onRemoveSound } from '../../../services/playlist/playlist.service';
 
@@ -83,7 +83,7 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
         }
     `],
     template: `
-    <div class="col-lg-12 no-padding-l-r player" [hidden]="!currentSoundDetails" >
+    <div class="col-lg-12 no-padding-l-r player" [hidden]="!currentSoundDetails">
         <audio id="audioElement" preload="auto">
           <source src="" type="audio/mpeg">
         </audio>
@@ -145,14 +145,6 @@ export class PlayerComponent implements OnInit{
             this.suspend();
         })
         
-        this.player.addEventListener('canplay', ()=>{
-            this.player.play();
-            this.player.addEventListener("playing", () => {
-                this.isPlaying = true;
-                this.loading = false;
-                this.ngZone.run(()=>{});
-            })
-        })
     }
     
     eventSubscribe(){
@@ -205,7 +197,15 @@ export class PlayerComponent implements OnInit{
     }
     play(){
         this.isPlaying = false;
-        this.loading = true;/*
+        this.loading = true;
+        this.player.addEventListener('canplay', ()=>{
+            this.player.play();
+            this.player.addEventListener("playing", () => {
+                this.isPlaying = true;
+                this.loading = false;
+                this.ngZone.run(()=>{});
+            })
+        })/*
         this.player.addEventListener('timeupdate', (event:any)=>{
             //console.log(Math.floor(event.target.currentTime))
         })
