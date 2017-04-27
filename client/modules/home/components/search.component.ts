@@ -10,54 +10,46 @@ import { PlaylistService, onPlaylistChange} from '../../../services/playlist/pla
 @Component({
     selector: 'search',
     styles: [`
-      .search-input{
-        margin-top: 15px;
-        width: 100%;
-      }
-      .music-container{
-        overflow-y: auto;
-        max-height: 450px;
-      }
-      .card-img{
-        margin: 0;
-        width: 100%;
-        height: 90px;
-      }
-      .music-card{    
-        width: 175px;
-        padding: 10px;
-        margin: 10px;
-        display: inline-block;
-        height: 200px;
-      }`],
+    `],
     template: `
-    
-      <md-input-container class="search-input">
-        <input mdInput
-         (keyup)="handleKeyup($event)" 
-         name="queryString" [(ngModel)]="queryString"
-          #searchInput placeholder="Search music and press ENTER" />
-      </md-input-container>
-      
-      <div class="music-container">
-        <md-card class="music-card" *ngFor="let video of videos; let i = index">
-          <md-card-header>
-            <md-card-title class="text-ellipsis" mdTooltip="{{video.channel}}">{{ video.channel }}</md-card-title>
-          </md-card-header>
-          <img md-card-image class="card-img" [src]="video.thumbnail">
-          <md-card-content style="margin-bottom: 5px;">
-            <p class="text-ellipsis" mdTooltip="{{video.title}}" >{{ video.title}}</p>
-            {{video.dateAt | date}}
-          </md-card-content>
-          <md-card-actions>
-            <button md-button color="primary" (click)="play(video)"> 
-              <md-icon>play_arrow</md-icon>
-            </button>
-            <button md-button (click)="addToPlaylist($event, video)">
-              <md-icon>playlist_add</md-icon>
-            </button>
-          </md-card-actions>
-        </md-card>
+      <h2 class="font-thin m-b">Search Results</h2>
+      <div class="row row-sm">
+        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2"  *ngFor="let sound of sounds">
+          <div class="item">
+            <div class="pos-rlt">
+              <div class="bottom">
+                <span class="badge bg-info m-l-sm m-b-sm">03:20</span>
+              </div>
+              <div class="item-overlay opacity r r-2x bg-black">
+                <div class="text-info padder m-t-sm text-sm">
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star-o text-muted"></i>
+                </div>
+                <div class="center text-center m-t-n">
+                  <a (click)="play(sound)"><i class="icon-control-play i-2x"></i></a>
+                </div>
+                <div class="bottom padder m-b-sm">
+                  <a href="#" class="pull-right">
+                    <i class="fa fa-heart-o"></i>
+                  </a>
+                  <a (click)="addToPlaylist($event, sound)">
+                    <i class="fa fa-plus-circle"></i>
+                  </a>
+                </div>
+              </div>
+              <a href="#"><img style="height: 140px;"
+                    [src]="sound.thumbnail" alt="" class="r r-2x img-full"
+                    onError="this.src='assest/images/p0.jpg'"></a>
+            </div>
+            <div class="padder-v">
+              <a class="text-ellipsis" mdTooltip="{{sound.title}}">{{sound.title}}</a>
+              <a class="text-ellipsis text-xs text-muted" mdTooltip="{{sound.channel}}">{{sound.channel}}</a>
+            </div>
+          </div>
+        </div>
       </div>`,
       providers: [PlayerService, PlaylistService]
 })
@@ -66,7 +58,7 @@ export class SearchComponent{
     playlist: IPlayList;
     
     private queryString:string;
-    private videos: Array<Sound>;
+    private sounds: Array<Sound>;
     private currentSound: any = {
       id: ''
     };
@@ -80,7 +72,7 @@ export class SearchComponent{
     ){
       this.playlist = this.playlist || this.playlistService.getCurrentPlaylist();
       this.queryString = '';
-      this.videos = [];
+      this.sounds = [];
       this.router.params.subscribe( (params) =>{
         if( params['query'] != '0'){
           this.queryString = params['query'] || '';
@@ -132,7 +124,7 @@ export class SearchComponent{
       this.playerService.search(this.queryString)
       .subscribe( (result) =>{
         if(result.status == true){
-          this.videos = result.sounds;
+          this.sounds = result.sounds;
         }
       })
     }

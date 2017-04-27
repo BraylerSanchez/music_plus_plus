@@ -1,21 +1,43 @@
 import { Component, ViewChild, ElementRef, Renderer } from '@angular/core';
-import { PlayerComponent } from '../modules/player/components/player.component';
-import { SideBarComponent } from './components/sidebar.component';
 
 @Component({
   selector: 'app',
     template: `
-    <sidebar></sidebar>
-    <md-grid-list cols="1" rowHeight="fit" style="height: 100%">
-      <md-grid-tile [style.background]="'#333'">
-          <router-outlet></router-outlet>
-      </md-grid-tile>
-    </md-grid-list>`
+    <!--  HEADER -->
+    <header class="bg-white-only header header-md navbar navbar-fixed-top-xs">
+        <header-partial class="hbox"></header-partial>
+    </header>
+    <!--  HEADER -->
+
+    <section>
+        <section class="hbox stretch">
+            <!--  SIDEBAR -->
+            <aside class="bg-black dk nav-xs aside hidden-print" id="nav"> 
+                <sidebar-partial class="hbox stretch"></sidebar-partial>
+            </aside>
+            <!--  SIDEBAR -->
+            <section id="content">
+                <section class="hbox stretch">
+                    <section>
+                        <section class="vbox">
+                            <section class="scrollable padder-lg w-f-md" id="bjax-target">
+                                <router-outlet></router-outlet>
+                            </section>
+                            <footer class="footer bg-dark">
+                                <!--  FOOTER -->
+                                <footer-partial class="hbox"></footer-partial>
+                                <!--  FOOTER -->
+                            </footer>
+                        </section>
+                    </section>
+                </section>
+                <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen,open" data-target="#nav,html"></a>
+            </section>
+        </section>
+    </section>
+    `
 })
 export class TemplateComponent{
-    @ViewChild(PlayerComponent) playerComponent: PlayerComponent;
-    @ViewChild(SideBarComponent) sideBarComponent: SideBarComponent;
-    
     constructor(){
     }
 }
