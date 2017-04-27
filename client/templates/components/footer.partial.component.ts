@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { IPlayList } from '../../interfaces/playlist/playlist.interface';
 import { Sound } from '../../interfaces/player/sound.interface';
 import { PlayerService, onPlayMusic, onStopMusic, onSuspendMusic} from '../../services/player/player.service';
@@ -67,13 +67,8 @@ declare var jPlayerPlaylist:any, $:any;
           </div>
           <div class="jp-playlist dropup" id="playlist">
             <ul class="dropdown-menu aside-xl dker">
-              <!-- The method Playlist.displayPlaylist() uses this unordered list -->
               <li class="list-group-item"></li>
             </ul>
-          </div>
-          <div class="jp-no-solution hide">
-            <span>Update Required</span>
-            To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
           </div>
         </div>
       </div>
@@ -84,7 +79,10 @@ declare var jPlayerPlaylist:any, $:any;
 })
 export class FooterPartialComponent implements OnInit {
     private player:any;
-    constructor() { }
+    constructor(
+      private playlistService: PlaylistService,
+      private zone:NgZone
+    ) { }
 
     ngOnInit() {
       this.createPlayer();
@@ -94,13 +92,18 @@ export class FooterPartialComponent implements OnInit {
       
       onAddSound.subscribe((result) => {
         var sound = <Sound>result.sound;
-        this.player.add({
-            title: sound.title,
-            artist: sound.channel,
-            mp3: `/api/v1/youtube/convert/${sound.id}`,
-            poster: sound.thumbnail
-        })
+        this.player.add( this.convertSound(sound));
         this.player._refresh();
+      })
+
+      onPlaylistChange.subscribe( (result:IPlayList) => {
+            var sounds = result.sounds.map((sound:Sound) =>{
+              return this.convertSound(sound);
+            });
+            if(sounds.length <= 0){
+                this.player.setPlaylist(sounds);
+            }
+            this.zone.run(()=>{});
       })
      }
 
@@ -141,10 +144,18 @@ export class FooterPartialComponent implements OnInit {
      }
 
      createPlayer(){
-       this.player = new jPlayerPlaylist({
-         jPlayer: "#jplayer_N",
+        var sounds:any[] = [];
+        var playlist = <IPlayList>this.playlistService.getCurrentPlaylist();
+        if( playlist ){
+            sounds = playlist.sounds.map( (sound:Sound)=>{
+              return this.convertSound(sound);
+            });
+        }
+
+        this.player = new jPlayerPlaylist({
+          jPlayer: "#jplayer_N",
           cssSelectorAncestor: "#jp_container_N"
-        }, [], {
+        }, sounds, {
         playlistOptions: {
           enableRemoveControls: true,
           autoPlay: true
@@ -155,5 +166,13 @@ export class FooterPartialComponent implements OnInit {
         keyEnabled: true,
         audioFullScreen: false
       });
+    }
+    convertSound(sound: Sound){
+      return {
+            title: sound.title,
+            artist: sound.channel,
+            mp3: `/api/v1/youtube/convert/${sound.id}`,
+            poster: sound.thumbnail
+        };
     }
 }
