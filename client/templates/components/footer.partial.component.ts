@@ -94,13 +94,14 @@ export class FooterPartialComponent implements OnInit {
       
       onAddSound.subscribe((result) => {
         var sound = <Sound>result.sound;
-        this.player.playlist.push({
+        this.player.add({
             title: sound.title,
             artist: sound.channel,
             mp3: `/api/v1/youtube/convert/${sound.id}`,
             poster: sound.thumbnail
-          })
         })
+        this.player._refresh();
+      })
      }
 
      pauseEvent(){

@@ -14,3 +14,7 @@ app .loading{
     position: absolute;
     margin-top: -128px;
 }
+
+a{
+    cursor: pointer;
+}
