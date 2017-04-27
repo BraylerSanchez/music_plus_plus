@@ -27,7 +27,8 @@ declare var jPlayerPlaylist:any, $:any;
                 </div>
                 <div><a class="jp-next"><i class="icon-control-forward i-lg"></i></a></div>
                 <div class="hide"><a class="jp-stop"><i class="fa fa-stop"></i></a></div>
-                <div><a class="" data-toggle="dropdown" data-target="#playlist"><i class="icon-list"></i></a></div>
+                <div>
+                <a class="" data-toggle="dropdown" data-target="#playlist"><i class="icon-list"></i></a></div>
                 <div class="jp-progress hidden-xs">
                   <div class="jp-seek-bar dk">
                     <div class="jp-play-bar bg-info">
@@ -89,6 +90,7 @@ export class FooterPartialComponent implements OnInit {
       this.pauseEvent();
       this.playEvent();
       this.clickEvent();
+      this.removeItemEvent();
       
       onAddSound.subscribe((result) => {
         var sound = <Sound>result.sound;
@@ -120,6 +122,14 @@ export class FooterPartialComponent implements OnInit {
         $('.musicbar').addClass('animate');
       });
 
+     }
+     removeItemEvent(){
+       $('.jp-playlist').on('click', '.jp-playlist-item-remove', function(){
+          var index = $(this).parents('li').index('.jp-playlist li');
+          var playlist = <IPlayList>this.playlistService.getCurrentPlaylist();
+          playlist.sounds.splice(index, 1);
+          this.playlistService.setCurrentPlaylist(playlist);
+      });
      }
 
      clickEvent(){
