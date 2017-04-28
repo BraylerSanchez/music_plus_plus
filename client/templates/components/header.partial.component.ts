@@ -112,6 +112,7 @@ import { Router } from '@angular/router';
         padding-left: 48px !important;
         padding-right: 48px !important;
         padding-right: 48px !important;
+        width: 100% !important;
       }
     `]
 })
