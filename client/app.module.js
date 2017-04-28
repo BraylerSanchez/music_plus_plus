@@ -13,9 +13,10 @@ var app_routes_1 = require("./app.routes");
 var home_module_1 = require("./modules/home/home.module");
 var playlist_module_1 = require("./modules/playlist/playlist.module");
 var template_component_1 = require("./templates/template.component");
-var sidebar_component_1 = require("./templates/components/sidebar.component");
+var sidebar_partial_component_1 = require("./templates/components/sidebar.partial.component");
 var header_partial_component_1 = require("./templates/components/header.partial.component");
 var footer_partial_component_1 = require("./templates/components/footer.partial.component");
+var login_dialog_component_1 = require("./templates/components/login.dialog.component");
 require("hammerjs");
 var animations_1 = require("@angular/platform-browser/animations");
 var material_1 = require("@angular/material");
@@ -38,10 +39,12 @@ AppModule = __decorate([
         ],
         declarations: [
             template_component_1.TemplateComponent,
-            sidebar_component_1.SideBarComponent,
+            sidebar_partial_component_1.SideBarComponent,
             header_partial_component_1.HeaderPartialComponent,
-            footer_partial_component_1.FooterPartialComponent
+            footer_partial_component_1.FooterPartialComponent,
+            login_dialog_component_1.LoginDialogComponent
         ],
+        entryComponents: [login_dialog_component_1.LoginDialogComponent],
         bootstrap: [template_component_1.TemplateComponent],
         providers: [
             {

@@ -8,9 +8,10 @@ import { HomeModule } from './modules/home/home.module';
 import { PlaylistModule } from './modules/playlist/playlist.module';
 
 import { TemplateComponent }   from './templates/template.component';
-import { SideBarComponent }   from './templates/components/sidebar.component';
+import { SideBarComponent }   from './templates/components/sidebar.partial.component';
 import { HeaderPartialComponent }   from './templates/components/header.partial.component';
 import { FooterPartialComponent }   from './templates/components/footer.partial.component';
+import { LoginDialogComponent }   from './templates/components/login.dialog.component';
 
 import 'hammerjs';
 
@@ -33,7 +34,10 @@ import { MaterialModule, MdSidenavModule, MdListModule } from '@angular/material
         TemplateComponent,
         SideBarComponent,
         HeaderPartialComponent,
-        FooterPartialComponent ],
+        FooterPartialComponent,
+        LoginDialogComponent
+    ],
+    entryComponents: [ LoginDialogComponent ],
     bootstrap:    [ TemplateComponent ],
     providers: [
         {
