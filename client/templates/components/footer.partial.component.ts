@@ -37,7 +37,7 @@ export class FooterPartialComponent implements OnInit {
             var sounds = result.sounds.map((sound:Sound) =>{
               return this.convertSound(sound);
             });
-            if(sounds.length <= 0){
+            if(sounds.length >= 0){
                 this.player.setPlaylist(sounds);
             }
             this.zone.run(()=>{});
