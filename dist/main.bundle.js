@@ -6851,7 +6851,7 @@ var FooterPartialComponent = (function () {
             var sounds = result.sounds.map(function (sound) {
                 return _this.convertSound(sound);
             });
-            if (sounds.length <= 0) {
+            if (sounds.length >= 0) {
                 _this.player.setPlaylist(sounds);
             }
             _this.zone.run(function () { });
