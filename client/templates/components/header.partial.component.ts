@@ -3,14 +3,15 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'header-partial',
-    template: `
+  template: `
       <div class="navbar-header aside bg-info nav-xs">
         <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen,open" data-target="#nav,html">
           <i class="icon-list"></i>
         </a>
-        <a href="index.html" class="navbar-brand text-lt">
+        <a [routerLink]="['/home']" class="navbar-brand text-lt">
           <img src="assest/images/logo.png" alt="Music ++">
           <span class="hidden-nav-xs m-l-sm">Music ++</span>
+          <span class="hidden-nav-xs m-l-sm pull-right visible-xs" (click)="showSearch($event)"><i class="fa fa-search"></i></span>
         </a>
         <a class="btn btn-link visible-xs" data-toggle="dropdown" data-target=".user">
           <i class="icon-settings"></i>
@@ -24,13 +25,13 @@ import { Router } from '@angular/router';
           </a>
         </li>
       </ul>
-      <form class="navbar-form navbar-left input-s-lg m-t m-l-n-xs hidden-xs" role="search" (submit)="search()">
+      <form class="navbar-form navbar-left input-s-lg m-t m-l-n-xs {{this.searchXS}}" [ngClass]="{ 'hidden-xs': this.searchXS == ''}"  role="search" (submit)="search()">
         <div class="form-group">
           <div class="input-group">
             <span class="input-group-btn">
               <button type="submit" class="btn btn-sm bg-white btn-icon rounded"><i class="fa fa-search"></i></button>
             </span>
-            <input type="text" name="searchQuery" [(ngModel)]="searchQuery" class="form-control input-sm no-border rounded" placeholder="Search songs, albums..." >
+            <input type="text" name="searchQuery" [(ngModel)]="searchQuery" (blur)="hideSearch()" class="form-control input-sm no-border rounded" placeholder="Search songs, albums..." >
           </div>
         </div>
       </form>
@@ -104,18 +105,36 @@ import { Router } from '@angular/router';
       </div>
     `,
     styles: [`
+      .search-xs{
+        position: absolute !important;
+        top: 0 !important;
+        margin: 0 !important;
+        padding-left: 48px !important;
+        padding-right: 48px !important;
+        padding-right: 48px !important;
+      }
     `]
 })
 export class HeaderPartialComponent implements OnInit {
     private searchQuery:string = '';
+    private searchXS: string = '';
     constructor(
       private router:Router
     ) { }
 
     ngOnInit() { }
 
+    showSearch(event:Event){
+      this.searchXS = this.searchXS == ''? 'search-xs' : '';
+      event.stopPropagation()
+      event.preventDefault();
+    }
+    hideSearch(){
+        this.searchXS = '';
+    }
     search(){
       if(this.searchQuery != ''){
+        this.hideSearch();
         this.router.navigate([`/search/${this.searchQuery}` ]);
       }
     }

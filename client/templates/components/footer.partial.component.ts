@@ -124,11 +124,12 @@ export class FooterPartialComponent implements OnInit {
 
      }
      removeItemEvent(){
-       $('.jp-playlist').on('click', '.jp-playlist-item-remove', function(){
+       var self = this;
+       $('.jp-playlist').on('click', '.jp-playlist-item-remove', () =>{
           var index = $(this).parents('li').index('.jp-playlist li');
-          var playlist = <IPlayList>this.playlistService.getCurrentPlaylist();
+          var playlist = <IPlayList>self.playlistService.getCurrentPlaylist();
           playlist.sounds.splice(index, 1);
-          this.playlistService.setCurrentPlaylist(playlist);
+          self.playlistService.setCurrentPlaylist(playlist);
       });
      }
 
