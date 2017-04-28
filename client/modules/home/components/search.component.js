@@ -26,7 +26,7 @@ var SearchComponent = (function () {
         };
         this.playlist = this.playlist || this.playlistService.getCurrentPlaylist();
         this.queryString = '';
-        this.videos = [];
+        this.sounds = [];
         this.router.params.subscribe(function (params) {
             if (params['query'] != '0') {
                 _this.queryString = params['query'] || '';
@@ -74,7 +74,7 @@ var SearchComponent = (function () {
         this.playerService.search(this.queryString)
             .subscribe(function (result) {
             if (result.status == true) {
-                _this.videos = result.sounds;
+                _this.sounds = result.sounds;
             }
         });
     };
@@ -98,8 +98,8 @@ __decorate([
 SearchComponent = __decorate([
     core_1.Component({
         selector: 'search',
-        styles: ["\n      .search-input{\n        margin-top: 15px;\n        width: 100%;\n      }\n      .music-container{\n        overflow-y: auto;\n        max-height: 450px;\n      }\n      .card-img{\n        margin: 0;\n        width: 100%;\n        height: 90px;\n      }\n      .music-card{    \n        width: 175px;\n        padding: 10px;\n        margin: 10px;\n        display: inline-block;\n        height: 200px;\n      }"],
-        template: "\n    \n      <md-input-container class=\"search-input\">\n        <input mdInput\n         (keyup)=\"handleKeyup($event)\" \n         name=\"queryString\" [(ngModel)]=\"queryString\"\n          #searchInput placeholder=\"Search music and press ENTER\" />\n      </md-input-container>\n      \n      <div class=\"music-container\">\n        <md-card class=\"music-card\" *ngFor=\"let video of videos; let i = index\">\n          <md-card-header>\n            <md-card-title class=\"text-ellipsis\" mdTooltip=\"{{video.channel}}\">{{ video.channel }}</md-card-title>\n          </md-card-header>\n          <img md-card-image class=\"card-img\" [src]=\"video.thumbnail\">\n          <md-card-content style=\"margin-bottom: 5px;\">\n            <p class=\"text-ellipsis\" mdTooltip=\"{{video.title}}\" >{{ video.title}}</p>\n            {{video.dateAt | date}}\n          </md-card-content>\n          <md-card-actions>\n            <button md-button color=\"primary\" (click)=\"play(video)\"> \n              <md-icon>play_arrow</md-icon>\n            </button>\n            <button md-button (click)=\"addToPlaylist($event, video)\">\n              <md-icon>playlist_add</md-icon>\n            </button>\n          </md-card-actions>\n        </md-card>\n      </div>",
+        styles: ["\n    "],
+        template: "\n      <h2 class=\"font-thin m-b\">Search Results</h2>\n      <div class=\"row row-sm\">\n        <div class=\"col-xs-6 col-sm-4 col-md-3 col-lg-2\"  *ngFor=\"let sound of sounds\">\n          <div class=\"item\">\n            <div class=\"pos-rlt\">\n              <div class=\"bottom\">\n                <span class=\"badge bg-info m-l-sm m-b-sm\">03:20</span>\n              </div>\n              <div class=\"item-overlay opacity r r-2x bg-black\">\n                <div class=\"text-info padder m-t-sm text-sm\">\n                  <i class=\"fa fa-star\"></i>\n                  <i class=\"fa fa-star\"></i>\n                  <i class=\"fa fa-star\"></i>\n                  <i class=\"fa fa-star\"></i>\n                  <i class=\"fa fa-star-o text-muted\"></i>\n                </div>\n                <div class=\"center text-center m-t-n\">\n                  <a (click)=\"play(sound)\"><i class=\"icon-control-play i-2x\"></i></a>\n                </div>\n                <div class=\"bottom padder m-b-sm\">\n                  <a href=\"#\" class=\"pull-right\">\n                    <i class=\"fa fa-heart-o\"></i>\n                  </a>\n                  <a (click)=\"addToPlaylist($event, sound)\">\n                    <i class=\"fa fa-plus-circle\"></i>\n                  </a>\n                </div>\n              </div>\n              <a href=\"#\"><img style=\"height: 140px;\"\n                    [src]=\"sound.thumbnail\" alt=\"\" class=\"r r-2x img-full\"\n                    onError=\"this.src='assest/images/p0.jpg'\"></a>\n            </div>\n            <div class=\"padder-v\">\n              <a class=\"text-ellipsis\" mdTooltip=\"{{sound.title}}\">{{sound.title}}</a>\n              <a class=\"text-ellipsis text-xs text-muted\" mdTooltip=\"{{sound.channel}}\">{{sound.channel}}</a>\n            </div>\n          </div>\n        </div>\n      </div>",
         providers: [player_service_1.PlayerService, playlist_service_1.PlaylistService]
     }),
     __metadata("design:paramtypes", [player_service_1.PlayerService,

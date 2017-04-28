@@ -7,17 +7,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 var core_1 = require("@angular/core");
 var common_1 = require("@angular/common");
+var forms_1 = require("@angular/forms");
 var platform_browser_1 = require("@angular/platform-browser");
 var app_routes_1 = require("./app.routes");
 var home_module_1 = require("./modules/home/home.module");
-var player_module_1 = require("./modules/player/player.module");
 var playlist_module_1 = require("./modules/playlist/playlist.module");
 var template_component_1 = require("./templates/template.component");
-var sidebar_component_1 = require("./templates/components/sidebar.component");
-var playing_widget_component_1 = require("./templates/components/playing.widget.component");
-var playlist_widget_component_1 = require("./templates/components/playlist.widget.component");
+var sidebar_partial_component_1 = require("./templates/components/sidebar.partial.component");
+var header_partial_component_1 = require("./templates/components/header.partial.component");
+var footer_partial_component_1 = require("./templates/components/footer.partial.component");
 var login_dialog_component_1 = require("./templates/components/login.dialog.component");
-var menu_widget_component_1 = require("./templates/components/menu.widget.component");
 require("hammerjs");
 var animations_1 = require("@angular/platform-browser/animations");
 var material_1 = require("@angular/material");
@@ -33,19 +32,16 @@ AppModule = __decorate([
             platform_browser_1.BrowserModule,
             common_1.CommonModule,
             animations_1.BrowserAnimationsModule,
-            material_1.MdSidenavModule,
-            material_1.MdListModule,
+            forms_1.FormsModule,
             material_1.MaterialModule,
             home_module_1.HomeModule,
-            player_module_1.PlayerModule,
             playlist_module_1.PlaylistModule,
         ],
         declarations: [
             template_component_1.TemplateComponent,
-            sidebar_component_1.SideBarComponent,
-            playing_widget_component_1.PlayingWidgetComponent,
-            playlist_widget_component_1.PlaylistWidgetComponent,
-            menu_widget_component_1.MenuWidgetComponent,
+            sidebar_partial_component_1.SideBarComponent,
+            header_partial_component_1.HeaderPartialComponent,
+            footer_partial_component_1.FooterPartialComponent,
             login_dialog_component_1.LoginDialogComponent
         ],
         entryComponents: [login_dialog_component_1.LoginDialogComponent],

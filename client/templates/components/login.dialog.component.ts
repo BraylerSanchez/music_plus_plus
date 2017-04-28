@@ -56,21 +56,7 @@ declare var document:any, gapi:any, FB:any, window:any;
       cursor: pointer;
     }
   `],
-  template:`
-    <div class="login-dialog">
-        <h1 md-dialog-title>Use login 
-        <button md-dialog-close class="pull-right close"><md-icon>close</md-icon></button></h1>
-      <md-dialog-content class="dialog-container">
-        <p class="sub-title">Start session using any social network.</p>
-        <button md-button class="md-block fb">
-        <img src="assest/images/facebook_icon.png" class="social-icon pull-left"/> <span class="social-text">Login as Facebook</span></button>
-        <button md-button class="md-block tw" *ngIf="1 == 2">
-        <img src="assest/images/twitter_icon.png" class="social-icon pull-left"/> <span class="social-text">Login as Twitter</span></button>
-        <button md-raised-button class="md-block gg" (click)="gLogin()">
-        <img src="assest/images/google_icon.png" class="social-icon pull-left"/> <span class="social-text">Login as Google</span></button>
-      </md-dialog-content>
-    </div>
-  `,
+  templateUrl: 'client/templates/components/login.dialog.component.html',
   providers: [LoginService]
 })
 export class LoginDialogComponent implements OnInit{
