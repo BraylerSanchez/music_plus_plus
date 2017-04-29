@@ -18,3 +18,20 @@ app .loading{
 a{
     cursor: pointer;
 }
+
+.md-block{
+    width: 100%;
+    display: block;
+}
+
+a.playlist-item:hover i.info, a.playlist-item:hover b.info{
+    display: none !important;
+}
+
+a.playlist-item:hover i.action, a.playlist-item:hover b.action{
+    display: block !important;
+}
+
+a.playlist-item i.action, a.playlist-item b.action{
+    display: none !important;
+}

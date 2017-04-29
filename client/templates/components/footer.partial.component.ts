@@ -3,6 +3,7 @@ import { IPlayList } from '../../interfaces/playlist/playlist.interface';
 import { Sound } from '../../interfaces/player/sound.interface';
 import { PlayerService, onPlayMusic, onStopMusic, onSuspendMusic} from '../../services/player/player.service';
 import { LoginService } from '../../services/user/login.service';
+import {MdSnackBar} from '@angular/material';
 
 import { PlaylistService, onAddSound, onRemoveSound, onPlaylistChange } from '../../services/playlist/playlist.service';
 
@@ -17,7 +18,8 @@ export class FooterPartialComponent implements OnInit {
     private player:any;
     constructor(
       private playlistService: PlaylistService,
-      private zone:NgZone
+      private zone:NgZone,
+      private snackBar: MdSnackBar
     ) { }
 
     ngOnInit() {
@@ -37,9 +39,15 @@ export class FooterPartialComponent implements OnInit {
             var sounds = result.sounds.map((sound:Sound) =>{
               return this.convertSound(sound);
             });
-            if(sounds.length >= 0){
+            if(sounds.length > 0){
                 this.player.setPlaylist(sounds);
+            }else{
+                this.player.setPlaylist([]);
+                this.player.pause();
             }
+            this.snackBar.open(`Playlist changed to ${result.name} success`, 'Playlist', {
+              duration: 5000,
+            });
             this.zone.run(()=>{});
       })
      }

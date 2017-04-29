@@ -5,6 +5,8 @@ import { IUser } from '../../interfaces/user/user.interface';
 import { IPlayList } from '../../interfaces/playlist/playlist.interface';
 import { LoginService, onLoginUser, onLogoutUser } from '../../services/user/login.service';
 import { PlaylistService } from '../../services/playlist/playlist.service';
+import { CreatePlaylistDialog } from '../../modules/playlist/components/create.component';
+import {MdSnackBar} from '@angular/material';
 
 @Component({
   selector: 'sidebar-partial',
@@ -18,7 +20,8 @@ export class SideBarComponent implements OnInit{
     constructor(
       private dialog:MdDialog,
       private loginService: LoginService,
-      private playlistService: PlaylistService
+      private playlistService: PlaylistService,
+      private snackBar: MdSnackBar
     ){
     }
 
@@ -47,6 +50,15 @@ export class SideBarComponent implements OnInit{
 
       })
     }
+    createPlaylist(playlist:IPlayList){
+      let dialog = this.dialog.open( CreatePlaylistDialog, {
+        disableClose: true
+      });
+      dialog.componentInstance.dialogOpen(playlist);
+      dialog.afterClosed().subscribe( (data) =>{
+          this.loadPlaylist();
+      })
+    }
     loadPlaylist(){
       this.playlistService.list(this.user.user_name).subscribe( (result:any) =>{
         if(result.status == true)
@@ -56,5 +68,23 @@ export class SideBarComponent implements OnInit{
 
     play( playlist:IPlayList){
       this.playlistService.changePlaylist(playlist);
+    }
+    editPalylist(event:Event, playlist:IPlayList){
+      this.createPlaylist(playlist);
+      event.stopPropagation();
+      event.preventDefault();
+    }
+    detelePlaylist(event:Event, playlist:IPlayList){
+      var confirmResult = confirm('Do yo want delete this playlist?');
+      if(confirmResult){
+        this.playlistService.delete(playlist._id).subscribe( (result:any)=>{
+          this.snackBar.open(`${playlist.name} was deleted success.`, 'Playlist', {
+            duration: 5000,
+          });
+          this.loadPlaylist();
+        })
+      }
+      event.stopPropagation();
+      event.preventDefault();
     }
 }
