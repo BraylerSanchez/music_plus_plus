@@ -88,7 +88,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = __webpack_require__(8);
-var material_1 = __webpack_require__(45);
+var material_1 = __webpack_require__(30);
 var login_service_1 = __webpack_require__(63);
 var user_model_1 = __webpack_require__(680);
 var LoginDialogComponent = (function () {
@@ -246,7 +246,7 @@ var HomeComponent = (function () {
         this.sharedPlaylists = [];
     }
     HomeComponent.prototype.ngOnInit = function () {
-        this.loadSharedPlaylist();
+        this.reload();
     };
     HomeComponent.prototype.loadSharedPlaylist = function () {
         var _this = this;
@@ -257,6 +257,9 @@ var HomeComponent = (function () {
     };
     HomeComponent.prototype.play = function (playlist) {
         this.playlistService.changePlaylist(playlist);
+    };
+    HomeComponent.prototype.reload = function () {
+        this.loadSharedPlaylist();
     };
     return HomeComponent;
 }());
@@ -289,7 +292,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = __webpack_require__(8);
 var router_1 = __webpack_require__(46);
 var player_service_1 = __webpack_require__(145);
-var material_1 = __webpack_require__(45);
+var material_1 = __webpack_require__(30);
 var playlist_service_1 = __webpack_require__(68);
 var SearchComponent = (function () {
     function SearchComponent(playerService, router, ngZone, playlistService, snackBar) {
@@ -313,18 +316,6 @@ var SearchComponent = (function () {
                 }
             }
         });
-        player_service_1.onPlayMusic
-            .subscribe(function (response) {
-            _this.currentSound = response['details'];
-        });
-        player_service_1.onStopMusic
-            .subscribe(function (sound) {
-            _this.currentSound = sound;
-            _this.ngZone.run(function () { });
-        });
-        playlist_service_1.onPlaylistChange.subscribe(function (playlist) {
-            _this.playlist = playlist;
-        });
     }
     SearchComponent.prototype.addToPlaylist = function (e, sound) {
         this.playlistService.addSoundToPlaylist({
@@ -335,11 +326,6 @@ var SearchComponent = (function () {
             duration: 1500,
         });
         e.stopPropagation();
-    };
-    SearchComponent.prototype.handleKeyup = function (e) {
-        if (e.keyCode == 13) {
-            this.search();
-        }
     };
     SearchComponent.prototype.search = function () {
         var _this = this;
@@ -364,7 +350,7 @@ var SearchComponent = (function () {
         });
         this.playerService.getMusic(playlist.sounds.length, sound);
         this.snackBar.open(sound.title + " now playing", 'Music', {
-            duration: 1500,
+            duration: 5000,
         });
     };
     return SearchComponent;
@@ -403,14 +389,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = __webpack_require__(8);
-var common_1 = __webpack_require__(44);
+var common_1 = __webpack_require__(45);
 var forms_1 = __webpack_require__(81);
 var http_1 = __webpack_require__(52);
-var platform_browser_1 = __webpack_require__(33);
+var platform_browser_1 = __webpack_require__(34);
 var home_routes_1 = __webpack_require__(681);
 var home_component_1 = __webpack_require__(229);
 var search_component_1 = __webpack_require__(230);
-var material_1 = __webpack_require__(45);
+var material_1 = __webpack_require__(30);
 var HomeModule = (function () {
     function HomeModule() {
     }
@@ -459,105 +445,70 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = __webpack_require__(8);
+var material_1 = __webpack_require__(30);
 var router_1 = __webpack_require__(46);
 var playlist_model_1 = __webpack_require__(679);
 var playlist_service_1 = __webpack_require__(68);
 var login_service_1 = __webpack_require__(63);
 var player_service_1 = __webpack_require__(145);
-var CreateListComponent = (function () {
-    function CreateListComponent(router, routerParams, playlistService, loginService, playerService, zone) {
-        var _this = this;
+var material_2 = __webpack_require__(30);
+var CreatePlaylistDialog = (function () {
+    function CreatePlaylistDialog(router, routerParams, playlistService, loginService, dialogRef, snackBar) {
         this.router = router;
         this.routerParams = routerParams;
         this.playlistService = playlistService;
         this.loginService = loginService;
-        this.playerService = playerService;
-        this.zone = zone;
-        this.queryString = '';
+        this.dialogRef = dialogRef;
+        this.snackBar = snackBar;
         this.playlist = new playlist_model_1.PlayListModel();
-        this.routerParams.params.subscribe(function (params) {
-            var id = params['_id'];
-            if (id == 'default') {
-                _this.playlist = _this.playlistService.getCurrentPlaylist();
-            }
-            else {
-                _this.playlistService.get(id).subscribe(function (result) {
-                    _this.playlist = result.playlist;
-                });
-            }
-        });
     }
-    CreateListComponent.prototype.cancel = function () {
-        this.router.navigate(['/playlist/list']);
+    CreatePlaylistDialog.prototype.ngOnInit = function () {
     };
-    CreateListComponent.prototype.add = function (sound) {
-        sound['added'] = true;
-        this.playlist.sounds.push(sound);
-        this.zone.run(function () { });
+    CreatePlaylistDialog.prototype.dialogOpen = function (playlist) {
+        if (playlist)
+            this.playlist = playlist;
+        else {
+            this.playlist.name = '';
+            this.playlist.description = '';
+        }
     };
-    CreateListComponent.prototype.remove = function (sound) {
-        sound['added'] = false;
-        var index = 0;
-        this.playlist.sounds.forEach(function (s, i) {
-            if (sound.id == s.id)
-                index = i;
-        });
-        this.playlist.sounds.splice(index, 1);
-        this.zone.run(function () { });
-    };
-    CreateListComponent.prototype.save = function () {
+    CreatePlaylistDialog.prototype.save = function () {
         var _this = this;
         this.playlist.userAt = this.loginService.getUser().user_name;
         var response;
-        if (this.playlist['_id']) {
-            response = this.playlistService.update(this.playlist['_id'], this.playlist);
+        if (this.playlist._id) {
+            response = this.playlistService.update(this.playlist._id, this.playlist);
         }
         else {
             response = this.playlistService.save(this.playlist);
         }
         response.subscribe(function (result) {
             if (result.status === true) {
-                alert(result.message);
-                _this.router.navigate(['/playlist/list']);
+                _this.snackBar.open(result.message, 'Playlist', {
+                    duration: 5000,
+                });
+                _this.dialogRef.close();
             }
             else {
                 alert(result.message);
             }
         });
     };
-    CreateListComponent.prototype.handleKeyup = function (e) {
-        if (e.keyCode == 13) {
-            this.search();
-        }
-    };
-    CreateListComponent.prototype.search = function () {
-        var _this = this;
-        if (this.queryString.length <= 0) {
-            return;
-        }
-        this.playerService.search(this.queryString)
-            .subscribe(function (result) {
-            if (result.status == true) {
-                _this.sounds = result.sounds;
-            }
-        });
-    };
-    return CreateListComponent;
+    return CreatePlaylistDialog;
 }());
-CreateListComponent = __decorate([
+CreatePlaylistDialog = __decorate([
     core_1.Component({
-        styles: ["\n    "],
-        template: " \n    <h3>Playlist create</h3>\n    <form (keydown.enter)=\"$event.preventDefault()\">\n        <md-input-container class=\"md-block\">\n            <input \n                mdInput \n                #name \n                name=\"name\" \n                placeholder=\"Name\" \n                autofocus \n                [(ngModel)]=\"playlist.name\" \n                required />\n            <md-hint align=\"end\"></md-hint>\n        </md-input-container>\n        <md-input-container class=\"md-block\">\n            <textarea \n                    mdInput \n                    placeholder=\"Description\"\n                    name=\"description\"\n                    [(ngModel)]=\"playlist.description\"></textarea>\n        </md-input-container>\n        <md-grid-list cols=\"2\" rowHeight=\"2:1\">\n            <md-grid-tile>\n                <div class=\"md-block\">\n                    <md-list  style=\"overflow-y: auto;height: 256px;\">\n                        <h3 md-subheader>Selected sounds</h3>\n                        <md-list-item *ngFor=\"let sound of playlist.sounds; let i = index\">\n                            <img md-list-avatar [src]=\"sound.thumbnail\">\n                            <h3 md-line mdTooltip=\"{{sound.title}}\" >{{ sound.title}}</h3>\n                            <p md-line>\n                                <span mdTooltip=\"{{sound.channel}}\">{{ sound.channel }} </span>\n                                <md-icon class=\"pull-right pointer\" (click)=\"remove(sound)\" *ngIf=\"sound.added == true\">delete</md-icon>\n                            </p>\n                            <md-divider></md-divider>\n                        </md-list-item>\n                    </md-list>\n                </div>\n            </md-grid-tile>\n            <md-grid-tile>\n                <div class=\"md-block\">\n                    <md-list  style=\"overflow-y: auto;height: 256px;\">\n                        <md-input-container  class=\"md-block\">\n                            <input mdInput\n                            (keyup)=\"handleKeyup($event)\" \n                            name=\"queryString\" [(ngModel)]=\"queryString\"\n                            #searchInput placeholder=\"Search music and press ENTER\" />\n                        </md-input-container>\n                        <md-list-item *ngFor=\"let sound of sounds; let i = index\">\n                            <img md-list-avatar [src]=\"sound.thumbnail\">\n                            <h3 md-line mdTooltip=\"{{sound.title}}\" >{{ sound.title}}</h3>\n                            <p md-line>\n                                <span mdTooltip=\"{{sound.channel}}\">{{ sound.channel }} </span>\n                                <md-icon class=\"pull-right pointer\" (click)=\"add(sound)\" *ngIf=\"!sound.added\">add</md-icon>\n                                <md-icon class=\"pull-right pointer\" (click)=\"remove(sound)\" *ngIf=\"sound.added == true\">delete</md-icon>\n                            </p>\n                            <md-divider></md-divider>\n                        </md-list-item>\n                    </md-list>\n                </div>\n            </md-grid-tile>\n        </md-grid-list>\n        <div class=\"md-block\">\n            <button type=\"button\" md-button color=\"warn\" (click)=\"cancel()\">\n                <md-icon>delete</md-icon> Cancel\n            </button>\n            <button type=\"button\" md-raised-button color=\"primary\" (click)=\"save()\">\n                <md-icon>save</md-icon> Save playlist\n            </button>\n        </div>\n    </form>\n    ",
+        templateUrl: 'client/modules/playlist/components/create.component.html',
         providers: [playlist_service_1.PlaylistService, login_service_1.LoginService, player_service_1.PlayerService]
     }),
     __metadata("design:paramtypes", [router_1.Router,
         router_1.ActivatedRoute,
         playlist_service_1.PlaylistService,
         login_service_1.LoginService,
-        player_service_1.PlayerService,
-        core_1.NgZone])
-], CreateListComponent);
-exports.CreateListComponent = CreateListComponent;
+        material_1.MdDialogRef,
+        material_2.MdSnackBar])
+], CreatePlaylistDialog);
+exports.CreatePlaylistDialog = CreatePlaylistDialog;
 
 
 /***/ },
@@ -3247,7 +3198,7 @@ function supportsWebAnimations() {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_animations_browser__ = __webpack_require__(240);
 
 /* harmony export */ __webpack_require__.d(exports, "ɵb", function() { return instantiateSupportedAnimationDriver; });
@@ -6465,9 +6416,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = __webpack_require__(8);
-var common_1 = __webpack_require__(44);
+var common_1 = __webpack_require__(45);
 var forms_1 = __webpack_require__(81);
-var platform_browser_1 = __webpack_require__(33);
+var platform_browser_1 = __webpack_require__(34);
 var app_routes_1 = __webpack_require__(678);
 var home_module_1 = __webpack_require__(231);
 var playlist_module_1 = __webpack_require__(682);
@@ -6478,7 +6429,7 @@ var footer_partial_component_1 = __webpack_require__(684);
 var login_dialog_component_1 = __webpack_require__(146);
 __webpack_require__(429);
 var animations_1 = __webpack_require__(241);
-var material_1 = __webpack_require__(45);
+var material_1 = __webpack_require__(30);
 var AppModule = (function () {
     function AppModule() {
     }
@@ -6544,6 +6495,8 @@ exports.routing = router_1.RouterModule.forRoot(exports.routes);
 var PlayListModel = (function () {
     function PlayListModel() {
         delete this._id;
+        this.sounds = [];
+        this.ratings = [];
     }
     return PlayListModel;
 }());
@@ -6724,15 +6677,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = __webpack_require__(8);
-var common_1 = __webpack_require__(44);
+var common_1 = __webpack_require__(45);
 var forms_1 = __webpack_require__(81);
 var http_1 = __webpack_require__(52);
-var platform_browser_1 = __webpack_require__(33);
+var platform_browser_1 = __webpack_require__(34);
 var playlist_routes_1 = __webpack_require__(683);
 var list_component_1 = __webpack_require__(233);
 var create_component_1 = __webpack_require__(232);
 var home_module_1 = __webpack_require__(231);
-var material_1 = __webpack_require__(45);
+var material_1 = __webpack_require__(30);
 var can_active_service_1 = __webpack_require__(234);
 var login_service_1 = __webpack_require__(63);
 var PlaylistModule = (function () {
@@ -6758,8 +6711,10 @@ PlaylistModule = __decorate([
         ],
         declarations: [
             list_component_1.PlayListComponent,
-            create_component_1.CreateListComponent
+            create_component_1.CreatePlaylistDialog
         ],
+        entryComponents: [create_component_1.CreatePlaylistDialog],
+        exports: [create_component_1.CreatePlaylistDialog],
         providers: [
             {
                 provide: 'CanAlwaysActivateGuard',
@@ -6788,20 +6743,11 @@ exports.PlaylistModule = PlaylistModule;
 "use strict";
 var router_1 = __webpack_require__(46);
 var list_component_1 = __webpack_require__(233);
-var create_component_1 = __webpack_require__(232);
 var can_active_service_1 = __webpack_require__(234);
 exports.routes = [
     {
         path: 'playlist/list',
         component: list_component_1.PlayListComponent,
-        canActivate: [
-            'CanAlwaysActivateGuard',
-            can_active_service_1.CanActivateViaAuthGuard
-        ]
-    },
-    {
-        path: 'playlist/create/:_id',
-        component: create_component_1.CreateListComponent,
         canActivate: [
             'CanAlwaysActivateGuard',
             can_active_service_1.CanActivateViaAuthGuard
@@ -6829,11 +6775,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = __webpack_require__(8);
 var player_service_1 = __webpack_require__(145);
+var material_1 = __webpack_require__(30);
 var playlist_service_1 = __webpack_require__(68);
 var FooterPartialComponent = (function () {
-    function FooterPartialComponent(playlistService, zone) {
+    function FooterPartialComponent(playlistService, zone, snackBar) {
         this.playlistService = playlistService;
         this.zone = zone;
+        this.snackBar = snackBar;
     }
     FooterPartialComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -6851,9 +6799,16 @@ var FooterPartialComponent = (function () {
             var sounds = result.sounds.map(function (sound) {
                 return _this.convertSound(sound);
             });
-            if (sounds.length >= 0) {
+            if (sounds.length > 0) {
                 _this.player.setPlaylist(sounds);
             }
+            else {
+                _this.player.setPlaylist([]);
+                _this.player.pause();
+            }
+            _this.snackBar.open("Playlist changed to " + result.name + " success", 'Playlist', {
+                duration: 5000,
+            });
             _this.zone.run(function () { });
         });
     };
@@ -6939,7 +6894,8 @@ FooterPartialComponent = __decorate([
         providers: [player_service_1.PlayerService, playlist_service_1.PlaylistService]
     }),
     __metadata("design:paramtypes", [playlist_service_1.PlaylistService,
-        core_1.NgZone])
+        core_1.NgZone,
+        material_1.MdSnackBar])
 ], FooterPartialComponent);
 exports.FooterPartialComponent = FooterPartialComponent;
 
@@ -6962,7 +6918,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = __webpack_require__(8);
 var router_1 = __webpack_require__(46);
-var material_1 = __webpack_require__(45);
+var material_1 = __webpack_require__(30);
 var login_dialog_component_1 = __webpack_require__(146);
 var login_service_1 = __webpack_require__(63);
 var HeaderPartialComponent = (function () {
@@ -7044,15 +7000,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = __webpack_require__(8);
-var material_1 = __webpack_require__(45);
+var material_1 = __webpack_require__(30);
 var login_dialog_component_1 = __webpack_require__(146);
 var login_service_1 = __webpack_require__(63);
 var playlist_service_1 = __webpack_require__(68);
+var create_component_1 = __webpack_require__(232);
+var material_2 = __webpack_require__(30);
 var SideBarComponent = (function () {
-    function SideBarComponent(dialog, loginService, playlistService) {
+    function SideBarComponent(dialog, loginService, playlistService, snackBar) {
         this.dialog = dialog;
         this.loginService = loginService;
         this.playlistService = playlistService;
+        this.snackBar = snackBar;
         this.user = undefined;
         this.playlists = [];
     }
@@ -7078,6 +7037,16 @@ var SideBarComponent = (function () {
         dialog.afterClosed().subscribe(function (data) {
         });
     };
+    SideBarComponent.prototype.createPlaylist = function (playlist) {
+        var _this = this;
+        var dialog = this.dialog.open(create_component_1.CreatePlaylistDialog, {
+            disableClose: true
+        });
+        dialog.componentInstance.dialogOpen(playlist);
+        dialog.afterClosed().subscribe(function (data) {
+            _this.loadPlaylist();
+        });
+    };
     SideBarComponent.prototype.loadPlaylist = function () {
         var _this = this;
         this.playlistService.list(this.user.user_name).subscribe(function (result) {
@@ -7087,6 +7056,25 @@ var SideBarComponent = (function () {
     };
     SideBarComponent.prototype.play = function (playlist) {
         this.playlistService.changePlaylist(playlist);
+    };
+    SideBarComponent.prototype.editPalylist = function (event, playlist) {
+        this.createPlaylist(playlist);
+        event.stopPropagation();
+        event.preventDefault();
+    };
+    SideBarComponent.prototype.detelePlaylist = function (event, playlist) {
+        var _this = this;
+        var confirmResult = confirm('Do yo want delete this playlist?');
+        if (confirmResult) {
+            this.playlistService.delete(playlist._id).subscribe(function (result) {
+                _this.snackBar.open(playlist.name + " was deleted success.", 'Playlist', {
+                    duration: 5000,
+                });
+                _this.loadPlaylist();
+            });
+        }
+        event.stopPropagation();
+        event.preventDefault();
     };
     return SideBarComponent;
 }());
@@ -7099,7 +7087,8 @@ SideBarComponent = __decorate([
     }),
     __metadata("design:paramtypes", [material_1.MdDialog,
         login_service_1.LoginService,
-        playlist_service_1.PlaylistService])
+        playlist_service_1.PlaylistService,
+        material_2.MdSnackBar])
 ], SideBarComponent);
 exports.SideBarComponent = SideBarComponent;
 
