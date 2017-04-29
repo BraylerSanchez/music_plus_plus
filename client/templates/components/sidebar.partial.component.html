@@ -20,12 +20,6 @@
                         </a>
                     </li>
                     <li>
-                        <a [routerLink]="['/playlist/list']" *ngIf="user" [routerLinkActive]="['text-success']">
-                            <i class="icon-list icon  text-info-dker"></i>
-                            <span class="font-bold">Playlist</span>
-                        </a>
-                    </li>
-                    <li>
                         <a (click)="login()" *ngIf="!user">
                             <i class="icon-user icon  text-info-dker"></i>
                             <span class="font-bold">Login</span>
@@ -36,13 +30,15 @@
                 <!-- PLAY LIST -->
                 <ul class="nav text-sm" *ngIf="user">
                     <li class="hidden-nav-xs padder m-t m-b-sm text-xs text-muted">
-                        <span class="pull-right"><a [routerLink]="['/playlist/create/0']"><i class="icon-plus i-lg"></i></a></span> Playlist
+                        <span class="pull-right"><a (click)="createPlaylist()"><i class="icon-plus i-lg"></i></a></span> Playlist
                     </li>
                     <li *ngFor="let playlist of playlists">
-                        <a (click)="play(playlist)">
-                            <i class="icon-music-tone icon"></i>
-                            <b class="badge bg-success dker pull-right">{{playlist.sounds.length}}</b>
-                            <span>{{playlist.name}}</span>
+                        <a (click)="play(playlist)" class="playlist-item">
+                            <i class="icon-music-tone icon info"></i>
+                            <i (click)="detelePlaylist($event,playlist)" class="fa-times fa action"></i>
+                            <b class="badge bg-success dker pull-right info">{{playlist.sounds.length}}</b>
+                            <b class="pull-right action" (click)="editPalylist($event, playlist)"><i class="fa fa-pencil"></i></b>
+                            <span >{{playlist.name}}</span>
                         </a>
                     </li>
                 </ul>

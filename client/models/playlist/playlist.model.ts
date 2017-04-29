@@ -1,4 +1,4 @@
-import { IPlayList } from '../../interfaces/playlist/playlist.interface';
+import { IPlayList, IRating } from '../../interfaces/playlist/playlist.interface';
 import { Sound } from '../../interfaces/player/sound.interface';
 
 export class PlayListModel implements IPlayList{
@@ -6,10 +6,14 @@ export class PlayListModel implements IPlayList{
     name: string;
     description: string;
     sounds: Array<Sound>;
+    ratings: Array<IRating>;
     userAt: string;
     createAt: Date;
     updateAt: Date;
+    
     constructor(){
         delete this._id;
+        this.sounds = [];
+        this.ratings = [];
     }
 }

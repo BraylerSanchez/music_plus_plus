@@ -35,18 +35,6 @@ var SearchComponent = (function () {
                 }
             }
         });
-        player_service_1.onPlayMusic
-            .subscribe(function (response) {
-            _this.currentSound = response['details'];
-        });
-        player_service_1.onStopMusic
-            .subscribe(function (sound) {
-            _this.currentSound = sound;
-            _this.ngZone.run(function () { });
-        });
-        playlist_service_1.onPlaylistChange.subscribe(function (playlist) {
-            _this.playlist = playlist;
-        });
     }
     SearchComponent.prototype.addToPlaylist = function (e, sound) {
         this.playlistService.addSoundToPlaylist({
@@ -57,11 +45,6 @@ var SearchComponent = (function () {
             duration: 1500,
         });
         e.stopPropagation();
-    };
-    SearchComponent.prototype.handleKeyup = function (e) {
-        if (e.keyCode == 13) {
-            this.search();
-        }
     };
     SearchComponent.prototype.search = function () {
         var _this = this;
@@ -86,7 +69,7 @@ var SearchComponent = (function () {
         });
         this.playerService.getMusic(playlist.sounds.length, sound);
         this.snackBar.open(sound.title + " now playing", 'Music', {
-            duration: 1500,
+            duration: 5000,
         });
     };
     return SearchComponent;

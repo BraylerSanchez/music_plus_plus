@@ -81,19 +81,6 @@ export class SearchComponent{
           }
         }
       })
-      
-      onPlayMusic
-         .subscribe( (response) => {
-            this.currentSound = response['details'];
-      });
-      onStopMusic
-       .subscribe( (sound) => {
-            this.currentSound = sound;
-            this.ngZone.run(()=>{});
-      });
-      onPlaylistChange.subscribe( (playlist) =>{
-        this.playlist = playlist;
-      })
     }
     
     addToPlaylist(e:any, sound: Sound){
@@ -106,12 +93,6 @@ export class SearchComponent{
         duration: 1500,
       });
       e.stopPropagation();
-    }
-    
-    handleKeyup(e:any){
-        if( e.keyCode == 13){
-          this.search();
-        }  
     }
     
     search(): void{
@@ -136,8 +117,8 @@ export class SearchComponent{
         playlist: playlist.name
       });
       this.playerService.getMusic(playlist.sounds.length, sound);
-        this.snackBar.open(`${sound.title} now playing`, 'Music', {
-          duration: 1500,
-        });
+      this.snackBar.open(`${sound.title} now playing`, 'Music', {
+        duration: 5000,
+      });
     }
 }
