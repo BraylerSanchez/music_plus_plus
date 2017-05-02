@@ -68,21 +68,38 @@ var PlaylistModel = (function () {
             else {
                 def.resolve({
                     message: "Playlist update success.",
-                    playlist: doc
+                    playlist: _playlist
                 });
             }
         });
         return def.promise;
     };
-    PlaylistModel.prototype.share = function (_sharedPlaylist) {
-        var sharedPlaylist = new this.sharedPlaylistModel(_sharedPlaylist);
+    PlaylistModel.prototype.share = function (_playlist) {
+        var _this = this;
         var def = defer();
-        sharedPlaylist.save(function (error, doc) {
+        this.sharedPlaylistModel.find({ 'origin._id': _playlist.origin._id }, function (error, docs) {
             if (error) {
                 def.reject(error);
+                return;
+            }
+            if (docs.length > 0) {
+                _this.sharedPlaylistModel.update({ _id: docs[0]._id }, _playlist, {}, function (error, doc) {
+                    if (error)
+                        def.reject(error);
+                    else
+                        def.resolve("Playlist successfully shared.");
+                });
             }
             else {
-                def.resolve("Playlist successfully shared.");
+                var sharedPlaylist = new _this.sharedPlaylistModel(_playlist);
+                sharedPlaylist.save(function (error, doc) {
+                    if (error) {
+                        def.reject(error);
+                    }
+                    else {
+                        def.resolve("Playlist successfully shared.");
+                    }
+                });
             }
         });
         return def.promise;
