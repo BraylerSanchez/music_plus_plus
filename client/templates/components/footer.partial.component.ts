@@ -72,8 +72,13 @@ export class FooterPartialComponent implements OnInit {
      }
      removeItemEvent(){
        var self = this;
-       $('.jp-playlist').on('click', '.jp-playlist-item-remove', () =>{
-          var index = $(this).parents('li').index('.jp-playlist li');
+       $('.jp-playlist').on('click', '.jp-playlist-item-remove', (event:Event) =>{
+         var index = -1,
+            current = event.currentTarget['parentElement'].children[1].innerText;
+         event.currentTarget['parentElement']['parentElement']['parentElement'].childNodes.forEach( (element:any, i:number) => {
+           if( element.childNodes[0].childNodes[1].innerText == current)
+            index = i
+         });
           this.playlistService.removeSoundToPlaylist(index)
       });
      }

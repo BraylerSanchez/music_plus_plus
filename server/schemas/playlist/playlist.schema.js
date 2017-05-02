@@ -8,7 +8,8 @@ exports.PlayListSchema = new mongoose_1.Schema({
         required: true
     },
     description: {
-        type: String
+        type: String,
+        required: false
     },
     userAt: {
         type: String,
