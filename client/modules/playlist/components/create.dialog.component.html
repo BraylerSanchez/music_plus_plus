@@ -3,7 +3,7 @@
         <button md-dialog-close class="pull-right close"><md-icon>close</md-icon></button></h1>
 
     <form (keydown.enter)="$event.preventDefault()">
-        <md-dialog-content class="dialog-container">
+        <md-dialog-content class="dialog-container" style="overflow: hidden;">
             <md-input-container class="md-block">
                 <input mdInput name="name" placeholder="Name" autofocus [(ngModel)]="playlist.name" required />
                 <md-hint align="end"></md-hint>
@@ -11,6 +11,9 @@
             <md-input-container class="md-block">
                 <textarea mdInput placeholder="Description" name="description" [(ngModel)]="playlist.description"></textarea>
             </md-input-container>
+            <section class="md-block">
+                <md-checkbox name="shared" [(ngModel)]="playlist.shared">Is shared</md-checkbox>
+            </section>
         </md-dialog-content>
         <md-dialog-actions>
             <button md-dialog-close type="button" md-button color="warn">

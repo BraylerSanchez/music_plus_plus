@@ -54,7 +54,10 @@ export class PlaylistModel{
             if (error) {
                 def.reject(error)
             } else {
-                def.resolve( "Playlist save success." );
+                def.resolve( {
+                    message: "Playlist save success.",
+                    playlist: doc
+                });
             }
         });
         return def.promise;
@@ -66,7 +69,10 @@ export class PlaylistModel{
             if (error) {
                 def.reject(error)
             } else {
-                def.resolve( "Playlist update success." );
+                def.resolve( {
+                    message: "Playlist update success.",
+                    playlist: doc
+                });
             }
         });
         return def.promise;

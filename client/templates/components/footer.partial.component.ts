@@ -33,6 +33,10 @@ export class FooterPartialComponent implements OnInit {
         var sound = <Sound>result.sound;
         this.player.add( this.convertSound(sound));
         this.player._refresh();
+        if( result.to_play){
+          this.player.current = this.player.playlist.length - 1;
+          this.player.play();
+        }
       })
 
       onPlaylistChange.subscribe( (result:IPlayList) => {
@@ -70,9 +74,7 @@ export class FooterPartialComponent implements OnInit {
        var self = this;
        $('.jp-playlist').on('click', '.jp-playlist-item-remove', () =>{
           var index = $(this).parents('li').index('.jp-playlist li');
-          var playlist = <IPlayList>self.playlistService.getCurrentPlaylist();
-          playlist.sounds.splice(index, 1);
-          self.playlistService.setCurrentPlaylist(playlist);
+          this.playlistService.removeSoundToPlaylist(index)
       });
      }
 

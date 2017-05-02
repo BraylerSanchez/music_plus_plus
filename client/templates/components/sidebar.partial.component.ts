@@ -1,11 +1,11 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, NgZone} from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { LoginDialogComponent } from './login.dialog.component';
 import { IUser } from '../../interfaces/user/user.interface';
 import { IPlayList } from '../../interfaces/playlist/playlist.interface';
 import { LoginService, onLoginUser, onLogoutUser } from '../../services/user/login.service';
-import { PlaylistService } from '../../services/playlist/playlist.service';
-import { CreatePlaylistDialog } from '../../modules/playlist/components/create.component';
+import { PlaylistService, onAddSound, onRemoveSound } from '../../services/playlist/playlist.service';
+import { CreatePlaylistDialog } from '../../modules/playlist/components/create.dialog.component';
 import {MdSnackBar} from '@angular/material';
 
 @Component({
@@ -21,7 +21,8 @@ export class SideBarComponent implements OnInit{
       private dialog:MdDialog,
       private loginService: LoginService,
       private playlistService: PlaylistService,
-      private snackBar: MdSnackBar
+      private snackBar: MdSnackBar,
+      private zone: NgZone
     ){
     }
 
@@ -40,6 +41,12 @@ export class SideBarComponent implements OnInit{
       onLogoutUser.subscribe( () =>{
         this.user = undefined;
       })
+      onAddSound.subscribe( ()=>{
+        this.loadPlaylist();
+      })
+      onRemoveSound.subscribe( ()=>{
+        this.loadPlaylist();
+      })
     }
 
     login(){
@@ -52,7 +59,8 @@ export class SideBarComponent implements OnInit{
     }
     createPlaylist(playlist:IPlayList){
       let dialog = this.dialog.open( CreatePlaylistDialog, {
-        disableClose: true
+        disableClose: true,
+        height: '300px'
       });
       dialog.componentInstance.dialogOpen(playlist);
       dialog.afterClosed().subscribe( (data) =>{
@@ -63,6 +71,7 @@ export class SideBarComponent implements OnInit{
       this.playlistService.list(this.user.user_name).subscribe( (result:any) =>{
         if(result.status == true)
           this.playlists = <Array<IPlayList>>result.playlists;
+          this.zone.run(()=>{})
       })
     }
 
