@@ -16,6 +16,9 @@ export const PlayListSchema = new Schema({
     },
     sounds: [SoundSchema],
     ratings: [RatingSchema],
+    shared: {
+        type: Boolean
+    },
     createAt: {
         type: Date,
         default: Date()
@@ -31,8 +34,8 @@ export const SharedPlaylistSchema = new Schema({
         type: PlayListSchema,
         required: true
     },
-    sharedPlaylists: {
-        type: [PlayListSchema]
+    playbacks: {
+        type: [Date]
     },
     userAt: {
         type: String,

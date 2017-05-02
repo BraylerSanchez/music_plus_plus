@@ -15,18 +15,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = __webpack_require__(8);
-var http_1 = __webpack_require__(52);
+var http_1 = __webpack_require__(51);
 var Observable_1 = __webpack_require__(0);
+__webpack_require__(72);
 __webpack_require__(73);
-__webpack_require__(74);
 var headers = new http_1.ResponseOptions({
     headers: new http_1.Headers({
         'Content-Type': 'application/json'
     })
 });
-var playSoundObserbable;
+var playMusicObserbable;
 exports.onPlayMusic = new Observable_1.Observable(function (observable) {
-    playSoundObserbable = observable;
+    playMusicObserbable = observable;
     return function () { };
 }).share();
 var gettingMusicObserbable;
@@ -56,8 +56,8 @@ var PlayerService = (function () {
     PlayerService.prototype.stopMusic = function (video) {
         stopSoundObserbable.next(video);
     };
-    PlayerService.prototype.getMusic = function (i, sound) {
-        playSoundObserbable.next({ details: sound, index: i });
+    PlayerService.prototype.payMusic = function (sound) {
+        playMusicObserbable.next({ details: sound });
     };
     PlayerService.prototype.suspendMusic = function () {
         onSuspendMusicTrigger.next();
@@ -90,7 +90,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = __webpack_require__(8);
 var material_1 = __webpack_require__(30);
 var login_service_1 = __webpack_require__(63);
-var user_model_1 = __webpack_require__(680);
+var user_model_1 = __webpack_require__(678);
 var LoginDialogComponent = (function () {
     function LoginDialogComponent(dialogRef, loginService) {
         this.dialogRef = dialogRef;
@@ -239,7 +239,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = __webpack_require__(8);
-var playlist_service_1 = __webpack_require__(68);
+var playlist_service_1 = __webpack_require__(80);
 var HomeComponent = (function () {
     function HomeComponent(playlistService) {
         this.playlistService = playlistService;
@@ -290,10 +290,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = __webpack_require__(8);
-var router_1 = __webpack_require__(46);
+var router_1 = __webpack_require__(52);
 var player_service_1 = __webpack_require__(145);
 var material_1 = __webpack_require__(30);
-var playlist_service_1 = __webpack_require__(68);
+var playlist_service_1 = __webpack_require__(80);
 var SearchComponent = (function () {
     function SearchComponent(playerService, router, ngZone, playlistService, snackBar) {
         var _this = this;
@@ -346,9 +346,9 @@ var SearchComponent = (function () {
         var playlist = this.playlistService.getCurrentPlaylist();
         this.playlistService.addSoundToPlaylist({
             sound: sound,
-            playlist: playlist.name
+            playlist: playlist.name,
+            to_play: true
         });
-        this.playerService.getMusic(playlist.sounds.length, sound);
         this.snackBar.open(sound.title + " now playing", 'Music', {
             duration: 5000,
         });
@@ -362,8 +362,7 @@ __decorate([
 SearchComponent = __decorate([
     core_1.Component({
         selector: 'search',
-        styles: ["\n    "],
-        template: "\n      <h2 class=\"font-thin m-b\">Search Results</h2>\n      <div class=\"row row-sm\">\n        <div class=\"col-xs-6 col-sm-4 col-md-3 col-lg-2\"  *ngFor=\"let sound of sounds\">\n          <div class=\"item\">\n            <div class=\"pos-rlt\">\n              <div class=\"bottom\">\n                <span class=\"badge bg-info m-l-sm m-b-sm\">03:20</span>\n              </div>\n              <div class=\"item-overlay opacity r r-2x bg-black\">\n                <div class=\"text-info padder m-t-sm text-sm\">\n                  <i class=\"fa fa-star\"></i>\n                  <i class=\"fa fa-star\"></i>\n                  <i class=\"fa fa-star\"></i>\n                  <i class=\"fa fa-star\"></i>\n                  <i class=\"fa fa-star-o text-muted\"></i>\n                </div>\n                <div class=\"center text-center m-t-n\">\n                  <a (click)=\"play(sound)\"><i class=\"icon-control-play i-2x\"></i></a>\n                </div>\n                <div class=\"bottom padder m-b-sm\">\n                  <a href=\"#\" class=\"pull-right\">\n                    <i class=\"fa fa-heart-o\"></i>\n                  </a>\n                  <a (click)=\"addToPlaylist($event, sound)\">\n                    <i class=\"fa fa-plus-circle\"></i>\n                  </a>\n                </div>\n              </div>\n              <a href=\"#\"><img style=\"height: 140px;\"\n                    [src]=\"sound.thumbnail\" alt=\"\" class=\"r r-2x img-full\"\n                    onError=\"this.src='assest/images/p0.jpg'\"></a>\n            </div>\n            <div class=\"padder-v\">\n              <a class=\"text-ellipsis\" mdTooltip=\"{{sound.title}}\">{{sound.title}}</a>\n              <a class=\"text-ellipsis text-xs text-muted\" mdTooltip=\"{{sound.channel}}\">{{sound.channel}}</a>\n            </div>\n          </div>\n        </div>\n      </div>",
+        templateUrl: "client/modules/home/components/search.component.html",
         providers: [player_service_1.PlayerService, playlist_service_1.PlaylistService]
     }),
     __metadata("design:paramtypes", [player_service_1.PlayerService,
@@ -391,9 +390,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var core_1 = __webpack_require__(8);
 var common_1 = __webpack_require__(45);
 var forms_1 = __webpack_require__(81);
-var http_1 = __webpack_require__(52);
+var http_1 = __webpack_require__(51);
 var platform_browser_1 = __webpack_require__(34);
-var home_routes_1 = __webpack_require__(681);
+var home_routes_1 = __webpack_require__(679);
 var home_component_1 = __webpack_require__(229);
 var search_component_1 = __webpack_require__(230);
 var material_1 = __webpack_require__(30);
@@ -446,9 +445,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = __webpack_require__(8);
 var material_1 = __webpack_require__(30);
-var router_1 = __webpack_require__(46);
-var playlist_model_1 = __webpack_require__(679);
-var playlist_service_1 = __webpack_require__(68);
+var router_1 = __webpack_require__(52);
+var playlist_model_1 = __webpack_require__(677);
+var playlist_service_1 = __webpack_require__(80);
 var login_service_1 = __webpack_require__(63);
 var player_service_1 = __webpack_require__(145);
 var material_2 = __webpack_require__(30);
@@ -484,6 +483,9 @@ var CreatePlaylistDialog = (function () {
         }
         response.subscribe(function (result) {
             if (result.status === true) {
+                if (_this.playlist.shared) {
+                    _this.share(result.playlist);
+                }
                 _this.snackBar.open(result.message, 'Playlist', {
                     duration: 5000,
                 });
@@ -494,11 +496,28 @@ var CreatePlaylistDialog = (function () {
             }
         });
     };
+    CreatePlaylistDialog.prototype.share = function (_playlist) {
+        var sharedPlaylist = {
+            origin: _playlist,
+            playbacks: new Array(),
+            userAt: this.loginService.getUser().user_name,
+            userName: this.loginService.getUser().name,
+            userPictureUrl: this.loginService.getUser().avatar_url,
+            createAt: new Date()
+        };
+        this.playlistService.share(sharedPlaylist).subscribe(function (response) {
+            if (response.status == true) {
+            }
+            else {
+                console.warn('playlist shared error: ' + response.message);
+            }
+        });
+    };
     return CreatePlaylistDialog;
 }());
 CreatePlaylistDialog = __decorate([
     core_1.Component({
-        templateUrl: 'client/modules/playlist/components/create.component.html',
+        templateUrl: 'client/modules/playlist/components/create.dialog.component.html',
         providers: [playlist_service_1.PlaylistService, login_service_1.LoginService, player_service_1.PlayerService]
     }),
     __metadata("design:paramtypes", [router_1.Router,
@@ -513,152 +532,21 @@ exports.CreatePlaylistDialog = CreatePlaylistDialog;
 
 /***/ },
 
-/***/ 233:
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-"use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var core_1 = __webpack_require__(8);
-var router_1 = __webpack_require__(46);
-var playlist_service_1 = __webpack_require__(68);
-var login_service_1 = __webpack_require__(63);
-var PlayListComponent = (function () {
-    function PlayListComponent(router, playlistService, loginService) {
-        this.router = router;
-        this.playlistService = playlistService;
-        this.loginService = loginService;
-        this.playLists = [];
-        this.queryString = "";
-    }
-    PlayListComponent.prototype.ngOnInit = function () {
-        this.load();
-    };
-    PlayListComponent.prototype.create = function () {
-        this.router.navigate(['/playlist/create/0']);
-    };
-    PlayListComponent.prototype.play = function (playlist) {
-        this.playlistService.changePlaylist(playlist);
-    };
-    PlayListComponent.prototype.delete = function (_id) {
-        var _this = this;
-        var result = confirm('Do you want delete this playList?');
-        if (result == true) {
-            this.playlistService.delete(_id).subscribe(function (result) {
-                if (result.status == true) {
-                    alert('Playlist delete success');
-                    _this.load();
-                }
-                else {
-                    alert(result.message);
-                }
-            });
-        }
-    };
-    PlayListComponent.prototype.load = function () {
-        var _this = this;
-        var userId = this.loginService.getUser().user_name;
-        this.playlistService.list(userId).subscribe(function (result) {
-            if (result.status == true) {
-                _this.playLists = result.playlists;
-            }
-            else {
-                alert(result.message);
-            }
-        });
-    };
-    PlayListComponent.prototype.share = function (_playlist) {
-        var sharedPlaylist = {
-            origin: _playlist,
-            sharedPlaylists: new Array(),
-            userAt: this.loginService.getUser().user_name,
-            userName: this.loginService.getUser().name,
-            userPictureUrl: this.loginService.getUser().avatar_url,
-            createAt: new Date()
-        };
-        this.playlistService.share(sharedPlaylist).subscribe(function (response) {
-            if (response.status == true) {
-                alert(response.message);
-            }
-            else {
-                alert(response.message);
-            }
-        });
-    };
-    return PlayListComponent;
-}());
-PlayListComponent = __decorate([
-    core_1.Component({
-        styles: ["\n\n    "],
-        template: "\n        <h1>Playlists</h1>\n        <div class=\"text-right\">\n            <button md-raised-button color=\"primary\" (click)=\"create()\">\n                <md-icon>playlist_add</md-icon> New playlist\n            </button>\n        </div>\n        <table class=\"table\">\n            <thead>\n                <tr>\n                    <th>Name</th>\n                    <th>Description</th>\n                    <th>Sound Length</th>\n                    <th>Share</th>\n                    <th>Play</th>\n                    <th>Action</th>\n                </tr>\n            </thead>\n            <tbody>\n                <tr *ngFor=\"let playlist of playLists\">\n                    <td>{{playlist.name}}</td>\n                    <td>{{playlist.description}}</td>\n                    <td>{{playlist.sounds.length}}</td>\n                    <td>\n                        <button md-button (click)=\"share(playlist)\">\n                            Share <md-icon>share</md-icon>\n                        </button>\n                    </td>\n                    <td>\n                        <button md-button (click)=\"play(playlist)\">\n                            Listen <md-icon>playlist_play</md-icon>\n                        </button>\n                    </td>\n                    <td>\n                        <button md-button [routerLink]=\"['/playlist/create', playlist._id]\">\n                            Edit <md-icon>edit</md-icon>\n                        </button>\n                        <button md-button (click)=\"delete(playlist['_id'])\">\n                            Remove <md-icon>clear</md-icon>\n                        </button>\n                    </td>\n                </tr>\n            </tbody>\n            <tfoot>\n                <tr *ngIf=\"playLists.length <= 0\">\n                    <td colspan=\"6\" class=\"text-center\">\n                        No playlist, press new playlist.\n                    </td>\n                </tr>\n            </tfoot>\n        </table>\n    ",
-        providers: [playlist_service_1.PlaylistService, login_service_1.LoginService]
-    }),
-    __metadata("design:paramtypes", [router_1.Router,
-        playlist_service_1.PlaylistService,
-        login_service_1.LoginService])
-], PlayListComponent);
-exports.PlayListComponent = PlayListComponent;
-
-
-/***/ },
-
-/***/ 234:
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-"use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var core_1 = __webpack_require__(8);
-var login_service_1 = __webpack_require__(63);
-var CanActivateViaAuthGuard = (function () {
-    function CanActivateViaAuthGuard(loginService) {
-        this.loginService = loginService;
-    }
-    CanActivateViaAuthGuard.prototype.canActivate = function () {
-        return this.loginService.getUser()._id != undefined;
-    };
-    return CanActivateViaAuthGuard;
-}());
-CanActivateViaAuthGuard = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [login_service_1.LoginService])
-], CanActivateViaAuthGuard);
-exports.CanActivateViaAuthGuard = CanActivateViaAuthGuard;
-
-
-/***/ },
-
-/***/ 238:
+/***/ 236:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 "use strict";
 var platform_browser_dynamic_1 = __webpack_require__(148);
 var core_1 = __webpack_require__(8);
-var app_module_1 = __webpack_require__(677);
+var app_module_1 = __webpack_require__(675);
 core_1.enableProdMode();
 platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(app_module_1.AppModule);
 
 
 /***/ },
 
-/***/ 240:
+/***/ 238:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3193,13 +3081,13 @@ function supportsWebAnimations() {
 
 /***/ },
 
-/***/ 241:
+/***/ 239:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_animations_browser__ = __webpack_require__(240);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_animations_browser__ = __webpack_require__(238);
 
 /* harmony export */ __webpack_require__.d(exports, "ɵb", function() { return instantiateSupportedAnimationDriver; });
 /* harmony export */ __webpack_require__.d(exports, "BrowserAnimationsModule", function() { return BrowserAnimationsModule; });
@@ -3680,7 +3568,7 @@ NoopAnimationsModule.ctorParameters = function () { return []; };
 
 /***/ },
 
-/***/ 429:
+/***/ 427:
 /***/ function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/*! Hammer.JS - v2.0.7 - 2016-04-22
@@ -6346,9 +6234,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = __webpack_require__(8);
 var Observable_1 = __webpack_require__(0);
+__webpack_require__(72);
 __webpack_require__(73);
-__webpack_require__(74);
-var http_1 = __webpack_require__(52);
+var http_1 = __webpack_require__(51);
 var loginUserObserbable;
 exports.onLoginUser = new Observable_1.Observable(function (observable) {
     loginUserObserbable = observable;
@@ -6404,7 +6292,7 @@ exports.LoginService = LoginService;
 
 /***/ },
 
-/***/ 677:
+/***/ 675:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6419,16 +6307,16 @@ var core_1 = __webpack_require__(8);
 var common_1 = __webpack_require__(45);
 var forms_1 = __webpack_require__(81);
 var platform_browser_1 = __webpack_require__(34);
-var app_routes_1 = __webpack_require__(678);
+var app_routes_1 = __webpack_require__(676);
 var home_module_1 = __webpack_require__(231);
-var playlist_module_1 = __webpack_require__(682);
-var template_component_1 = __webpack_require__(687);
-var sidebar_partial_component_1 = __webpack_require__(686);
-var header_partial_component_1 = __webpack_require__(685);
-var footer_partial_component_1 = __webpack_require__(684);
+var playlist_module_1 = __webpack_require__(680);
+var template_component_1 = __webpack_require__(686);
+var sidebar_partial_component_1 = __webpack_require__(685);
+var header_partial_component_1 = __webpack_require__(684);
+var footer_partial_component_1 = __webpack_require__(683);
 var login_dialog_component_1 = __webpack_require__(146);
-__webpack_require__(429);
-var animations_1 = __webpack_require__(241);
+__webpack_require__(427);
+var animations_1 = __webpack_require__(239);
 var material_1 = __webpack_require__(30);
 var AppModule = (function () {
     function AppModule() {
@@ -6469,12 +6357,12 @@ exports.AppModule = AppModule;
 
 /***/ },
 
-/***/ 678:
+/***/ 676:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 "use strict";
-var router_1 = __webpack_require__(46);
+var router_1 = __webpack_require__(52);
 exports.routes = [
     {
         path: '',
@@ -6487,7 +6375,7 @@ exports.routing = router_1.RouterModule.forRoot(exports.routes);
 
 /***/ },
 
-/***/ 679:
+/***/ 677:
 /***/ function(module, exports) {
 
 "use strict";
@@ -6505,126 +6393,7 @@ exports.PlayListModel = PlayListModel;
 
 /***/ },
 
-/***/ 68:
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-"use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var core_1 = __webpack_require__(8);
-var http_1 = __webpack_require__(52);
-var Observable_1 = __webpack_require__(0);
-__webpack_require__(73);
-__webpack_require__(74);
-var headers = new http_1.ResponseOptions({
-    headers: new http_1.Headers({
-        'Content-Type': 'application/json'
-    })
-});
-var onPlaylistChangeTrigger;
-exports.onPlaylistChange = new Observable_1.Observable(function (observable) {
-    onPlaylistChangeTrigger = observable;
-}).share();
-var addSoundTrigger;
-exports.onAddSound = new Observable_1.Observable(function (observable) {
-    addSoundTrigger = observable;
-}).share();
-var removeSoundTrigger;
-exports.onRemoveSound = new Observable_1.Observable(function (observable) {
-    removeSoundTrigger = observable;
-}).share();
-var PlaylistService = (function () {
-    function PlaylistService(http) {
-        this.http = http;
-    }
-    PlaylistService.prototype.list = function (_userId) {
-        return this.http.get("api/v1/" + _userId + "/playlist", headers)
-            .map(function (res) { return res.json(); });
-    };
-    PlaylistService.prototype.get = function (_id) {
-        return this.http.get("api/v1/playlist/" + _id, headers)
-            .map(function (res) { return res.json(); });
-    };
-    PlaylistService.prototype.save = function (_playlist) {
-        return this.http.post('api/v1/playlist', _playlist, headers)
-            .map(function (res) { return res.json(); });
-    };
-    PlaylistService.prototype.update = function (_id, _playlist) {
-        return this.http.put("api/v1/playlist/" + _id, _playlist, headers)
-            .map(function (res) { return res.json(); });
-    };
-    PlaylistService.prototype.delete = function (_id) {
-        return this.http.delete("api/v1/playlist/" + _id, headers)
-            .map(function (res) { return res.json(); });
-    };
-    PlaylistService.prototype.changePlaylist = function (playlist) {
-        localStorage.setItem('ms_currentPlaylist', JSON.stringify(playlist));
-        onPlaylistChangeTrigger.next(playlist);
-    };
-    PlaylistService.prototype.getCurrentPlaylist = function () {
-        var playlist;
-        playlist = localStorage.getItem('ms_currentPlaylist');
-        if (playlist) {
-            playlist = JSON.parse(playlist);
-            return playlist;
-        }
-        else {
-            playlist = { name: 'default', description: '', sounds: [], userAt: '', createAt: new Date(), updateAt: new Date() };
-            this.setCurrentPlaylist(playlist);
-            return playlist;
-        }
-    };
-    PlaylistService.prototype.setCurrentPlaylist = function (playlist) {
-        localStorage.setItem('ms_currentPlaylist', JSON.stringify(playlist));
-    };
-    PlaylistService.prototype.addSoundToPlaylist = function (result) {
-        var playlist = this.getCurrentPlaylist();
-        playlist.sounds.push(result.sound);
-        this.setCurrentPlaylist(playlist);
-        addSoundTrigger.next({
-            sound: result.sound,
-            playlist: result.playlist,
-            soundLength: playlist.sounds.length
-        });
-    };
-    PlaylistService.prototype.removeSoundToPlaylist = function (index) {
-        var playlist = this.getCurrentPlaylist();
-        playlist.sounds.splice(index, 1);
-        this.setCurrentPlaylist(playlist);
-        removeSoundTrigger.next({
-            index: index,
-            playlist: playlist.name,
-            soundLength: playlist.sounds.length
-        });
-    };
-    PlaylistService.prototype.share = function (_sharedPlaylist) {
-        return this.http.post('api/v1/playlist/share', _sharedPlaylist, headers)
-            .map(function (res) { return res.json(); });
-    };
-    PlaylistService.prototype.searchShared = function () {
-        return this.http.get('api/v1/shared/search', headers)
-            .map(function (res) { return res.json(); });
-    };
-    return PlaylistService;
-}());
-PlaylistService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
-], PlaylistService);
-exports.PlaylistService = PlaylistService;
-
-
-/***/ },
-
-/***/ 680:
+/***/ 678:
 /***/ function(module, exports) {
 
 "use strict";
@@ -6640,12 +6409,12 @@ exports.UserModel = UserModel;
 
 /***/ },
 
-/***/ 681:
+/***/ 679:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 "use strict";
-var router_1 = __webpack_require__(46);
+var router_1 = __webpack_require__(52);
 var home_component_1 = __webpack_require__(229);
 var search_component_1 = __webpack_require__(230);
 exports.routes = [
@@ -6662,7 +6431,7 @@ exports.routing = router_1.RouterModule.forChild(exports.routes);
 
 /***/ },
 
-/***/ 682:
+/***/ 680:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6679,14 +6448,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = __webpack_require__(8);
 var common_1 = __webpack_require__(45);
 var forms_1 = __webpack_require__(81);
-var http_1 = __webpack_require__(52);
+var http_1 = __webpack_require__(51);
 var platform_browser_1 = __webpack_require__(34);
-var playlist_routes_1 = __webpack_require__(683);
-var list_component_1 = __webpack_require__(233);
-var create_component_1 = __webpack_require__(232);
+var playlist_routes_1 = __webpack_require__(681);
+var create_dialog_component_1 = __webpack_require__(232);
 var home_module_1 = __webpack_require__(231);
 var material_1 = __webpack_require__(30);
-var can_active_service_1 = __webpack_require__(234);
+var can_active_service_1 = __webpack_require__(682);
 var login_service_1 = __webpack_require__(63);
 var PlaylistModule = (function () {
     function PlaylistModule() {
@@ -6710,11 +6478,10 @@ PlaylistModule = __decorate([
             playlist_routes_1.routing
         ],
         declarations: [
-            list_component_1.PlayListComponent,
-            create_component_1.CreatePlaylistDialog
+            create_dialog_component_1.CreatePlaylistDialog
         ],
-        entryComponents: [create_component_1.CreatePlaylistDialog],
-        exports: [create_component_1.CreatePlaylistDialog],
+        entryComponents: [create_dialog_component_1.CreatePlaylistDialog],
+        exports: [create_dialog_component_1.CreatePlaylistDialog],
         providers: [
             {
                 provide: 'CanAlwaysActivateGuard',
@@ -6724,9 +6491,6 @@ PlaylistModule = __decorate([
             },
             login_service_1.LoginService,
             can_active_service_1.CanActivateViaAuthGuard
-        ],
-        bootstrap: [
-            list_component_1.PlayListComponent
         ]
     }),
     __metadata("design:paramtypes", [])
@@ -6736,30 +6500,53 @@ exports.PlaylistModule = PlaylistModule;
 
 /***/ },
 
-/***/ 683:
+/***/ 681:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 "use strict";
-var router_1 = __webpack_require__(46);
-var list_component_1 = __webpack_require__(233);
-var can_active_service_1 = __webpack_require__(234);
-exports.routes = [
-    {
-        path: 'playlist/list',
-        component: list_component_1.PlayListComponent,
-        canActivate: [
-            'CanAlwaysActivateGuard',
-            can_active_service_1.CanActivateViaAuthGuard
-        ]
-    }
-];
+var router_1 = __webpack_require__(52);
+exports.routes = [];
 exports.routing = router_1.RouterModule.forChild(exports.routes);
 
 
 /***/ },
 
-/***/ 684:
+/***/ 682:
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var core_1 = __webpack_require__(8);
+var login_service_1 = __webpack_require__(63);
+var CanActivateViaAuthGuard = (function () {
+    function CanActivateViaAuthGuard(loginService) {
+        this.loginService = loginService;
+    }
+    CanActivateViaAuthGuard.prototype.canActivate = function () {
+        return this.loginService.getUser()._id != undefined;
+    };
+    return CanActivateViaAuthGuard;
+}());
+CanActivateViaAuthGuard = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [login_service_1.LoginService])
+], CanActivateViaAuthGuard);
+exports.CanActivateViaAuthGuard = CanActivateViaAuthGuard;
+
+
+/***/ },
+
+/***/ 683:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6776,7 +6563,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = __webpack_require__(8);
 var player_service_1 = __webpack_require__(145);
 var material_1 = __webpack_require__(30);
-var playlist_service_1 = __webpack_require__(68);
+var playlist_service_1 = __webpack_require__(80);
 var FooterPartialComponent = (function () {
     function FooterPartialComponent(playlistService, zone, snackBar) {
         this.playlistService = playlistService;
@@ -6794,6 +6581,10 @@ var FooterPartialComponent = (function () {
             var sound = result.sound;
             _this.player.add(_this.convertSound(sound));
             _this.player._refresh();
+            if (result.to_play) {
+                _this.player.current = _this.player.playlist.length - 1;
+                _this.player.play();
+            }
         });
         playlist_service_1.onPlaylistChange.subscribe(function (result) {
             var sounds = result.sounds.map(function (sound) {
@@ -6829,9 +6620,7 @@ var FooterPartialComponent = (function () {
         var self = this;
         $('.jp-playlist').on('click', '.jp-playlist-item-remove', function () {
             var index = $(_this).parents('li').index('.jp-playlist li');
-            var playlist = self.playlistService.getCurrentPlaylist();
-            playlist.sounds.splice(index, 1);
-            self.playlistService.setCurrentPlaylist(playlist);
+            _this.playlistService.removeSoundToPlaylist(index);
         });
     };
     FooterPartialComponent.prototype.clickEvent = function () {
@@ -6902,7 +6691,7 @@ exports.FooterPartialComponent = FooterPartialComponent;
 
 /***/ },
 
-/***/ 685:
+/***/ 684:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6917,7 +6706,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = __webpack_require__(8);
-var router_1 = __webpack_require__(46);
+var router_1 = __webpack_require__(52);
 var material_1 = __webpack_require__(30);
 var login_dialog_component_1 = __webpack_require__(146);
 var login_service_1 = __webpack_require__(63);
@@ -6985,7 +6774,7 @@ exports.HeaderPartialComponent = HeaderPartialComponent;
 
 /***/ },
 
-/***/ 686:
+/***/ 685:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7003,15 +6792,16 @@ var core_1 = __webpack_require__(8);
 var material_1 = __webpack_require__(30);
 var login_dialog_component_1 = __webpack_require__(146);
 var login_service_1 = __webpack_require__(63);
-var playlist_service_1 = __webpack_require__(68);
-var create_component_1 = __webpack_require__(232);
+var playlist_service_1 = __webpack_require__(80);
+var create_dialog_component_1 = __webpack_require__(232);
 var material_2 = __webpack_require__(30);
 var SideBarComponent = (function () {
-    function SideBarComponent(dialog, loginService, playlistService, snackBar) {
+    function SideBarComponent(dialog, loginService, playlistService, snackBar, zone) {
         this.dialog = dialog;
         this.loginService = loginService;
         this.playlistService = playlistService;
         this.snackBar = snackBar;
+        this.zone = zone;
         this.user = undefined;
         this.playlists = [];
     }
@@ -7029,6 +6819,12 @@ var SideBarComponent = (function () {
         login_service_1.onLogoutUser.subscribe(function () {
             _this.user = undefined;
         });
+        playlist_service_1.onAddSound.subscribe(function () {
+            _this.loadPlaylist();
+        });
+        playlist_service_1.onRemoveSound.subscribe(function () {
+            _this.loadPlaylist();
+        });
     };
     SideBarComponent.prototype.login = function () {
         var dialog = this.dialog.open(login_dialog_component_1.LoginDialogComponent, {
@@ -7039,8 +6835,9 @@ var SideBarComponent = (function () {
     };
     SideBarComponent.prototype.createPlaylist = function (playlist) {
         var _this = this;
-        var dialog = this.dialog.open(create_component_1.CreatePlaylistDialog, {
-            disableClose: true
+        var dialog = this.dialog.open(create_dialog_component_1.CreatePlaylistDialog, {
+            disableClose: true,
+            height: '300px'
         });
         dialog.componentInstance.dialogOpen(playlist);
         dialog.afterClosed().subscribe(function (data) {
@@ -7052,6 +6849,7 @@ var SideBarComponent = (function () {
         this.playlistService.list(this.user.user_name).subscribe(function (result) {
             if (result.status == true)
                 _this.playlists = result.playlists;
+            _this.zone.run(function () { });
         });
     };
     SideBarComponent.prototype.play = function (playlist) {
@@ -7088,14 +6886,15 @@ SideBarComponent = __decorate([
     __metadata("design:paramtypes", [material_1.MdDialog,
         login_service_1.LoginService,
         playlist_service_1.PlaylistService,
-        material_2.MdSnackBar])
+        material_2.MdSnackBar,
+        core_1.NgZone])
 ], SideBarComponent);
 exports.SideBarComponent = SideBarComponent;
 
 
 /***/ },
 
-/***/ 687:
+/***/ 686:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7127,12 +6926,143 @@ exports.TemplateComponent = TemplateComponent;
 
 /***/ },
 
-/***/ 688:
+/***/ 687:
 /***/ function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(238);
+module.exports = __webpack_require__(236);
+
+
+/***/ },
+
+/***/ 80:
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var core_1 = __webpack_require__(8);
+var http_1 = __webpack_require__(51);
+var Observable_1 = __webpack_require__(0);
+__webpack_require__(72);
+__webpack_require__(73);
+var login_service_1 = __webpack_require__(63);
+var headers = new http_1.ResponseOptions({
+    headers: new http_1.Headers({
+        'Content-Type': 'application/json'
+    })
+});
+var onPlaylistChangeTrigger;
+exports.onPlaylistChange = new Observable_1.Observable(function (observable) {
+    onPlaylistChangeTrigger = observable;
+}).share();
+var addSoundTrigger;
+exports.onAddSound = new Observable_1.Observable(function (observable) {
+    addSoundTrigger = observable;
+}).share();
+var removeSoundTrigger;
+exports.onRemoveSound = new Observable_1.Observable(function (observable) {
+    removeSoundTrigger = observable;
+}).share();
+var PlaylistService = (function () {
+    function PlaylistService(http, loginServer) {
+        this.http = http;
+        this.loginServer = loginServer;
+    }
+    PlaylistService.prototype.list = function (_userId) {
+        return this.http.get("api/v1/" + _userId + "/playlist", headers)
+            .map(function (res) { return res.json(); });
+    };
+    PlaylistService.prototype.get = function (_id) {
+        return this.http.get("api/v1/playlist/" + _id, headers)
+            .map(function (res) { return res.json(); });
+    };
+    PlaylistService.prototype.save = function (_playlist) {
+        return this.http.post('api/v1/playlist', _playlist, headers)
+            .map(function (res) { return res.json(); });
+    };
+    PlaylistService.prototype.update = function (_id, _playlist) {
+        return this.http.put("api/v1/playlist/" + _id, _playlist, headers)
+            .map(function (res) { return res.json(); });
+    };
+    PlaylistService.prototype.delete = function (_id) {
+        return this.http.delete("api/v1/playlist/" + _id, headers)
+            .map(function (res) { return res.json(); });
+    };
+    PlaylistService.prototype.changePlaylist = function (playlist) {
+        localStorage.setItem('ms_currentPlaylist', JSON.stringify(playlist));
+        onPlaylistChangeTrigger.next(playlist);
+    };
+    PlaylistService.prototype.getCurrentPlaylist = function () {
+        var playlist;
+        playlist = localStorage.getItem('ms_currentPlaylist');
+        if (playlist) {
+            playlist = JSON.parse(playlist);
+            return playlist;
+        }
+        else {
+            playlist = { name: 'default', description: '', sounds: [], userAt: '', createAt: new Date(), updateAt: new Date() };
+            this.setCurrentPlaylist(playlist);
+            return playlist;
+        }
+    };
+    PlaylistService.prototype.setCurrentPlaylist = function (playlist) {
+        localStorage.setItem('ms_currentPlaylist', JSON.stringify(playlist));
+    };
+    PlaylistService.prototype.addSoundToPlaylist = function (result) {
+        var playlist = this.getCurrentPlaylist();
+        playlist.sounds.push(result.sound);
+        this.setCurrentPlaylist(playlist);
+        addSoundTrigger.next({
+            sound: result.sound,
+            playlist: result.playlist,
+            soundLength: playlist.sounds.length,
+            to_play: result.to_play || false
+        });
+        if (playlist.userAt == this.loginServer.getUser().user_name) {
+            this.update(playlist._id, playlist).subscribe(function (pl) {
+            });
+        }
+    };
+    PlaylistService.prototype.removeSoundToPlaylist = function (index) {
+        var playlist = this.getCurrentPlaylist();
+        playlist.sounds.splice(index, 1);
+        this.setCurrentPlaylist(playlist);
+        removeSoundTrigger.next({
+            index: index,
+            playlist: playlist.name,
+            soundLength: playlist.sounds.length
+        });
+        if (playlist.userAt == this.loginServer.getUser().user_name) {
+            this.update(playlist._id, playlist).subscribe(function (pl) {
+            });
+        }
+    };
+    PlaylistService.prototype.share = function (_sharedPlaylist) {
+        return this.http.post('api/v1/playlist/share', _sharedPlaylist, headers)
+            .map(function (res) { return res.json(); });
+    };
+    PlaylistService.prototype.searchShared = function () {
+        return this.http.get('api/v1/shared/search', headers)
+            .map(function (res) { return res.json(); });
+    };
+    return PlaylistService;
+}());
+PlaylistService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [http_1.Http,
+        login_service_1.LoginService])
+], PlaylistService);
+exports.PlaylistService = PlaylistService;
 
 
 /***/ }
 
-},[688]);
+},[687]);

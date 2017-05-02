@@ -8,10 +8,11 @@ var PlaylistController = (function () {
         var playlist = req['body'];
         playlist.createAt = new Date();
         playlist.updateAt = new Date();
-        this.playlistModel.save(playlist).then(function (message) {
+        this.playlistModel.save(playlist).then(function (response) {
             res.json({
                 status: true,
-                message: message
+                message: response.message,
+                playlist: response.playlist
             });
         }).catch(function (error) {
             res.send({
@@ -23,10 +24,11 @@ var PlaylistController = (function () {
     PlaylistController.prototype.update = function (req, res) {
         var playlist = req['body'], _id = req.params['_id'];
         playlist.updateAt = new Date();
-        this.playlistModel.update(_id, playlist).then(function (message) {
+        this.playlistModel.update(_id, playlist).then(function (response) {
             res.json({
                 status: true,
-                message: message
+                message: response.message,
+                playlist: response.playlist
             });
         }).catch(function (error) {
             res.send({

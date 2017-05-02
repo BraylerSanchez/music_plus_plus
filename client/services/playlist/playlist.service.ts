@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/share';
 
+import { LoginService } from '../user/login.service';
+
 import { IPlayList, ISharedPlayList } from '../../interfaces/playlist/playlist.interface'
 
 const headers = new ResponseOptions({
@@ -30,7 +32,8 @@ export const onRemoveSound: Observable<any> = new Observable( (observable:any) =
 @Injectable()
 export class PlaylistService{
     constructor(
-        private http: Http
+        private http: Http,
+        private loginServer: LoginService
     ){
     }
     
@@ -81,25 +84,33 @@ export class PlaylistService{
     }
     
     addSoundToPlaylist(result:any){
-        var playlist = this.getCurrentPlaylist();
+        var playlist = <IPlayList>this.getCurrentPlaylist();
         playlist.sounds.push(result.sound);
         this.setCurrentPlaylist(playlist);
         addSoundTrigger.next( {
             sound: result.sound,
             playlist: result.playlist,
-            soundLength: playlist.sounds.length
+            soundLength: playlist.sounds.length,
+            to_play: result.to_play || false
         });
+        if(playlist.userAt == this.loginServer.getUser().user_name){
+            this.update(playlist._id, playlist).subscribe( (pl) =>{
+            })
+        }
     }
     removeSoundToPlaylist(index:number){
         var playlist = this.getCurrentPlaylist();
         playlist.sounds.splice(index,1);
-        
         this.setCurrentPlaylist(playlist);
         removeSoundTrigger.next({
             index: index,
             playlist: playlist.name,
             soundLength: playlist.sounds.length
         });
+        if(playlist.userAt == this.loginServer.getUser().user_name){
+            this.update(playlist._id, playlist).subscribe( (pl) =>{
+            })
+        }
     }
     
     share(_sharedPlaylist:any){
