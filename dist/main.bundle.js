@@ -6618,8 +6618,12 @@ var FooterPartialComponent = (function () {
     FooterPartialComponent.prototype.removeItemEvent = function () {
         var _this = this;
         var self = this;
-        $('.jp-playlist').on('click', '.jp-playlist-item-remove', function () {
-            var index = $(_this).parents('li').index('.jp-playlist li');
+        $('.jp-playlist').on('click', '.jp-playlist-item-remove', function (event) {
+            var index = -1, current = event.currentTarget['parentElement'].children[1].innerText;
+            event.currentTarget['parentElement']['parentElement']['parentElement'].childNodes.forEach(function (element, i) {
+                if (element.childNodes[0].childNodes[1].innerText == current)
+                    index = i;
+            });
             _this.playlistService.removeSoundToPlaylist(index);
         });
     };
