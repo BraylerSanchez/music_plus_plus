@@ -4,8 +4,8 @@ import { LoginDialogComponent } from './login.dialog.component';
 import { IUser } from '../../interfaces/user/user.interface';
 import { IPlayList } from '../../interfaces/playlist/playlist.interface';
 import { LoginService, onLoginUser, onLogoutUser } from '../../services/user/login.service';
-import { PlaylistService, onPlaylistChange } from '../../services/playlist/playlist.service';
-import { CreatePlaylistDialog } from '../../modules/playlist/components/create.component';
+import { PlaylistService, onAddSound, onRemoveSound } from '../../services/playlist/playlist.service';
+import { CreatePlaylistDialog } from '../../modules/playlist/components/create.dialog.component';
 import {MdSnackBar} from '@angular/material';
 
 @Component({
@@ -41,7 +41,10 @@ export class SideBarComponent implements OnInit{
       onLogoutUser.subscribe( () =>{
         this.user = undefined;
       })
-      onPlaylistChange.subscribe( ()=>{
+      onAddSound.subscribe( ()=>{
+        this.loadPlaylist();
+      })
+      onRemoveSound.subscribe( ()=>{
         this.loadPlaylist();
       })
     }
@@ -56,7 +59,8 @@ export class SideBarComponent implements OnInit{
     }
     createPlaylist(playlist:IPlayList){
       let dialog = this.dialog.open( CreatePlaylistDialog, {
-        disableClose: true
+        disableClose: true,
+        height: '300px'
       });
       dialog.componentInstance.dialogOpen(playlist);
       dialog.afterClosed().subscribe( (data) =>{

@@ -5,6 +5,7 @@ export interface IPlayList{
     description: string;
     sounds: Array<Sound>;
     ratings: Array<IRating>;
+    shared: boolean;
     userAt: string;
     createAt: Date;
     updateAt: Date;
@@ -12,7 +13,7 @@ export interface IPlayList{
 
 export interface ISharedPlayList{
     origin: IPlayList,
-    sharedPlaylists: Array<IPlayList>,
+    playbacks: Array<Date>,
     userAt: string,
     userName: string,
     userPictureUrl: string,

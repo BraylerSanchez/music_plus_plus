@@ -7,6 +7,7 @@ export class PlayListModel implements IPlayList{
     description: string;
     sounds: Array<Sound>;
     ratings: Array<IRating>;
+    shared: boolean;
     userAt: string;
     createAt: Date;
     updateAt: Date;

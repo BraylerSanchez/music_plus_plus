@@ -13,10 +13,11 @@ export class PlaylistController{
         playlist.createAt = new Date();
         playlist.updateAt = new Date();
         
-        this.playlistModel.save(playlist).then( (message:any) =>{
+        this.playlistModel.save(playlist).then( (response:any) =>{
             res.json({
                 status: true,
-                message: message
+                message: response.message,
+                playlist: response.playlist
             })
         }).catch( (error:any) =>{
             res.send({
@@ -30,10 +31,11 @@ export class PlaylistController{
         var playlist = req['body'],
             _id = req.params['_id'];
         playlist.updateAt = new Date();
-        this.playlistModel.update(_id, playlist).then( (message:any) =>{
+        this.playlistModel.update(_id, playlist).then( (response:any) =>{
             res.json({
                 status: true,
-                message: message
+                message: response.message,
+                playlist: response.playlist
             })
         }).catch( (error:any) =>{
             res.send({

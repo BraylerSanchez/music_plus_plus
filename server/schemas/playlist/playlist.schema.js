@@ -16,6 +16,9 @@ exports.PlayListSchema = new mongoose_1.Schema({
     },
     sounds: [sound_schema_1.SoundSchema],
     ratings: [rating_schema_1.RatingSchema],
+    shared: {
+        type: Boolean
+    },
     createAt: {
         type: Date,
         default: Date()
@@ -30,8 +33,8 @@ exports.SharedPlaylistSchema = new mongoose_1.Schema({
         type: exports.PlayListSchema,
         required: true
     },
-    sharedPlaylists: {
-        type: [exports.PlayListSchema]
+    playbacks: {
+        type: [Date]
     },
     userAt: {
         type: String,

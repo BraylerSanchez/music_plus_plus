@@ -5,8 +5,7 @@ import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { routing } from './playlist.routes';
-import { PlayListComponent } from './components/list.component';
-import { CreatePlaylistDialog } from './components/create.component';
+import { CreatePlaylistDialog } from './components/create.dialog.component';
 
 import { HomeModule } from '../home/home.module';
 import { MaterialModule, MdIconModule, MdInputModule, MdGridListModule, MdListModule } from '@angular/material';
@@ -30,7 +29,6 @@ import { LoginService } from '../../services/user/login.service';
         routing
     ],
     declarations: [
-        PlayListComponent,
         CreatePlaylistDialog
     ],
     entryComponents:[CreatePlaylistDialog],
@@ -44,9 +42,6 @@ import { LoginService } from '../../services/user/login.service';
         },
         LoginService,
         CanActivateViaAuthGuard
-    ],
-    bootstrap: [
-        PlayListComponent
     ]
 })
 export class PlaylistModule{
