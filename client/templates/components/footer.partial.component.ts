@@ -33,6 +33,10 @@ export class FooterPartialComponent implements OnInit {
         var sound = <Sound>result.sound;
         this.player.add( this.convertSound(sound));
         this.player._refresh();
+        if( result.to_play){
+          this.player.current = this.player.playlist.length - 1;
+          this.player.play();
+        }
       })
 
       onPlaylistChange.subscribe( (result:IPlayList) => {

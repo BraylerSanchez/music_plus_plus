@@ -1,0 +1,38 @@
+<h2 class="font-thin m-b">
+    Search Results</h2>
+<div class="row row-sm">
+    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2" *ngFor="let sound of sounds">
+        <div class="item">
+            <div class="pos-rlt">
+                <div class="bottom">
+                    <span class="badge bg-info m-l-sm m-b-sm">03:20</span>
+                </div>
+                <div class="item-overlay opacity r r-2x bg-black">
+                    <div class="text-info padder m-t-sm text-sm">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-o text-muted"></i>
+                    </div>
+                    <div class="center text-center m-t-n">
+                        <a (click)="play(sound)"><i class="icon-control-play i-2x"></i></a>
+                    </div>
+                    <div class="bottom padder m-b-sm">
+                        <a href="#" class="pull-right">
+                            <i class="fa fa-heart-o"></i>
+                        </a>
+                        <a (click)="addToPlaylist($event, sound)">
+                            <i class="fa fa-plus-circle"></i>
+                        </a>
+                    </div>
+                </div>
+                <a href="#"><img style="height: 140px;" [src]="sound.thumbnail" alt="" class="r r-2x img-full" onError="this.src='assest/images/p0.jpg'"></a>
+            </div>
+            <div class="padder-v">
+                <a class="text-ellipsis" mdTooltip="{{sound.title}}">{{sound.title}}</a>
+                <a class="text-ellipsis text-xs text-muted" mdTooltip="{{sound.channel}}">{{sound.channel}}</a>
+            </div>
+        </div>
+    </div>
+</div>

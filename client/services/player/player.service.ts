@@ -12,9 +12,9 @@ const headers = new ResponseOptions({
     })
 })
 
-var playSoundObserbable: any;
+var playMusicObserbable: any;
 export const onPlayMusic: Observable<Sound> = new Observable( (observable:any) =>{
-    playSoundObserbable = observable;
+    playMusicObserbable = observable;
     return () => {}
 }).share();
 
@@ -56,9 +56,10 @@ export class PlayerService{
         stopSoundObserbable.next(video);
     }
     
-    getMusic(i: number, sound:Sound ){
-        playSoundObserbable.next({ details: sound, index: i});
+    payMusic(sound:Sound ){
+        playMusicObserbable.next({ details: sound});
     }
+    
     suspendMusic(){
         onSuspendMusicTrigger.next();
     }

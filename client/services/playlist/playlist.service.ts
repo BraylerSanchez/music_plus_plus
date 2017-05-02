@@ -84,16 +84,23 @@ export class PlaylistService{
         var playlist = this.getCurrentPlaylist();
         playlist.sounds.push(result.sound);
         this.setCurrentPlaylist(playlist);
+        this.update(playlist._id, playlist).subscribe( (pl) =>{
+            //Sound added sussfull
+        })
+
         addSoundTrigger.next( {
             sound: result.sound,
             playlist: result.playlist,
-            soundLength: playlist.sounds.length
+            soundLength: playlist.sounds.length,
+            to_play: result.to_play || false
         });
     }
     removeSoundToPlaylist(index:number){
         var playlist = this.getCurrentPlaylist();
         playlist.sounds.splice(index,1);
-        
+        this.update(playlist._id, playlist).subscribe( (pl) =>{
+            //Sound added sussfull
+        })
         this.setCurrentPlaylist(playlist);
         removeSoundTrigger.next({
             index: index,
