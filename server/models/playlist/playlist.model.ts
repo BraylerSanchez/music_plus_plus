@@ -71,24 +71,40 @@ export class PlaylistModel{
             } else {
                 def.resolve( {
                     message: "Playlist update success.",
-                    playlist: doc
+                    playlist: _playlist
                 });
             }
         });
         return def.promise;
     }
     
-    share(_sharedPlaylist:any){
-        var sharedPlaylist = new this.sharedPlaylistModel(_sharedPlaylist);
-        
+    share(_playlist:any){
         var def = defer();
-        sharedPlaylist.save( (error:any, doc:any) =>{
-            if (error) {
+        this.sharedPlaylistModel.find({'origin._id': _playlist.origin._id}, (error:any, docs:any) =>{
+            if(error){
                 def.reject(error)
-            } else {
-                def.resolve( "Playlist successfully shared." );
+                return;
             }
-        });
+            if(docs.length > 0)
+            {
+                this.sharedPlaylistModel.update( {_id: docs[0]._id}, _playlist, {}, (error:any, doc:any) =>{
+                    if(error)
+                        def.reject(error)
+                    else
+                        def.resolve( "Playlist successfully shared." );
+                });
+            }else{
+                var sharedPlaylist = new this.sharedPlaylistModel(_playlist);
+                
+                sharedPlaylist.save( (error:any, doc:any) =>{
+                    if (error) {
+                        def.reject(error)
+                    } else {
+                        def.resolve( "Playlist successfully shared." );
+                    }
+                });
+            }
+        })
         return def.promise;
     }
     
